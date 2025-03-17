@@ -49,6 +49,38 @@ public class VeiculoGenerico implements Veiculo, Serializable{
 	public String getTipo() {
 		return tipo;
 	}
+	public void setCodigoFipe(String codigoFipe) {
+		this.codigoFipe = codigoFipe;
+	}
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	public void setMarca(String marca) {
+		this.marca = marca;
+	}
+	public void setAno(String ano) {
+		this.ano = ano;
+	}
+	public void setTipoCombustivel(String tipoCombustivel) {
+		this.tipoCombustivel = tipoCombustivel;
+	}
+	public void setPreco(BigInteger preco) {
+		this.preco = preco;
+	}
+	public void setPlaca(String placa) {
+		this.placa = placa;
+	}
+	public void setChassi(String chassi) {
+		this.chassi = chassi;
+	}
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+	public void setManutencoes(List<Manutencao> manutencoes) {
+		this.manutencoes = manutencoes;
+	}
+	
+	
 
 }
 	
