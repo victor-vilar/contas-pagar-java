@@ -2,6 +2,10 @@ package br.com.thveiculos.erp.entities;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.OneToMany;
 
 public class VeiculoGenerico implements Veiculo, Serializable{
 
@@ -14,6 +18,9 @@ public class VeiculoGenerico implements Veiculo, Serializable{
 	private String placa;
 	private String chassi;
 	private String tipo;
+	
+	@OneToMany
+	private List<Manutencao> manutencoes = new ArrayList<>();
 	
 	public String getCodigoFipe() {
 		return codigoFipe;
