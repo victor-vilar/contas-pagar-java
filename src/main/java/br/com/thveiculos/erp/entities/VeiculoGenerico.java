@@ -19,7 +19,7 @@ public class VeiculoGenerico implements Veiculo, Serializable{
 	private String chassi;
 	private String tipo;
 	
-	//@OneToMany
+	@OneToMany
 	private List<Manutencao> manutencoes = new ArrayList<>();
 	
 	public String getCodigoFipe() {
