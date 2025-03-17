@@ -1,5 +1,8 @@
 package br.com.thveiculos.erp.services;
 
-public class VeiculoServiceImplementation {
+import org.springframework.stereotype.Service;
+
+@Service
+public class VeiculoServiceImplementation implements VeiculoService {
 
 }
