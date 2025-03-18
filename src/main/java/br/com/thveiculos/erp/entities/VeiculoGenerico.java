@@ -5,8 +5,19 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
+
+@Entity
+@Table(name="veiculos")
+@Inheritance(strategy= InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="TYPE", discriminatorType= DiscriminatorType.STRING)
 public class VeiculoGenerico implements Veiculo, Serializable{
 
 	private String codigoFipe;
