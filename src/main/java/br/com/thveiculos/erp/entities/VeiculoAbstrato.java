@@ -60,6 +60,11 @@ public abstract class VeiculoAbstrato implements Veiculo, Serializable{
 	public String getTipo() {
 		return tipo;
 	}
+	
+	public List<Manutencao> getManutencoes(){
+		return this.manutencoes;
+	}
+	
 	public void setCodigoFipe(String codigoFipe) {
 		this.codigoFipe = codigoFipe;
 	}
@@ -87,7 +92,7 @@ public abstract class VeiculoAbstrato implements Veiculo, Serializable{
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-	public void setManutassencoes(List<Manutencao> manutencoes) {
+	public void setManutencao(List<Manutencao> manutencoes) {
 		this.manutencoes = manutencoes;
 	}
 	
