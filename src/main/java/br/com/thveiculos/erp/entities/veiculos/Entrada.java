@@ -1,4 +1,4 @@
-package br.com.thveiculos.erp.entities;
+package br.com.thveiculos.erp.entities.veiculos;
 
 import java.io.Serializable;
 import java.math.BigInteger;
@@ -13,6 +13,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
+
+/**
+ * Classe para representar o movimento de entrada e saida de veículos
+ *  
+ *  */
+
+
+
 @Entity
 public class Entrada implements Serializable {
 
@@ -21,7 +29,7 @@ public class Entrada implements Serializable {
 	private Long id;
 
 	@OneToOne
-	private Veiculo veiculo;
+	private VeiculoAbstrato veiculo;
 	private LocalDate dataDeEntrada;
 	private LocalDate dataDeSaida;
 	private BigInteger valorCompra;

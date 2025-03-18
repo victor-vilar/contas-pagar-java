@@ -1,4 +1,4 @@
-package br.com.thveiculos.erp.services;
+package br.com.thveiculos.erp.services.veiculos;
 
 import org.springframework.stereotype.Service;
 

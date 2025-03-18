@@ -1,4 +1,4 @@
-package br.com.thveiculos.erp.entities;
+package br.com.thveiculos.erp.entities.veiculos;
 
 import java.io.Serializable;
 import java.math.BigInteger;
