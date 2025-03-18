@@ -5,6 +5,6 @@ import jakarta.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("caminhao")
-public class Caminhao extends VeiculoGenerico {
+public class Caminhao extends VeiculoAbstrato {
 
 }

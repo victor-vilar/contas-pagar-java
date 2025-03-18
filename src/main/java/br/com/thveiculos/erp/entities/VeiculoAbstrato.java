@@ -18,7 +18,7 @@ import jakarta.persistence.Table;
 @Table(name="veiculos")
 @Inheritance(strategy= InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="TYPE", discriminatorType= DiscriminatorType.STRING)
-public class VeiculoGenerico implements Veiculo, Serializable{
+public abstract class VeiculoAbstrato implements Veiculo, Serializable{
 
 	private String codigoFipe;
 	private String nome;
