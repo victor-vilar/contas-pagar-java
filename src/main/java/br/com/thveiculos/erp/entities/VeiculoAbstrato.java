@@ -87,8 +87,15 @@ public abstract class VeiculoAbstrato implements Veiculo, Serializable{
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-	public void setManutencoes(List<Manutencao> manutencoes) {
+	public void setManutassencoes(List<Manutencao> manutencoes) {
 		this.manutencoes = manutencoes;
+	}
+	
+	public void addManutencao(Manutencao manutencao) {
+		
+		if(!this.manutencoes.contains(manutencao)) {
+			manutencoes.add(manutencao);
+		}
 	}
 	
 	
