@@ -8,18 +8,27 @@ import java.util.List;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 
+/**
+ * Classe que representa um veículo, todas as suas subclasses irão ser salvas na mesma tabela
+ *  */
 @Entity
 @Table(name="veiculos")
 @Inheritance(strategy= InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="TYPE", discriminatorType= DiscriminatorType.STRING)
 public abstract class VeiculoAbstrato implements Veiculo, Serializable{
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	private String codigoFipe;
 	private String nome;
 	private String marca;
@@ -32,6 +41,10 @@ public abstract class VeiculoAbstrato implements Veiculo, Serializable{
 	
 	@OneToMany
 	private List<Manutencao> manutencoes = new ArrayList<>();
+	
+	public Long getId() {
+		return id;
+	}
 	
 	public String getCodigoFipe() {
 		return codigoFipe;
@@ -94,6 +107,9 @@ public abstract class VeiculoAbstrato implements Veiculo, Serializable{
 	}
 	public void setManutencao(List<Manutencao> manutencoes) {
 		this.manutencoes = manutencoes;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 	public void addManutencao(Manutencao manutencao) {

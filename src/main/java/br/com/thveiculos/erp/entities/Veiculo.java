@@ -3,9 +3,14 @@ package br.com.thveiculos.erp.entities;
 import java.math.BigInteger;
 import java.util.List;
 
+
+/** 
+ * Interface para representar os veículos que estão envolvidos nos processos de compra e venda
+ * */
 public interface Veiculo {
 	
 	//tabela fipe
+	public Long getId();
 	public String getCodigoFipe();
 	public String getNome();
 	public String getMarca();
