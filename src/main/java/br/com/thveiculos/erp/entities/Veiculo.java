@@ -1,6 +1,7 @@
 package br.com.thveiculos.erp.entities;
 
 import java.math.BigInteger;
+import java.util.List;
 
 public interface Veiculo {
 	
@@ -15,6 +16,7 @@ public interface Veiculo {
 	public String getPlaca();
 	public String getChassi();
 	public String getTipo();
+	public List<Manutencao> getManutencoes();
 	
 	
 
