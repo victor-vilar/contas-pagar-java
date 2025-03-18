@@ -2,6 +2,7 @@ package br.com.thveiculos.erp.entities.despesas;
 
 import java.math.BigDecimal;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -12,9 +13,11 @@ public abstract class DespesaAbstrata implements Despesa{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	@Column(nullable=false)
 	private String nomeFornecedor;
+	@Column(nullable=false)
 	private String descricao;
-	private boolean quitado;
+	private boolean quitado = false;
 	private BigDecimal valorTotal;
 	
 	@ManyToOne
@@ -22,6 +25,10 @@ public abstract class DespesaAbstrata implements Despesa{
 	
 	@ManyToOne
 	private FormaPagamento formaPagamento;
+	
+	public Long getId() {
+		return id;
+	}
 	
 	@Override
 	public CategoriaDespesa getCategoria() {
@@ -52,6 +59,38 @@ public abstract class DespesaAbstrata implements Despesa{
 	public BigDecimal getValorTotal() {
 		return valorTotal;
 	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setNomeFornecedor(String nomeFornecedor) {
+		this.nomeFornecedor = nomeFornecedor;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public void setQuitado(boolean quitado) {
+		this.quitado = quitado;
+	}
+
+	public void setValorTotal(BigDecimal valorTotal) {
+		this.valorTotal = valorTotal;
+	}
+
+	public void setCategoria(CategoriaDespesa categoria) {
+		this.categoria = categoria;
+	}
+
+	public void setFormaPagamento(FormaPagamento formaPagamento) {
+		this.formaPagamento = formaPagamento;
+	}
+
+
+	
+	
 	
 	
 }
