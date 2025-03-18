@@ -44,6 +44,11 @@ public abstract class DespesaAbstrata implements Despesa{
 	}
 	
 	@Override
+	public boolean isQuitado() {
+		return this.quitado;
+	}
+	
+	@Override
 	public BigDecimal getValorTotal() {
 		return valorTotal;
 	}
