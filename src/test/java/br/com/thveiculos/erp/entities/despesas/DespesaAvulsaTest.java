@@ -46,17 +46,17 @@ public class DespesaAvulsaTest {
 	@DisplayName("O metodo não deve permitir que duas instancias iguais de uma parcela seja inserida na lista")
 	public void naoPodeAdicionarMesmaInstancia() {
 		DespesaAvulsa da = new DespesaAvulsa();
-		da.addParcel(p1);
-		da.addParcel(p1);
+		da.addParcela(p1);
+		da.addParcela(p1);
 		assertTrue(da.getQuantidadeParcelas() == 1);
 		
-		da.addParcel(p2);
+		da.addParcela(p2);
 		assertTrue(da.getQuantidadeParcelas() == 2);
 		
-		da.addParcel(p2);
+		da.addParcela(p2);
 		assertTrue(da.getQuantidadeParcelas() != 3);
 		
-		da.addParcel(p3);
+		da.addParcela(p3);
 		assertTrue(da.getQuantidadeParcelas() == 3);
 	}
 

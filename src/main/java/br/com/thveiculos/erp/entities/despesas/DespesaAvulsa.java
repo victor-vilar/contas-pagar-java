@@ -39,13 +39,34 @@ public class DespesaAvulsa extends DespesaAbstrata implements Serializable {
 	
 	@Override
 	public BigDecimal getValorTotal() {
-		BigDecimal total = new BigDecimal(0);
-		parcelas.stream().forEach(parcela -> total.add(parcela.getValorPagamento()));
+		BigDecimal total = BigDecimal.ZERO;
+		for(Parcela p : parcelas) {
+		 total = total.add(p.getValorPagamento());
+		}
 		return total;
 	}
 	
 	public int getQuantidadeParcelas() {
 		return this.parcelas.size();
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setParcelas(List<Parcela> parcelas) {
+		this.parcelas = parcelas;
+	}
+	
+	public void addParcela(Parcela parcela) {
+		
+		if(!this.parcelas.contains(parcela)) {
+			parcelas.add(parcela);
+		}
+	}
+
+	public void setNotaFiscal(NotaFiscal notaFiscal) {
+		this.notaFiscal = notaFiscal;
 	}
 	
 	
