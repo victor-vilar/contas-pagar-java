@@ -1,5 +1,7 @@
 package br.com.thveiculos.erp.services.despesas.interfaces;
 
-public interface FormaPagamentoService {
+import br.com.thveiculos.erp.entities.despesas.FormaPagamento;
+
+public interface FormaPagamentoService extends AppService<FormaPagamento>{
 
 }

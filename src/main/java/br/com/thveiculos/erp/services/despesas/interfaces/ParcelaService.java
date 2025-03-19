@@ -1,5 +1,7 @@
 package br.com.thveiculos.erp.services.despesas.interfaces;
 
-public interface ParcelaService {
+import br.com.thveiculos.erp.entities.despesas.Parcela;
+
+public interface ParcelaService extends AppService<Parcela>{
 
 }
