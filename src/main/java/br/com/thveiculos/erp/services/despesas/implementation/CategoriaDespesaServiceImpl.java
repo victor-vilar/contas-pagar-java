@@ -2,9 +2,12 @@ package br.com.thveiculos.erp.services.despesas.implementation;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import br.com.thveiculos.erp.entities.despesas.CategoriaDespesa;
 import br.com.thveiculos.erp.services.despesas.interfaces.CategoriaDespesaService;
 
+@Service
 public class CategoriaDespesaServiceImpl implements CategoriaDespesaService {
 
 	@Override

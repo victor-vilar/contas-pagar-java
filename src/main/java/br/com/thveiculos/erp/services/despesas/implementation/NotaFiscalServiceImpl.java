@@ -2,9 +2,12 @@ package br.com.thveiculos.erp.services.despesas.implementation;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import br.com.thveiculos.erp.entities.despesas.NotaFiscal;
 import br.com.thveiculos.erp.services.despesas.interfaces.NotaFiscalService;
 
+@Service
 public class NotaFiscalServiceImpl implements NotaFiscalService{
 
 	@Override

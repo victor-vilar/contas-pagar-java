@@ -2,9 +2,12 @@ package br.com.thveiculos.erp.services.despesas.implementation;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import br.com.thveiculos.erp.entities.despesas.FormaPagamento;
 import br.com.thveiculos.erp.services.despesas.interfaces.FormaPagamentoService;
 
+@Service
 public class FormaPagamentoServiceImpl implements FormaPagamentoService{
 
 	@Override
