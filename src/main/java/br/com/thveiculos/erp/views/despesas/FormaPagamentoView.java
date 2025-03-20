@@ -21,7 +21,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
-import br.com.thveiculos.erp.configuration.ApplicationConfiguration;
+//import br.com.thveiculos.erp.configuration.ApplicationConfiguration;
 import br.com.thveiculos.erp.controllers.despesas.FormaPagamentoController;
 
 
@@ -139,6 +139,11 @@ public class FormaPagamentoView extends JFrame {
 		
 		btnSalvar.setBounds(10, 214, 89, 36);
 		contentPane.add(btnSalvar);
+		
+		var context = new AnnotationConfigApplicationContext();
+		context.refresh();
+		controller = context.getBean(FormaPagamentoController.class);
+		controller.setView(this);
 		
 		
 	}
