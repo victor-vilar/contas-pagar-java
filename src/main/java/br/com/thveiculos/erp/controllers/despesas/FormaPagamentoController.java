@@ -12,12 +12,12 @@ import br.com.thveiculos.erp.entities.despesas.FormaPagamento;
 import br.com.thveiculos.erp.services.despesas.interfaces.FormaPagamentoService;
 import br.com.thveiculos.erp.views.despesas.FormaPagamentoView;
 
-@Component
+
 public class FormaPagamentoController {
 
 	private FormaPagamentoView view;
-//	private FormaPagamentoService service;
-//	
+	//private FormaPagamentoService service;
+	
 //	@Autowired
 //	public FormaPagamentoController(FormaPagamentoService service) {
 //		this.service = service;
