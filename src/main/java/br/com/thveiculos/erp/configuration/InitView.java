@@ -2,7 +2,6 @@ package br.com.thveiculos.erp.configuration;
 
 import java.awt.EventQueue;
 
-import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
@@ -15,16 +14,22 @@ public class InitView  implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
     	
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FormaPagamentoView frame = new FormaPagamentoView();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					FormaPagamentoView frame = new FormaPagamentoView();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+		var context=new AnnotationConfigApplicationContext();
+		context.refresh();
+		var beans = context.getBeanDefinitionNames();
+		for(String s :beans) {
+			System.out.println(s);
+		}
 
     }
 
