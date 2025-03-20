@@ -1,53 +1,56 @@
 package br.com.thveiculos.erp.views.despesas;
 
 import java.awt.EventQueue;
-import java.awt.Frame;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.ActionEvent;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import java.awt.Component;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
+
+import br.com.thveiculos.erp.configuration.ApplicationConfiguration;
+import br.com.thveiculos.erp.controllers.despesas.FormaPagamentoController;
+
 
 public class FormaPagamentoView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
-	private JTextField txt_forma_pagamento;
-	private JButton btn_salvar;
+	private JTextField fieldFormaPagamento;
+	private JButton btnSalvar;
+	private FormaPagamentoController controller;
 	
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FormaPagamentoView frame = new FormaPagamentoView();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public JTable getTable() {
+		return this.table;
 	}
+	
+	public JTextField getFieldFormaPagamento() {
+		return this.fieldFormaPagamento;
+	}
+	
+	public JButton getBtnSalvar() {
+		return this.btnSalvar;
+	}
+	
 
 	/**
 	 * Create the frame.
 	 */
+
 	public FormaPagamentoView() {
 		
 		setTitle("Formas de Pagamento");
@@ -60,17 +63,16 @@ public class FormaPagamentoView extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		
 		//Criando o ScrollPane
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 60, 414, 150);
 		contentPane.add(scrollPane);
 		
 		//Criando txt_formaPagamento
-		txt_forma_pagamento = new JTextField();
-		txt_forma_pagamento.setBounds(10, 24, 414, 25);
-		contentPane.add(txt_forma_pagamento);
-		txt_forma_pagamento.setColumns(10);
+		fieldFormaPagamento = new JTextField();
+		fieldFormaPagamento.setBounds(10, 24, 414, 25);
+		contentPane.add(fieldFormaPagamento);
+		fieldFormaPagamento.setColumns(10);
 		
 		//Criando Tabela
 		table = new JTable();
@@ -90,7 +92,7 @@ public class FormaPagamentoView extends JFrame {
 	                //Pega a coluna selecionada
 	        		 int column = target.getSelectedColumn(); // select a column
 	                //Adiciona o valor das coordenadas passadas para o txt_forma_pagamento
-	        		 txt_forma_pagamento.setText((String)table.getValueAt(row,1));
+	        		 fieldFormaPagamento.setText((String)table.getValueAt(row,1));
 	               //JOptionPane.showMessageDialog(null, table.getValueAt(row,column)); // get the value of a row and column.
 	             }
 	          }
@@ -128,20 +130,31 @@ public class FormaPagamentoView extends JFrame {
 		
 		
 		//Criando botao
-		btn_salvar = new JButton("Salvar");
+		btnSalvar = new JButton("Salvar");
 		
 		//Adiciona um evento ao clique do botão
-		btn_salvar.addActionListener((e) ->{
-			if(!txt_forma_pagamento.getText().equals("")) {
-			DefaultTableModel model = (DefaultTableModel) table.getModel();
-			model.addRow(new Object[] {"1",txt_forma_pagamento.getText()});
-			JOptionPane.showInternalMessageDialog(null, "Forma de Pagamento Cadastrada com Sucesso");
-			txt_forma_pagamento.setText(null);
-			}
+		btnSalvar.addActionListener((e) ->{
+			this.salvar();
 		});
 		
-		btn_salvar.setBounds(10, 214, 89, 36);
-		contentPane.add(btn_salvar);
+		btnSalvar.setBounds(10, 214, 89, 36);
+		contentPane.add(btnSalvar);
+		
 		
 	}
+
+	
+	private void salvar() {
+		if(!fieldFormaPagamento.getText().equals("")) {
+			//this.controller.salvar();
+		}
+		
+		fieldFormaPagamento.setText(null);		
+	}
+	
+	private void exibirDialog(String msg) {
+		JOptionPane.showInternalMessageDialog(null, msg);
+	}
+		
+	
 }
