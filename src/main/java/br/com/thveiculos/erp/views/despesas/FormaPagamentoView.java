@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 //import br.com.thveiculos.erp.configuration.ApplicationConfiguration;
 import br.com.thveiculos.erp.controllers.despesas.FormaPagamentoController;
 
-
+@Component
 public class FormaPagamentoView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -51,7 +51,13 @@ public class FormaPagamentoView extends JFrame {
 	 * Create the frame.
 	 */
 
-	public FormaPagamentoView() {
+	public FormaPagamentoView(FormaPagamentoController controller) {
+		this.controller = controller;
+		controller.setView(this);
+		this.setUp();
+	}
+	
+	public void setUp() {
 		
 		setTitle("Formas de Pagamento");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -140,18 +146,12 @@ public class FormaPagamentoView extends JFrame {
 		btnSalvar.setBounds(10, 214, 89, 36);
 		contentPane.add(btnSalvar);
 		
-		var context = new AnnotationConfigApplicationContext();
-		context.refresh();
-		controller = context.getBean(FormaPagamentoController.class);
-		controller.setView(this);
-		
-		
 	}
 
 	
 	private void salvar() {
 		if(!fieldFormaPagamento.getText().equals("")) {
-			//this.controller.salvar();
+			this.controller.salvar();
 		}
 		
 		fieldFormaPagamento.setText(null);		
