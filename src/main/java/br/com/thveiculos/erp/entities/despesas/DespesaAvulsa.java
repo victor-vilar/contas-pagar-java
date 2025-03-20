@@ -12,7 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="despesas_avulsas")
+//@Table(name="despesas_avulsas")
 public class DespesaAvulsa extends DespesaAbstrata implements Serializable {
 
 	@Id
