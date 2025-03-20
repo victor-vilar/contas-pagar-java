@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
 
-@SpringBootApplication(scanBasePackages = "br.com.thveiculos.erp")
+@SpringBootApplication
 public class ErpApplication {
 
 	public static void main(String[] args) {
