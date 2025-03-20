@@ -12,26 +12,30 @@ import br.com.thveiculos.erp.entities.despesas.FormaPagamento;
 import br.com.thveiculos.erp.services.despesas.interfaces.FormaPagamentoService;
 import br.com.thveiculos.erp.views.despesas.FormaPagamentoView;
 
-
+@Component
 public class FormaPagamentoController {
 
 	private FormaPagamentoView view;
-	//private FormaPagamentoService service;
+	private FormaPagamentoService service;
 	
-//	@Autowired
-//	public FormaPagamentoController(FormaPagamentoService service) {
-//		this.service = service;
-//	}
+	@Autowired
+	public FormaPagamentoController(FormaPagamentoService service) {
+		this.service = service;
+	}
 	
+	public FormaPagamentoController(){
+		System.out.println("Iniciei...");
+	}
 	
 	public void setView(FormaPagamentoView view) {
 		this.view = view;
 	}
 	
 	public void salvar() {
+		System.out.println("Salvei...");
 		FormaPagamento formaPagamento = new FormaPagamento();
 		formaPagamento.setForma(view.getFieldFormaPagamento().getText());
-		//service.save(formaPagamento);
+		service.save(formaPagamento);
 		atualizarTabela();
 	}
 	
