@@ -21,8 +21,7 @@ public class FormaPagamentoServiceImpl implements FormaPagamentoService{
 	
 	@Override
 	public List<FormaPagamento> getTodos() {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.findAll();
 	}
 
 	@Override
@@ -33,8 +32,7 @@ public class FormaPagamentoServiceImpl implements FormaPagamentoService{
 
 	@Override
 	public FormaPagamento save(FormaPagamento obj) {
-		// TODO Auto-generated method stub
-		return null;
+			return repository.save(obj);
 	}
 
 	@Override
