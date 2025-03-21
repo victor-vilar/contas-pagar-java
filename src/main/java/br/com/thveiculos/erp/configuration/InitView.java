@@ -1,24 +1,19 @@
 package br.com.thveiculos.erp.configuration;
 
-import java.awt.EventQueue;
-
-import br.com.thveiculos.erp.controllers.despesas.FormaPagamentoController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
-import br.com.thveiculos.erp.views.despesas.FormaPagamentoView;
+import br.com.thveiculos.erp.views.util.MainView;
 
 @Component
 public class InitView  implements CommandLineRunner {
 
 	
-	private FormaPagamentoView view;
+	private MainView view;
 	
 	@Autowired
-	public InitView(FormaPagamentoView view) {
+	public InitView(MainView view) {
 		this.view = view;
 	}
 	
