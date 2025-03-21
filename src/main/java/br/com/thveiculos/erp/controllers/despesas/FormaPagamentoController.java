@@ -32,7 +32,6 @@ public class FormaPagamentoController {
 	}
 	
 	public void salvar() {
-		System.out.println("Salvei...");
 		FormaPagamento formaPagamento = new FormaPagamento();
 		formaPagamento.setForma(view.getFieldFormaPagamento().getText());
 		service.save(formaPagamento);
@@ -41,8 +40,16 @@ public class FormaPagamentoController {
 	
 	public void atualizarTabela() {
 		DefaultTableModel model = (DefaultTableModel) view.getTable().getModel();
-		model.addRow(new Object[] {"",""});
+		deleteAllRows(model);
+		service.getTodos().stream().forEach(f -> model.addRow(new Object[] {f.getId(),f.getForma()}));
 	}
+	
+	public void deleteAllRows(final DefaultTableModel model) {
+	    for( int i = model.getRowCount() - 1; i >= 0; i-- ) {
+	        model.removeRow(i);
+	    }
+	}
+
 
 		
 }
