@@ -55,4 +55,10 @@ public class ParcelaServiceImpl implements ParcelaService{
 		
 	}
 
+	@Override
+	public Parcela update(Parcela obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

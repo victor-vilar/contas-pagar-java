@@ -55,4 +55,10 @@ public class NotaFiscalServiceImpl implements NotaFiscalService{
 		
 	}
 
+	@Override
+	public NotaFiscal update(NotaFiscal obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

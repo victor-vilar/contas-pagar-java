@@ -55,4 +55,10 @@ public class DespesaServiceImpl implements DespesaService{
 		
 	}
 
+	@Override
+	public Despesa update(Despesa obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

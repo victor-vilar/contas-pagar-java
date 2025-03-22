@@ -56,4 +56,10 @@ public class CategoriaDespesaServiceImpl implements CategoriaDespesaService {
 		
 	}
 
+	@Override
+	public CategoriaDespesa update(CategoriaDespesa obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
