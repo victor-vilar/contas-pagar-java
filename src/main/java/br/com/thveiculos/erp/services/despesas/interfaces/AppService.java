@@ -9,6 +9,7 @@ public interface AppService<T> {
 	public T getById(Long id);
 	public T save(T obj);
 	public T saveAll(List<T> objs);
+	public T update(T obj);
 	public void deleteById(Long id);
 	public void deleteAll(List<T> objs);
 	
