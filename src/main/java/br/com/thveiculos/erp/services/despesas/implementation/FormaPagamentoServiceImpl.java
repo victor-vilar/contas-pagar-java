@@ -36,14 +36,8 @@ public class FormaPagamentoServiceImpl implements FormaPagamentoService{
 	}
 
 	@Override
-	public FormaPagamento save(FormaPagamento obj) {
-		try {
+	public FormaPagamento save(FormaPagamento obj) throws ConstraintViolationException, DataIntegrityViolationException {
 			return repository.save(obj);
-		}catch(ConstraintViolationException | DataIntegrityViolationException e) {
-			JOptionPane.showMessageDialog(null,"Não é possivel cadastrar outra forma de pagamento com o mesmo nome","Erro",JOptionPane.NO_OPTION);
-			return null;
-		}
-		
 	}
 	
 	@Override
@@ -68,7 +62,7 @@ public class FormaPagamentoServiceImpl implements FormaPagamentoService{
 
 	@Override
 	public void deleteById(Long id) {
-		// TODO Auto-generated method stub
+		this.repository.deleteById(id);
 		
 	}
 
