@@ -25,11 +25,11 @@ public abstract class DespesaAbstrata implements Despesa{
 	private BigDecimal valorTotal;
 	
 	@ManyToOne
-	@JoinColumn(name = "categoria_fk", foreignKey = @ForeignKey(name="categoria_fk", foreignKeyDefinition = "ON DELETE SET NULL"))
+	@JoinColumn(name = "categoria_id", foreignKey = @ForeignKey(name="categoria_fk",foreignKeyDefinition="FOREIGN KEY (categoria_id) REFERENCES categorias_despesas(id) ON DELETE SET NULL"))
 	private CategoriaDespesa categoria;
 	
 	@ManyToOne
-	@JoinColumn(name = "forma_pagamento_fk", foreignKey = @ForeignKey(name="forma_pagamento_fk", foreignKeyDefinition = "ON DELETE SET NULL"))
+	@JoinColumn(name = "forma_pagamento_id", foreignKey = @ForeignKey(name="forma_pagamento_fk", foreignKeyDefinition = "FOREIGN KEY (forma_pagamento_id) REFERENCES formas_pagamento(id) ON DELETE SET NULL"))
 	private FormaPagamento formaPagamento;
 	
 	public Long getId() {
