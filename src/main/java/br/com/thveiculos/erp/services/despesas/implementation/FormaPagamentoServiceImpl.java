@@ -32,7 +32,7 @@ public class FormaPagamentoServiceImpl implements FormaPagamentoService{
 	@Override
 	public FormaPagamento getById(Long id) {
 		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class FormaPagamentoServiceImpl implements FormaPagamentoService{
 	@Override
 	public FormaPagamento saveAll(List<FormaPagamento> objs) {
 		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class FormaPagamentoServiceImpl implements FormaPagamentoService{
 
 	@Override
 	public void deleteAll(List<FormaPagamento> objs) {
-		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Not yet implemented");
 		
 	}
 
