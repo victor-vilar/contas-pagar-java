@@ -43,26 +43,19 @@ public class FormaPagamentoController {
 		FormaPagamento formaPagamento = new FormaPagamento();
 		formaPagamento.setForma(view.getFieldFormaPagamento().getText().toUpperCase());
 		
-		try {
-			if(!view.getFieldId().getText().equals("")) {
-				formaPagamento.setId(Long.valueOf(view.getFieldId().getText()));
-				service.update(formaPagamento);
-			}else {
-				service.save(formaPagamento);
-			}
-		}catch(ConstraintViolationException | DataIntegrityViolationException e) {
-			JOptionPane.showMessageDialog(null,"Não é possivel cadastrar outra forma de pagamento com o mesmo nome","Erro",JOptionPane.ERROR_MESSAGE);
-			
+		if(!view.getFieldId().getText().equals("")) {
+			formaPagamento.setId(Long.valueOf(view.getFieldId().getText()));
+			service.update(formaPagamento);
+		}else {
+			service.save(formaPagamento);
 		}
-		
 		
 		updateView();
 	}
 	
 	public void deletar() {
 		
-		String msg = "Deseja remover a forma " + view.getFieldFormaPagamento().getText();
-		if(view.getTable().getSelectedRow() == -1 || JOptionPane.showConfirmDialog(null,msg,"Atenção",JOptionPane.YES_NO_OPTION) != 0) {
+		if(view.getTable().getSelectedRow() == -1) {
 			return;
 		}
 		

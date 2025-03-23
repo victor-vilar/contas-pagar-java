@@ -18,6 +18,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 //import br.com.thveiculos.erp.configuration.ApplicationConfiguration;
@@ -227,7 +229,13 @@ public class FormaPagamentoView extends JFrame {
 		
 		//Adiciona um evento ao clique do botão de salvar
 		btnSalvar.addActionListener((e) ->{
-			controller.salvar();
+			try {
+				controller.salvar();
+			}catch(ConstraintViolationException | DataIntegrityViolationException ex) {
+				JOptionPane.showMessageDialog(null,"Não é possivel cadastrar outra forma de pagamento com o mesmo nome","Erro",JOptionPane.ERROR_MESSAGE);
+				
+			}
+			
 		});
 		
 		//Botão de Deletar
@@ -237,7 +245,12 @@ public class FormaPagamentoView extends JFrame {
 		
 		btnDeletar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				controller.deletar();
+				int row = getTable().getSelectedRow();
+				String msg = "Deseja remover a forma \"" + getTable().getValueAt(row, 1) + "\"";
+				if(JOptionPane.showConfirmDialog(null,msg,"Atenção",JOptionPane.YES_NO_OPTION) == 0) {
+					controller.deletar();	
+				}
+				
 			}
 		});
 	}
