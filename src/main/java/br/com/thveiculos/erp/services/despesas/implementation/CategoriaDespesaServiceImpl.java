@@ -1,11 +1,13 @@
 package br.com.thveiculos.erp.services.despesas.implementation;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.thveiculos.erp.entities.despesas.CategoriaDespesa;
+import br.com.thveiculos.erp.entities.despesas.FormaPagamento;
 import br.com.thveiculos.erp.repositories.despesas.CategoriaDespesaRepository;
 import br.com.thveiculos.erp.services.despesas.interfaces.CategoriaDespesaService;
 
@@ -16,14 +18,14 @@ public class CategoriaDespesaServiceImpl implements CategoriaDespesaService {
 	private CategoriaDespesaRepository repository;
 	
 	@Autowired
-	public CategoriaDespesaServiceImpl (CategoriaDespesaRepository repositoy) {
+	public CategoriaDespesaServiceImpl (CategoriaDespesaRepository repository) {
 		this.repository = repository; 
 	}
 	
 	@Override
 	public List<CategoriaDespesa> getTodos() {
 		// TODO Auto-generated method stub
-		return null;
+		return repository.findAll();
 	}
 
 	@Override
@@ -34,7 +36,27 @@ public class CategoriaDespesaServiceImpl implements CategoriaDespesaService {
 
 	@Override
 	public CategoriaDespesa save(CategoriaDespesa obj) {
-		// TODO Auto-generated method stub
+		
+		if(obj.getId()!= null) {
+			return update(obj);
+		}else {
+			return repository.save(obj);
+		}
+	}
+	
+	@Override
+	public CategoriaDespesa update(CategoriaDespesa obj) {
+		
+		CategoriaDespesa toUpdate;
+		Optional<CategoriaDespesa> saved = this.repository.findById(obj.getId());
+		
+		if(saved.isPresent()) {
+			toUpdate = saved.get();
+			toUpdate.setCategoria(obj.getCategoria());
+			return repository.save(toUpdate);
+		}
+
+		
 		return null;
 	}
 
@@ -46,7 +68,7 @@ public class CategoriaDespesaServiceImpl implements CategoriaDespesaService {
 
 	@Override
 	public void deleteById(Long id) {
-		// TODO Auto-generated method stub
+		this.repository.deleteById(id);
 		
 	}
 
@@ -56,10 +78,6 @@ public class CategoriaDespesaServiceImpl implements CategoriaDespesaService {
 		
 	}
 
-	@Override
-	public CategoriaDespesa update(CategoriaDespesa obj) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 }
