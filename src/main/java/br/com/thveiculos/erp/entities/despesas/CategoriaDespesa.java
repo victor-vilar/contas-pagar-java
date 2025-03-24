@@ -2,6 +2,7 @@ package br.com.thveiculos.erp.entities.despesas;
 
 import java.io.Serializable;
 
+import br.com.thveiculos.erp.entities.interfaces.SimpleEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,7 +11,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="categorias_despesas")
-public class CategoriaDespesa implements Serializable {
+public class CategoriaDespesa implements Serializable, SimpleEntity{
 
 	
 	@Id
@@ -22,6 +23,7 @@ public class CategoriaDespesa implements Serializable {
 		
 	}
 
+	@Override
 	public Long getId() {
 		return id;
 	}
@@ -29,6 +31,7 @@ public class CategoriaDespesa implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
 
 	public String getCategoria() {
 		return categoria;
@@ -36,6 +39,11 @@ public class CategoriaDespesa implements Serializable {
 
 	public void setCategoria(String categoria) {
 		this.categoria = categoria;
+	}
+	
+	@Override
+	public String getName() {
+		return this.categoria;
 	}
 	
 	
