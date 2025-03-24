@@ -13,19 +13,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
+import br.com.thveiculos.erp.views.despesas.CategoriaDespesaView;
 import br.com.thveiculos.erp.views.despesas.FormaPagamentoView;
 
 @Component
 public class MainView extends JFrame {
+	
+	private static final long serialVersionUID = 1L;
+	private ApplicationContext context;
+	private JPanel contentPane;
+	private JButton btnFormaPagamento;
+	private JButton btnCategoriaDespesa;
+	
 	public MainView() {
+		this.setUp();
+		
 	}
 
 
-	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-	
-	private ApplicationContext context;
-	
 	@Autowired
 	public void MainView(ApplicationContext context) {
 		this.context = context;
@@ -43,34 +48,33 @@ public class MainView extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+
 		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(2, 0, 464, 320);
-		contentPane.add(tabbedPane);
-		
-		JPanel panel = new JPanel();
-		tabbedPane.addTab("Cadastro", null, panel, null);
-		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.addActionListener(new ActionListener() {
+		btnFormaPagamento = new JButton("Formas de Pagamento");
+		btnFormaPagamento.setSize(177, 50);
+		btnFormaPagamento.setLocation(10, 10);
+		btnFormaPagamento.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				var view = context.getBean(FormaPagamentoView.class);
 				view.setVisible(true);
 			}
 		});
-		panel.add(btnNewButton);
 		
-		JPanel panel_1 = new JPanel();
-		tabbedPane.addTab("Relatório", null, panel_1, null);
-		
-		getContentPane().setLayout(null);
-		
-		JButton btnNewButton_1 = new JButton("New button");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnCategoriaDespesa = new JButton("Categorias Despesa");
+		btnCategoriaDespesa.setSize(151, 50);
+		btnCategoriaDespesa.setLocation(199, 10);
+		btnCategoriaDespesa.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				var view = context.getBean(CategoriaDespesaView.class);
+				view.setVisible(true);
 			}
 		});
-		btnNewButton_1.setBounds(61, 86, 105, 27);
-		getContentPane().add(btnNewButton_1);
+		
+		contentPane.add(btnFormaPagamento);
+		contentPane.add(btnCategoriaDespesa);
+		
+		
+		
+
 	}
 }
