@@ -26,6 +26,8 @@ import org.springframework.stereotype.Component;
 import br.com.thveiculos.erp.controllers.despesas.FormaPagamentoController;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 @Component
 public class FormaPagamentoView extends JFrame {
@@ -44,10 +46,18 @@ public class FormaPagamentoView extends JFrame {
 	
 	
 	public FormaPagamentoView(FormaPagamentoController controller) {
-		
+
 		this.controller = controller;
 		controller.setView(this);
 		this.setUp();
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+				controller.atualizarTabela();
+			}
+		});
+		
 	}
 
 	
