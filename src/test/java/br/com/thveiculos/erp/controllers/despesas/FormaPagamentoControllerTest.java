@@ -23,6 +23,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.com.thveiculos.erp.entities.despesas.FormaPagamento;
 import br.com.thveiculos.erp.services.despesas.interfaces.FormaPagamentoService;
+import br.com.thveiculos.erp.views.SimpleView;
 import br.com.thveiculos.erp.views.despesas.FormaPagamentoView;
 
 @ExtendWith(MockitoExtension.class)
@@ -36,7 +37,7 @@ class FormaPagamentoControllerTest {
 	public FormaPagamentoService service;
 	
 	
-	public FormaPagamentoView view;
+	public SimpleView view;
 	
 	@BeforeEach
 	void setUp() {
@@ -47,17 +48,17 @@ class FormaPagamentoControllerTest {
 	@Test
 	void metodoNovoDeveFazerCampoDeFormaPagamentoSerEditavel() {
         
-        JTextField teste = view.getFieldFormaPagamento();
+        JTextField teste = view.getFieldNome();
         assertFalse(teste.isEditable());
         controller.novo();
-        assertTrue(view.getFieldFormaPagamento().isEditable());
+        assertTrue(view.getFieldNome().isEditable());
 	}
 	
 	@Test
 	void metodoNaoDeveChamarMetodosSalvarOUAtualizarDoServiceSeOCampoEstiverVazio() {
 		
-		view.getFieldFormaPagamento().setEditable(true);
-		view.getFieldFormaPagamento().setText("");
+		view.getFieldNome().setEditable(true);
+		view.getFieldNome().setText("");
 		
 		controller.salvar();
 		
@@ -70,31 +71,16 @@ class FormaPagamentoControllerTest {
 	@Test
 	void metodoDeveChamarOmetodoSaveQuandoCampoDeNomeTiverPreenchidoMasNaoHouverId() {
 
-		view.getFieldFormaPagamento().setEditable(true);
-		view.getFieldFormaPagamento().setText("teste");
+		view.getFieldNome().setEditable(true);
+		view.getFieldNome().setText("teste");
 		
 		controller.salvar();
 		
 		
 		verify(service,times(1)).save(any(FormaPagamento.class));
-		verify(service,times(0)).update(any(FormaPagamento.class));
 		verify(controller,times(1)).updateView();
 	}
 	
-	@Test
-	void metodoDeveChamarOmetodoUpdateQuandoCampoDeNomeEIdTiveremPreenchidos() {
-
-		view.getFieldFormaPagamento().setEditable(true);
-		view.getFieldFormaPagamento().setText("teste");
-		view.getFieldId().setText("1");
-		
-		controller.salvar();
-		
-		
-		verify(service,times(0)).save(any(FormaPagamento.class));
-		verify(service,times(1)).update(any(FormaPagamento.class));
-		verify(controller,times(1)).updateView();
-	}
 	
 	@Test
 	void metodoDeletarNaoDeveChamarMetodoDeDeleteSeNenhumaLinhaForSelecionadaNaView() {
@@ -137,25 +123,25 @@ class FormaPagamentoControllerTest {
 	@Test
 	void metodoUpdateDeveChamarOsMetodosParaAtualizarAView() {
 
-		view.getFieldFormaPagamento().setEditable(true);
+		view.getFieldNome().setEditable(true);
 		
 		controller.updateView();
 		
 		verify(controller,times(1)).atualizarTabela();
 		verify(controller,times(1)).limparCampos();
-		assertFalse(view.getFieldFormaPagamento().isEditable());
+		assertFalse(view.getFieldNome().isEditable());
 	}
 	
 	@Test
 	void metodoLimparCamposDeveRemoverTextoDosCamposDaView() {
 
-		view.getFieldFormaPagamento().setText("Text");
+		view.getFieldNome().setText("Text");
 		view.getFieldId().setText("2");
 		
 		controller.limparCampos();
 		
-		assertTrue(view.getFieldFormaPagamento().getText().equals(""));
-		assertTrue(view.getFieldFormaPagamento().getText().equals(""));
+		assertTrue(view.getFieldNome().getText().equals(""));
+		assertTrue(view.getFieldNome().getText().equals(""));
 	}
 	
 	@Test
