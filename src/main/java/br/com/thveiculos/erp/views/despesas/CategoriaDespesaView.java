@@ -26,18 +26,17 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import br.com.thveiculos.erp.controllers.SimpleViewController;
-//import br.com.thveiculos.erp.configuration.ApplicationConfiguration;
-import br.com.thveiculos.erp.controllers.despesas.FormaPagamentoController;
-import br.com.thveiculos.erp.entities.despesas.FormaPagamento;
+import br.com.thveiculos.erp.controllers.despesas.CategoriaDespesaController;
+import br.com.thveiculos.erp.entities.despesas.CategoriaDespesa;
 import br.com.thveiculos.erp.views.SimpleView;
 
 @Component
-public class FormaPagamentoView extends SimpleView {
-	
-	public FormaPagamentoView(FormaPagamentoController controller) {
+public class CategoriaDespesaView extends SimpleView {
+
+	public CategoriaDespesaView(CategoriaDespesaController controller) {
 		super();
 		this.controller = controller;
 		controller.setView(this);
-		
+
 	}
 }
