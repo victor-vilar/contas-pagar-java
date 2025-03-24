@@ -37,20 +37,26 @@ public class FormaPagamentoServiceImpl implements FormaPagamentoService{
 
 	@Override
 	public FormaPagamento save(FormaPagamento obj) throws ConstraintViolationException, DataIntegrityViolationException {
-			return repository.save(obj);
+			
+			if(obj.getId()!= null) {
+				return update(obj);
+			}else {
+				return repository.save(obj);
+			}
 	}
 	
 	@Override
 	public FormaPagamento update(FormaPagamento obj) {
 		
-		FormaPagamento toSave;
+		FormaPagamento toUpdate;
 		Optional<FormaPagamento> saved = this.repository.findById(obj.getId());
+		
 		if(saved.isPresent()) {
-			toSave = saved.get();
-			toSave.setForma(obj.getForma());
-			save(toSave);
-			return toSave;
+			toUpdate = saved.get();
+			toUpdate.setForma(obj.getForma());
+			return repository.save(toUpdate);
 		}
+
 		
 		return null;
 	}
