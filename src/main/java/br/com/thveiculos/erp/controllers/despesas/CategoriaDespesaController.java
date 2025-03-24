@@ -1,27 +1,30 @@
 package br.com.thveiculos.erp.controllers.despesas;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import br.com.thveiculos.erp.controllers.SimpleViewController;
-import br.com.thveiculos.erp.entities.despesas.FormaPagamento;
+import br.com.thveiculos.erp.entities.despesas.CategoriaDespesa;
 import br.com.thveiculos.erp.entities.interfaces.SimpleEntity;
-import br.com.thveiculos.erp.services.despesas.interfaces.FormaPagamentoService;
+import br.com.thveiculos.erp.services.despesas.interfaces.CategoriaDespesaService;
 
-@Component
-public class FormaPagamentoController extends SimpleViewController {
+@Controller
+public class CategoriaDespesaController extends SimpleViewController {
+
 	
 	@Autowired
-	public FormaPagamentoController(FormaPagamentoService service) {
+	public CategoriaDespesaController(CategoriaDespesaService service) {
 		super();
 		this.service = service;
 	}
 
+
+	
 	@Override
 	public SimpleEntity construirObjeto() {
 		
-		FormaPagamento obj = new FormaPagamento();
-		obj.setForma(view.getFieldNome().getText().toUpperCase());
+		CategoriaDespesa obj = new CategoriaDespesa();
+		obj.setCategoria(view.getFieldNome().getText().toUpperCase());
 		
 		if(!view.getFieldId().getText().equals("")) {
 			obj.setId(Long.valueOf(view.getFieldId().getText()));
@@ -31,12 +34,7 @@ public class FormaPagamentoController extends SimpleViewController {
 	}
 
 
-
 	
-
 	
-
-
-
-		
+	
 }
