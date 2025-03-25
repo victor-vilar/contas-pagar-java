@@ -12,13 +12,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-//@Table(name="despesas_recorrentes")
+@Table(name="despesas_recorrentes")
 public class DespesaRecorrente extends DespesaAbstrata implements Serializable {
 
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
+
 	@Column(nullable=false)
 	private Periodo periocidade;
 	@Column(nullable=false)
@@ -31,12 +28,7 @@ public class DespesaRecorrente extends DespesaAbstrata implements Serializable {
 		super();
 	}
 	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
+
 	public Periodo getPeriocidade() {
 		return periocidade;
 	}
