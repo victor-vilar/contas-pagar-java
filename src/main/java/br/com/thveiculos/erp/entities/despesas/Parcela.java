@@ -20,6 +20,7 @@ public class Parcela implements Serializable {
 	private Long id;
 	
 	private String numero;
+	private LocalDate dataVencimento;
 	private LocalDate dataPagamento;
 	private BigDecimal valorPagamento;
 	
@@ -67,6 +68,17 @@ public class Parcela implements Serializable {
 	public void setValorPagamento(BigDecimal valorPagamento) {
 		this.valorPagamento = valorPagamento;
 	}
+
+
+	public LocalDate getDataVencimento() {
+		return dataVencimento;
+	}
+
+
+	public void setDataVencimento(LocalDate dataVencimento) {
+		this.dataVencimento = dataVencimento;
+	}
+	
 	
 	
 	
