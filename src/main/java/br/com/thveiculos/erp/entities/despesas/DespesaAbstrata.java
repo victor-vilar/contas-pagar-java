@@ -1,19 +1,25 @@
 package br.com.thveiculos.erp.entities.despesas;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.OneToMany;
 
 
-@MappedSuperclass
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class DespesaAbstrata implements Despesa{
 
 	@Id
@@ -26,14 +32,14 @@ public abstract class DespesaAbstrata implements Despesa{
 	private boolean quitado = false;
 	private BigDecimal valorTotal;
 	
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<MovimentoPagamento> movimentos = new ArrayList<>();
+	
 	@ManyToOne
 	@JoinColumn(name = "categoria_id", foreignKey = @ForeignKey(name="categoria_fk",foreignKeyDefinition="FOREIGN KEY (categoria_id) REFERENCES categorias_despesas(id) ON DELETE SET NULL"))
 	private CategoriaDespesa categoria;
 	
-	@ManyToOne
-	@JoinColumn(name = "forma_pagamento_id", foreignKey = @ForeignKey(name="forma_pagamento_fk", foreignKeyDefinition = "FOREIGN KEY (forma_pagamento_id) REFERENCES formas_pagamento(id) ON DELETE SET NULL"))
-	private FormaPagamento formaPagamento;
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -43,10 +49,6 @@ public abstract class DespesaAbstrata implements Despesa{
 		return this.categoria;
 	}
 	
-	@Override
-	public FormaPagamento getFormaPagamento() {
-		return this.formaPagamento;
-	}
 	
 	@Override
 	public String getNomeFornecedor() {
@@ -63,10 +65,6 @@ public abstract class DespesaAbstrata implements Despesa{
 		return this.quitado;
 	}
 	
-	@Override
-	public BigDecimal getValorTotal() {
-		return valorTotal;
-	}
 
 	public void setId(Long id) {
 		this.id = id;
@@ -92,9 +90,31 @@ public abstract class DespesaAbstrata implements Despesa{
 		this.categoria = categoria;
 	}
 
-	public void setFormaPagamento(FormaPagamento formaPagamento) {
-		this.formaPagamento = formaPagamento;
+	public void setParcelas(List<MovimentoPagamento> movimentos) {
+		this.movimentos = movimentos;
 	}
+	
+	public void addParcela(MovimentoPagamento parcela) {
+		
+		if(!this.movimentos.contains(parcela)) {
+			movimentos.add(parcela);
+		}
+	}
+	
+	public int getQuantidadeParcelas() {
+		return this.movimentos.size();
+	}
+	
+	@Override
+	public BigDecimal getValorTotal() {
+		BigDecimal total = BigDecimal.ZERO;
+		for(MovimentoPagamento p : movimentos) {
+		 total = total.add(p.getValorPagamento());
+		}
+		this.valorTotal = total;
+		return total;
+	}
+	
 
 
 	
