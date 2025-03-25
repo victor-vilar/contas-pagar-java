@@ -3,6 +3,7 @@ package br.com.thveiculos.erp.entities.despesas;
 import java.io.Serializable;
 
 import br.com.thveiculos.erp.entities.interfaces.SimpleEntity;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,6 +18,7 @@ public class CategoriaDespesa implements Serializable, SimpleEntity{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	@Column(unique=true, nullable = false)
 	private String categoria;
 	
 	public CategoriaDespesa() {
