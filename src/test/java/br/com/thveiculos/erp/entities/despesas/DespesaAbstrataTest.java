@@ -12,18 +12,19 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 
-public class DespesaAvulsaTest {
+
+public class DespesaAbstrataTest {
 	
-	public List<Parcela> parcelas = new ArrayList<>();
-	Parcela p1;
-	Parcela p2;
-	Parcela p3;
+	public List<MovimentoPagamento> parcelas = new ArrayList<>();
+	MovimentoPagamento p1;
+	MovimentoPagamento p2;
+	MovimentoPagamento p3;
 	
 	@BeforeEach
 	public void setUp() {
-		p1 = new Parcela();
-		p2 = new Parcela();
-		p3 = new Parcela();
+		p1 = new MovimentoPagamento();
+		p2 = new MovimentoPagamento();
+		p3 = new MovimentoPagamento();
 		p1.setValorPagamento(new BigDecimal("1000"));
 		p2.setValorPagamento(new BigDecimal("1000"));
 		p3.setValorPagamento(new BigDecimal("1000"));
