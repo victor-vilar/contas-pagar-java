@@ -35,7 +35,7 @@ import br.com.thveiculos.erp.views.SimpleView;
 public class FormaPagamentoView extends SimpleView {
 	
 	public FormaPagamentoView(FormaPagamentoController controller) {
-		super();
+		super("Formas Pagamento", "Forma");
 		this.controller = controller;
 		controller.setView(this);
 		

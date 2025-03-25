@@ -50,6 +50,8 @@ public abstract class SimpleView extends JFrame {
 	protected JButton btnNovo;
 	protected JButton btnDeletar;
 	protected SimpleViewController controller;
+	protected String title;
+	protected String tableColumnName;
 	
 	private static final String ERROR_HEADER = "Erro";
 	private static final String ERROR_MESSAGE = "Não é possivel cadastrar outra forma de pagamento com o mesmo nome";
@@ -66,7 +68,9 @@ public abstract class SimpleView extends JFrame {
 		return this.table;
 	}
 
-	public SimpleView() {
+	public SimpleView(String title, String tableColumnName) {
+		this.title = title;
+		this.tableColumnName = tableColumnName;
 		this.setUp();
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -78,7 +82,7 @@ public abstract class SimpleView extends JFrame {
 
 	public void setUp() {
 
-		setTitle("Formas de Pagamento");
+		setTitle(title);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 443, 329);
 		setResizable(false);
@@ -126,7 +130,7 @@ public abstract class SimpleView extends JFrame {
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(table);
 
-		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "No", "Forma de Pagamento" }) {
+		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "No",this.tableColumnName }) {
 			Class[] columnTypes = new Class[] { Long.class, String.class };
 
 			public Class getColumnClass(int columnIndex) {

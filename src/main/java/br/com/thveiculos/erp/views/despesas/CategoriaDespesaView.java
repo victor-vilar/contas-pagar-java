@@ -34,7 +34,7 @@ import br.com.thveiculos.erp.views.SimpleView;
 public class CategoriaDespesaView extends SimpleView {
 
 	public CategoriaDespesaView(CategoriaDespesaController controller) {
-		super();
+		super("Categoria Despesas", "Categoria");
 		this.controller = controller;
 		controller.setView(this);
 
