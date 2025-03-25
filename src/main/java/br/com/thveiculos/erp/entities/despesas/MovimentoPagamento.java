@@ -5,27 +5,34 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="despesas_parcelas")
-public class Parcela implements Serializable {
+@Table(name="movimento_pagamengo")
+public class MovimentoPagamento implements Serializable {
 
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	private String numero;
+	private String referenteParcela;
 	private LocalDate dataVencimento;
 	private LocalDate dataPagamento;
 	private BigDecimal valorPagamento;
 	
+	@ManyToOne
+	@JoinColumn(name = "forma_pagamento_id", foreignKey = @ForeignKey(name="forma_pagamento_fk", foreignKeyDefinition = "FOREIGN KEY (forma_pagamento_id) REFERENCES formas_pagamento(id) ON DELETE SET NULL"))
+	private FormaPagamento formaPagamento;
 	
-	public Parcela () {
+	
+	public MovimentoPagamento () {
 		
 	}
 
@@ -40,13 +47,13 @@ public class Parcela implements Serializable {
 	}
 
 
-	public String getNumero() {
-		return numero;
+	public String getreferenteParcela() {
+		return referenteParcela;
 	}
 
 
-	public void setNumero(String numero) {
-		this.numero = numero;
+	public void setreferenteParcela(String referenteParcela) {
+		this.referenteParcela = referenteParcela;
 	}
 
 
@@ -77,6 +84,26 @@ public class Parcela implements Serializable {
 
 	public void setDataVencimento(LocalDate dataVencimento) {
 		this.dataVencimento = dataVencimento;
+	}
+
+
+	public String getReferenteParcela() {
+		return referenteParcela;
+	}
+
+
+	public void setReferenteParcela(String referenteParcela) {
+		this.referenteParcela = referenteParcela;
+	}
+
+
+	public FormaPagamento getFormaPagamento() {
+		return formaPagamento;
+	}
+
+
+	public void setFormaPagamento(FormaPagamento formaPagamento) {
+		this.formaPagamento = formaPagamento;
 	}
 	
 	
