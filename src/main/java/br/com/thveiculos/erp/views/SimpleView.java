@@ -125,8 +125,6 @@ public abstract class SimpleView extends JFrame {
 		// Criando Tabela
 		table = new JTable();
 		table.setFillsViewportHeight(true);
-		table.setColumnSelectionAllowed(true);
-		table.setCellSelectionEnabled(true);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(table);
 
