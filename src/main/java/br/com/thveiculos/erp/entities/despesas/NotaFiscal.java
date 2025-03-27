@@ -20,6 +20,7 @@ public class NotaFiscal implements Serializable {
 	
 	private String numero;
 	private LocalDate dataEmissao;
+	private String fornecedor;
 	
 	public NotaFiscal() {
 		
