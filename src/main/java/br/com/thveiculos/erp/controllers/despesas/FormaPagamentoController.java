@@ -1,6 +1,7 @@
 package br.com.thveiculos.erp.controllers.despesas;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import br.com.thveiculos.erp.controllers.SimpleViewController;
@@ -9,6 +10,7 @@ import br.com.thveiculos.erp.entities.interfaces.SimpleEntity;
 import br.com.thveiculos.erp.services.despesas.interfaces.FormaPagamentoService;
 
 @Component
+@Lazy
 public class FormaPagamentoController extends SimpleViewController {
 	
 	@Autowired

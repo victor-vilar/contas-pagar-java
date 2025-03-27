@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import br.com.thveiculos.erp.repositories.despesas.FormaPagamentoRepository;
 import br.com.thveiculos.erp.services.despesas.interfaces.FormaPagamentoService;
 
 @Service
+@Lazy
 public class FormaPagamentoServiceImpl implements FormaPagamentoService{
 
 	private FormaPagamentoRepository repository;

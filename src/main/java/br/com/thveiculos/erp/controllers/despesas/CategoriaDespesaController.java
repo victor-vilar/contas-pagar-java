@@ -1,6 +1,7 @@
 package br.com.thveiculos.erp.controllers.despesas;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
 import br.com.thveiculos.erp.controllers.SimpleViewController;
@@ -9,6 +10,7 @@ import br.com.thveiculos.erp.entities.interfaces.SimpleEntity;
 import br.com.thveiculos.erp.services.despesas.interfaces.CategoriaDespesaService;
 
 @Controller
+@Lazy
 public class CategoriaDespesaController extends SimpleViewController {
 
 	

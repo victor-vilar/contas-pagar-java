@@ -22,6 +22,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +32,7 @@ import br.com.thveiculos.erp.entities.despesas.CategoriaDespesa;
 import br.com.thveiculos.erp.views.SimpleView;
 
 @Component
+@Lazy
 public class CategoriaDespesaView extends SimpleView {
 
 	public CategoriaDespesaView(CategoriaDespesaController controller) {
