@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import br.com.thveiculos.erp.views.despesas.CategoriaDespesaView;
 import br.com.thveiculos.erp.views.despesas.FormaPagamentoView;
+import br.com.thveiculos.erp.views.despesas.MovimentoPagamentoView;
 
 @Component
 public class MainView extends JFrame {
@@ -24,6 +25,7 @@ public class MainView extends JFrame {
 	private JPanel contentPane;
 	private JButton btnFormaPagamento;
 	private JButton btnCategoriaDespesa;
+        private JButton btnMovimentoPagamento;
 	
 	public MainView() {
 		this.setUp();
@@ -69,9 +71,20 @@ public class MainView extends JFrame {
 				view.setVisible(true);
 			}
 		});
+                
+                btnMovimentoPagamento = new JButton("MovimentoPagamento");
+                btnMovimentoPagamento.setSize(151, 50);
+                btnCategoriaDespesa.setLocation(199, 80);
+                btnMovimentoPagamento.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				var view = context.getBean(MovimentoPagamentoView.class);
+				view.setVisible(true);
+			}
+		});
 		
 		contentPane.add(btnFormaPagamento);
 		contentPane.add(btnCategoriaDespesa);
+                
 		
 		
 		
