@@ -12,15 +12,14 @@ import br.com.thveiculos.erp.views.despesas.CategoriaDespesaView;
 import br.com.thveiculos.erp.views.despesas.FormaPagamentoView;
 
 /** 
- * Controlador para as views do tipo {@link SimpleView}, esses formulários são objetos que manipulam objetos do tipo {@link SimpleEntity}.
- * As view {@link FormaPagamentoView} e {@link CategoriaDespesaView} são exemplos de formulários que extendem essa classe.
+ * Controlador para as views do tipo {@link SimpleView}, esses formulários são objetos que manipulam objetos do tipo {@link SimpleEntity}.As view {@link FormaPagamentoView} e {@link CategoriaDespesaView} são exemplos de formulários que extendem essa classe.
  * As entidades ao qual elas manipulam possuem somente o id e o nome como propriedades então os formulários e suas carecteristicas e layout
- * seguem o mesmo padrão. Essa entidades são conhecidas nesse sistema como 
- * 
- * Essas views controlam entidades que se comportam como um ENUM, como quero criar a possibilidade do usuário conseguir registrar mais
- * entidades desse tipo, foram criados tabelas no banco de dados para que assim elas possam ser registradas e removidas como qualquer outra classe.
- * 
- * Toda e qualquer classe que for um controllador de formulários simples devera então extender essa classe e implementar o metodo que construção de objeto.
+ seguem o mesmo padrão. Essa entidades são conhecidas nesse sistema como 
+ 
+ Essas views controlam entidades que se comportam como um ENUM, como quero criar a possibilidade do usuário conseguir registrar mais
+ entidades desse tipo, foram criados tabelas no banco de dados para que assim elas possam ser registradas e removidas como qualquer outra classe.
+ 
+ Toda e qualquer classe que for um controllador de formulários simples devera então extender essa classe e implementar o metodo que construção de objeto.
  * */
 public abstract class SimpleViewController {
 
@@ -37,6 +36,8 @@ public abstract class SimpleViewController {
 	
 	
 	public void novo() {
+                view.getFieldId().setText("");
+                view.getFieldNome().setText("");
 		view.getFieldNome().setEditable(true);
 		view.getFieldNome().requestFocus();
 	}
