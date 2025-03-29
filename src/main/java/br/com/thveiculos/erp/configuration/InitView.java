@@ -20,17 +20,9 @@ public class InitView implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        setLookAndFeel();
         view.setVisible(true);
     }
 
-    private void setLookAndFeel() {
-        try {
-                UIManager.setLookAndFeel( new FlatLightLaf() );
-        }catch (Exception ex) {
-                System.out.println(ex);
-                
-        }
-    }
+
 
 }
