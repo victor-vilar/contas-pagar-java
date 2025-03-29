@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import br.com.thveiculos.erp.views.despesas.CategoriaDespesaView;
-import br.com.thveiculos.erp.views.despesas.FormaPagamentoView;
+import br.com.thveiculos.erp.views.despesas.DespesaView;
 import br.com.thveiculos.erp.views.despesas.MovimentoPagamentoView;
 
 @Component
@@ -52,12 +51,12 @@ public class MainView extends JFrame {
 		contentPane.setLayout(null);
 
 		
-		btnFormaPagamento = new JButton("Formas de Pagamento");
+		btnFormaPagamento = new JButton("DespesaView");
 		btnFormaPagamento.setSize(177, 50);
 		btnFormaPagamento.setLocation(10, 10);
 		btnFormaPagamento.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				var view = context.getBean(FormaPagamentoView.class);
+				var view = context.getBean(DespesaView.class);
 				view.setVisible(true);
 			}
 		});
