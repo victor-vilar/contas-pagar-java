@@ -118,14 +118,22 @@ public class DespesaView extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel1.setText("Código");
 
+        fieldNota.setEnabled(false);
+
         jLabel2.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel2.setText("Despesa/Fornecedor");
 
+        fieldDescricao.setEnabled(false);
+
+        fieldCodFornecedor.setEnabled(false);
+
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-binoculos.png"))); // NOI18N
         jButton1.setToolTipText("Buscar Fornecedor");
+        jButton1.setEnabled(false);
 
         comboCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         comboCategoria.setSelectedIndex(-1);
+        comboCategoria.setEnabled(false);
 
         jLabel3.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel3.setText("Categoria");
@@ -144,6 +152,7 @@ public class DespesaView extends javax.swing.JFrame {
 
         areaDescricao.setColumns(20);
         areaDescricao.setRows(5);
+        areaDescricao.setEnabled(false);
         jScrollPane1.setViewportView(areaDescricao);
 
         jLabel12.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
@@ -151,7 +160,9 @@ public class DespesaView extends javax.swing.JFrame {
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-binoculos.png"))); // NOI18N
         jButton4.setToolTipText("Buscar Fornecedor");
+        jButton4.setEnabled(false);
 
+        fieldNotaEmissao.setEnabled(false);
         fieldNotaEmissao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fieldNotaEmissaoActionPerformed(evt);
@@ -244,11 +255,17 @@ public class DespesaView extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel8.setText("Parcelamento");
 
+        comboParcelamento.setEnabled(false);
+
         jLabel9.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel9.setText("Forma de Pamento");
 
+        comboFormaPagamento.setEnabled(false);
+
         jLabel10.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel10.setText("Valor Total/ Parcela");
+
+        fieldValorTotal.setEnabled(false);
 
         tableParcelas.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         tableParcelas.setModel(new javax.swing.table.DefaultTableModel(
@@ -290,6 +307,8 @@ public class DespesaView extends javax.swing.JFrame {
             tableParcelas.getColumnModel().getColumn(4).setResizable(false);
         }
 
+        jSpinner1.setEnabled(false);
+
         jLabel11.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel11.setText("Nº Parcelas");
 
@@ -298,12 +317,14 @@ public class DespesaView extends javax.swing.JFrame {
 
         btnTable.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/lock.png"))); // NOI18N
         btnTable.setToolTipText("Destravar Tabela");
+        btnTable.setEnabled(false);
         btnTable.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTableActionPerformed(evt);
             }
         });
 
+        fieldVencimentoParcela.setEnabled(false);
         fieldVencimentoParcela.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fieldVencimentoParcelaActionPerformed(evt);
@@ -312,6 +333,7 @@ public class DespesaView extends javax.swing.JFrame {
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-binoculos.png"))); // NOI18N
         jButton5.setToolTipText("Buscar Fornecedor");
+        jButton5.setEnabled(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
