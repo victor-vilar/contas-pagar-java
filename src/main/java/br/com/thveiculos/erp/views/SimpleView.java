@@ -109,6 +109,7 @@ public abstract class SimpleView extends javax.swing.JFrame {
         btnDeletar = new javax.swing.JButton();
         btnNovo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
+        btnSalvar1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         fieldId = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
@@ -116,7 +117,6 @@ public abstract class SimpleView extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
-        btnSalvar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -129,7 +129,6 @@ public abstract class SimpleView extends javax.swing.JFrame {
 
         toolBar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         toolBar.setMaximumSize(null);
-        toolBar.setMinimumSize(null);
 
         btnDeletar.setBackground(new java.awt.Color(242, 242, 242));
         btnDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/3.png"))); // NOI18N
@@ -161,6 +160,16 @@ public abstract class SimpleView extends javax.swing.JFrame {
             }
         });
 
+        btnSalvar1.setBackground(new java.awt.Color(242, 242, 242));
+        btnSalvar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-save.png"))); // NOI18N
+        btnSalvar1.setToolTipText("Deletar");
+        btnSalvar1.setBorder(null);
+        btnSalvar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvar1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout toolBarLayout = new javax.swing.GroupLayout(toolBar);
         toolBar.setLayout(toolBarLayout);
         toolBarLayout.setHorizontalGroup(
@@ -168,9 +177,11 @@ public abstract class SimpleView extends javax.swing.JFrame {
             .addGroup(toolBarLayout.createSequentialGroup()
                 .addGap(76, 76, 76)
                 .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnSalvar1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
             .addGroup(toolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(toolBarLayout.createSequentialGroup()
                     .addGap(15, 15, 15)
@@ -183,7 +194,8 @@ public abstract class SimpleView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(toolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnDeletar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnDeletar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnSalvar1, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(toolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(toolBarLayout.createSequentialGroup()
@@ -241,13 +253,6 @@ public abstract class SimpleView extends javax.swing.JFrame {
             table.getColumnModel().getColumn(0).setPreferredWidth(40);
         }
 
-        btnSalvar.setText("Salvar");
-        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalvarActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -259,8 +264,7 @@ public abstract class SimpleView extends javax.swing.JFrame {
                     .addComponent(fieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
                     .addComponent(fieldId, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -276,8 +280,6 @@ public abstract class SimpleView extends javax.swing.JFrame {
                 .addComponent(fieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSalvar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -331,15 +333,13 @@ public abstract class SimpleView extends javax.swing.JFrame {
         controller.atualizarTabela();        // TODO add your handling code here:
     }//GEN-LAST:event_formWindowOpened
 
-    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        try{
+    private void btnSalvar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvar1ActionPerformed
+        try {
             controller.salvar();// TODO add your handling code here:
-        }catch(Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, SimpleView.ERROR_MESSAGE, SimpleView.ERROR_HEADER, JOptionPane.ERROR_MESSAGE);
         }
-        
-        
-    }//GEN-LAST:event_btnSalvarActionPerformed
+    }//GEN-LAST:event_btnSalvar1ActionPerformed
 
 
 
@@ -347,7 +347,7 @@ public abstract class SimpleView extends javax.swing.JFrame {
     private javax.swing.JButton btnDeletar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnNovo;
-    private javax.swing.JButton btnSalvar;
+    private javax.swing.JButton btnSalvar1;
     private javax.swing.JTextField fieldId;
     private javax.swing.JTextField fieldNome;
     private javax.swing.JLabel jLabel1;
