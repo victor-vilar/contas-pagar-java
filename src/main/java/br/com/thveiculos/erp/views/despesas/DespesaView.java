@@ -32,6 +32,7 @@ public class DespesaView extends javax.swing.JFrame {
     @Autowired
     public DespesaView(DespesaViewController controller){
         this.controller = controller;
+        this.controller.setView(this);
         setFormatoData();
         initComponents();
         configureComponentes();
