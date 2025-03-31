@@ -13,6 +13,7 @@ public interface AppViewController<T> {
     void setView(T view);
     void novo();
     void salvar();
+    void editar();
     void deletar();
     void limparCampos();
     
