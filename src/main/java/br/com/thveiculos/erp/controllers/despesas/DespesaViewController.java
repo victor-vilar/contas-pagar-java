@@ -9,10 +9,12 @@ import br.com.thveiculos.erp.controllers.util.ControllerHelper;
 import br.com.thveiculos.erp.entities.despesas.Despesa;
 import br.com.thveiculos.erp.entities.despesas.DespesaAvulsa;
 import br.com.thveiculos.erp.entities.despesas.MovimentoPagamento;
+import br.com.thveiculos.erp.enums.despesas.Periodo;
 import br.com.thveiculos.erp.services.despesas.interfaces.CategoriaDespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.DespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.FormaPagamentoService;
 import br.com.thveiculos.erp.views.despesas.DespesaView;
+import java.util.Arrays;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,10 +70,10 @@ public class DespesaViewController implements AppViewController<DespesaView> {
 
     @Override
     public void editar() {
-        if(view.getFieldId().getText().equals("")){
+        if (view.getFieldId().getText().equals("")) {
             return;
         }
-        
+
         enableDisableComponents(true);
     }
 
@@ -88,8 +90,7 @@ public class DespesaViewController implements AppViewController<DespesaView> {
 
     public Despesa build() {
         DespesaAvulsa despesa = new DespesaAvulsa();
-        
-        
+
         return null;
     }
 
@@ -101,27 +102,29 @@ public class DespesaViewController implements AppViewController<DespesaView> {
     }
 
     public void addValoresComboCategoria() {
-    
-        this.categoriaDespesaService.getTodos().stream().forEach(c ->{ 
+
+        this.categoriaDespesaService.getTodos().stream().forEach(c -> {
             System.out.println(c.getName());
             view.getComboCategoria().addItem(c.getName());
         });
-        
+
         view.getComboCategoria().setSelectedIndex(-1);
     }
 
     public void addValoresComboFormaPagamento() {
-        
-        this.formaPagamentoService.getTodos().stream().forEach(f ->{ 
+
+        this.formaPagamentoService.getTodos().stream().forEach(f -> {
             System.out.println(f.getName());
             view.getComboFormaPagamento().addItem(f.getName());
         });
-        
+
         view.getComboFormaPagamento().setSelectedIndex(-1);
     }
 
     public void addValoresParcelamento() {
-
+            
+        Arrays.asList(Periodo.values()).stream().forEach(p -> view.getComboParcelamento().addItem(p.name()));
+        view.getComboParcelamento().setSelectedIndex(-1);
     }
 
     public void enableDisableComponents(boolean con) {
@@ -133,12 +136,17 @@ public class DespesaViewController implements AppViewController<DespesaView> {
         });
 
     }
-    
-    public void atualizarTabela(List<MovimentoPagamento> movimentos){
+
+    private void criarMovimentos() {
+
+    }
+
+    public void atualizarTabela(List<MovimentoPagamento> movimentos) {
         DefaultTableModel model = (DefaultTableModel) view.getTableParcelas().getModel();
         ControllerHelper.limparTabela(model);
-        movimentos.stream().forEach(m ->{
-            model.addRow(new Object[]{m.getId(),m.getReferenteParcela(),m.getDataVencimento(),m.getValorPagamento(),m.getDataPagamento()});
+        movimentos.stream().forEach(m -> {
+            model.addRow(new Object[]{m.getId(), m.getReferenteParcela(),
+                m.getDataVencimento(), m.getValorPagamento(), m.getDataPagamento()});
         });
     }
 
