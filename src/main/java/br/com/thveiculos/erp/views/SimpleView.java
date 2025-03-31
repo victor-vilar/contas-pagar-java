@@ -323,10 +323,8 @@ public abstract class SimpleView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeletarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        int row = getTable().getSelectedRow();
-        fieldId.setText(String.valueOf(getTable().getValueAt(row, 0)));
-        fieldNome.setText((String) getTable().getValueAt(row, 1));
-        fieldNome.setEditable(true);
+        controller.editar();
+        
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
