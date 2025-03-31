@@ -4,34 +4,34 @@
  */
 package br.com.thveiculos.erp.views.despesas;
 
-import br.com.thveiculos.erp.controllers.DespesaViewController;
-import com.formdev.flatlaf.FlatLightLaf;
+import br.com.thveiculos.erp.controllers.despesas.DespesaViewController;
+import jakarta.annotation.PostConstruct;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.text.JTextComponent;
 import javax.swing.text.MaskFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 @Component
+@Lazy
 public class DespesaView extends javax.swing.JFrame {
 
-    MaskFormatter dateFormat;
-    MaskFormatter valueFormat;
-    DespesaViewController controller;
+    private MaskFormatter dateFormat;
+    private MaskFormatter valueFormat;
+    private final DespesaViewController controller;
+    
     
 
     
@@ -39,20 +39,25 @@ public class DespesaView extends javax.swing.JFrame {
     public DespesaView(DespesaViewController controller){
         this.controller = controller;
         this.controller.setView(this);
+//        setFormatoData();;
+//        initComponents();
+//        configureComponentes();
+ 
+   
+    }
+    
+    @PostConstruct
+    public void configurarComponent(){
         setFormatoData();
         initComponents();
         configureComponentes();
-        
-        
     }
-    
     
     
     public void setFormatoData(){
         
         try{
             dateFormat = new MaskFormatter("##/##/####");  
-       
             
         }catch(ParseException e){
             System.out.println(e);
@@ -68,6 +73,8 @@ public class DespesaView extends javax.swing.JFrame {
         
         
         tableParcelas.setEnabled(false);
+        tableParcelas.setCellSelectionEnabled(false);
+        tableParcelas.setRowSelectionAllowed(true);
     }
     
  
@@ -135,6 +142,10 @@ public class DespesaView extends javax.swing.JFrame {
     public JFormattedTextField getFieldVencimentoParcela() {
         return fieldVencimentoParcela;
     }
+    
+    public JSpinner getSpinnerQuantidadeParcelas(){
+        return spinnerQuantidadeParcelas;
+    }
 
     public JTable getTableParcelas() {
         return tableParcelas;
@@ -155,6 +166,11 @@ public class DespesaView extends javax.swing.JFrame {
                 fieldVencimentoParcela,tableParcelas,btnProcurarFormaPagamento,
                 btnProcurarFornecedor,btnProcurarCategoria,spinnerQuantidadeParcelas);
         
+    }
+    
+    public List<JTextComponent> getTextFields(){
+        return List.of(fieldCodFornecedor,fieldDescricao,fieldId,fieldNota,
+                fieldNotaEmissao,fieldValorTotal,fieldVencimentoParcela,areaDescricao);
     }
 
 
@@ -190,6 +206,7 @@ public class DespesaView extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         btnProcurarCategoria = new javax.swing.JButton();
         fieldNotaEmissao = new javax.swing.JFormattedTextField(dateFormat);
+        jButton1 = new javax.swing.JButton();
         panelParcelas = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         comboParcelamento = new javax.swing.JComboBox<>();
@@ -208,6 +225,11 @@ public class DespesaView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Despesa");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         panelToolBar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -339,6 +361,13 @@ public class DespesaView extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelMainLayout = new javax.swing.GroupLayout(panelMain);
         panelMain.setLayout(panelMainLayout);
         panelMainLayout.setHorizontalGroup(
@@ -350,34 +379,36 @@ public class DespesaView extends javax.swing.JFrame {
                     .addGroup(panelMainLayout.createSequentialGroup()
                         .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
-                            .addGroup(panelMainLayout.createSequentialGroup()
-                                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(fieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2)
-                                    .addGroup(panelMainLayout.createSequentialGroup()
-                                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel1)
-                                            .addComponent(fieldId, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(fieldNota, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel5))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel12)
-                                            .addComponent(fieldNotaEmissao, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(jLabel3)
-                                    .addGroup(panelMainLayout.createSequentialGroup()
-                                        .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnProcurarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addGroup(panelMainLayout.createSequentialGroup()
-                                        .addComponent(fieldCodFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnProcurarFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jButton1)
+                                .addGroup(panelMainLayout.createSequentialGroup()
+                                    .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(fieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel2)
+                                        .addGroup(panelMainLayout.createSequentialGroup()
+                                            .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel1)
+                                                .addComponent(fieldId, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(fieldNota, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel5))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel12)
+                                                .addComponent(fieldNotaEmissao, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(jLabel3)
+                                        .addGroup(panelMainLayout.createSequentialGroup()
+                                            .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(btnProcurarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel4)
+                                        .addGroup(panelMainLayout.createSequentialGroup()
+                                            .addComponent(fieldCodFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(btnProcurarFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -407,12 +438,17 @@ public class DespesaView extends javax.swing.JFrame {
                     .addComponent(btnProcurarFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fieldCodFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnProcurarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelMainLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnProcurarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(panelMainLayout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(jButton1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -443,19 +479,17 @@ public class DespesaView extends javax.swing.JFrame {
         tableParcelas.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         tableParcelas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, "fef", "feffe", "fef"},
-                {null, null, "123123", "1123", "12123"},
-                {null, null, "13", "3424", null}
+
             },
             new String [] {
-                "Código", "Nº Parcela", "Data Vencimento", "Valor R$", "Data Pagamento"
+                "Código", "Nº Parcela", "Data Vencimento", "Valor R$", "Data Pagamento", "F. Pagamento"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true
+                false, true, true, true, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -466,7 +500,7 @@ public class DespesaView extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tableParcelas.setCellSelectionEnabled(false);
+        tableParcelas.setColumnSelectionAllowed(true);
         tableParcelas.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(tableParcelas);
         tableParcelas.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -478,6 +512,7 @@ public class DespesaView extends javax.swing.JFrame {
             tableParcelas.getColumnModel().getColumn(2).setResizable(false);
             tableParcelas.getColumnModel().getColumn(3).setResizable(false);
             tableParcelas.getColumnModel().getColumn(4).setResizable(false);
+            tableParcelas.getColumnModel().getColumn(5).setResizable(false);
         }
 
         spinnerQuantidadeParcelas.setEnabled(false);
@@ -519,7 +554,7 @@ public class DespesaView extends javax.swing.JFrame {
             .addGroup(panelParcelasLayout.createSequentialGroup()
                 .addGap(6, 6, 6)
                 .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 593, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 616, Short.MAX_VALUE)
                     .addGroup(panelParcelasLayout.createSequentialGroup()
                         .addComponent(comboFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -619,12 +654,10 @@ public class DespesaView extends javax.swing.JFrame {
     private void btnLockTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLockTableActionPerformed
         
         if(!tableParcelas.isEnabled()){
-            System.out.println("Destravei");
             tableParcelas.setEnabled(true);
             btnLockTable.setIcon(new ImageIcon(getClass().getResource("/img/icon-unlock.png")));
             
         }else{
-            System.out.println("Travei");
             tableParcelas.setEnabled(false);
             btnLockTable.setIcon(new ImageIcon(getClass().getResource("/img/icon-lock.png")));
         }
@@ -635,8 +668,22 @@ public class DespesaView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        controller.salvar();        // TODO add your handling code here:
+        try{
+            controller.salvar();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Erro ao salvar","erro",JOptionPane.ERROR);
+            System.out.println(e);
+        }
+        
     }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        controller.atualizarCampos();        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        controller.criarMovimentos();        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
 
@@ -660,6 +707,7 @@ public class DespesaView extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField fieldNotaEmissao;
     private javax.swing.JTextField fieldValorTotal;
     private javax.swing.JFormattedTextField fieldVencimentoParcela;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
