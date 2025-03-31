@@ -2,9 +2,11 @@ package br.com.thveiculos.erp.enums.despesas;
 
 public enum Periodo {
 
-	ANUAL("anual"),
-	MENSAL("mensal"),
-	SEMANAL("semanal");
+	ANUAL("ANUAL"),
+	MENSAL("MENSAL"),
+        QUINZENAL("QUINZENAL"),
+	SEMANAL("SEMANAL"),
+        DIARIO("DIARIO");
 	
 	private String descricao;
 	
