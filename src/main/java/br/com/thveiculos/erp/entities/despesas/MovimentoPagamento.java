@@ -47,12 +47,12 @@ public class MovimentoPagamento implements Serializable {
 	}
 
 
-	public String getreferenteParcela() {
+	public String getReferenteParcela() {
 		return referenteParcela;
 	}
 
 
-	public void setreferenteParcela(String referenteParcela) {
+	public void setReferenteParcela(String referenteParcela) {
 		this.referenteParcela = referenteParcela;
 	}
 
@@ -85,17 +85,6 @@ public class MovimentoPagamento implements Serializable {
 	public void setDataVencimento(LocalDate dataVencimento) {
 		this.dataVencimento = dataVencimento;
 	}
-
-
-	public String getReferenteParcela() {
-		return referenteParcela;
-	}
-
-
-	public void setReferenteParcela(String referenteParcela) {
-		this.referenteParcela = referenteParcela;
-	}
-
 
 	public FormaPagamento getFormaPagamento() {
 		return formaPagamento;
