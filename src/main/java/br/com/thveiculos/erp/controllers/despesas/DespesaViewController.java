@@ -11,7 +11,7 @@ import br.com.thveiculos.erp.entities.despesas.DespesaAvulsa;
 import br.com.thveiculos.erp.entities.despesas.DespesaRecorrente;
 import br.com.thveiculos.erp.entities.despesas.MovimentoPagamento;
 import br.com.thveiculos.erp.enums.despesas.Periodo;
-import br.com.thveiculos.erp.services.despesas.implementation.GeradorMovimentos;
+import br.com.thveiculos.erp.services.despesas.implementation.ConversorMoeda;
 import br.com.thveiculos.erp.services.despesas.interfaces.CategoriaDespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.DespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.FormaPagamentoService;
@@ -39,17 +39,14 @@ public class DespesaViewController implements AppViewController<DespesaView> {
     private DespesaView view;
     private final CategoriaDespesaService categoriaDespesaService;
     private final FormaPagamentoService formaPagamentoService;
-    private static final String DESPESA_AVULA ="AVULSA";
-    private static final String DESPESA_RECORRENTE ="RECORRENTE";
+    private static final String DESPESA_AVULA = "AVULSA";
+    private static final String DESPESA_RECORRENTE = "RECORRENTE";
     private final List<String> exludeComponents = List.of("btnNovo", "btnEditar",
             "btnSalvar", "btnDeletar", "fieldId");
 
-   
     private Set<Integer> linhasSelecionadas;
     private List<MovimentoPagamento> movimentosSnapShot;
-    
-    
-    
+
     @Autowired
     public DespesaViewController(
             DespesaService service,
@@ -60,7 +57,6 @@ public class DespesaViewController implements AppViewController<DespesaView> {
         this.formaPagamentoService = formaPagamentoService;
         linhasSelecionadas = new HashSet<>();
         movimentosSnapShot = new ArrayList<>();
-        
 
     }
 
@@ -107,33 +103,34 @@ public class DespesaViewController implements AppViewController<DespesaView> {
         limparTabela();
     }
 
-    /** 
+    /**
      * Constroi o objeto que será salvo no banco de dados.
      */
-    public Despesa getInstance(String type) {
-       
-        if(type.equals(DESPESA_AVULA)){
+    private Despesa getInstance(String type) {
+
+        if (type.equals(DESPESA_AVULA)) {
             return new DespesaAvulsa();
-        
-        }else
+
+        } else {
             return new DespesaRecorrente();
-       
+        }
+
     }
 
     /**
      * Atualiza os combobox da view com os valores vindos do banco de dados.
      */
-    public void atualizarCampos() {
-        addValoresComboCategoria();
-        addValoresComboFormaPagamento();
-        addValoresComboParcelamento();
+    public void inicializarComboBox() {
+        inicializarComboCategoria();
+        inicializarComboFormaPagamento();
+        inicializarComboParcelamento();
 
     }
 
     /**
      * Adiciona as categorias na combobox de categorias da view.
      */
-    private void addValoresComboCategoria() {
+    private void inicializarComboCategoria() {
 
         this.categoriaDespesaService.getTodos().stream().forEach(c -> {
             view.getComboCategoria().addItem(c.getName());
@@ -141,12 +138,11 @@ public class DespesaViewController implements AppViewController<DespesaView> {
 
         view.getComboCategoria().setSelectedIndex(-1);
     }
-    
 
     /**
      * Adiciona as formas de pagamento nas combox da view.
      */
-    private void addValoresComboFormaPagamento() {
+    private void inicializarComboFormaPagamento() {
 
         this.formaPagamentoService.getTodos().stream().forEach(f -> {
             view.getComboFormaPagamento().addItem(f.getName());
@@ -159,16 +155,16 @@ public class DespesaViewController implements AppViewController<DespesaView> {
     /**
      * Adiciona os valores das formas de parcelamneto na combo da view.
      */
-    private void addValoresComboParcelamento() {
-            
-        Arrays.asList(Periodo.values()).stream().forEach(p -> 
-                view.getComboParcelamento().addItem(p.name()));
+    private void inicializarComboParcelamento() {
+
+        Arrays.asList(Periodo.values()).stream().forEach(p
+                -> view.getComboParcelamento().addItem(p.name()));
         view.getComboParcelamento().setSelectedIndex(-1);
     }
 
-    
     /**
      * Ativa ou desativa os componentes da view.
+     *
      * @param con boolean 'true' para ativar 'false' para desativar
      */
     public void enableDisableComponents(boolean con) {
@@ -181,71 +177,94 @@ public class DespesaViewController implements AppViewController<DespesaView> {
 
     }
 
+    public void gerarParcelas() {
+        criarMovimentos();
+        atualizarTabela(movimentosSnapShot);
+    }
+
     /**
-     * Cria os movimentos/parcelas de acordo com os valores adicionados nos campos
-     * referentes as parcelas na view.
+     * Cria os movimentos/parcelas de acordo com os valores adicionados nos
+     * campos referentes as parcelas na view.
      */
-    public void criarMovimentos() {
-        GeradorMovimentos gm = new GeradorMovimentos();
-        
-        movimentosSnapShot = gm.gerarMovimentos(
+    private void criarMovimentos() {
+
+        movimentosSnapShot = service.gerarMovimentos(
                 (String) view.getComboParcelamento().getSelectedItem(),
-                (int)view.getSpinnerQuantidadeParcelas().getValue(),
+                (int) view.getSpinnerQuantidadeParcelas().getValue(),
                 view.getFieldVencimentoParcela().getText(),
                 view.getFieldValorTotal().getText(),
                 formaPagamentoService.getByForma(String.valueOf(view.getComboFormaPagamento().getModel().getSelectedItem())));
-        
-        
-        atualizarTabela(movimentosSnapShot);
-    }
-    
-    
-    /**
-     * Limpa todos os valores que estão dentro da tabela.
-     */
-    public void limparTabela(){
-        DefaultTableModel model = (DefaultTableModel) view.getTableParcelas().getModel();
-        ControllerHelper.limparTabela(model);
-    
+
     }
 
-    
-    /** 
-     * Atualiza os valores da tabela a partir de uma lista de movimentos/parcelas
-     * que forem passadas.
-     * @param movimentos
-     * Lista de movimentos que estão salvo ou não no banco de dados
-     * que irão preencher a tabela.
+    /**
+     * Atualiza a lista de movimentos de acordo com as alterações realizadas na
+     * tabela da view.
      */
-    public void atualizarTabela(List<MovimentoPagamento> movimentos) {
-        
+    private void atualizarMovimentos() {
+
+        service.atualizarMovimentos(movimentosSnapShot, linhasSelecionadas, (DefaultTableModel) view.getTableParcelas().getModel());
+
+    }
+
+    /**
+     * Se houverem linhas editadas na tabela, ira então atualizar os movimentos,
+     * limpar a tabela com os dados antigos, e inserir os dados novos.
+     */
+    public void checarAtualizacao() {
+
+        if (linhasSelecionadas.size() > 0) {
+            atualizarMovimentos();
+            limparTabela();
+            atualizarTabela(movimentosSnapShot);
+        }
+    }
+
+    /**
+     * Atualiza os valores da tabela a partir de uma lista de
+     * movimentos/parcelas que forem passadas.
+     *
+     * @param movimentos Lista de movimentos que estão salvo ou não no banco de
+     * dados que irão preencher a tabela.
+     */
+    private void atualizarTabela(List<MovimentoPagamento> movimentos) {
+
         DefaultTableModel model = (DefaultTableModel) view.getTableParcelas().getModel();
         ControllerHelper.limparTabela(model);
-        
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         Locale localBrasil = new Locale("pt", "BR");
         NumberFormat formatoMoeda = NumberFormat.getCurrencyInstance(localBrasil);
-        
+
         movimentos.stream().forEach(m -> {
             model.addRow(new Object[]{m.getId(),
                 m.getReferenteParcela(),
                 m.getDataVencimento().format(formatter),
-                formatoMoeda.format(m.getValorPagamento()),
+                ConversorMoeda.paraString(m.getValorPagamento()),
                 m.getDataPagamento(),
                 m.getFormaPagamento().getName()});
         });
+
     }
-    
+
+    /**
+     * Limpa todos os valores que estão dentro da tabela.
+     */
+    private void limparTabela() {
+        DefaultTableModel model = (DefaultTableModel) view.getTableParcelas().getModel();
+        ControllerHelper.limparTabela(model);
+
+    }
+
     /**
      * Adiciona as linhas que foram selecionadas na tabela e que podem ter
      * sofrido alguma alteração nos seus valores, para que esses novos valores
      * alterados possam ser atualizados na lista salva em memoria.
-     * @param indexLinha 
+     *
+     * @param indexLinha
      */
-    public void adicionarLinhaAlterada(int indexLinha){
+    public void adicionarLinhaAlterada(int indexLinha) {
         linhasSelecionadas.add(indexLinha);
     }
 
-    
-      
 }
