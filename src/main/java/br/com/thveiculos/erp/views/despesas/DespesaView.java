@@ -7,7 +7,10 @@ package br.com.thveiculos.erp.views.despesas;
 import br.com.thveiculos.erp.controllers.despesas.DespesaViewController;
 import jakarta.annotation.PostConstruct;
 import java.text.ParseException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -18,6 +21,9 @@ import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.MaskFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +36,9 @@ public class DespesaView extends javax.swing.JFrame {
 
     private MaskFormatter dateFormat;
     private MaskFormatter valueFormat;
+    private javax.swing.JComboBox<String> comboFormaPagamentoTabela;
     private final DespesaViewController controller;
+    
     
     
 
@@ -51,6 +59,7 @@ public class DespesaView extends javax.swing.JFrame {
         setFormatoData();
         initComponents();
         configureComponentes();
+        
     }
     
     
@@ -65,7 +74,7 @@ public class DespesaView extends javax.swing.JFrame {
     }
     
     public void configureComponentes(){
-    
+        comboFormaPagamentoTabela = new javax.swing.JComboBox<>();
         configureTable();
     }
     
@@ -75,6 +84,25 @@ public class DespesaView extends javax.swing.JFrame {
         tableParcelas.setEnabled(false);
         tableParcelas.setCellSelectionEnabled(false);
         tableParcelas.setRowSelectionAllowed(true);
+        
+        //Adicionando uma combo box para os valores disponiveis
+        tableParcelas.getColumnModel().getColumn(5).setCellEditor(new DefaultCellEditor(comboFormaPagamentoTabela));
+        
+        //Adicionando evento que envia a linha que foi selecionada pra a lista
+        //A linha pode ter colunas que sofreram alteração, por isso as linhas
+        //serão guardadas para que seja possivel compara-las
+        tableParcelas.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+            public void valueChanged(ListSelectionEvent e) {
+                ListSelectionModel lsm = (ListSelectionModel)e.getSource();
+                
+                int[] linhas = lsm.getSelectedIndices();
+                for(int i = 0; i < linhas.length; i++ ){
+                    controller.adicionarLinhaAlterada(linhas[i]);
+                }
+            }
+            
+        });
+        
     }
     
  
@@ -109,6 +137,10 @@ public class DespesaView extends javax.swing.JFrame {
 
     public JComboBox<String> getComboFormaPagamento() {
         return comboFormaPagamento;
+    }
+    
+    public JComboBox<String> getComboFormaPagamentoTabela(){
+        return comboFormaPagamentoTabela;
     }
 
     public JComboBox<String> getComboParcelamento() {
@@ -157,11 +189,15 @@ public class DespesaView extends javax.swing.JFrame {
     
     public JPanel getPanelParcelas(){
         return panelParcelas;
+  
     }
     
+   
+    
     public List<java.awt.Component> listaDeComponentes(){
-        return List.of(areaDescricao,btnDeletar,btnEditar,btnNovo,btnSalvar,btnLockTable,
-                comboCategoria,comboFormaPagamento,comboParcelamento,fieldCodFornecedor,
+        return List.of(areaDescricao,btnDeletar,btnEditar,btnNovo,btnSalvar,
+                btnLockTable,comboCategoria,
+                comboFormaPagamento,comboParcelamento,fieldCodFornecedor,
                 fieldDescricao,fieldId,fieldNota,fieldNotaEmissao,fieldValorTotal,
                 fieldVencimentoParcela,tableParcelas,btnProcurarFormaPagamento,
                 btnProcurarFornecedor,btnProcurarCategoria,spinnerQuantidadeParcelas);
@@ -183,11 +219,7 @@ public class DespesaView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelToolBar = new javax.swing.JPanel();
-        btnDeletar = new javax.swing.JButton();
-        btnNovo = new javax.swing.JButton();
-        btnEditar = new javax.swing.JButton();
-        btnSalvar = new javax.swing.JButton();
+        btnGroupTipoDespesa = new javax.swing.ButtonGroup();
         panelMain = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         fieldNota = new javax.swing.JTextField();
@@ -206,7 +238,11 @@ public class DespesaView extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         btnProcurarCategoria = new javax.swing.JButton();
         fieldNotaEmissao = new javax.swing.JFormattedTextField(dateFormat);
-        jButton1 = new javax.swing.JButton();
+        panelToolBar = new javax.swing.JPanel();
+        btnDeletar = new javax.swing.JButton();
+        btnNovo = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
+        btnSalvar = new javax.swing.JButton();
         panelParcelas = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         comboParcelamento = new javax.swing.JComboBox<>();
@@ -222,6 +258,8 @@ public class DespesaView extends javax.swing.JFrame {
         btnLockTable = new javax.swing.JButton();
         fieldVencimentoParcela = new javax.swing.JFormattedTextField(dateFormat);
         btnProcurarFormaPagamento = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Despesa");
@@ -230,72 +268,6 @@ public class DespesaView extends javax.swing.JFrame {
                 formWindowOpened(evt);
             }
         });
-
-        panelToolBar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        btnDeletar.setBackground(new java.awt.Color(242, 242, 242));
-        btnDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/3.png"))); // NOI18N
-        btnDeletar.setToolTipText("Deletar");
-        btnDeletar.setBorder(null);
-
-        btnNovo.setBackground(new java.awt.Color(242, 242, 242));
-        btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/1.png"))); // NOI18N
-        btnNovo.setToolTipText("Novo");
-        btnNovo.setBorder(null);
-        btnNovo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNovoActionPerformed(evt);
-            }
-        });
-
-        btnEditar.setBackground(new java.awt.Color(242, 242, 242));
-        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/2.png"))); // NOI18N
-        btnEditar.setToolTipText("Editar");
-        btnEditar.setBorder(null);
-
-        btnSalvar.setBackground(new java.awt.Color(242, 242, 242));
-        btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-save.png"))); // NOI18N
-        btnSalvar.setToolTipText("Deletar");
-        btnSalvar.setBorder(null);
-        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalvarActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout panelToolBarLayout = new javax.swing.GroupLayout(panelToolBar);
-        panelToolBar.setLayout(panelToolBarLayout);
-        panelToolBarLayout.setHorizontalGroup(
-            panelToolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelToolBarLayout.createSequentialGroup()
-                .addGap(76, 76, 76)
-                .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(panelToolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelToolBarLayout.createSequentialGroup()
-                    .addGap(15, 15, 15)
-                    .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(529, Short.MAX_VALUE)))
-        );
-        panelToolBarLayout.setVerticalGroup(
-            panelToolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelToolBarLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelToolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnDeletar, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
-                    .addComponent(btnSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
-                .addContainerGap())
-            .addGroup(panelToolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelToolBarLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(btnNovo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
-        );
 
         panelMain.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         panelMain.setName(""); // NOI18N
@@ -352,19 +324,17 @@ public class DespesaView extends javax.swing.JFrame {
         btnProcurarCategoria.setToolTipText("Buscar Fornecedor");
         btnProcurarCategoria.setEnabled(false);
         btnProcurarCategoria.setName("btnProcurarCategoria"); // NOI18N
+        btnProcurarCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProcurarCategoriaActionPerformed(evt);
+            }
+        });
 
         fieldNotaEmissao.setEnabled(false);
         fieldNotaEmissao.setName("fieldNotaEmissao"); // NOI18N
         fieldNotaEmissao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fieldNotaEmissaoActionPerformed(evt);
-            }
-        });
-
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
             }
         });
 
@@ -376,47 +346,42 @@ public class DespesaView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
+                    .addComponent(jLabel7)
+                    .addGroup(panelMainLayout.createSequentialGroup()
+                        .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnProcurarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel3)
                     .addGroup(panelMainLayout.createSequentialGroup()
                         .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jButton1)
-                                .addGroup(panelMainLayout.createSequentialGroup()
-                                    .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(fieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel2)
-                                        .addGroup(panelMainLayout.createSequentialGroup()
-                                            .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLabel1)
-                                                .addComponent(fieldId, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(fieldNota, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(jLabel5))
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLabel12)
-                                                .addComponent(fieldNotaEmissao, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addComponent(jLabel3)
-                                        .addGroup(panelMainLayout.createSequentialGroup()
-                                            .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(btnProcurarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel4)
-                                        .addGroup(panelMainLayout.createSequentialGroup()
-                                            .addComponent(fieldCodFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(btnProcurarFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(fieldId, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(fieldNota, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12)
+                            .addComponent(fieldNotaEmissao, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(fieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addGroup(panelMainLayout.createSequentialGroup()
+                                .addComponent(fieldCodFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnProcurarFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         panelMainLayout.setVerticalGroup(
             panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMainLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panelMainLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -428,32 +393,93 @@ public class DespesaView extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(fieldNota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(fieldNotaEmissao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(fieldNotaEmissao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(panelMainLayout.createSequentialGroup()
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnProcurarFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fieldCodFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel4))
+                .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnProcurarFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(fieldCodFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(fieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelMainLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnProcurarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(panelMainLayout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(jButton1)))
+                    .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnProcurarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        panelToolBar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        btnDeletar.setBackground(new java.awt.Color(242, 242, 242));
+        btnDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/3.png"))); // NOI18N
+        btnDeletar.setToolTipText("Deletar");
+        btnDeletar.setBorder(null);
+
+        btnNovo.setBackground(new java.awt.Color(242, 242, 242));
+        btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/1.png"))); // NOI18N
+        btnNovo.setToolTipText("Novo");
+        btnNovo.setBorder(null);
+        btnNovo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNovoActionPerformed(evt);
+            }
+        });
+
+        btnEditar.setBackground(new java.awt.Color(242, 242, 242));
+        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/2.png"))); // NOI18N
+        btnEditar.setToolTipText("Editar");
+        btnEditar.setBorder(null);
+
+        btnSalvar.setBackground(new java.awt.Color(242, 242, 242));
+        btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-save.png"))); // NOI18N
+        btnSalvar.setToolTipText("Deletar");
+        btnSalvar.setBorder(null);
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelToolBarLayout = new javax.swing.GroupLayout(panelToolBar);
+        panelToolBar.setLayout(panelToolBarLayout);
+        panelToolBarLayout.setHorizontalGroup(
+            panelToolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelToolBarLayout.createSequentialGroup()
+                .addGap(76, 76, 76)
+                .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(panelToolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelToolBarLayout.createSequentialGroup()
+                    .addGap(15, 15, 15)
+                    .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(189, Short.MAX_VALUE)))
+        );
+        panelToolBarLayout.setVerticalGroup(
+            panelToolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelToolBarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelToolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnDeletar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(panelToolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelToolBarLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(btnNovo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
 
         panelParcelas.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -471,7 +497,7 @@ public class DespesaView extends javax.swing.JFrame {
         comboFormaPagamento.setName("comboFormaPagamento"); // NOI18N
 
         jLabel10.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
-        jLabel10.setText("Valor Total/ Parcela");
+        jLabel10.setText("Valor");
 
         fieldValorTotal.setEnabled(false);
         fieldValorTotal.setName("fieldValorTotal"); // NOI18N
@@ -486,7 +512,7 @@ public class DespesaView extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
                 false, true, true, true, true, true
@@ -522,7 +548,7 @@ public class DespesaView extends javax.swing.JFrame {
         jLabel11.setText("Nº Parcelas");
 
         jLabel6.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
-        jLabel6.setText("Data Vencimento");
+        jLabel6.setText("Vencimento");
 
         btnLockTable.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/lock.png"))); // NOI18N
         btnLockTable.setToolTipText("Destravar Tabela");
@@ -547,6 +573,20 @@ public class DespesaView extends javax.swing.JFrame {
         btnProcurarFormaPagamento.setEnabled(false);
         btnProcurarFormaPagamento.setName("btnProcurarFormaPagamento"); // NOI18N
 
+        jButton1.setText("Gerar Parcelas");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Apagar Parcelas");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelParcelasLayout = new javax.swing.GroupLayout(panelParcelas);
         panelParcelas.setLayout(panelParcelasLayout);
         panelParcelasLayout.setHorizontalGroup(
@@ -554,14 +594,7 @@ public class DespesaView extends javax.swing.JFrame {
             .addGroup(panelParcelasLayout.createSequentialGroup()
                 .addGap(6, 6, 6)
                 .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 616, Short.MAX_VALUE)
-                    .addGroup(panelParcelasLayout.createSequentialGroup()
-                        .addComponent(comboFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnProcurarFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnLockTable, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(16, 16, 16))
+                    .addComponent(jScrollPane3)
                     .addGroup(panelParcelasLayout.createSequentialGroup()
                         .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelParcelasLayout.createSequentialGroup()
@@ -574,24 +607,39 @@ public class DespesaView extends javax.swing.JFrame {
                                             .addComponent(spinnerQuantidadeParcelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addComponent(jLabel8))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(fieldVencimentoParcela)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addComponent(jLabel9))
-                        .addGap(18, 18, 18)
+                                .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelParcelasLayout.createSequentialGroup()
+                                        .addComponent(comboFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnProcurarFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel9)))
+                            .addGroup(panelParcelasLayout.createSequentialGroup()
+                                .addComponent(btnLockTable, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton2)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(fieldValorTotal))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addComponent(fieldValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(fieldVencimentoParcela, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())))
         );
         panelParcelasLayout.setVerticalGroup(
             panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelParcelasLayout.createSequentialGroup()
                 .addGap(13, 13, 13)
                 .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel10)
-                        .addComponent(jLabel6))
+                    .addGroup(panelParcelasLayout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(comboFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnProcurarFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(panelParcelasLayout.createSequentialGroup()
                             .addComponent(jLabel8)
@@ -600,22 +648,24 @@ public class DespesaView extends javax.swing.JFrame {
                         .addGroup(panelParcelasLayout.createSequentialGroup()
                             .addComponent(jLabel11)
                             .addGap(6, 6, 6)
-                            .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(spinnerQuantidadeParcelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(fieldVencimentoParcela, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(fieldValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelParcelasLayout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addComponent(btnLockTable, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelParcelasLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel9)
-                        .addGap(12, 12, 12)
+                            .addComponent(spinnerQuantidadeParcelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelParcelasLayout.createSequentialGroup()
                         .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comboFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnProcurarFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel10)
+                            .addGroup(panelParcelasLayout.createSequentialGroup()
+                                .addGap(23, 23, 23)
+                                .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(fieldVencimentoParcela, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(fieldValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(1, 1, 1)))
+                .addGap(37, 37, 37)
+                .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnLockTable, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1)
+                        .addComponent(jButton2)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(39, 39, 39))
         );
@@ -624,20 +674,24 @@ public class DespesaView extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelParcelas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(panelToolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panelMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelToolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelParcelas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(panelToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelParcelas, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(panelParcelas, javax.swing.GroupLayout.PREFERRED_SIZE, 303, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -660,6 +714,7 @@ public class DespesaView extends javax.swing.JFrame {
         }else{
             tableParcelas.setEnabled(false);
             btnLockTable.setIcon(new ImageIcon(getClass().getResource("/img/icon-lock.png")));
+            controller.checarAtualizacao();
         }
     }//GEN-LAST:event_btnLockTableActionPerformed
 
@@ -678,12 +733,25 @@ public class DespesaView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        controller.atualizarCampos();        // TODO add your handling code here:
+        controller.inicializarComboBox();        // TODO add your handling code here:
     }//GEN-LAST:event_formWindowOpened
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        controller.criarMovimentos();        // TODO add your handling code here:
+        try{
+            controller.gerarParcelas();        // TODO add your handling code here:
+        }catch(ParseException e){
+            JOptionPane.showMessageDialog(null,"Ocorreu um erro, cheque a data do parcelamento e o valor e veja se estão nos formatos corretos","Erro de Conversão",JOptionPane.ERROR);
+        }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btnProcurarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcurarCategoriaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnProcurarCategoriaActionPerformed
 
 
 
@@ -691,6 +759,7 @@ public class DespesaView extends javax.swing.JFrame {
     private javax.swing.JTextArea areaDescricao;
     private javax.swing.JButton btnDeletar;
     private javax.swing.JButton btnEditar;
+    private javax.swing.ButtonGroup btnGroupTipoDespesa;
     private javax.swing.JButton btnLockTable;
     private javax.swing.JButton btnNovo;
     private javax.swing.JButton btnProcurarCategoria;
@@ -708,6 +777,7 @@ public class DespesaView extends javax.swing.JFrame {
     private javax.swing.JTextField fieldValorTotal;
     private javax.swing.JFormattedTextField fieldVencimentoParcela;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -728,4 +798,5 @@ public class DespesaView extends javax.swing.JFrame {
     private javax.swing.JSpinner spinnerQuantidadeParcelas;
     private javax.swing.JTable tableParcelas;
     // End of variables declaration//GEN-END:variables
+
 }
