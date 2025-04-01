@@ -32,7 +32,7 @@ public abstract class DespesaAbstrata implements Despesa{
 	private boolean quitado = false;
 	private BigDecimal valorTotal;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="despesa")
 	private List<MovimentoPagamento> movimentos = new ArrayList<>();
 	
 	@ManyToOne

@@ -28,6 +28,10 @@ public class MovimentoPagamento implements Serializable {
 	private BigDecimal valorPagamento;
 	
 	@ManyToOne
+        @JoinColumn(name="despesa_id")
+        private DespesaAbstrata despesa;
+        
+        @ManyToOne
 	@JoinColumn(name = "forma_pagamento_id", foreignKey = @ForeignKey(name="forma_pagamento_fk", foreignKeyDefinition = "FOREIGN KEY (forma_pagamento_id) REFERENCES formas_pagamento(id) ON DELETE SET NULL"))
 	private FormaPagamento formaPagamento;
 	
