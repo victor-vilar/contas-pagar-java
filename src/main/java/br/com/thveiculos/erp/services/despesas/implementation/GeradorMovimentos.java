@@ -7,15 +7,14 @@ package br.com.thveiculos.erp.services.despesas.implementation;
 import br.com.thveiculos.erp.entities.despesas.FormaPagamento;
 import br.com.thveiculos.erp.entities.despesas.MovimentoPagamento;
 import br.com.thveiculos.erp.exceptions.despesas.QuantidadeDeParcelasException;
-import br.com.thveiculos.erp.services.despesas.interfaces.FormaPagamentoService;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Service;
+import java.util.Set;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -98,5 +97,32 @@ public class GeradorMovimentos {
         return novaData;
     }
     
+    
+    public void atualizarMovimentos(List<MovimentoPagamento> movimentos, Set<Integer> linhas, DefaultTableModel model){
+    
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        for(Integer i : linhas){
+            
+            //Busca o movimento na lista. O movimento se encontra na mesma posição da linha
+            MovimentoPagamento mp = movimentos.get(i);
+            
+            //Atualiza a data de vencimento 
+            mp.setDataVencimento(LocalDate.parse(model.getValueAt(i, 2).toString(),formatter));
+            
+            
+            //Atualiza o valor de pagamento
+            mp.setValorPagamento(new BigDecimal(String.valueOf(model.getValueAt(i,3))));
+            
+            
+            //Se existir uma data de pagamento ela será atualizada
+            if(!model.getValueAt(i,4).toString().equals("")){
+                mp.setDataPagamento(LocalDate.parse(model.getValueAt(i,4).toString(),formatter));
+            }
+            
+             
+        }
+    }
     
 }
