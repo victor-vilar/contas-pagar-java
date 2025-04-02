@@ -5,11 +5,14 @@
 package br.com.thveiculos.erp.views.despesas;
 
 import br.com.thveiculos.erp.controllers.despesas.DespesaViewController;
+import br.com.thveiculos.erp.util.ConversorData;
+import br.com.thveiculos.erp.util.ConversorMoeda;
 import jakarta.annotation.PostConstruct;
+import java.math.BigDecimal;
 import java.text.ParseException;
-import java.util.HashSet;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
-import java.util.Set;
 import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -21,9 +24,8 @@ import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.MaskFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,74 +40,107 @@ public class DespesaView extends javax.swing.JFrame {
     private MaskFormatter valueFormat;
     private javax.swing.JComboBox<String> comboFormaPagamentoTabela;
     private final DespesaViewController controller;
-    
-    
-    
 
-    
     @Autowired
-    public DespesaView(DespesaViewController controller){
+    public DespesaView(DespesaViewController controller) {
         this.controller = controller;
         this.controller.setView(this);
 //        setFormatoData();;
 //        initComponents();
 //        configureComponentes();
- 
-   
+
     }
-    
+
     @PostConstruct
-    public void configurarComponent(){
+    public void configurarComponent() {
         setFormatoData();
         initComponents();
         configureComponentes();
-        
+
     }
-    
-    
-    public void setFormatoData(){
-        
-        try{
-            dateFormat = new MaskFormatter("##/##/####");  
-            
-        }catch(ParseException e){
+
+    public void setFormatoData() {
+
+        try {
+            dateFormat = new MaskFormatter("##/##/####");
+
+        } catch (ParseException e) {
             System.out.println(e);
         }
     }
-    
-    public void configureComponentes(){
+
+    public void configureComponentes() {
         comboFormaPagamentoTabela = new javax.swing.JComboBox<>();
         configureTable();
     }
-    
-    public void configureTable(){
-        
-        
+
+    public void configureTable() {
+
         tableParcelas.setEnabled(false);
         tableParcelas.setCellSelectionEnabled(false);
         tableParcelas.setRowSelectionAllowed(true);
-        
+
         //Adicionando uma combo box para os valores disponiveis
         tableParcelas.getColumnModel().getColumn(5).setCellEditor(new DefaultCellEditor(comboFormaPagamentoTabela));
-        
+
         //Adicionando evento que envia a linha que foi selecionada pra a lista
         //A linha pode ter colunas que sofreram alteração, por isso as linhas
         //serão guardadas para que seja possivel compara-las
-        tableParcelas.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-            public void valueChanged(ListSelectionEvent e) {
-                ListSelectionModel lsm = (ListSelectionModel)e.getSource();
-                
-                int[] linhas = lsm.getSelectedIndices();
-                for(int i = 0; i < linhas.length; i++ ){
-                    controller.adicionarLinhaAlterada(linhas[i]);
+//        tableParcelas.getSelectionModel().addListSelectionListener(new ListSelectionListener(){;
+//            public void valueChanged(ListSelectionEvent e) {
+//                ListSelectionModel lsm = (ListSelectionModel)e.getSource();
+//                
+//                int[] linhas = lsm.getSelectedIndices();
+//                for(int i = 0; i < linhas.length; i++ ){
+//                    controller.adicionarLinhaAlterada(linhas[i]);
+//                }
+//            }
+//            
+//        });
+        tableParcelas.getModel().addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                // Verificando se a alteração foi de uma célula (não na estrutura da tabela)
+                if (e.getType() == TableModelEvent.UPDATE) {
+                    int row = e.getFirstRow();
+                    int column = e.getColumn();
+                    Object novoValor = tableParcelas.getModel().getValueAt(row, column);
+                    String nomeColuna = tableParcelas.getModel().getColumnName(column);
+
+                    switch (column) {
+                        case 2:
+                        case 4:
+                            try {
+                                
+                                ConversorData.paraData(String.valueOf(novoValor));
+                                controller.adicionarLinhaAlterada(row);
+                                
+                            } catch (DateTimeParseException ex) {
+                                tableParcelas.getModel().setValueAt(null, row, column);
+                                JOptionPane.showMessageDialog(null, "A data informada não esta correta !", "Erro de Conversão", JOptionPane.ERROR_MESSAGE);
+                            }
+                            break;
+                        case 3:
+                            try {
+                                
+                                 ConversorMoeda.paraBigDecimal(String.valueOf(novoValor));
+                                 controller.adicionarLinhaAlterada(row);
+                                
+                            } catch (DateTimeParseException ex) {
+                                tableParcelas.getModel().setValueAt(null, row, column);
+                                JOptionPane.showMessageDialog(null, "O valor informado não esta correta !", "Erro de Conversão", JOptionPane.ERROR_MESSAGE);
+                            }
+                            break;
+                        default:
+                            controller.adicionarLinhaAlterada(row);
+                            break;
+                    }
+
                 }
             }
-            
         });
-        
+
     }
-    
- 
 
     public JTextArea getAreaDescricao() {
         return areaDescricao;
@@ -138,8 +173,8 @@ public class DespesaView extends javax.swing.JFrame {
     public JComboBox<String> getComboFormaPagamento() {
         return comboFormaPagamento;
     }
-    
-    public JComboBox<String> getComboFormaPagamentoTabela(){
+
+    public JComboBox<String> getComboFormaPagamentoTabela() {
         return comboFormaPagamentoTabela;
     }
 
@@ -163,7 +198,7 @@ public class DespesaView extends javax.swing.JFrame {
         return fieldNota;
     }
 
-    public JFormattedTextField getFieldNotaEmissao() {
+    public JTextField getFieldNotaEmissao() {
         return fieldNotaEmissao;
     }
 
@@ -171,44 +206,41 @@ public class DespesaView extends javax.swing.JFrame {
         return fieldValorTotal;
     }
 
-    public JFormattedTextField getFieldVencimentoParcela() {
+    public JTextField getFieldVencimentoParcela() {
         return fieldVencimentoParcela;
     }
-    
-    public JSpinner getSpinnerQuantidadeParcelas(){
+
+    public JSpinner getSpinnerQuantidadeParcelas() {
         return spinnerQuantidadeParcelas;
     }
 
     public JTable getTableParcelas() {
         return tableParcelas;
     }
-    
-    public JPanel getPanelMain(){
+
+    public JPanel getPanelMain() {
         return panelMain;
     }
-    
-    public JPanel getPanelParcelas(){
+
+    public JPanel getPanelParcelas() {
         return panelParcelas;
-  
-    }
-    
-   
-    
-    public List<java.awt.Component> listaDeComponentes(){
-        return List.of(areaDescricao,btnDeletar,btnEditar,btnNovo,btnSalvar,
-                btnLockTable,comboCategoria,
-                comboFormaPagamento,comboParcelamento,fieldCodFornecedor,
-                fieldDescricao,fieldId,fieldNota,fieldNotaEmissao,fieldValorTotal,
-                fieldVencimentoParcela,tableParcelas,btnProcurarFormaPagamento,
-                btnProcurarFornecedor,btnProcurarCategoria,spinnerQuantidadeParcelas);
-        
-    }
-    
-    public List<JTextComponent> getTextFields(){
-        return List.of(fieldCodFornecedor,fieldDescricao,fieldId,fieldNota,
-                fieldNotaEmissao,fieldValorTotal,fieldVencimentoParcela,areaDescricao);
+
     }
 
+    public List<java.awt.Component> listaDeComponentes() {
+        return List.of(areaDescricao, btnDeletar, btnEditar, btnNovo, btnSalvar,
+                btnLockTable, comboCategoria,
+                comboFormaPagamento, comboParcelamento, fieldCodFornecedor,
+                fieldDescricao, fieldId, fieldNota, fieldNotaEmissao, fieldValorTotal,
+                fieldVencimentoParcela, tableParcelas, btnProcurarFormaPagamento,
+                btnProcurarFornecedor, btnProcurarCategoria, spinnerQuantidadeParcelas);
+
+    }
+
+    public List<JTextComponent> getTextFields() {
+        return List.of(fieldCodFornecedor, fieldDescricao, fieldId, fieldNota,
+                fieldNotaEmissao, fieldValorTotal, fieldVencimentoParcela, areaDescricao);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -237,7 +269,7 @@ public class DespesaView extends javax.swing.JFrame {
         areaDescricao = new javax.swing.JTextArea();
         jLabel12 = new javax.swing.JLabel();
         btnProcurarCategoria = new javax.swing.JButton();
-        fieldNotaEmissao = new javax.swing.JFormattedTextField(dateFormat);
+        fieldNotaEmissao = new javax.swing.JTextField();
         panelToolBar = new javax.swing.JPanel();
         btnDeletar = new javax.swing.JButton();
         btnNovo = new javax.swing.JButton();
@@ -256,10 +288,10 @@ public class DespesaView extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         btnLockTable = new javax.swing.JButton();
-        fieldVencimentoParcela = new javax.swing.JFormattedTextField(dateFormat);
         btnProcurarFormaPagamento = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        fieldVencimentoParcela = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Despesa");
@@ -332,11 +364,6 @@ public class DespesaView extends javax.swing.JFrame {
 
         fieldNotaEmissao.setEnabled(false);
         fieldNotaEmissao.setName("fieldNotaEmissao"); // NOI18N
-        fieldNotaEmissao.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fieldNotaEmissaoActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout panelMainLayout = new javax.swing.GroupLayout(panelMain);
         panelMain.setLayout(panelMainLayout);
@@ -351,20 +378,22 @@ public class DespesaView extends javax.swing.JFrame {
                         .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnProcurarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel3)
                     .addGroup(panelMainLayout.createSequentialGroup()
                         .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(fieldId, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
+                            .addGroup(panelMainLayout.createSequentialGroup()
+                                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(fieldId, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(fieldNota, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel5)))
+                            .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(fieldNota, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12)
-                            .addComponent(fieldNotaEmissao, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(fieldNotaEmissao))
+                        .addGap(13, 13, 13)
                         .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(fieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
@@ -560,14 +589,6 @@ public class DespesaView extends javax.swing.JFrame {
             }
         });
 
-        fieldVencimentoParcela.setEnabled(false);
-        fieldVencimentoParcela.setName("fieldVencimentoParcela"); // NOI18N
-        fieldVencimentoParcela.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fieldVencimentoParcelaActionPerformed(evt);
-            }
-        });
-
         btnProcurarFormaPagamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-binoculos.png"))); // NOI18N
         btnProcurarFormaPagamento.setToolTipText("Buscar Fornecedor");
         btnProcurarFormaPagamento.setEnabled(false);
@@ -584,6 +605,14 @@ public class DespesaView extends javax.swing.JFrame {
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
+            }
+        });
+
+        fieldVencimentoParcela.setEnabled(false);
+        fieldVencimentoParcela.setName("fieldVencimentoParcela"); // NOI18N
+        fieldVencimentoParcela.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fieldVencimentoParcelaActionPerformed(evt);
             }
         });
 
@@ -624,9 +653,9 @@ public class DespesaView extends javax.swing.JFrame {
                             .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(fieldValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(fieldVencimentoParcela, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fieldVencimentoParcela, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap())))
         );
         panelParcelasLayout.setVerticalGroup(
@@ -655,9 +684,9 @@ public class DespesaView extends javax.swing.JFrame {
                             .addComponent(jLabel10)
                             .addGroup(panelParcelasLayout.createSequentialGroup()
                                 .addGap(23, 23, 23)
-                                .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(fieldVencimentoParcela, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(fieldValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(fieldValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(fieldVencimentoParcela, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(1, 1, 1)))
                 .addGap(37, 37, 37)
                 .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -690,28 +719,20 @@ public class DespesaView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelParcelas, javax.swing.GroupLayout.PREFERRED_SIZE, 303, Short.MAX_VALUE)
+                .addComponent(panelParcelas, javax.swing.GroupLayout.PREFERRED_SIZE, 309, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void fieldNotaEmissaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldNotaEmissaoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fieldNotaEmissaoActionPerformed
-
-    private void fieldVencimentoParcelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldVencimentoParcelaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fieldVencimentoParcelaActionPerformed
-
     private void btnLockTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLockTableActionPerformed
-        
-        if(!tableParcelas.isEnabled()){
+
+        if (!tableParcelas.isEnabled()) {
             tableParcelas.setEnabled(true);
             btnLockTable.setIcon(new ImageIcon(getClass().getResource("/img/icon-unlock.png")));
-            
-        }else{
+
+        } else {
             tableParcelas.setEnabled(false);
             btnLockTable.setIcon(new ImageIcon(getClass().getResource("/img/icon-lock.png")));
             controller.checarAtualizacao();
@@ -719,17 +740,17 @@ public class DespesaView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLockTableActionPerformed
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
-        controller.novo(); 
+        controller.novo();
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        try{
+        try {
             controller.salvar();
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Erro ao salvar","erro",JOptionPane.ERROR);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao salvar", "erro", JOptionPane.ERROR);
             System.out.println(e);
         }
-        
+
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -737,12 +758,12 @@ public class DespesaView extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try{
+        try {
             controller.gerarParcelas();        // TODO add your handling code here:
-        }catch(ParseException e){
-            JOptionPane.showMessageDialog(null,"Ocorreu um erro, cheque a data do parcelamento e o valor e veja se estão nos formatos corretos","Erro de Conversão",JOptionPane.ERROR);
+        } catch (DateTimeParseException e) {
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro, cheque a data do parcelamento e o valor e veja se estão nos formatos corretos", "Erro de Conversão", JOptionPane.ERROR_MESSAGE);
         }
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -753,6 +774,9 @@ public class DespesaView extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnProcurarCategoriaActionPerformed
 
+    private void fieldVencimentoParcelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldVencimentoParcelaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fieldVencimentoParcelaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -773,9 +797,9 @@ public class DespesaView extends javax.swing.JFrame {
     private javax.swing.JTextField fieldDescricao;
     private javax.swing.JTextField fieldId;
     private javax.swing.JTextField fieldNota;
-    private javax.swing.JFormattedTextField fieldNotaEmissao;
+    private javax.swing.JTextField fieldNotaEmissao;
     private javax.swing.JTextField fieldValorTotal;
-    private javax.swing.JFormattedTextField fieldVencimentoParcela;
+    private javax.swing.JTextField fieldVencimentoParcela;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
