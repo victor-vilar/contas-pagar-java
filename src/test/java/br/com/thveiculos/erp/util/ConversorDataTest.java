@@ -50,4 +50,22 @@ public class ConversorDataTest {
         assertEquals(dataString, dataConvertida);
     }
 
+    
+    @Test
+    public void retornaDataCompletaSeForPassadoApenasOsNumeros(){
+        String dataString = "01042025";
+        LocalDate dataLocal = LocalDate.of(2025, 04, 01);
+        String dataConvertida = ConversorData.paraString(dataLocal);
+        assertEquals("01/04/2025", dataConvertida);
+    
+    }
+    
+    @Test
+    public void retornaDataCompletaSeForPassadoApenasOsNumerosContendoSomenteDiaEMes(){
+        String dataString = "3112";
+        LocalDate dataLocal = LocalDate.of(2025, 12, 31);
+        String dataConvertida = ConversorData.paraString(dataLocal);
+        assertEquals("31/12/2025", dataConvertida);
+    
+    }
 }
