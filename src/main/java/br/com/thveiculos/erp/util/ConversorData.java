@@ -17,14 +17,18 @@ public abstract class ConversorData {
 
     public static LocalDate paraData(String data) {
         
-        if(data == null || data.equals("")){
+        if(data == null || data.equals("") || data.equals("null")){
             return null;
         }
        
-        return LocalDate.parse(data, formatter);
+        return LocalDate.parse(data.trim(), formatter);
     }
 
     public static String paraString(LocalDate data) {
+        
+        if(data == null){
+            return null;
+        }    
         return data.format(formatter);
     }
 }
