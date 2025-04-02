@@ -13,18 +13,30 @@ import org.junit.jupiter.api.Test;
  * @author victor
  */
 public class ConversorDataTest {
-    
-
 
     /**
      * Test of paraData method, of class ConversorData.
      */
     @Test
     public void testParaData() {
-            String dataString = "01/04/2025";
-            LocalDate dataLocal = LocalDate.of(2025,04,01);
-            LocalDate dataConvertida = ConversorData.paraData(dataString);
-            assertEquals(dataLocal,dataConvertida);
+        String dataString = "01/04/2025";
+        LocalDate dataLocal = LocalDate.of(2025, 04, 01);
+        LocalDate dataConvertida = ConversorData.paraData(dataString);
+        assertEquals(dataLocal, dataConvertida);
+    }
+
+    @Test
+    public void retornaNullQuandoADataForNula() {
+
+        LocalDate dataConvertida = ConversorData.paraData(null);
+        assertEquals(dataConvertida, null);
+    }
+
+    @Test
+    public void retornaNullQuandoADataForStringVazia() {
+
+        LocalDate dataConvertida = ConversorData.paraData("");
+        assertEquals(dataConvertida, null);
     }
 
     /**
@@ -32,10 +44,10 @@ public class ConversorDataTest {
      */
     @Test
     public void testParaString() {
-            String dataString = "01/04/2025";
-            LocalDate dataLocal = LocalDate.of(2025,04,01);
-            String dataConvertida = ConversorData.paraString(dataLocal);
-            assertEquals(dataString,dataConvertida);
+        String dataString = "01/04/2025";
+        LocalDate dataLocal = LocalDate.of(2025, 04, 01);
+        String dataConvertida = ConversorData.paraString(dataLocal);
+        assertEquals(dataString, dataConvertida);
     }
-    
+
 }

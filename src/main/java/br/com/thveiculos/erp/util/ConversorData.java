@@ -16,6 +16,11 @@ public abstract class ConversorData {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public static LocalDate paraData(String data) {
+        
+        if(data == null || data.equals("")){
+            return null;
+        }
+       
         return LocalDate.parse(data, formatter);
     }
 
