@@ -11,10 +11,11 @@ import br.com.thveiculos.erp.entities.despesas.DespesaAvulsa;
 import br.com.thveiculos.erp.entities.despesas.DespesaRecorrente;
 import br.com.thveiculos.erp.entities.despesas.MovimentoPagamento;
 import br.com.thveiculos.erp.enums.despesas.Periodo;
-import br.com.thveiculos.erp.services.despesas.implementation.ConversorMoeda;
+import br.com.thveiculos.erp.util.ConversorMoeda;
 import br.com.thveiculos.erp.services.despesas.interfaces.CategoriaDespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.DespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.FormaPagamentoService;
+import br.com.thveiculos.erp.util.ConversorData;
 import br.com.thveiculos.erp.views.despesas.DespesaView;
 import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
@@ -215,8 +216,8 @@ public class DespesaViewController implements AppViewController<DespesaView> {
 
         if (linhasSelecionadas.size() > 0) {
             atualizarMovimentos();
-            limparTabela();
             atualizarTabela(movimentosSnapShot);
+            linhasSelecionadas.clear();
         }
     }
 
@@ -232,16 +233,13 @@ public class DespesaViewController implements AppViewController<DespesaView> {
         DefaultTableModel model = (DefaultTableModel) view.getTableParcelas().getModel();
         ControllerHelper.limparTabela(model);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        Locale localBrasil = new Locale("pt", "BR");
-        NumberFormat formatoMoeda = NumberFormat.getCurrencyInstance(localBrasil);
 
         movimentos.stream().forEach(m -> {
             model.addRow(new Object[]{m.getId(),
                 m.getReferenteParcela(),
-                m.getDataVencimento().format(formatter),
+                ConversorData.paraString(m.getDataVencimento()),
                 ConversorMoeda.paraString(m.getValorPagamento()),
-                m.getDataPagamento(),
+                ConversorData.paraString(m.getDataPagamento()),
                 m.getFormaPagamento().getName()});
         });
 
@@ -264,6 +262,7 @@ public class DespesaViewController implements AppViewController<DespesaView> {
      * @param indexLinha
      */
     public void adicionarLinhaAlterada(int indexLinha) {
+        System.out.println(indexLinha);
         linhasSelecionadas.add(indexLinha);
     }
 
