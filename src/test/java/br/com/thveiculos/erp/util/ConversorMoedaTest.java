@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
  */
-package br.com.thveiculos.erp.services.despesas.implementation;
+package br.com.thveiculos.erp.util;
 
+import br.com.thveiculos.erp.util.ConversorMoeda;
 import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -23,7 +24,7 @@ public class ConversorMoedaTest {
     @DisplayName("Deve transformar a String passada para um bigDecimal")
     public void testParaBigDecimal() throws Exception {
 
-        String m1 = "R$1.000,00";
+        String m1 = "1.000,00";
         String m2 = "R$ 2.458,88";
         String m3 = "R$ 207.458,88";
 
@@ -39,6 +40,7 @@ public class ConversorMoedaTest {
 
     /**
      * Test of paraString method, of class ConversorMoeda.
+     * @throws java.lang.Exception
      */
     @Test
     @DisplayName("Deve transforma um bigDecimal para o formato moeda br 'R$'")
@@ -52,9 +54,16 @@ public class ConversorMoedaTest {
         String s2 = ConversorMoeda.paraString(b2);
         String s3 = ConversorMoeda.paraString(b3);
 
-        System.out.println("R$ 1.000,00");
-        System.out.println(s1);
-        assertEquals("R$ 1.000,00",s1);
+        /**
+         * O \u00A0 é um espaço não separavel que tive que usar para conseguir
+         * testar o código, sem que fosse necessário remover esse espaço dentro
+         * do código que gera o formato em moeda.
+        */
+        
+        
+        assertEquals("R$\u00A01.000,00",s1);
+        assertEquals("R$\u00A02.458,88",s2);
+        assertEquals("R$\u00A0123.457,66",s3);
 
     }
 

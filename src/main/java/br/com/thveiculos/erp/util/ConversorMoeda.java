@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.com.thveiculos.erp.services.despesas.implementation;
+package br.com.thveiculos.erp.util;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
@@ -23,7 +23,7 @@ public abstract class ConversorMoeda {
      * @return BigDecimal do valor passado
      * @throws ParseException 
      */
-    public static BigDecimal paraBigDecimal(String moeda) throws ParseException {
+    public static BigDecimal paraBigDecimal(String moeda) {
 
            moeda = moeda.replaceAll("[^0-9,]", "");
            moeda = moeda.replace(",",".");
@@ -37,9 +37,9 @@ public abstract class ConversorMoeda {
      * @return
      * @throws ParseException 
      */
-    public static String paraString(BigDecimal moeda) throws ParseException {
+    public static String paraString(BigDecimal moeda) {
         String texto = formater.format(moeda);
-        return texto.replace("\\s+","");
+        return texto;
     }
 
 }
