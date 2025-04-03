@@ -1,5 +1,6 @@
 package br.com.thveiculos.erp.entities.despesas;
 
+import jakarta.persistence.CascadeType;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import jakarta.persistence.Table;
 public class DespesaAvulsa extends DespesaAbstrata implements Serializable {
 
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private NotaFiscal notaFiscal;
 	
 	public DespesaAvulsa(){
