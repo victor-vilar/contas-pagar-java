@@ -45,7 +45,7 @@ public class DespesaViewController implements AppViewController<DespesaView> {
     private final List<String> exludeComponents = List.of("btnNovo", "btnEditar",
             "btnSalvar", "btnDeletar", "fieldId");
 
-    private List<MovimentoPagamento> movimentosSnapShot;
+    private List<MovimentoPagamento> movimentos;
     
 
     @Autowired
@@ -56,7 +56,7 @@ public class DespesaViewController implements AppViewController<DespesaView> {
         this.service = service;
         this.categoriaDespesaService = categoriaDespesaService;
         this.formaPagamentoService = formaPagamentoService;
-        movimentosSnapShot = new ArrayList<>();
+        movimentos = new ArrayList<>();
 
     }
 
@@ -94,12 +94,14 @@ public class DespesaViewController implements AppViewController<DespesaView> {
     @Override
     public void deletar() {
         service.deleteById(Long.valueOf(view.getFieldId().getText()));
+        limparCampos();
     }
 
     @Override
     public void limparCampos() {
         view.getTextFields().stream().forEach(f -> f.setText(""));
         view.getSpinnerQuantidadeParcelas().getModel().setValue(1);
+        movimentos.clear();
         limparTabela();
     }
 
@@ -115,6 +117,10 @@ public class DespesaViewController implements AppViewController<DespesaView> {
             return new DespesaRecorrente();
         }
 
+    }
+    
+    private Despesa build(Despesa despesa){
+        return null;
     }
 
     /**
@@ -179,21 +185,25 @@ public class DespesaViewController implements AppViewController<DespesaView> {
 
     public void gerarParcelas() {
         criarMovimentos();
-        preencherTabela(movimentosSnapShot);
+        preencherTabela(movimentos);
+        limparCamposParcelamento();
     }
+    
 
+   
     /**
      * Cria os movimentos/parcelas de acordo com os valores adicionados nos
      * campos referentes as parcelas na view.
      */
     private void criarMovimentos() {
 
-        movimentosSnapShot = service.gerarMovimentos(
+        
+        movimentos = service.gerarMovimentos(
                 (String) view.getComboParcelamento().getSelectedItem(),
                 (int) view.getSpinnerQuantidadeParcelas().getValue(),
                 view.getFieldVencimentoParcela().getText(),
                 view.getFieldValorTotal().getText(),
-                formaPagamentoService.getByForma(String.valueOf(view.getComboFormaPagamento().getModel().getSelectedItem())));
+                formaPagamentoService.getByForma((String)view.getComboFormaPagamento().getSelectedItem()));
 
     }
 
@@ -202,7 +212,7 @@ public class DespesaViewController implements AppViewController<DespesaView> {
      * tabela da view.
      */
     private void atualizarMovimento(int linha) {
-        service.atualizarMovimentos(movimentosSnapShot, linha, (DefaultTableModel) view.getTableParcelas().getModel());
+        service.atualizarMovimentos(movimentos, linha, (DefaultTableModel) view.getTableParcelas().getModel());
     }
 
 
@@ -225,7 +235,8 @@ public class DespesaViewController implements AppViewController<DespesaView> {
                 ConversorData.paraString(m.getDataVencimento()),
                 ConversorMoeda.paraString(m.getValorPagamento()),
                 ConversorData.paraString(m.getDataPagamento()),
-                m.getFormaPagamento().getName()});
+                m.getFormaPagamento().getName(),
+                m.getObservacao()});
         });
 
     }
@@ -238,6 +249,18 @@ public class DespesaViewController implements AppViewController<DespesaView> {
         ControllerHelper.limparTabela(model);
 
     }
+    
+    
+    /**
+     * Limpar somente os campos referente as parcelas no formulário.
+     */
+    private void limparCamposParcelamento(){
+        view.getComboParcelamento().setSelectedIndex(-1);
+        view.getSpinnerQuantidadeParcelas().getModel().setValue(1);
+        view.getFieldVencimentoParcela().setText("");
+        view.getFieldValorTotal().setText("");
+        view.getComboFormaPagamento().setSelectedIndex(-1);
+    }
 
     /**
      * Adiciona as linhas que foram selecionadas na tabela e que podem ter
@@ -248,21 +271,24 @@ public class DespesaViewController implements AppViewController<DespesaView> {
      */
     public void atualizarLinhaAlterada(int indexLinha) {
         atualizarMovimento(indexLinha);
-        preencherTabela(movimentosSnapShot);
+        preencherTabela(movimentos);
     }
 
     /**
-     * Revome da lista de movimentos, os movimentos que foram deletados na
+     * Remove da lista de movimentos, os movimentos que foram deletados na
      * tabela.
      *
      * @param linhas
      */
     public void deletarMovimentos(int[] linhas) {
 
-        service.deletarMovimentos(movimentosSnapShot, linhas);
+        //utilizado o serviço para remover os movimentos que estão na tabela.
+        //O serviço armazena os movimentos em uma lista para serem deletadas
+        //do banco, caso já tenham sido salvas.
+        service.deletarMovimentos(movimentos, linhas);
 
         //atualiza a view com a nova tabela.
-        preencherTabela(movimentosSnapShot);
+        preencherTabela(movimentos);
 
     }
 }
