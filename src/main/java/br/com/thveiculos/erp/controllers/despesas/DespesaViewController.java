@@ -7,9 +7,11 @@ package br.com.thveiculos.erp.controllers.despesas;
 import br.com.thveiculos.erp.controllers.AppViewController;
 import br.com.thveiculos.erp.controllers.util.ControllerHelper;
 import br.com.thveiculos.erp.entities.despesas.Despesa;
+import br.com.thveiculos.erp.entities.despesas.DespesaAbstrata;
 import br.com.thveiculos.erp.entities.despesas.DespesaAvulsa;
 import br.com.thveiculos.erp.entities.despesas.DespesaRecorrente;
 import br.com.thveiculos.erp.entities.despesas.MovimentoPagamento;
+import br.com.thveiculos.erp.entities.despesas.NotaFiscal;
 import br.com.thveiculos.erp.enums.despesas.Periodo;
 import br.com.thveiculos.erp.util.ConversorMoeda;
 import br.com.thveiculos.erp.services.despesas.interfaces.CategoriaDespesaService;
@@ -17,14 +19,9 @@ import br.com.thveiculos.erp.services.despesas.interfaces.DespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.FormaPagamentoService;
 import br.com.thveiculos.erp.util.ConversorData;
 import br.com.thveiculos.erp.views.despesas.DespesaView;
-import java.text.NumberFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 import javax.swing.table.DefaultTableModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -75,13 +72,36 @@ public class DespesaViewController implements AppViewController<DespesaView> {
 
     @Override
     public void salvar() {
+        DespesaAvulsa despesa = new DespesaAvulsa();
 
-        //service.save(build());
+        //Long id = Long.valueOf(view.getFieldId().getText());
+        despesa.setNotaFiscal(buildNota());
+        despesa.setParcelas(movimentos);
+        
+//        if(id != null && id != ""){;
+//            despesa.setId(id);
+//        }
+        
+        despesa.setNomeFornecedor(view.getFieldDescricao().getText());
+        despesa.setDescricao(view.getAreaDescricao().getText());
+        service.save(despesa);
+        
+        
+        
+        
         enableDisableComponents(false);
         limparCampos();
 
     }
 
+    private NotaFiscal buildNota(){
+        
+        NotaFiscal nota = new NotaFiscal();
+        nota.setDataEmissao(ConversorData.paraData(view.getFieldNotaEmissao().getText()));
+        nota.setNumero(view.getFieldNota().getText());
+        return nota;
+    }
+    
     @Override
     public void editar() {
         if (view.getFieldId().getText().equals("")) {
@@ -114,6 +134,8 @@ public class DespesaViewController implements AppViewController<DespesaView> {
             return new DespesaAvulsa();
 
         } else {
+            DespesaRecorrente dr = new DespesaRecorrente();
+            
             return new DespesaRecorrente();
         }
 
