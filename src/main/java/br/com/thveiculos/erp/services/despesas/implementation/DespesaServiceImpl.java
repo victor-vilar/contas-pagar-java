@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.thveiculos.erp.entities.despesas.Despesa;
+import br.com.thveiculos.erp.entities.despesas.DespesaAbstrata;
 import br.com.thveiculos.erp.entities.despesas.FormaPagamento;
 import br.com.thveiculos.erp.entities.despesas.MovimentoPagamento;
 import br.com.thveiculos.erp.repositories.despesas.DespesaRepository;
 import br.com.thveiculos.erp.services.despesas.interfaces.DespesaService;
-import java.util.Set;
 import javax.swing.table.DefaultTableModel;
 
 @Service
@@ -26,25 +26,24 @@ public class DespesaServiceImpl implements DespesaService {
     }
 
     @Override
-    public List<Despesa> getTodos() {
+    public List<DespesaAbstrata> getTodos() {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Despesa getById(Long id) {
+    public DespesaAbstrata getById(Long id) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Despesa save(Despesa obj) {
-        // TODO Auto-generated method stub
-        return null;
+    public DespesaAbstrata save(DespesaAbstrata obj) {
+        return this.repository.save(obj);
     }
 
     @Override
-    public Despesa saveAll(List<Despesa> objs) {
+    public DespesaAbstrata saveAll(List<DespesaAbstrata> objs) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -56,13 +55,13 @@ public class DespesaServiceImpl implements DespesaService {
     }
 
     @Override
-    public void deleteAll(List<Despesa> objs) {
+    public void deleteAll(List<DespesaAbstrata> objs) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public Despesa update(Despesa obj) {
+    public DespesaAbstrata update(DespesaAbstrata obj) {
         // TODO Auto-generated method stub
         return null;
     }
