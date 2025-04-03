@@ -17,11 +17,12 @@ import javax.swing.table.DefaultTableModel;
 public class DespesaServiceImpl implements DespesaService {
 
     private DespesaRepository repository;
-    private MovimentoPagamentoService gm;
+    private MovimentoPagamentoService gm ;
 
     @Autowired
     public DespesaServiceImpl(DespesaRepository repository) {
         this.repository = repository;
+        gm = new MovimentoPagamentoService();
     }
 
     @Override
@@ -68,20 +69,17 @@ public class DespesaServiceImpl implements DespesaService {
 
     @Override
     public List<MovimentoPagamento> gerarMovimentos(String parcelamento, int qtdParcelas, String dataInicial, String valor, FormaPagamento formaPagamento) {
-        gm = new MovimentoPagamentoService();
         return gm.gerarMovimentos(parcelamento, qtdParcelas, dataInicial, valor, formaPagamento);
 
     }
 
     @Override
-    public void atualizarMovimentos(List<MovimentoPagamento> movimentos, Set<Integer> linhas, DefaultTableModel model) {
-        gm = new MovimentoPagamentoService();
-        gm.atualizarMovimentos(movimentos, linhas, model);
+    public void atualizarMovimentos(List<MovimentoPagamento> movimentos, int linha, DefaultTableModel model) {    
+        gm.atualizarMovimentos(movimentos, linha, model);
     }
     
     @Override
     public void deletarMovimentos(List<MovimentoPagamento> movimentos, int[] linhas){
-        gm = new MovimentoPagamentoService();
         gm.deletarMovimentos(movimentos, linhas);
         
     }
