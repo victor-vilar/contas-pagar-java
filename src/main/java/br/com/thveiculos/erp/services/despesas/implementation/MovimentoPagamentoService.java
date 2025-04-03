@@ -125,13 +125,18 @@ public class MovimentoPagamentoService {
         //O código começa a eliminar a partir do fim da fila, pois os elementos
         //mudam de posição quando são removidos
         for (int i = linhas.length - 1; i >= 0; i--) {
-            System.out.println(linhas[i]);
             movimentosDeletados.add(movimentos.remove(linhas[i]));
         }
 
         //reorganiza a propriedade referencia parcela dos movimentos.
         int tamanho = movimentos.size();
         for (int i = 0; i < tamanho; i++) {
+            
+            if(tamanho == 1){
+                movimentos.get(i).setReferenteParcela("UNICA");
+                break;
+            }
+            
             movimentos.get(i).setReferenteParcela(i + 1 + "/" + tamanho);
         }
 
