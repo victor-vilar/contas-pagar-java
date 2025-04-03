@@ -47,6 +47,7 @@ public class DespesaViewController implements AppViewController<DespesaView> {
 
     private Set<Integer> linhasSelecionadas;
     private List<MovimentoPagamento> movimentosSnapShot;
+    private List<MovimentoPagamento> movimentosDeletados = new ArrayList<>();
 
     @Autowired
     public DespesaViewController(
@@ -180,7 +181,7 @@ public class DespesaViewController implements AppViewController<DespesaView> {
 
     public void gerarParcelas() {
         criarMovimentos();
-        atualizarTabela(movimentosSnapShot);
+        preencherTabela(movimentosSnapShot);
     }
 
     /**
@@ -216,7 +217,7 @@ public class DespesaViewController implements AppViewController<DespesaView> {
 
         if (linhasSelecionadas.size() > 0) {
             atualizarMovimentos();
-            atualizarTabela(movimentosSnapShot);
+            preencherTabela(movimentosSnapShot);
             linhasSelecionadas.clear();
         }
     }
@@ -228,11 +229,10 @@ public class DespesaViewController implements AppViewController<DespesaView> {
      * @param movimentos Lista de movimentos que estão salvo ou não no banco de
      * dados que irão preencher a tabela.
      */
-    private void atualizarTabela(List<MovimentoPagamento> movimentos) {
+    private void preencherTabela(List<MovimentoPagamento> movimentos) {
 
         DefaultTableModel model = (DefaultTableModel) view.getTableParcelas().getModel();
         ControllerHelper.limparTabela(model);
-
 
         movimentos.stream().forEach(m -> {
             model.addRow(new Object[]{m.getId(),
@@ -262,8 +262,34 @@ public class DespesaViewController implements AppViewController<DespesaView> {
      * @param indexLinha
      */
     public void adicionarLinhaAlterada(int indexLinha) {
-        System.out.println(indexLinha);
         linhasSelecionadas.add(indexLinha);
     }
 
+    /**
+     * Revome da lista de movimentos, os movimentos que foram deletados na
+     * tabela.
+     *
+     * @param linhas
+     */
+    public void deletarMovimentos(int[] linhas) {
+       
+        //deleta os movimentos da lista que estão nas mesma posiçaõ das linhas
+        //adiciona movimentos deletados na lista para que possam ser excluidos
+        //caso já tenham sido salvos no banco.
+        //O código começa a eliminar a partir do fim da fila, pois os elementos
+        //mudam de posição quando são removidos
+        for(int i = linhas.length - 1 ; i >= 0; i--){
+               System.out.println(linhas[i]);
+               movimentosDeletados.add(movimentosSnapShot.remove(linhas[i])); 
+        }
+        
+        //reorganiza a propriedade referencia parcela dos movimentos.
+        int tamanho = movimentosSnapShot.size();        
+        for(int i = 0 ; i < tamanho; i++){
+            movimentosSnapShot.get(i).setReferenteParcela(i+1 + "/" +tamanho);
+        }
+        
+        //atualiza a view com a nova tabela.
+        preencherTabela(movimentosSnapShot);
+    }
 }
