@@ -111,5 +111,12 @@ public class MovimentoPagamentoService {
        
 
     }
+    /** 
+     * Deleta os movimentos da lista, de acordo com as linhas deletadas da tabela.
+     * Atualiza a propriedade referenteParcela do movimento .
+     */
+    public void deletarMovimentos(List<MovimentoPagamento> movimentos, int[] linhas ){
+    
+    }
 
 }
