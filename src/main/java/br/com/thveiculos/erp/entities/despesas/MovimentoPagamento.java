@@ -25,7 +25,8 @@ public class MovimentoPagamento implements Serializable {
 	private String referenteParcela;
 	private LocalDate dataVencimento;
 	private LocalDate dataPagamento;
-	private BigDecimal valorPagamento;
+	private BigDecimal valorPagamento;        
+        private String observacao;
 	
 	@ManyToOne
         @JoinColumn(name="despesa_id")
@@ -100,7 +101,13 @@ public class MovimentoPagamento implements Serializable {
 	}
 	
 	
-	
+	public void setObservacao(String obs){
+            this.observacao = obs;
+        }
+        
+        public String getObservacao(){
+            return observacao;
+        }
 	
 
 }

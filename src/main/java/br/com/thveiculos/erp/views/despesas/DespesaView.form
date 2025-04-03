@@ -311,6 +311,10 @@
             <Property name="enabled" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="fieldNotaEmissao" noResource="true"/>
           </Properties>
+          <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="fieldNotaEmissaoFocusLost"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fieldNotaEmissaoActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -486,7 +490,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jLabel6" min="-2" pref="103" max="-2" attributes="0"/>
-                              <Component id="fieldVencimentoParcela" min="-2" pref="77" max="-2" attributes="0"/>
+                              <Component id="fieldVencimentoParcela" min="-2" pref="79" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
@@ -734,6 +738,7 @@
             <Property name="name" type="java.lang.String" value="fieldVencimentoParcela" noResource="true"/>
           </Properties>
           <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="fieldVencimentoParcelaFocusLost"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fieldVencimentoParcelaActionPerformed"/>
           </Events>
         </Component>

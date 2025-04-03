@@ -385,6 +385,16 @@ public class DespesaView extends javax.swing.JFrame {
 
         fieldNotaEmissao.setEnabled(false);
         fieldNotaEmissao.setName("fieldNotaEmissao"); // NOI18N
+        fieldNotaEmissao.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                fieldNotaEmissaoFocusLost(evt);
+            }
+        });
+        fieldNotaEmissao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fieldNotaEmissaoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelMainLayout = new javax.swing.GroupLayout(panelMain);
         panelMain.setLayout(panelMainLayout);
@@ -631,6 +641,11 @@ public class DespesaView extends javax.swing.JFrame {
 
         fieldVencimentoParcela.setEnabled(false);
         fieldVencimentoParcela.setName("fieldVencimentoParcela"); // NOI18N
+        fieldVencimentoParcela.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                fieldVencimentoParcelaFocusLost(evt);
+            }
+        });
         fieldVencimentoParcela.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fieldVencimentoParcelaActionPerformed(evt);
@@ -676,7 +691,7 @@ public class DespesaView extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(fieldVencimentoParcela, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(fieldVencimentoParcela, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap())))
         );
         panelParcelasLayout.setVerticalGroup(
@@ -756,7 +771,7 @@ public class DespesaView extends javax.swing.JFrame {
         } else {
             tableParcelas.setEnabled(false);
             btnLockTable.setIcon(new ImageIcon(getClass().getResource("/img/icon-lock.png")));
-            
+
         }
     }//GEN-LAST:event_btnLockTableActionPerformed
 
@@ -798,6 +813,26 @@ public class DespesaView extends javax.swing.JFrame {
     private void fieldVencimentoParcelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldVencimentoParcelaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_fieldVencimentoParcelaActionPerformed
+
+    private void fieldNotaEmissaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldNotaEmissaoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fieldNotaEmissaoActionPerformed
+
+    private void fieldNotaEmissaoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldNotaEmissaoFocusLost
+        try {
+            fieldNotaEmissao.setText(ConversorData.paraString(ConversorData.paraData(fieldNotaEmissao.getText())));
+        } catch (DateTimeParseException ex) {
+            JOptionPane.showMessageDialog(null, "A data informada não esta correta !", "Erro de Conversão", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_fieldNotaEmissaoFocusLost
+
+    private void fieldVencimentoParcelaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldVencimentoParcelaFocusLost
+        try {
+            fieldVencimentoParcela.setText(ConversorData.paraString(ConversorData.paraData(fieldVencimentoParcela.getText())));
+        } catch (DateTimeParseException ex) {
+            JOptionPane.showMessageDialog(null, "A data informada não esta correta !", "Erro de Conversão", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_fieldVencimentoParcelaFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
