@@ -134,7 +134,7 @@ public class DespesaView extends javax.swing.JFrame {
                             try {
 
                                 ConversorData.paraData(String.valueOf(novoValor));
-                                controller.adicionarLinhaAlterada(row);
+                                controller.atualizarLinhaAlterada(row);
 
                             } catch (DateTimeParseException ex) {
                                 tableParcelas.getModel().setValueAt(null, row, column);
@@ -145,7 +145,7 @@ public class DespesaView extends javax.swing.JFrame {
                             try {
 
                                 ConversorMoeda.paraBigDecimal(String.valueOf(novoValor));
-                                controller.adicionarLinhaAlterada(row);
+                                controller.atualizarLinhaAlterada(row);
 
                             } catch (DateTimeParseException ex) {
                                 tableParcelas.getModel().setValueAt(null, row, column);
@@ -153,7 +153,7 @@ public class DespesaView extends javax.swing.JFrame {
                             }
                             break;
                         default:
-                            controller.adicionarLinhaAlterada(row);
+                            controller.atualizarLinhaAlterada(row);
                             break;
                     }
 
@@ -756,7 +756,7 @@ public class DespesaView extends javax.swing.JFrame {
         } else {
             tableParcelas.setEnabled(false);
             btnLockTable.setIcon(new ImageIcon(getClass().getResource("/img/icon-lock.png")));
-            controller.checarAtualizacao();
+            
         }
     }//GEN-LAST:event_btnLockTableActionPerformed
 

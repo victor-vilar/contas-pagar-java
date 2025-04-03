@@ -45,9 +45,8 @@ public class DespesaViewController implements AppViewController<DespesaView> {
     private final List<String> exludeComponents = List.of("btnNovo", "btnEditar",
             "btnSalvar", "btnDeletar", "fieldId");
 
-    private Set<Integer> linhasSelecionadas;
     private List<MovimentoPagamento> movimentosSnapShot;
-    private List<MovimentoPagamento> movimentosDeletados = new ArrayList<>();
+    
 
     @Autowired
     public DespesaViewController(
@@ -57,7 +56,6 @@ public class DespesaViewController implements AppViewController<DespesaView> {
         this.service = service;
         this.categoriaDespesaService = categoriaDespesaService;
         this.formaPagamentoService = formaPagamentoService;
-        linhasSelecionadas = new HashSet<>();
         movimentosSnapShot = new ArrayList<>();
 
     }
@@ -203,24 +201,11 @@ public class DespesaViewController implements AppViewController<DespesaView> {
      * Atualiza a lista de movimentos de acordo com as alterações realizadas na
      * tabela da view.
      */
-    private void atualizarMovimentos() {
-
-        service.atualizarMovimentos(movimentosSnapShot, linhasSelecionadas, (DefaultTableModel) view.getTableParcelas().getModel());
-
+    private void atualizarMovimento(int linha) {
+        service.atualizarMovimentos(movimentosSnapShot, linha, (DefaultTableModel) view.getTableParcelas().getModel());
     }
 
-    /**
-     * Se houverem linhas editadas na tabela, ira então atualizar os movimentos,
-     * limpar a tabela com os dados antigos, e inserir os dados novos.
-     */
-    public void checarAtualizacao() {
 
-        if (linhasSelecionadas.size() > 0) {
-            atualizarMovimentos();
-            preencherTabela(movimentosSnapShot);
-            linhasSelecionadas.clear();
-        }
-    }
 
     /**
      * Atualiza os valores da tabela a partir de uma lista de
@@ -261,8 +246,9 @@ public class DespesaViewController implements AppViewController<DespesaView> {
      *
      * @param indexLinha
      */
-    public void adicionarLinhaAlterada(int indexLinha) {
-        linhasSelecionadas.add(indexLinha);
+    public void atualizarLinhaAlterada(int indexLinha) {
+        atualizarMovimento(indexLinha);
+        preencherTabela(movimentosSnapShot);
     }
 
     /**
@@ -272,24 +258,11 @@ public class DespesaViewController implements AppViewController<DespesaView> {
      * @param linhas
      */
     public void deletarMovimentos(int[] linhas) {
-       
-        //deleta os movimentos da lista que estão nas mesma posiçaõ das linhas
-        //adiciona movimentos deletados na lista para que possam ser excluidos
-        //caso já tenham sido salvos no banco.
-        //O código começa a eliminar a partir do fim da fila, pois os elementos
-        //mudam de posição quando são removidos
-        for(int i = linhas.length - 1 ; i >= 0; i--){
-               System.out.println(linhas[i]);
-               movimentosDeletados.add(movimentosSnapShot.remove(linhas[i])); 
-        }
-        
-        //reorganiza a propriedade referencia parcela dos movimentos.
-        int tamanho = movimentosSnapShot.size();        
-        for(int i = 0 ; i < tamanho; i++){
-            movimentosSnapShot.get(i).setReferenteParcela(i+1 + "/" +tamanho);
-        }
-        
+
+        service.deletarMovimentos(movimentosSnapShot, linhas);
+
         //atualiza a view com a nova tabela.
         preencherTabela(movimentosSnapShot);
+
     }
 }

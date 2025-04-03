@@ -33,7 +33,6 @@ public class MovimentoPagamentoServiceTest {
     FormaPagamento fp2;
 
     DefaultTableModel model;
-    Set<Integer> linhas = new HashSet();
     List<MovimentoPagamento> movimentos = new ArrayList<>();
 
     public MovimentoPagamentoServiceTest() {
@@ -268,15 +267,14 @@ public class MovimentoPagamentoServiceTest {
         movimentos.add(mp2);
         movimentos.add(mp3);
         
-        linhas.add(0);
-        linhas.add(2);
         
         model.addRow(new Object[]{null,"1/5","0105","2000",null});
         model.addRow(new Object[]{null,"1/5","0106","20000",null});
         model.addRow(new Object[]{null,"1/5","0109","21000",null});
        
         MovimentoPagamentoService gm = new MovimentoPagamentoService();
-        gm.atualizarMovimentos(movimentos, linhas, model);
+        gm.atualizarMovimentos(movimentos, 0, model);
+        gm.atualizarMovimentos(movimentos, 2, model);
         
         
         //Objetos que devem ser alterados
