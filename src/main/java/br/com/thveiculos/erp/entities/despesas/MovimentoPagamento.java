@@ -14,7 +14,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="movimento_pagamengo")
+@Table(name="movimento_pagamento")
 public class MovimentoPagamento implements Serializable {
 
 	
@@ -110,4 +110,12 @@ public class MovimentoPagamento implements Serializable {
         }
 	
 
+        public void setDespesa(DespesaAbstrata despesa){
+            this.despesa =despesa ;
+           
+        }
+        
+        public Despesa getDespesa(){
+            return despesa;
+        }
 }
