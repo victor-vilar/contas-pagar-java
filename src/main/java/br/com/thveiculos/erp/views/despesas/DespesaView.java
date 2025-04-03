@@ -36,38 +36,24 @@ import org.springframework.stereotype.Component;
 @Lazy
 public class DespesaView extends javax.swing.JFrame {
 
-    private MaskFormatter dateFormat;
-    private MaskFormatter valueFormat;
     private javax.swing.JComboBox<String> comboFormaPagamentoTabela;
     private final DespesaViewController controller;
+    private static final String TIPO_DESPESA = "AVULSA";
 
     @Autowired
     public DespesaView(DespesaViewController controller) {
         this.controller = controller;
         this.controller.setView(this);
-//        setFormatoData();;
-//        initComponents();
-//        configureComponentes();
 
     }
 
     @PostConstruct
     public void configurarComponent() {
-        setFormatoData();
         initComponents();
         configureComponentes();
 
     }
 
-    public void setFormatoData() {
-
-        try {
-            dateFormat = new MaskFormatter("##/##/####");
-
-        } catch (ParseException e) {
-            System.out.println(e);
-        }
-    }
 
     public void configureComponentes() {
         comboFormaPagamentoTabela = new javax.swing.JComboBox<>();
@@ -246,6 +232,10 @@ public class DespesaView extends javax.swing.JFrame {
     public JPanel getPanelParcelas() {
         return panelParcelas;
 
+    }
+    
+    public String tipoDespesa(){
+        return TIPO_DESPESA;
     }
 
     public List<java.awt.Component> listaDeComponentes() {
@@ -774,7 +764,7 @@ public class DespesaView extends javax.swing.JFrame {
         try {
             controller.salvar();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao salvar", "erro", JOptionPane.ERROR);
+            JOptionPane.showMessageDialog(null, "Erro ao salvar", "erro", JOptionPane.ERROR_MESSAGE);
             System.out.println(e);
         }
 
