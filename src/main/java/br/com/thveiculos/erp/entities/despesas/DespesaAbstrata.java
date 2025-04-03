@@ -91,13 +91,16 @@ public abstract class DespesaAbstrata implements Despesa{
 	}
 
 	public void setParcelas(List<MovimentoPagamento> movimentos) {
-		this.movimentos = movimentos;
+             this.movimentos.clear();
+             movimentos.stream().forEach(m ->addParcela(m));
+            
 	}
 	
 	public void addParcela(MovimentoPagamento parcela) {
 		
 		if(!this.movimentos.contains(parcela)) {
 			movimentos.add(parcela);
+                        parcela.setDespesa(this);
 		}
 	}
 	
