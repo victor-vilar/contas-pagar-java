@@ -2,12 +2,9 @@ package br.com.thveiculos.erp.entities.despesas;
 
 import jakarta.persistence.CascadeType;
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -17,6 +14,7 @@ public class DespesaAvulsa extends DespesaAbstrata implements Serializable {
 
 	
 	@OneToOne(cascade = CascadeType.ALL)
+        @JoinColumn(name="despesa_id")
 	private NotaFiscal notaFiscal;
 	
 	public DespesaAvulsa(){

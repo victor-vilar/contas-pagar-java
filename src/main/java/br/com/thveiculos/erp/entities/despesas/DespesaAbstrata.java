@@ -16,9 +16,11 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 
 @Entity
+@Table(name="despesa")
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class DespesaAbstrata implements Despesa{
 

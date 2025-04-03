@@ -10,7 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="notas_ficais")
+@Table(name="notas_fiscais")
 public class NotaFiscal implements Serializable {
 
 	
