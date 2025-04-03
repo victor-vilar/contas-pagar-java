@@ -104,6 +104,12 @@ public class MovimentoPagamentoService {
 
         //Atualiza da data de pagmento
         mp.setDataPagamento(ConversorData.paraData(String.valueOf(model.getValueAt(linha, 4))));
+        
+        //Atualiza a forma de pagamento
+        //TODO
+        
+        //Atualiza observaçao
+        mp.setObservacao((String)model.getValueAt(linha, 6));
 
     }
 
