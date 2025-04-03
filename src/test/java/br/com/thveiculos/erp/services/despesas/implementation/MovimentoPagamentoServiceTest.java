@@ -295,5 +295,10 @@ public class MovimentoPagamentoServiceTest {
         assertEquals(mp2.getValorPagamento(),ConversorMoeda.paraBigDecimal("1000"));
        
     }
+    
+    @Test
+    @DisplayName("Deve remover os movimentos das linhas selecionandas na view")
+    public void removerMovimentoLinhasTabela(){
+    }
 
 }
