@@ -21,6 +21,7 @@ public class DespesaRecorrente extends DespesaAbstrata implements Serializable {
 	@Column(nullable=false)
 	private LocalDate dataInicio;
 	private LocalDate dataFim;
+        @Column(nullable=false)
 	private Integer dataPagamento;
 	
 	
