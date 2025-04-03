@@ -7,17 +7,17 @@ package br.com.thveiculos.erp.views.despesas;
 import br.com.thveiculos.erp.controllers.despesas.DespesaViewController;
 import br.com.thveiculos.erp.util.ConversorData;
 import br.com.thveiculos.erp.util.ConversorMoeda;
+import static com.sun.java.accessibility.util.SwingEventMonitor.addTableModelListener;
 import jakarta.annotation.PostConstruct;
-import java.math.BigDecimal;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.text.ParseException;
-import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -97,6 +97,27 @@ public class DespesaView extends javax.swing.JFrame {
 //            }
 //            
 //        });
+        //Adicionando evento para deletar linhas selecionadas ao apertar delete
+        tableParcelas.addKeyListener(new KeyAdapter() {
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+                if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+
+                    int[] linhas = tableParcelas.getSelectedRows();
+                    if (linhas[0] != -1) {
+
+                        if (JOptionPane.showConfirmDialog(null, "Deseja remover as parcelas selecionadas ?", "Atenção", JOptionPane.OK_CANCEL_OPTION) == 0) {
+                            controller.deletarMovimentos(linhas);
+                        }
+
+                    }
+                }
+            }
+
+        });
+
         tableParcelas.getModel().addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
@@ -111,10 +132,10 @@ public class DespesaView extends javax.swing.JFrame {
                         case 2:
                         case 4:
                             try {
-                                
+
                                 ConversorData.paraData(String.valueOf(novoValor));
                                 controller.adicionarLinhaAlterada(row);
-                                
+
                             } catch (DateTimeParseException ex) {
                                 tableParcelas.getModel().setValueAt(null, row, column);
                                 JOptionPane.showMessageDialog(null, "A data informada não esta correta !", "Erro de Conversão", JOptionPane.ERROR_MESSAGE);
@@ -122,10 +143,10 @@ public class DespesaView extends javax.swing.JFrame {
                             break;
                         case 3:
                             try {
-                                
-                                 ConversorMoeda.paraBigDecimal(String.valueOf(novoValor));
-                                 controller.adicionarLinhaAlterada(row);
-                                
+
+                                ConversorMoeda.paraBigDecimal(String.valueOf(novoValor));
+                                controller.adicionarLinhaAlterada(row);
+
                             } catch (DateTimeParseException ex) {
                                 tableParcelas.getModel().setValueAt(null, row, column);
                                 JOptionPane.showMessageDialog(null, "O valor informado não esta correta !", "Erro de Conversão", JOptionPane.ERROR_MESSAGE);
