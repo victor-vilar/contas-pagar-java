@@ -161,7 +161,9 @@ public class DespesaViewController implements AppViewController<DespesaView> {
      * Adiciona as categorias na combobox de categorias da view.
      */
     void inicializarComboCategoria() {
-
+        
+        view.getComboCategoria().removeAllItems();
+        
         this.categoriaDespesaService.getTodos().stream().forEach(c -> {
             view.getComboCategoria().addItem(c.getName());
         });
@@ -174,6 +176,9 @@ public class DespesaViewController implements AppViewController<DespesaView> {
      */
     private void inicializarComboFormaPagamento() {
 
+        view.getComboFormaPagamento().removeAllItems();
+        view.getComboFormaPagamentoTabela().removeAllItems();
+        
         this.formaPagamentoService.getTodos().stream().forEach(f -> {
             view.getComboFormaPagamento().addItem(f.getName());
             view.getComboFormaPagamentoTabela().addItem(f.getName());
@@ -187,6 +192,8 @@ public class DespesaViewController implements AppViewController<DespesaView> {
      */
     private void inicializarComboParcelamento() {
 
+        view.getComboParcelamento().removeAllItems();
+        
         Arrays.asList(Periodo.values()).stream().forEach(p
                 -> view.getComboParcelamento().addItem(p.name()));
         view.getComboParcelamento().setSelectedIndex(-1);
