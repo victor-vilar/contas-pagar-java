@@ -73,7 +73,7 @@ public class DespesaViewControllerTest {
         when(this.categoriaDespesaService.getTodos()).thenReturn(List.of(cd1, cd2));
         when(this.formaPagamentoService.getTodos()).thenReturn(List.of(fp1, fp2));
 
-        view = new DespesaView(controller);
+        view = new DespesaView(controller, null);
         view.configurarComponent();
         controller.inicializarComboBox();
 
