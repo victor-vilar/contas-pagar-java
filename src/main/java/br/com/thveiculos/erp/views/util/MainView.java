@@ -25,12 +25,6 @@ public class MainView extends JFrame {
 	private JButton btnFormaPagamento;
 	private JButton btnCategoriaDespesa;
         private JButton btnMovimentoPagamento;
-	
-	public MainView() {
-		this.setUp();
-		
-	}
-
 
 	@Autowired
 	public void MainView(ApplicationContext context) {

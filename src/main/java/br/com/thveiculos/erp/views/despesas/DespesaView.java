@@ -7,11 +7,10 @@ package br.com.thveiculos.erp.views.despesas;
 import br.com.thveiculos.erp.controllers.despesas.DespesaViewController;
 import br.com.thveiculos.erp.util.ConversorData;
 import br.com.thveiculos.erp.util.ConversorMoeda;
-import static com.sun.java.accessibility.util.SwingEventMonitor.addTableModelListener;
+import br.com.thveiculos.erp.views.interfaces.Subscriber;
 import jakarta.annotation.PostConstruct;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.text.ParseException;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import javax.swing.DefaultCellEditor;
@@ -27,24 +26,25 @@ import javax.swing.JTextField;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.text.JTextComponent;
-import javax.swing.text.MaskFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 @Component
 @Lazy
-public class DespesaView extends javax.swing.JFrame {
+public class DespesaView extends javax.swing.JFrame implements Subscriber {
 
     private javax.swing.JComboBox<String> comboFormaPagamentoTabela;
     private final DespesaViewController controller;
     private static final String TIPO_DESPESA = "AVULSA";
-    private boolean viewOpenend = false;
+    private final ApplicationContext context;
 
     @Autowired
-    public DespesaView(DespesaViewController controller) {
+    public DespesaView(DespesaViewController controller, ApplicationContext context) {
         this.controller = controller;
         this.controller.setView(this);
+        this.context = context;
 
     }
 
@@ -55,6 +55,18 @@ public class DespesaView extends javax.swing.JFrame {
 
     }
 
+    @Override
+    public void atualizar(String valor, String tipo) {
+
+        if (tipo.equals("Categoria Despesas")) {
+            this.comboCategoria.getModel().setSelectedItem(valor);
+        }
+
+        if (tipo.equals("Formas Pagamento")) {
+            this.comboFormaPagamento.getModel().setSelectedItem(valor);
+        }
+
+    }
 
     public void configureComponentes() {
         comboFormaPagamentoTabela = new javax.swing.JComboBox<>();
@@ -234,8 +246,8 @@ public class DespesaView extends javax.swing.JFrame {
         return panelParcelas;
 
     }
-    
-    public String tipoDespesa(){
+
+    public String tipoDespesa() {
         return TIPO_DESPESA;
     }
 
@@ -307,6 +319,9 @@ public class DespesaView extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Despesa");
         addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
@@ -554,6 +569,11 @@ public class DespesaView extends javax.swing.JFrame {
 
         fieldValorTotal.setEnabled(false);
         fieldValorTotal.setName("fieldValorTotal"); // NOI18N
+        fieldValorTotal.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                fieldValorTotalFocusLost(evt);
+            }
+        });
 
         tableParcelas.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         tableParcelas.setModel(new javax.swing.table.DefaultTableModel(
@@ -617,6 +637,11 @@ public class DespesaView extends javax.swing.JFrame {
         btnProcurarFormaPagamento.setToolTipText("Buscar Fornecedor");
         btnProcurarFormaPagamento.setEnabled(false);
         btnProcurarFormaPagamento.setName("btnProcurarFormaPagamento"); // NOI18N
+        btnProcurarFormaPagamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProcurarFormaPagamentoActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Gerar Parcelas");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -767,7 +792,7 @@ public class DespesaView extends javax.swing.JFrame {
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
             controller.salvar();
-            JOptionPane.showMessageDialog(null,"Despesa salva com sucesso !","Sucesso",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Despesa salva com sucesso !", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao salvar", "erro", JOptionPane.ERROR_MESSAGE);
             System.out.println(e);
@@ -776,9 +801,9 @@ public class DespesaView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        System.out.println("Iniciei...");
         controller.inicializarComboBox();
-        viewOpenend = true;
-            
+
     }//GEN-LAST:event_formWindowOpened
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -786,14 +811,16 @@ public class DespesaView extends javax.swing.JFrame {
             controller.gerarParcelas();        // TODO add your handling code here:
         } catch (DateTimeParseException e) {
             JOptionPane.showMessageDialog(null, "Ocorreu um erro, cheque a data do parcelamento e o valor e veja se estão nos formatos corretos !", "Erro", JOptionPane.ERROR_MESSAGE);
-        } catch(NullPointerException | NumberFormatException e){
+        } catch (NullPointerException | NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Verifique se todos os campos referente as parcelas foram preenchidos corretamente !", "Erro na Geração das Parcelas", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnProcurarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcurarCategoriaActionPerformed
-        // TODO add your handling code here:
+        var categoriaView = context.getBean(CategoriaDespesaView.class);
+        categoriaView.setVisible(true);
+        categoriaView.adicionarSubscribers(this);
     }//GEN-LAST:event_btnProcurarCategoriaActionPerformed
 
     private void fieldVencimentoParcelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldVencimentoParcelaActionPerformed
@@ -825,8 +852,28 @@ public class DespesaView extends javax.swing.JFrame {
     }//GEN-LAST:event_fieldVencimentoParcelaFocusLost
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        viewOpenend = false;
+        controller.limparCampos();
     }//GEN-LAST:event_formWindowClosing
+
+    private void btnProcurarFormaPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcurarFormaPagamentoActionPerformed
+        var formaPagamentoView = context.getBean(FormaPagamentoView.class);
+        formaPagamentoView.setVisible(true);
+        formaPagamentoView.adicionarSubscribers(this);
+    }//GEN-LAST:event_btnProcurarFormaPagamentoActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowActivated
+
+    private void fieldValorTotalFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldValorTotalFocusLost
+        try {
+            fieldValorTotal.setText(ConversorMoeda.paraString(ConversorMoeda.paraBigDecimal(fieldValorTotal.getText())));
+        } catch (DateTimeParseException ex) {
+            fieldValorTotal.setText("");
+            fieldValorTotal.requestFocus();
+            JOptionPane.showMessageDialog(null, "A data informada não esta correta !", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_fieldValorTotalFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
