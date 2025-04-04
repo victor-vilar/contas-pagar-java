@@ -5,6 +5,10 @@
 package br.com.thveiculos.erp.views;
 
 import br.com.thveiculos.erp.controllers.SimpleViewController;
+import br.com.thveiculos.erp.views.interfaces.Publisher;
+import br.com.thveiculos.erp.views.interfaces.Subscriber;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -15,19 +19,25 @@ import javax.swing.SortOrder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import org.hibernate.exception.ConstraintViolationException;
 
 /**
  *
  * @author victor
  */
-public abstract class SimpleView extends javax.swing.JFrame {
+public abstract class SimpleView extends javax.swing.JFrame implements Publisher {
 
     private String title;
     private String tableColumnName;
     protected SimpleViewController controller;
     private static final String ERROR_HEADER = "Erro";
     private static final String ERROR_MESSAGE = "Não é possivel cadastrar outra forma de pagamento com o mesmo nome";
+
+    private List<Subscriber> subscribers = new ArrayList<>();
+    
+    @Override
+    public void adicionarSubscribers(Subscriber obj) {
+        this.subscribers.add(obj);
+    }
 
     public JTextField getFieldId() {
         return this.fieldId;
@@ -40,11 +50,17 @@ public abstract class SimpleView extends javax.swing.JFrame {
     public JTable getTable() {
         return this.table;
     }
+    
+    public String getTitle(){
+        return title;
+    }
+    
+
 
     public SimpleView() {
         initComponents();
     }
-    
+
     public SimpleView(String title, String tableColumnName) {
         this.initComponents();
         this.title = title;
@@ -52,15 +68,14 @@ public abstract class SimpleView extends javax.swing.JFrame {
         this.tableColumnName = tableColumnName;
         this.setUp();
     }
-    
+
     public void setUp() {
-        
+
         configureTable();
         configurarFields();
 
     }
-    
-    
+
     public void configureTable() {
         table.setModel(new DefaultTableModel(new Object[][]{}, new String[]{"No", this.tableColumnName}) {
             Class[] columnTypes = new Class[]{Long.class, String.class};
@@ -74,9 +89,9 @@ public abstract class SimpleView extends javax.swing.JFrame {
                 return false;
             }
         });
-        
+
         table.getColumnModel().getColumn(0).setMaxWidth(40);
-        
+
         //cria um table sorter e já realiza um sorte pela coluna de data
         TableRowSorter<TableModel> sorter = new TableRowSorter<>(table.getModel());
         table.setRowSorter(sorter);
@@ -88,14 +103,31 @@ public abstract class SimpleView extends javax.swing.JFrame {
         sorter.setSortKeys(sortKeys);
         sorter.sort();
         //------------------
+
+        //Adicionando evento que ao clicar  em uma linha na tabela ira enviar
+        //o valor para o seu listener
+        table.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent mouseEvent) {
+
+                JTable table = (JTable) mouseEvent.getSource();
+                int row = table.getSelectedRow();
+                if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1 && row != -1) {
+                    String valor = (String) table.getValueAt(row, 1);
+                    if(!subscribers.isEmpty()){
+                        subscribers.stream().forEach(s -> s.atualizar(valor, getTitle()));
+                        dispose();                                          
+                    }
+                    
+                }
+            }
+        });
     }
-    
-    void configurarFields(){
+
+    void configurarFields() {
         fieldId.setEditable(false);
         fieldNome.setEditable(false);
     }
-    
-        
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -122,6 +154,9 @@ public abstract class SimpleView extends javax.swing.JFrame {
         setResizable(false);
         setSize(new java.awt.Dimension(420, 500));
         addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
@@ -239,7 +274,6 @@ public abstract class SimpleView extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        table.setCellSelectionEnabled(false);
         table.getTableHeader().setReorderingAllowed(false);
         table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -324,7 +358,7 @@ public abstract class SimpleView extends javax.swing.JFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         controller.editar();
-        
+
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -339,6 +373,10 @@ public abstract class SimpleView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSalvar1ActionPerformed
 
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        this.subscribers.clear();  // TODO add your handling code here:
+        
+    }//GEN-LAST:event_formWindowClosed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
