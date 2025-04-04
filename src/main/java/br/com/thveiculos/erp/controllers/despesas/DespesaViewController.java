@@ -120,8 +120,10 @@ public class DespesaViewController implements AppViewController<DespesaView> {
     @Override
     public void limparCampos() {
         view.getTextFields().stream().forEach(f -> f.setText(""));
+        view.getComboCategoria().setSelectedIndex(-1);
         view.getSpinnerQuantidadeParcelas().getModel().setValue(1);
         movimentos.clear();
+        limparCamposParcelamento();
         limparTabela();
     }
 
@@ -158,7 +160,7 @@ public class DespesaViewController implements AppViewController<DespesaView> {
     /**
      * Adiciona as categorias na combobox de categorias da view.
      */
-    private void inicializarComboCategoria() {
+    void inicializarComboCategoria() {
 
         this.categoriaDespesaService.getTodos().stream().forEach(c -> {
             view.getComboCategoria().addItem(c.getName());
