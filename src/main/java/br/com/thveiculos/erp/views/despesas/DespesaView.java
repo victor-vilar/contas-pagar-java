@@ -39,6 +39,7 @@ public class DespesaView extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboFormaPagamentoTabela;
     private final DespesaViewController controller;
     private static final String TIPO_DESPESA = "AVULSA";
+    private boolean viewOpenend = false;
 
     @Autowired
     public DespesaView(DespesaViewController controller) {
@@ -306,6 +307,9 @@ public class DespesaView extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Despesa");
         addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
@@ -763,6 +767,7 @@ public class DespesaView extends javax.swing.JFrame {
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
             controller.salvar();
+            JOptionPane.showMessageDialog(null,"Despesa salva com sucesso !","Sucesso",JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao salvar", "erro", JOptionPane.ERROR_MESSAGE);
             System.out.println(e);
@@ -771,7 +776,9 @@ public class DespesaView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        controller.inicializarComboBox();        // TODO add your handling code here:
+        controller.inicializarComboBox();
+        viewOpenend = true;
+            
     }//GEN-LAST:event_formWindowOpened
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -816,6 +823,10 @@ public class DespesaView extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "A data informada não esta correta !", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_fieldVencimentoParcelaFocusLost
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        viewOpenend = false;
+    }//GEN-LAST:event_formWindowClosing
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
