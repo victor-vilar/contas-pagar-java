@@ -72,15 +72,16 @@ public class DespesaViewController implements AppViewController<DespesaView> {
 
     @Override
     public void salvar() {
+        
         DespesaAvulsa despesa = new DespesaAvulsa();
 
-        //Long id = Long.valueOf(view.getFieldId().getText());
+        if(!view.getFieldId().getText().equals("")){
+            despesa.setId(Long.valueOf(view.getFieldId().getText()));
+        }
+        
         despesa.setNotaFiscal(buildNota());
         despesa.setParcelas(movimentos);
         
-//        if(id != null && id != ""){;
-//            despesa.setId(id);
-//        }
         
         despesa.setNomeFornecedor(view.getFieldDescricao().getText());
         despesa.setDescricao(view.getAreaDescricao().getText());
