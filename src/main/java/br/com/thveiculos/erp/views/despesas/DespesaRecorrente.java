@@ -296,7 +296,7 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
         fieldVencimentoParcela = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Despesas Avulsas");
+        setTitle("Despesa");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
