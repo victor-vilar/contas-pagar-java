@@ -33,7 +33,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Lazy
-public class DespesaView extends javax.swing.JFrame implements Subscriber {
+public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber {
     
     private javax.swing.JComboBox<String> comboFormaPagamentoTabela;
     private final DespesaViewController controller;
@@ -41,7 +41,7 @@ public class DespesaView extends javax.swing.JFrame implements Subscriber {
     private final ApplicationContext context;
     
     @Autowired
-    public DespesaView(DespesaViewController controller, ApplicationContext context) {
+    public DespesaAvulsaView(DespesaViewController controller, ApplicationContext context) {
         this.controller = controller;
         this.controller.setView(this);
         this.context = context;

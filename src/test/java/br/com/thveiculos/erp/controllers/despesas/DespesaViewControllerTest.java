@@ -9,7 +9,7 @@ import br.com.thveiculos.erp.entities.despesas.FormaPagamento;
 import br.com.thveiculos.erp.services.despesas.interfaces.CategoriaDespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.DespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.FormaPagamentoService;
-import br.com.thveiculos.erp.views.despesas.DespesaView;
+import br.com.thveiculos.erp.views.despesas.DespesaAvulsaView;
 import java.lang.reflect.Method;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,7 +45,7 @@ public class DespesaViewControllerTest {
     @Mock
     private DespesaService despesaService;
 
-    private DespesaView view;
+    private DespesaAvulsaView view;
     CategoriaDespesa cd1;
     CategoriaDespesa cd2;
 
@@ -73,7 +73,7 @@ public class DespesaViewControllerTest {
         when(this.categoriaDespesaService.getTodos()).thenReturn(List.of(cd1, cd2));
         when(this.formaPagamentoService.getTodos()).thenReturn(List.of(fp1, fp2));
 
-        view = new DespesaView(controller, null);
+        view = new DespesaAvulsaView(controller, null);
         view.configurarComponent();
         controller.inicializarComboBox();
 

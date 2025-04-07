@@ -13,7 +13,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import br.com.thveiculos.erp.views.despesas.CategoriaDespesaView;
-import br.com.thveiculos.erp.views.despesas.DespesaView;
+import br.com.thveiculos.erp.views.despesas.DespesaAvulsaView;
 import br.com.thveiculos.erp.views.despesas.MovimentoPagamentoView;
 
 @Component
@@ -50,7 +50,7 @@ public class MainView extends JFrame {
 		btnFormaPagamento.setLocation(10, 10);
 		btnFormaPagamento.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				var view = context.getBean(DespesaView.class);
+				var view = context.getBean(DespesaAvulsaView.class);
 				view.setVisible(true);
 			}
 		});

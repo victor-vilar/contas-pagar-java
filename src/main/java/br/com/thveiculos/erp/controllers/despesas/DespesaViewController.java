@@ -18,7 +18,7 @@ import br.com.thveiculos.erp.services.despesas.interfaces.CategoriaDespesaServic
 import br.com.thveiculos.erp.services.despesas.interfaces.DespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.FormaPagamentoService;
 import br.com.thveiculos.erp.util.ConversorData;
-import br.com.thveiculos.erp.views.despesas.DespesaView;
+import br.com.thveiculos.erp.views.despesas.DespesaAvulsaView;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,10 +33,10 @@ import org.springframework.stereotype.Controller;
  * @author victor
  */
 @Controller
-public class DespesaViewController implements AppViewController<DespesaView> {
+public class DespesaViewController implements AppViewController<DespesaAvulsaView> {
 
     private final DespesaService service;
-    private DespesaView view;
+    private DespesaAvulsaView view;
     private final CategoriaDespesaService categoriaDespesaService;
     private final FormaPagamentoService formaPagamentoService;
     private static final String DESPESA_AVULA = "AVULSA";
@@ -59,7 +59,7 @@ public class DespesaViewController implements AppViewController<DespesaView> {
     }
 
     @Override
-    public void setView(DespesaView view) {
+    public void setView(DespesaAvulsaView view) {
         this.view = view;
 
     }
