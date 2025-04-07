@@ -34,47 +34,47 @@ import org.springframework.stereotype.Component;
 @Component
 @Lazy
 public class DespesaView extends javax.swing.JFrame implements Subscriber {
-
+    
     private javax.swing.JComboBox<String> comboFormaPagamentoTabela;
     private final DespesaViewController controller;
     private static final String TIPO_DESPESA = "AVULSA";
     private final ApplicationContext context;
-
+    
     @Autowired
     public DespesaView(DespesaViewController controller, ApplicationContext context) {
         this.controller = controller;
         this.controller.setView(this);
         this.context = context;
-
+        
     }
-
+    
     @PostConstruct
     public void configurarComponent() {
         initComponents();
         configureComponentes();
-
+        
     }
-
+    
     @Override
     public void atualizar(String valor, String tipo) {
-
+        
         if (tipo.equals("Categoria Despesas")) {
             this.comboCategoria.getModel().setSelectedItem(valor);
         }
-
+        
         if (tipo.equals("Formas Pagamento")) {
             this.comboFormaPagamento.getModel().setSelectedItem(valor);
         }
-
+        
     }
-
+    
     public void configureComponentes() {
         comboFormaPagamentoTabela = new javax.swing.JComboBox<>();
         configureTable();
     }
-
+    
     public void configureTable() {
-
+        
         tableParcelas.setEnabled(false);
         tableParcelas.setCellSelectionEnabled(false);
         tableParcelas.setRowSelectionAllowed(true);
@@ -98,25 +98,25 @@ public class DespesaView extends javax.swing.JFrame implements Subscriber {
 //        });
         //Adicionando evento para deletar linhas selecionadas ao apertar delete
         tableParcelas.addKeyListener(new KeyAdapter() {
-
+            
             @Override
             public void keyPressed(KeyEvent e) {
-
+                
                 if (e.getKeyCode() == KeyEvent.VK_DELETE) {
-
+                    
                     int[] linhas = tableParcelas.getSelectedRows();
                     if (linhas[0] != -1) {
-
+                        
                         if (JOptionPane.showConfirmDialog(null, "Deseja remover as parcelas selecionadas ?", "Atenção", JOptionPane.OK_CANCEL_OPTION) == 0) {
                             controller.deletarMovimentos(linhas);
                         }
-
+                        
                     }
                 }
             }
-
+            
         });
-
+        
         tableParcelas.getModel().addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
@@ -126,38 +126,17 @@ public class DespesaView extends javax.swing.JFrame implements Subscriber {
                     int column = e.getColumn();
                     Object novoValor = tableParcelas.getModel().getValueAt(row, column);
                     String nomeColuna = tableParcelas.getModel().getColumnName(column);
-
-                    switch (column) {
-                        case 2:
-                        case 4:
-                            try {
-
-                                ConversorData.paraData(String.valueOf(novoValor));
-                                controller.atualizarLinhaAlterada(row);
-
-                            } catch (DateTimeParseException ex) {
-                                tableParcelas.getModel().setValueAt(null, row, column);
-                                JOptionPane.showMessageDialog(null, "A data informada não esta correta !", "Erro de Conversão", JOptionPane.ERROR_MESSAGE);
-                            }
-                            break;
-                        case 3:
-                            try {
-
-                                ConversorMoeda.paraBigDecimal(String.valueOf(novoValor));
-                                controller.atualizarLinhaAlterada(row);
-
-                            } catch (DateTimeParseException ex) {
-                                tableParcelas.getModel().setValueAt(null, row, column);
-                                JOptionPane.showMessageDialog(null, "O valor informado não esta correta !", "Erro de Conversão", JOptionPane.ERROR_MESSAGE);
-                            }
-                            break;
-                        default:
-                            controller.atualizarLinhaAlterada(row);
-                            break;
-                    }
-
+                    try{
+                        controller.eventoTableChanged(row, column,novoValor);
+                    } catch (DateTimeParseException ex) {
+                        tableParcelas.getModel().setValueAt(null, row, column);
+                        JOptionPane.showMessageDialog(null, "A data informada não esta correta !", "Erro de Conversão", JOptionPane.ERROR_MESSAGE);
+                    }   
+                    
                 }
+                
             }
+        
         });
 
     }
@@ -813,7 +792,8 @@ public class DespesaView extends javax.swing.JFrame implements Subscriber {
             JOptionPane.showMessageDialog(null, "Ocorreu um erro, cheque a data do parcelamento e o valor e veja se estão nos formatos corretos !", "Erro", JOptionPane.ERROR_MESSAGE);
         } catch (NullPointerException | NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Verifique se todos os campos referente as parcelas foram preenchidos corretamente !", "Erro na Geração das Parcelas", JOptionPane.ERROR_MESSAGE);
-        }
+
+}
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -856,7 +836,9 @@ public class DespesaView extends javax.swing.JFrame implements Subscriber {
     }//GEN-LAST:event_formWindowClosing
 
     private void btnProcurarFormaPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcurarFormaPagamentoActionPerformed
-        var formaPagamentoView = context.getBean(FormaPagamentoView.class);
+        var formaPagamentoView = context.getBean(FormaPagamentoView.class  
+
+);
         formaPagamentoView.setVisible(true);
         formaPagamentoView.adicionarSubscribers(this);
     }//GEN-LAST:event_btnProcurarFormaPagamentoActionPerformed

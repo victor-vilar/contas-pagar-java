@@ -19,9 +19,11 @@ import br.com.thveiculos.erp.services.despesas.interfaces.DespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.FormaPagamentoService;
 import br.com.thveiculos.erp.util.ConversorData;
 import br.com.thveiculos.erp.views.despesas.DespesaView;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,7 +45,6 @@ public class DespesaViewController implements AppViewController<DespesaView> {
             "btnSalvar", "btnDeletar", "fieldId");
 
     private List<MovimentoPagamento> movimentos;
-    
 
     @Autowired
     public DespesaViewController(
@@ -72,37 +73,33 @@ public class DespesaViewController implements AppViewController<DespesaView> {
 
     @Override
     public void salvar() {
-        
+
         DespesaAvulsa despesa = new DespesaAvulsa();
 
-        if(!view.getFieldId().getText().equals("")){
+        if (!view.getFieldId().getText().equals("")) {
             despesa.setId(Long.valueOf(view.getFieldId().getText()));
         }
-        
+
         despesa.setNotaFiscal(buildNota());
         despesa.setParcelas(movimentos);
-        
-        
+
         despesa.setNomeFornecedor(view.getFieldDescricao().getText());
         despesa.setDescricao(view.getAreaDescricao().getText());
         service.save(despesa);
-        
-        
-        
-        
+
         enableDisableComponents(false);
         limparCampos();
 
     }
 
-    private NotaFiscal buildNota(){
-        
+    private NotaFiscal buildNota() {
+
         NotaFiscal nota = new NotaFiscal();
         nota.setDataEmissao(ConversorData.paraData(view.getFieldNotaEmissao().getText()));
         nota.setNumero(view.getFieldNota().getText());
         return nota;
     }
-    
+
     @Override
     public void editar() {
         if (view.getFieldId().getText().equals("")) {
@@ -138,13 +135,13 @@ public class DespesaViewController implements AppViewController<DespesaView> {
 
         } else {
             DespesaRecorrente dr = new DespesaRecorrente();
-            
+
             return new DespesaRecorrente();
         }
 
     }
-    
-    private Despesa build(Despesa despesa){
+
+    private Despesa build(Despesa despesa) {
         return null;
     }
 
@@ -162,9 +159,9 @@ public class DespesaViewController implements AppViewController<DespesaView> {
      * Adiciona as categorias na combobox de categorias da view.
      */
     void inicializarComboCategoria() {
-        
+
         view.getComboCategoria().removeAllItems();
-        
+
         this.categoriaDespesaService.getTodos().stream().forEach(c -> {
             view.getComboCategoria().addItem(c.getName());
         });
@@ -179,7 +176,7 @@ public class DespesaViewController implements AppViewController<DespesaView> {
 
         view.getComboFormaPagamento().removeAllItems();
         view.getComboFormaPagamentoTabela().removeAllItems();
-        
+
         this.formaPagamentoService.getTodos().stream().forEach(f -> {
             view.getComboFormaPagamento().addItem(f.getName());
             view.getComboFormaPagamentoTabela().addItem(f.getName());
@@ -194,7 +191,7 @@ public class DespesaViewController implements AppViewController<DespesaView> {
     private void inicializarComboParcelamento() {
 
         view.getComboParcelamento().removeAllItems();
-        
+
         Arrays.asList(Periodo.values()).stream().forEach(p
                 -> view.getComboParcelamento().addItem(p.name()));
         view.getComboParcelamento().setSelectedIndex(-1);
@@ -220,22 +217,19 @@ public class DespesaViewController implements AppViewController<DespesaView> {
         preencherTabela(movimentos);
         limparCamposParcelamento();
     }
-    
 
-   
     /**
      * Cria os movimentos/parcelas de acordo com os valores adicionados nos
      * campos referentes as parcelas na view.
      */
     private void criarMovimentos() {
 
-        
         movimentos = service.gerarMovimentos(
                 (String) view.getComboParcelamento().getSelectedItem(),
                 (int) view.getSpinnerQuantidadeParcelas().getValue(),
                 view.getFieldVencimentoParcela().getText(),
                 view.getFieldValorTotal().getText(),
-                formaPagamentoService.getByForma((String)view.getComboFormaPagamento().getSelectedItem()));
+                formaPagamentoService.getByForma((String) view.getComboFormaPagamento().getSelectedItem()));
 
     }
 
@@ -246,8 +240,6 @@ public class DespesaViewController implements AppViewController<DespesaView> {
     private void atualizarMovimento(int linha) {
         service.atualizarMovimentos(movimentos, linha, (DefaultTableModel) view.getTableParcelas().getModel());
     }
-
-
 
     /**
      * Atualiza os valores da tabela a partir de uma lista de
@@ -281,12 +273,11 @@ public class DespesaViewController implements AppViewController<DespesaView> {
         ControllerHelper.limparTabela(model);
 
     }
-    
-    
+
     /**
      * Limpar somente os campos referente as parcelas no formulário.
      */
-    private void limparCamposParcelamento(){
+    private void limparCamposParcelamento() {
         view.getComboParcelamento().setSelectedIndex(-1);
         view.getSpinnerQuantidadeParcelas().getModel().setValue(1);
         view.getFieldVencimentoParcela().setText("");
@@ -322,5 +313,37 @@ public class DespesaViewController implements AppViewController<DespesaView> {
         //atualiza a view com a nova tabela.
         preencherTabela(movimentos);
 
+    }
+
+        /**
+         Metodo que ira disparar quando alguma valor de alguma coluna na
+         * tabela alterar.
+         * @param linhas = linha que foi alterada
+         * @param coluna = coluna que foi alterada
+         * @param value = valor que sera usado para realizar a conversão
+         */
+    public void eventoTableChanged(int linha, int coluna, Object value) throws DateTimeParseException {
+        switch (coluna) {
+            //Se as colunas forem ou 2 ou 4 que são as que possuem datas,
+            //ira tentar converter o valor em data;
+            case 2:
+            case 4:
+
+                ConversorData.paraData(String.valueOf(value));
+                atualizarLinhaAlterada(linha);
+                break;
+            //Se as coluna for igual a 3 que é a que possui valor pago
+            // ira tentar ocnverter
+            case 3:
+
+                ConversorMoeda.paraBigDecimal(String.valueOf(value));
+                atualizarLinhaAlterada(linha);
+                break;
+                
+            default:
+                
+                atualizarLinhaAlterada(linha);
+                break;
+        }
     }
 }
