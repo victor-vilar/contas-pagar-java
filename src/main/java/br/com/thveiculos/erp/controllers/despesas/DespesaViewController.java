@@ -328,16 +328,20 @@ public class DespesaViewController implements AppViewController<DespesaAvulsaVie
             //ira tentar converter o valor em data;
             case 2:
             case 4:
-
-                ConversorData.paraData(String.valueOf(value));
-                atualizarLinhaAlterada(linha);
+                
+                if(!String.valueOf(value).equals("")){
+                    ConversorData.paraData(String.valueOf(value));
+                    atualizarLinhaAlterada(linha);
+                }
                 break;
             //Se as coluna for igual a 3 que é a que possui valor pago
             // ira tentar ocnverter
             case 3:
-
-                ConversorMoeda.paraBigDecimal(String.valueOf(value));
-                atualizarLinhaAlterada(linha);
+                
+                if(!String.valueOf(value).equals("")){
+                    ConversorMoeda.paraBigDecimal(String.valueOf(value));
+                    atualizarLinhaAlterada(linha);
+                }
                 break;
                 
             default:
