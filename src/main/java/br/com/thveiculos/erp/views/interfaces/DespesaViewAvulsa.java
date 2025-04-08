@@ -5,6 +5,7 @@
 package br.com.thveiculos.erp.views.interfaces;
 
 import javax.swing.JSpinner;
+import javax.swing.JTextField;
 
 /**
  *
@@ -12,6 +13,9 @@ import javax.swing.JSpinner;
  */
 public interface DespesaViewAvulsa extends DespesaView {
     
-   JSpinner getSpinnerParcelas();
+   JSpinner getSpinnerQuantidadeParcelas();
+   JTextField getFieldNota();
+   JTextField getFieldNotaEmissao();
+   
     
 }

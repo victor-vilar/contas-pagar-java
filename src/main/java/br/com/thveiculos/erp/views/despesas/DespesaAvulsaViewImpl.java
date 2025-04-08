@@ -7,6 +7,7 @@ package br.com.thveiculos.erp.views.despesas;
 import br.com.thveiculos.erp.controllers.despesas.DespesaViewController;
 import br.com.thveiculos.erp.util.ConversorData;
 import br.com.thveiculos.erp.util.ConversorMoeda;
+import br.com.thveiculos.erp.views.interfaces.DespesaViewAvulsa;
 import br.com.thveiculos.erp.views.interfaces.Subscriber;
 import jakarta.annotation.PostConstruct;
 import java.awt.event.KeyAdapter;
@@ -15,7 +16,6 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -33,48 +33,143 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Lazy
-public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber {
-    
+public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscriber, DespesaViewAvulsa {
+
     private javax.swing.JComboBox<String> comboFormaPagamentoTabela;
     private final DespesaViewController controller;
     private static final String TIPO_DESPESA = "AVULSA";
     private final ApplicationContext context;
-    
+
     @Autowired
-    public DespesaAvulsaView(DespesaViewController controller, ApplicationContext context) {
+    public DespesaAvulsaViewImpl(DespesaViewController controller, ApplicationContext context) {
         this.controller = controller;
         this.controller.setView(this);
         this.context = context;
-        
+
     }
-    
+
     @PostConstruct
     public void configurarComponent() {
         initComponents();
         configureComponentes();
-        
+
     }
-    
+
     @Override
     public void atualizar(String valor, String tipo) {
-        
+
         if (tipo.equals("Categoria Despesas")) {
             this.comboCategoria.getModel().setSelectedItem(valor);
         }
-        
+
         if (tipo.equals("Formas Pagamento")) {
             this.comboFormaPagamento.getModel().setSelectedItem(valor);
         }
-        
+
     }
+
+    @Override
+    public List<java.awt.Component> getAllComponentes() {
+        return List.of(areaDescricao, btnDeletar, btnEditar, btnNovo, btnSalvar,
+                btnLockTable, comboCategoria,
+                comboFormaPagamento, comboParcelamento, fieldCodFornecedor,
+                fieldDescricao, fieldId, fieldNota, fieldNotaEmissao, fieldValor,
+                fieldVencimento, tableParcelas, btnProcurarFormaPagamento,
+                btnProcurarFornecedor, btnProcurarCategoria, spinnerQuantidadeParcelas);
+    }
+
+    @Override
+    public List<JTextComponent> getTextFields() {
+        return List.of(fieldCodFornecedor, fieldDescricao, fieldId, fieldNota,
+                fieldNotaEmissao, fieldValor, fieldVencimento, areaDescricao);
+    }
+
+    @Override
+    public List<JComboBox<String>> getComboBoxes() {
+        return List.of(comboCategoria, comboFormaPagamento,
+                comboFormaPagamentoTabela, comboParcelamento);
+    }
+
+    @Override
+    public JTextField getFieldId() {
+        return fieldId;
+    }
+
+    @Override
+    public JTextField getFieldDescricao() {
+        return fieldDescricao;
+    }
+
+    @Override
+    public JTextArea getAreaDescricao() {
+        return areaDescricao;
+    }
+
+    @Override
+    public JTextField getFieldVencimento() {
+        return fieldVencimento;
+    }
+
+    @Override
+    public JTextField getFieldValor() {
+        return fieldValor;
+    }
+    
+    @Override
+    public JTextField getFieldCodFornecedor() {
+        return fieldCodFornecedor;
+    }
+
+    @Override
+    public JComboBox<String> getComboCategoria() {
+        return comboCategoria;
+    }
+
+    @Override
+    public JComboBox<String> getComboParcelamento() {
+        return comboParcelamento;
+    }
+
+    @Override
+    public JComboBox<String> getComboFormaPagamento() {
+        return comboFormaPagamento;
+    }
+
+    @Override
+    public JComboBox<String> getComboFormaPagamentoTabela() {
+        return comboFormaPagamentoTabela;
+    }
+
+    @Override
+    public JTable getTableParcelas() {
+        return tableParcelas;
+    }
+
+    @Override
+    public JSpinner getSpinnerQuantidadeParcelas() {
+        return spinnerQuantidadeParcelas;
+    }
+
+    @Override
+    public JTextField getFieldNota() {
+        return fieldNota;
+    }
+
+    @Override
+    public JTextField getFieldNotaEmissao() {
+        return fieldNotaEmissao;
+    }
+
+    
+    
     
     public void configureComponentes() {
         comboFormaPagamentoTabela = new javax.swing.JComboBox<>();
         configureTable();
     }
-    
+
     public void configureTable() {
-        
+
         tableParcelas.setEnabled(false);
         tableParcelas.setCellSelectionEnabled(false);
         tableParcelas.setRowSelectionAllowed(true);
@@ -82,28 +177,27 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
         //Adicionando uma combo box para os valores disponiveis
         tableParcelas.getColumnModel().getColumn(5).setCellEditor(new DefaultCellEditor(comboFormaPagamentoTabela));
 
-  
         //Adicionando evento para deletar linhas selecionadas ao apertar delete
         tableParcelas.addKeyListener(new KeyAdapter() {
-            
+
             @Override
             public void keyPressed(KeyEvent e) {
-                
+
                 if (e.getKeyCode() == KeyEvent.VK_DELETE) {
-                    
+
                     int[] linhas = tableParcelas.getSelectedRows();
                     if (linhas[0] != -1) {
-                        
+
                         if (JOptionPane.showConfirmDialog(null, "Deseja remover as parcelas selecionadas ?", "Atenção", JOptionPane.OK_CANCEL_OPTION) == 0) {
                             controller.deletarMovimentos(linhas);
                         }
-                        
+
                     }
                 }
             }
-            
+
         });
-        
+
         tableParcelas.getModel().addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
@@ -113,110 +207,22 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
                     int column = e.getColumn();
                     Object novoValor = tableParcelas.getModel().getValueAt(row, column);
                     String nomeColuna = tableParcelas.getModel().getColumnName(column);
-                    try{
-                        controller.eventoTableChanged(row, column,novoValor);
+                    try {
+                        controller.eventoTableChanged(row, column, novoValor);
                     } catch (DateTimeParseException ex) {
                         tableParcelas.getModel().setValueAt(null, row, column);
                         JOptionPane.showMessageDialog(null, "A data informada não esta correta !", "Erro de Conversão", JOptionPane.ERROR_MESSAGE);
-                    }   
-                    
+                    }
+
                 }
-                
+
             }
-        
+
         });
 
     }
 
-    
-    public JTextArea getAreaDescricao() {
-        return areaDescricao;
-    }
 
-    public JComboBox<String> getComboCategoria() {
-        return comboCategoria;
-    }
-
-    public JComboBox<String> getComboFormaPagamento() {
-        return comboFormaPagamento;
-    }
-
-    public JComboBox<String> getComboFormaPagamentoTabela() {
-        return comboFormaPagamentoTabela;
-    }
-
-    public JComboBox<String> getComboParcelamento() {
-        return comboParcelamento;
-    }
-
-    public JTextField getFieldCodFornecedor() {
-        return fieldCodFornecedor;
-    }
-
-    public JTextField getFieldDescricao() {
-        return fieldDescricao;
-    }
-
-    public JTextField getFieldId() {
-        return fieldId;
-    }
-
-    public JTextField getFieldNota() {
-        return fieldNota;
-    }
-
-    public JTextField getFieldNotaEmissao() {
-        return fieldNotaEmissao;
-    }
-
-    public JTextField getFieldValor() {
-        return fieldValor;
-    }
-
-    public JTextField getFieldVencimento() {
-        return fieldVencimento;
-    }
-
-    public JSpinner getSpinnerQuantidadeParcelas() {
-        return spinnerQuantidadeParcelas;
-    }
-
-    public JTable getTableParcelas() {
-        return tableParcelas;
-    }
-
-    public JPanel getPanelMain() {
-        return panelMain;
-    }
-
-    public JPanel getPanelParcelas() {
-        return panelParcelas;
-
-    }
-
-    public String tipoDespesa() {
-        return TIPO_DESPESA;
-    }
-
-    public List<java.awt.Component> getAllComponentes() {
-        return List.of(areaDescricao, btnDeletar, btnEditar, btnNovo, btnSalvar,
-                btnLockTable, comboCategoria,
-                comboFormaPagamento, comboParcelamento, fieldCodFornecedor,
-                fieldDescricao, fieldId, fieldNota, fieldNotaEmissao, fieldValor,
-                fieldVencimento, tableParcelas, btnProcurarFormaPagamento,
-                btnProcurarFornecedor, btnProcurarCategoria, spinnerQuantidadeParcelas);
-
-    }
-
-    public List<JTextComponent> getTextFields() {
-        return List.of(fieldCodFornecedor, fieldDescricao, fieldId, fieldNota,
-                fieldNotaEmissao, fieldValor, fieldVencimento, areaDescricao);
-    }
-    
-    public List<JComboBox<String>> getComboBoxes(){
-        return List.of(comboCategoria,comboFormaPagamento,
-                comboFormaPagamentoTabela,comboParcelamento);
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -764,7 +770,7 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
         } catch (NullPointerException | NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Verifique se todos os campos referente as parcelas foram preenchidos corretamente !", "Erro na Geração das Parcelas", JOptionPane.ERROR_MESSAGE);
 
-}
+        }
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
