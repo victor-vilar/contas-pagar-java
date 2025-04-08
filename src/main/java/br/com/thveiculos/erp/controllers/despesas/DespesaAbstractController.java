@@ -30,7 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author victor
  */
 
-public abstract class DespesaViewAbstractController<T extends DespesaView> {
+public abstract class DespesaAbstractController<T extends DespesaView> {
 
     protected final DespesaService service;
     protected final CategoriaDespesaService categoriaDespesaService;
@@ -49,7 +49,7 @@ public abstract class DespesaViewAbstractController<T extends DespesaView> {
     
 
    
-    public DespesaViewAbstractController(
+    public DespesaAbstractController(
             DespesaService service,
             CategoriaDespesaService categoriaDespesaService,
             FormaPagamentoService formaPagamentoService) {
