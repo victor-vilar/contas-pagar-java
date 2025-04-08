@@ -4,7 +4,6 @@
  */
 package br.com.thveiculos.erp.controllers.despesas;
 
-import br.com.thveiculos.erp.controllers.AppViewController;
 import br.com.thveiculos.erp.controllers.util.ControllerHelper;
 import br.com.thveiculos.erp.entities.despesas.Despesa;
 import br.com.thveiculos.erp.entities.despesas.DespesaAvulsa;
@@ -17,25 +16,24 @@ import br.com.thveiculos.erp.services.despesas.interfaces.CategoriaDespesaServic
 import br.com.thveiculos.erp.services.despesas.interfaces.DespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.FormaPagamentoService;
 import br.com.thveiculos.erp.util.ConversorData;
-import br.com.thveiculos.erp.views.despesas.DespesaAvulsaView;
+import br.com.thveiculos.erp.views.despesas.DespesaAvulsaViewImpl;
+import br.com.thveiculos.erp.views.interfaces.DespesaView;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.JTextComponent;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 /**
  *
  * @author victor
  */
 
-public class DespesaViewController implements AppViewController<DespesaAvulsaView> {
+public abstract class DespesaViewAbstractController {
 
     private final DespesaService service;
-    private DespesaAvulsaView view;
+    private DespesaView view;
     private final CategoriaDespesaService categoriaDespesaService;
     private final FormaPagamentoService formaPagamentoService;
     private static final String DESPESA_AVULA = "AVULSA";
@@ -46,7 +44,7 @@ public class DespesaViewController implements AppViewController<DespesaAvulsaVie
     private List<MovimentoPagamento> movimentos;
 
     @Autowired
-    public DespesaViewController(
+    public DespesaViewAbstractController(
             DespesaService service,
             CategoriaDespesaService categoriaDespesaService,
             FormaPagamentoService formaPagamentoService) {
@@ -57,21 +55,21 @@ public class DespesaViewController implements AppViewController<DespesaAvulsaVie
 
     }
 
-    @Override
-    public void setView(DespesaAvulsaView view) {
+    
+    public void setView(DespesaAvulsaViewImpl view) {
         this.view = view;
 
     }
 
-    @Override
+    
     public void novo() {
         enableDisableComponents(true);
         limparCampos();
 
     }
 
-    @Override
-    public void salvar() {
+    
+    public abstract void salvar() {
 
         DespesaAvulsa despesa = new DespesaAvulsa();
 
@@ -99,7 +97,7 @@ public class DespesaViewController implements AppViewController<DespesaAvulsaVie
         return nota;
     }
 
-    @Override
+    
     public void editar() {
         if (view.getFieldId().getText().equals("")) {
             return;
@@ -108,13 +106,13 @@ public class DespesaViewController implements AppViewController<DespesaAvulsaVie
         enableDisableComponents(true);
     }
 
-    @Override
+    
     public void deletar() {
         service.deleteById(Long.valueOf(view.getFieldId().getText()));
         limparCampos();
     }
 
-    @Override
+    
     public void limparCampos() {
         view.getTextFields().stream().forEach(f -> f.setText(""));
         view.getComboBoxes().stream().forEach(c -> c.setSelectedIndex(-1));
