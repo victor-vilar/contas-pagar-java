@@ -13,9 +13,9 @@ import javax.swing.JTextField;
  */
 public interface DespesaViewRecorrente extends DespesaView {
     
-    JTextField getFieldDiaVencimento();
-    JTextField getFieldMesVencimento();
-    JTextField getFieldDataInicio();
-    JTextField getFielldDataFim();
+    public JTextField getFieldDiaVencimento();
+    public JTextField getFieldMesVencimento();
+    public JTextField getFieldDataInicio();
+    public JTextField getFielldDataFim();
     
 }

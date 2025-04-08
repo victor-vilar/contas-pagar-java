@@ -7,21 +7,17 @@ package br.com.thveiculos.erp.views.despesas;
 import br.com.thveiculos.erp.controllers.despesas.DespesaViewController;
 import br.com.thveiculos.erp.util.ConversorData;
 import br.com.thveiculos.erp.util.ConversorMoeda;
-import br.com.thveiculos.erp.views.interfaces.DespesaView;
+import br.com.thveiculos.erp.views.interfaces.DespesaViewRecorrente;
 import br.com.thveiculos.erp.views.interfaces.Subscriber;
 import jakarta.annotation.PostConstruct;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.time.format.DateTimeParseException;
-import java.util.Collections;
 import java.util.List;
 import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -35,7 +31,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Lazy
-public class DespesaRecorrenteView extends javax.swing.JFrame implements Subscriber, DespesaView {
+public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Subscriber, DespesaViewRecorrente {
     
     private javax.swing.JComboBox<String> comboFormaPagamentoTabela;
     private final DespesaViewController controller;
@@ -43,7 +39,7 @@ public class DespesaRecorrenteView extends javax.swing.JFrame implements Subscri
     private final ApplicationContext context;
     
     @Autowired
-    public DespesaRecorrenteView(DespesaViewController controller, ApplicationContext context) {
+    public DespesaRecorrenteViewImpl(DespesaViewController controller, ApplicationContext context) {
         this.controller = controller;
         //this.controller.setView(this);
         this.context = context;
@@ -70,6 +66,111 @@ public class DespesaRecorrenteView extends javax.swing.JFrame implements Subscri
         
     }
     
+    
+    @Override
+    public List<java.awt.Component> getAllComponentes() {
+        return List.of(areaDescricao, btnDeletar, btnEditar, btnNovo, btnSalvar,
+                btnLockTable, comboCategoria,
+                comboFormaPagamento, comboParcelamento, fieldCodFornecedor,
+                fieldDescricao, fieldId, fieldValor,
+                 tableParcelas, btnProcurarFormaPagamento,
+                btnProcurarFornecedor, btnProcurarCategoria,fieldDiaVencimento,
+                fieldMesVencimento,
+                fieldDataInicio,
+                fieldDataFim);
+    }
+
+    @Override
+    public List<JTextComponent> getTextFields() {
+        return List.of(fieldCodFornecedor,
+                fieldDescricao,
+                fieldId, 
+                fieldValor,
+                areaDescricao,
+                fieldDiaVencimento,
+                fieldMesVencimento,
+                fieldDataInicio,
+                fieldDataFim);
+    }
+
+    @Override
+    public List<JComboBox<String>> getComboBoxes() {
+        return List.of(comboCategoria, comboFormaPagamento,
+                comboFormaPagamentoTabela, comboParcelamento);
+    }
+
+    @Override
+    public JTextField getFieldId() {
+        return fieldId;
+    }
+
+    @Override
+    public JTextField getFieldDescricao() {
+        return fieldDescricao;
+    }
+
+    @Override
+    public JTextArea getAreaDescricao() {
+        return areaDescricao;
+    }
+
+
+    @Override
+    public JTextField getFieldValor() {
+        return fieldValor;
+    }
+    
+    @Override
+    public JTextField getFieldCodFornecedor() {
+        return fieldCodFornecedor;
+    }
+
+    @Override
+    public JComboBox<String> getComboCategoria() {
+        return comboCategoria;
+    }
+
+    @Override
+    public JComboBox<String> getComboParcelamento() {
+        return comboParcelamento;
+    }
+
+    @Override
+    public JComboBox<String> getComboFormaPagamento() {
+        return comboFormaPagamento;
+    }
+
+    @Override
+    public JComboBox<String> getComboFormaPagamentoTabela() {
+        return comboFormaPagamentoTabela;
+    }
+
+    @Override
+    public JTable getTableParcelas() {
+        return tableParcelas;
+    }
+    
+    @Override
+    public JTextField getFieldDiaVencimento(){
+        return fieldDiaVencimento;
+    }
+    
+    @Override
+    public JTextField getFieldMesVencimento(){
+        return fieldMesVencimento;
+    }
+    
+    @Override
+    public JTextField getFieldDataInicio(){
+        return fieldDataInicio;
+    }
+    
+    @Override
+    public JTextField getFielldDataFim(){
+        return fieldDataFim;
+    }
+    
+
     public void configureComponentes() {
         comboFormaPagamentoTabela = new javax.swing.JComboBox<>();
         configureTable();
@@ -129,132 +230,7 @@ public class DespesaRecorrenteView extends javax.swing.JFrame implements Subscri
 
     }
 
-    public JTextArea getAreaDescricao() {
-        return areaDescricao;
-    }
 
-    public JButton getBtnDeletar() {
-        return btnDeletar;
-    }
-
-    public JButton getBtnEditar() {
-        return btnEditar;
-    }
-
-    public JButton getBtnNovo() {
-        return btnNovo;
-    }
-
-    public JButton getBtnSalvar() {
-        return btnSalvar;
-    }
-
-    public JButton getBtnTable() {
-        return btnLockTable;
-    }
-
-    @Override
-    public JComboBox<String> getComboCategoria() {
-        return comboCategoria;
-    }
-
-    @Override
-    public JComboBox<String> getComboFormaPagamento() {
-        return comboFormaPagamento;
-    }
-
-    @Override
-    public JComboBox<String> getComboFormaPagamentoTabela() {
-        return comboFormaPagamentoTabela;
-    }
-
-    @Override
-    public JComboBox<String> getComboParcelamento() {
-        return comboParcelamento;
-    }
-
-    @Override
-    public JTable getTableParcelas() {
-        return tableParcelas;
-    }
-    
-    public JTextField getFieldCodFornecedor() {
-        return fieldCodFornecedor;
-    }
-
-    @Override
-    public JTextField getFieldDescricao() {
-        return fieldDescricao;
-    }
-
-    @Override
-    public JTextField getFieldId() {
-        return fieldId;
-    }
-    
-        @Override
-    public JTextField getFieldValor() {
-        return fieldValorTotal;
-    }
-
-    @Override
-    public JTextField getFieldVencimento() {
-        return fieldDiaVencimento;
-    }
-
-    public JTextField getFieldDataInicio() {
-        return fieldDataInicio;
-    }
-
-    public JTextField getFieldDataFim() {
-        return fieldDataFim;
-    }
-
-
-
-
-
-
-    public JPanel getPanelMain() {
-        return panelMain;
-    }
-
-    public JPanel getPanelParcelas() {
-        return panelParcelas;
-
-    }
-
-    public String tipoDespesa() {
-        return TIPO_DESPESA;
-    }
-
-    @Override
-    public List<java.awt.Component> getAllComponentes() {
-        return List.of(areaDescricao, btnDeletar, btnEditar, btnNovo, btnSalvar,
-                btnLockTable, comboCategoria,
-                comboFormaPagamento, comboParcelamento, fieldCodFornecedor,
-                fieldDescricao, fieldId, fieldDataInicio, fieldDataFim, fieldValorTotal,
-                fieldDataInicio, tableParcelas, btnProcurarFormaPagamento,
-                btnProcurarFornecedor, btnProcurarCategoria);
-
-    }
-
-    @Override
-    public List<JTextComponent> getTextFields() {
-        return List.of(fieldCodFornecedor, fieldDescricao, fieldId, fieldDataInicio,
-                fieldDataFim, fieldValorTotal, fieldDataInicio, areaDescricao);
-    }
-    
-    @Override
-    public List<JComboBox<String>> getComboBoxes(){
-        return List.of(comboCategoria,comboFormaPagamento,comboFormaPagamentoTabela,comboParcelamento);
-    }
-    
-    
-    @Override
-    public List<JSpinner> getAllSpinners(){
-        return Collections.emptyList();
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -297,7 +273,7 @@ public class DespesaRecorrenteView extends javax.swing.JFrame implements Subscri
         jLabel8 = new javax.swing.JLabel();
         comboParcelamento = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
-        fieldValorTotal = new javax.swing.JTextField();
+        fieldValor = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         tableParcelas = new javax.swing.JTable();
         btnLockTable = new javax.swing.JButton();
@@ -591,11 +567,11 @@ public class DespesaRecorrenteView extends javax.swing.JFrame implements Subscri
         jLabel10.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel10.setText("Valor");
 
-        fieldValorTotal.setEnabled(false);
-        fieldValorTotal.setName("fieldValorTotal"); // NOI18N
-        fieldValorTotal.addFocusListener(new java.awt.event.FocusAdapter() {
+        fieldValor.setEnabled(false);
+        fieldValor.setName("fieldValor"); // NOI18N
+        fieldValor.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                fieldValorTotalFocusLost(evt);
+                fieldValorFocusLost(evt);
             }
         });
 
@@ -694,7 +670,7 @@ public class DespesaRecorrenteView extends javax.swing.JFrame implements Subscri
                             .addGroup(panelParcelasLayout.createSequentialGroup()
                                 .addComponent(comboParcelamento, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(6, 6, 6)
-                                .addComponent(fieldValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(fieldValor, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(4, 4, 4)
                                 .addComponent(fieldDiaVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -729,7 +705,7 @@ public class DespesaRecorrenteView extends javax.swing.JFrame implements Subscri
                     .addGroup(panelParcelasLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(fieldValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fieldValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(fieldDiaVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(fieldMesVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(panelParcelasLayout.createSequentialGroup()
@@ -865,15 +841,15 @@ public class DespesaRecorrenteView extends javax.swing.JFrame implements Subscri
         }
     }//GEN-LAST:event_btnLockTableActionPerformed
 
-    private void fieldValorTotalFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldValorTotalFocusLost
+    private void fieldValorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldValorFocusLost
         try {
-            fieldValorTotal.setText(ConversorMoeda.paraString(ConversorMoeda.paraBigDecimal(fieldValorTotal.getText())));
+            fieldValor.setText(ConversorMoeda.paraString(ConversorMoeda.paraBigDecimal(fieldValor.getText())));
         } catch (DateTimeParseException ex) {
-            fieldValorTotal.setText("");
-            fieldValorTotal.requestFocus();
+            fieldValor.setText("");
+            fieldValor.requestFocus();
             JOptionPane.showMessageDialog(null, "A data informada não esta correta !", "Erro", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_fieldValorTotalFocusLost
+    }//GEN-LAST:event_fieldValorFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -898,7 +874,7 @@ public class DespesaRecorrenteView extends javax.swing.JFrame implements Subscri
     private javax.swing.JTextField fieldDiaVencimento;
     private javax.swing.JTextField fieldId;
     private javax.swing.JTextField fieldMesVencimento;
-    private javax.swing.JTextField fieldValorTotal;
+    private javax.swing.JTextField fieldValor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

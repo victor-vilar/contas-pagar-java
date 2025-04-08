@@ -514,7 +514,7 @@
                               <Group type="102" attributes="0">
                                   <Component id="comboParcelamento" min="-2" pref="145" max="-2" attributes="0"/>
                                   <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                                  <Component id="fieldValorTotal" min="-2" pref="115" max="-2" attributes="0"/>
+                                  <Component id="fieldValor" min="-2" pref="115" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                                   <Component id="fieldDiaVencimento" min="-2" pref="30" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
@@ -559,7 +559,7 @@
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="fieldValorTotal" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="fieldValor" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="fieldDiaVencimento" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="fieldMesVencimento" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -602,13 +602,13 @@
             <Property name="text" type="java.lang.String" value="Valor"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="fieldValorTotal">
+        <Component class="javax.swing.JTextField" name="fieldValor">
           <Properties>
             <Property name="enabled" type="boolean" value="false"/>
-            <Property name="name" type="java.lang.String" value="fieldValorTotal" noResource="true"/>
+            <Property name="name" type="java.lang.String" value="fieldValor" noResource="true"/>
           </Properties>
           <Events>
-            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="fieldValorTotalFocusLost"/>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="fieldValorFocusLost"/>
           </Events>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane3">
