@@ -4,6 +4,7 @@
  */
 package br.com.thveiculos.erp.controllers.despesas;
 
+import br.com.thveiculos.erp.controllers.AppViewController;
 import br.com.thveiculos.erp.controllers.util.ControllerHelper;
 import br.com.thveiculos.erp.entities.despesas.Despesa;
 import br.com.thveiculos.erp.entities.despesas.DespesaAvulsa;
@@ -30,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author victor
  */
 
-public abstract class DespesaAbstractController<T extends DespesaView> {
+public abstract class DespesaAbstractController<T extends DespesaView> implements AppViewController<T> {
 
     protected final DespesaService service;
     protected final CategoriaDespesaService categoriaDespesaService;
@@ -60,14 +61,22 @@ public abstract class DespesaAbstractController<T extends DespesaView> {
 
     }
 
-    public abstract void salvar();
+
     
+    @Override
+    public void setView(T view){
+        this.view = view;
+    }
+            
+    
+    @Override
     public void novo() {
         enableDisableComponents(true);
         limparCampos();
 
     }
 
+    @Override
     public void editar() {
         if (view.getFieldId().getText().equals("")) {
             return;
@@ -76,11 +85,13 @@ public abstract class DespesaAbstractController<T extends DespesaView> {
         enableDisableComponents(true);
     }
     
+    @Override
     public void deletar() {
         service.deleteById(Long.valueOf(view.getFieldId().getText()));
         limparCampos();
     }
     
+    @Override
     public void limparCampos() {
         view.getTextFields().stream().forEach(f -> f.setText(""));
         view.getComboBoxes().stream().forEach(c -> c.setSelectedIndex(-1));

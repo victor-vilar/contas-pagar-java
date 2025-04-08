@@ -22,17 +22,13 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 @Lazy
-public class DespesaAvulsaController extends DespesaAbstractController<DespesaAvulsaViewImpl> implements AppViewController<DespesaAvulsaViewImpl> {
+public class DespesaAvulsaController extends DespesaAbstractController<DespesaAvulsaViewImpl>{
 
     @Autowired
     public DespesaAvulsaController(DespesaService service, CategoriaDespesaService categoriaDespesaService, FormaPagamentoService formaPagamentoService) {
         super(service, categoriaDespesaService, formaPagamentoService);
     }
 
-    @Override
-    public void setView(DespesaAvulsaViewImpl view) {
-        this.view = view;
-    }
 
     @Override
     public void salvar() {
