@@ -30,20 +30,25 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author victor
  */
 
-public abstract class DespesaViewAbstractController {
+public abstract class DespesaViewAbstractController<T extends DespesaView> {
 
-    private final DespesaService service;
-    private DespesaView view;
-    private final CategoriaDespesaService categoriaDespesaService;
-    private final FormaPagamentoService formaPagamentoService;
-    private static final String DESPESA_AVULA = "AVULSA";
-    private static final String DESPESA_RECORRENTE = "RECORRENTE";
-    private final List<String> exludeComponents = List.of("btnNovo", "btnEditar",
-            "btnSalvar", "btnDeletar", "fieldId");
+    protected final DespesaService service;
+    protected final CategoriaDespesaService categoriaDespesaService;
+    protected final FormaPagamentoService formaPagamentoService;
+    protected T view;
+    protected List<MovimentoPagamento> movimentos;
 
-    private List<MovimentoPagamento> movimentos;
 
-    @Autowired
+    private final List<String> exludeComponents = List.of(
+            "btnNovo",
+            "btnEditar",
+            "btnSalvar",
+            "btnDeletar",
+            "fieldId");
+
+    
+
+   
     public DespesaViewAbstractController(
             DespesaService service,
             CategoriaDespesaService categoriaDespesaService,
@@ -55,12 +60,7 @@ public abstract class DespesaViewAbstractController {
 
     }
 
-    
-    public void setView(DespesaAvulsaViewImpl view) {
-        this.view = view;
-
-    }
-
+    public abstract void salvar();
     
     public void novo() {
         enableDisableComponents(true);
@@ -68,36 +68,6 @@ public abstract class DespesaViewAbstractController {
 
     }
 
-    
-    public abstract void salvar() {
-
-        DespesaAvulsa despesa = new DespesaAvulsa();
-
-        if (!view.getFieldId().getText().equals("")) {
-            despesa.setId(Long.valueOf(view.getFieldId().getText()));
-        }
-
-        despesa.setNotaFiscal(buildNota());
-        despesa.setParcelas(movimentos);
-
-        despesa.setNomeFornecedor(view.getFieldDescricao().getText());
-        despesa.setDescricao(view.getAreaDescricao().getText());
-        service.save(despesa);
-
-        enableDisableComponents(false);
-        limparCampos();
-
-    }
-
-    private NotaFiscal buildNota() {
-
-        NotaFiscal nota = new NotaFiscal();
-        nota.setDataEmissao(ConversorData.paraData(view.getFieldNotaEmissao().getText()));
-        nota.setNumero(view.getFieldNota().getText());
-        return nota;
-    }
-
-    
     public void editar() {
         if (view.getFieldId().getText().equals("")) {
             return;
@@ -105,42 +75,20 @@ public abstract class DespesaViewAbstractController {
 
         enableDisableComponents(true);
     }
-
     
     public void deletar() {
         service.deleteById(Long.valueOf(view.getFieldId().getText()));
         limparCampos();
     }
-
     
     public void limparCampos() {
         view.getTextFields().stream().forEach(f -> f.setText(""));
         view.getComboBoxes().stream().forEach(c -> c.setSelectedIndex(-1));
-        view.getSpinnerQuantidadeParcelas().getModel().setValue(1);
-        movimentos.clear();
-        limparCamposParcelamento();
         limparTabela();
+        limparCamposParcelamento();
+        movimentos.clear();
     }
 
-    /**
-     * Constroi o objeto que será salvo no banco de dados.
-     */
-    private Despesa getInstance(String type) {
-
-        if (type.equals(DESPESA_AVULA)) {
-            return new DespesaAvulsa();
-
-        } else {
-            DespesaRecorrente dr = new DespesaRecorrente();
-
-            return new DespesaRecorrente();
-        }
-
-    }
-
-    private Despesa build(Despesa despesa) {
-        return null;
-    }
 
     /**
      * Atualiza os combobox da view com os valores vindos do banco de dados.
@@ -153,7 +101,7 @@ public abstract class DespesaViewAbstractController {
 
     }
 
-    void resetarCombos() {
+    private void resetarCombos() {
         view.getComboBoxes().stream().forEach(c -> c.removeAllItems());
     }
 
@@ -207,35 +155,11 @@ public abstract class DespesaViewAbstractController {
 
     }
 
-    public void gerarParcelas() {
-        criarMovimentos();
-        preencherTabela(movimentos);
-        limparCamposParcelamento();
-    }
-
-
-    /**
-     * Cria os movimentos/parcelas de acordo com os valores adicionados nos
-     * campos referentes as parcelas na view.
-     */
-    private void criarMovimentos() {
-
-        
-
-        movimentos = service.gerarMovimentos(
-                (String) view.getComboParcelamento().getSelectedItem(),
-                (int) view.getSpinnerQuantidadeParcelas().getValue(),
-                view.getFieldVencimento().getText(),
-                view.getFieldValor().getText(),
-                formaPagamentoService.getByForma((String) view.getComboFormaPagamento().getSelectedItem()));
-
-    }
-
     /**
      * Atualiza a lista de movimentos de acordo com as alterações realizadas na
      * tabela da view.
      */
-    private void atualizarMovimento(int linha) {
+    protected void atualizarMovimento(int linha) {
         service.atualizarMovimentos(
                 movimentos,
                 linha,
@@ -250,7 +174,7 @@ public abstract class DespesaViewAbstractController {
      * @param movimentos Lista de movimentos que estão salvo ou não no banco de
      * dados que irão preencher a tabela.
      */
-    private void preencherTabela(List<MovimentoPagamento> movimentos) {
+    protected void preencherTabela(List<MovimentoPagamento> movimentos) {
 
         DefaultTableModel model = (DefaultTableModel) view.getTableParcelas().getModel();
         ControllerHelper.limparTabela(model);
@@ -270,7 +194,7 @@ public abstract class DespesaViewAbstractController {
     /**
      * Limpa todos os valores que estão dentro da tabela.
      */
-    private void limparTabela() {
+    protected void limparTabela() {
         DefaultTableModel model = (DefaultTableModel) view.getTableParcelas().getModel();
         ControllerHelper.limparTabela(model);
 
@@ -279,10 +203,8 @@ public abstract class DespesaViewAbstractController {
     /**
      * Limpar somente os campos referente as parcelas no formulário.
      */
-    private void limparCamposParcelamento() {
+    protected void limparCamposParcelamento() {
         view.getComboParcelamento().setSelectedIndex(-1);
-        view.getSpinnerQuantidadeParcelas().getModel().setValue(1);
-        view.getFieldVencimento().setText("");
         view.getFieldValor().setText("");
         view.getComboFormaPagamento().setSelectedIndex(-1);
     }
