@@ -4,7 +4,7 @@
  */
 package br.com.thveiculos.erp.views.despesas;
 
-import br.com.thveiculos.erp.controllers.despesas.DespesaViewController;
+import br.com.thveiculos.erp.controllers.despesas.DespesaAbstractController;
 import br.com.thveiculos.erp.util.ConversorData;
 import br.com.thveiculos.erp.util.ConversorMoeda;
 import br.com.thveiculos.erp.views.interfaces.DespesaViewRecorrente;
@@ -34,12 +34,13 @@ import org.springframework.stereotype.Component;
 public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Subscriber, DespesaViewRecorrente {
     
     private javax.swing.JComboBox<String> comboFormaPagamentoTabela;
-    private final DespesaViewController controller;
-    private static final String TIPO_DESPESA = "RECORRENTE";
+    private final DespesaAbstractController controller;
     private final ApplicationContext context;
     
     @Autowired
-    public DespesaRecorrenteViewImpl(DespesaViewController controller, ApplicationContext context) {
+    public DespesaRecorrenteViewImpl(
+            DespesaAbstractController controller,
+            ApplicationContext context) {
         this.controller = controller;
         //this.controller.setView(this);
         this.context = context;
@@ -69,12 +70,24 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
     
     @Override
     public List<java.awt.Component> getAllComponentes() {
-        return List.of(areaDescricao, btnDeletar, btnEditar, btnNovo, btnSalvar,
-                btnLockTable, comboCategoria,
-                comboFormaPagamento, comboParcelamento, fieldCodFornecedor,
-                fieldDescricao, fieldId, fieldValor,
-                 tableParcelas, btnProcurarFormaPagamento,
-                btnProcurarFornecedor, btnProcurarCategoria,fieldDiaVencimento,
+        return List.of(areaDescricao,
+                btnDeletar,
+                btnEditar,
+                btnNovo,
+                btnSalvar,
+                btnLockTable,
+                comboCategoria,
+                comboFormaPagamento,
+                comboParcelamento,
+                fieldCodFornecedor,
+                fieldDescricao,
+                fieldId,
+                fieldValor,
+                tableParcelas,
+                btnProcurarFormaPagamento,
+                btnProcurarFornecedor,
+                btnProcurarCategoria,
+                fieldDiaVencimento,
                 fieldMesVencimento,
                 fieldDataInicio,
                 fieldDataFim);
@@ -95,8 +108,10 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
 
     @Override
     public List<JComboBox<String>> getComboBoxes() {
-        return List.of(comboCategoria, comboFormaPagamento,
-                comboFormaPagamentoTabela, comboParcelamento);
+        return List.of(comboCategoria,
+                comboFormaPagamento,
+                comboFormaPagamentoTabela,
+                comboParcelamento);
     }
 
     @Override
