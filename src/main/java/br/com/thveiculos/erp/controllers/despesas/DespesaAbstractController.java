@@ -96,7 +96,6 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
         view.getTextFields().stream().forEach(f -> f.setText(""));
         view.getComboBoxes().stream().forEach(c -> c.setSelectedIndex(-1));
         limparTabela();
-        limparCamposParcelamento();
         movimentos.clear();
     }
 
@@ -167,10 +166,10 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
     }
 
     /**
-     * Atualiza a lista de movimentos de acordo com as alterações realizadas na
-     * tabela da view.
+     * Atualiza o movimento de acordo com as alterações realizadas na
+     * na linha da tabela na view.
      */
-    protected void atualizarMovimento(int linha) {
+    protected void editarMovimento(int linha) {
         service.atualizarMovimentos(
                 movimentos,
                 linha,
@@ -211,14 +210,7 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
 
     }
 
-    /**
-     * Limpar somente os campos referente as parcelas no formulário.
-     */
-    protected void limparCamposParcelamento() {
-        view.getComboParcelamento().setSelectedIndex(-1);
-        view.getFieldValor().setText("");
-        view.getComboFormaPagamento().setSelectedIndex(-1);
-    }
+
 
     /**
      * Adiciona as linhas que foram selecionadas na tabela e que podem ter
@@ -228,7 +220,7 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
      * @param indexLinha
      */
     public void atualizarLinhaAlterada(int indexLinha) {
-        atualizarMovimento(indexLinha);
+        editarMovimento(indexLinha);
         preencherTabela(movimentos);
     }
 
@@ -253,7 +245,7 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
     /**
      * Metodo que ira disparar quando alguma valor de alguma coluna na tabela
      * alterar.
-     *
+     *      *
      * @param linhas = linha que foi alterada
      * @param coluna = coluna que foi alterada
      * @param value = valor que sera usado para realizar a conversão

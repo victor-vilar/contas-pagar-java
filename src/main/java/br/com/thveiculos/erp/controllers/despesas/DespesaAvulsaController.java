@@ -75,7 +75,7 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
     }
 
     private void criarMovimentos() {
-
+       
         movimentos = service.gerarMovimentos(
                 (String) view.getComboParcelamento().getSelectedItem(),
                 (int) view.getSpinnerQuantidadeParcelas().getValue(),
@@ -85,11 +85,11 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
 
     }
 
-    @Override
     protected void limparCamposParcelamento() {
-        super.limparCamposParcelamento();
+        view.getComboParcelamento().setSelectedIndex(-1);
+        view.getFieldValor().setText("");
+        view.getComboFormaPagamento().setSelectedIndex(-1);
         view.getSpinnerQuantidadeParcelas().getModel().setValue(1);
         view.getFieldVencimento().setText("");
-
     }
 }
