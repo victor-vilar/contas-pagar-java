@@ -78,7 +78,7 @@ public class MovimentoPagamentoService {
                 novaData = dataAtual.plusMonths(1);
                 break;
             case "QUINZENAL":
-                novaData = dataAtual.plusWeeks(2);
+                novaData = dataAtual.plusDays(15);
                 break;
             case "SEMANAL":
                 novaData = dataAtual.plusWeeks(1);
