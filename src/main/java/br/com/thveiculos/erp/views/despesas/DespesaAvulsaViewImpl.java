@@ -4,7 +4,8 @@
  */
 package br.com.thveiculos.erp.views.despesas;
 
-import br.com.thveiculos.erp.controllers.despesas.DespesaViewController;
+import br.com.thveiculos.erp.controllers.despesas.DespesaAvulsaController;
+import br.com.thveiculos.erp.controllers.despesas.DespesaViewAbstractController;
 import br.com.thveiculos.erp.util.ConversorData;
 import br.com.thveiculos.erp.util.ConversorMoeda;
 import br.com.thveiculos.erp.views.interfaces.DespesaViewAvulsa;
@@ -18,7 +19,6 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -36,12 +36,12 @@ import org.springframework.stereotype.Component;
 public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscriber, DespesaViewAvulsa {
 
     private javax.swing.JComboBox<String> comboFormaPagamentoTabela;
-    private final DespesaViewController controller;
+    private final DespesaAvulsaController controller;
     private static final String TIPO_DESPESA = "AVULSA";
     private final ApplicationContext context;
 
     @Autowired
-    public DespesaAvulsaViewImpl(DespesaViewController controller, ApplicationContext context) {
+    public DespesaAvulsaViewImpl(DespesaAvulsaController controller, ApplicationContext context) {
         this.controller = controller;
         this.controller.setView(this);
         this.context = context;
