@@ -26,7 +26,6 @@ public interface DespesaView {
    public JTextField getFieldId();
    public JTextField getFieldDescricao();
    public JTextArea getAreaDescricao();
-   public JTextField getFieldVencimento();
    public JTextField getFieldValor();
    public JTextField getFieldCodFornecedor();
    

@@ -16,6 +16,7 @@ public interface DespesaViewAvulsa extends DespesaView {
    JSpinner getSpinnerQuantidadeParcelas();
    JTextField getFieldNota();
    JTextField getFieldNotaEmissao();
+   public JTextField getFieldVencimento();
    
     
 }
