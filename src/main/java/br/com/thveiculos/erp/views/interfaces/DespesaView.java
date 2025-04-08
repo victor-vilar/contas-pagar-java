@@ -19,18 +19,20 @@ import javax.swing.text.JTextComponent;
 public interface DespesaView {
    
    public List<JTextComponent> getTextFields();
-   public JTextField getFieldId();
-   public JTextField getFieldDescricao();
-   public JTextField getFieldVencimento();
-   public JTextField getFieldValor();
-   public JTextArea getAreaDescricao();
    public List<java.awt.Component> getAllComponentes();
    public List<JComboBox<String>> getComboBoxes();
    public JComboBox<String> getComboCategoria();
    public JComboBox<String> getComboParcelamento();
    public JComboBox<String> getComboFormaPagamento();
    public JComboBox<String> getComboFormaPagamentoTabela();
-   public List<JSpinner> getAllSpinners();
+   
+   public JTextField getFieldId();
+   public JTextField getFieldDescricao();
+   public JTextField getFieldVencimento();
+   public JTextField getFieldValor();
+   public JTextArea getAreaDescricao();
+   
+  
    public JTable getTableParcelas();
     
 }
