@@ -46,8 +46,8 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
             despesa.setNotaFiscal(buildNota(numeroNota, dataNota));
         }
 
-        String nome = view.getFieldDescricao().getText();
-        String descricao = view.getAreaDescricao().getText();
+        String nome = view.getFieldDescricao().getText().toUpperCase();
+        String descricao = view.getAreaDescricao().getText().toUpperCase();
         String categoria = (String) view.getComboCategoria().getSelectedItem();
 
         despesa.setNomeFornecedor(nome);
