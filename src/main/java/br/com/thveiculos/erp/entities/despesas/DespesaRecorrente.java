@@ -21,6 +21,8 @@ public class DespesaRecorrente extends DespesaAbstrata implements Serializable {
     private LocalDate dataFim;
     @Column(nullable = false)
     private Integer dataPagamento;
+    
+    private Integer mesPagamento;
 
     @ManyToOne
     @JoinColumn(name = "forma_pagamento_pradrão")
@@ -69,5 +71,15 @@ public class DespesaRecorrente extends DespesaAbstrata implements Serializable {
     public void setFormaPagamentoPadrao(FormaPagamento formaPagamentoPadrao) {
         this.formaPagamentoPadrao = formaPagamentoPadrao;
     }
+
+    public Integer getMesPagamento() {
+        return mesPagamento;
+    }
+
+    public void setMesPagamento(Integer mesPagamento) {
+        this.mesPagamento = mesPagamento;
+    }
+    
+    
 
 }
