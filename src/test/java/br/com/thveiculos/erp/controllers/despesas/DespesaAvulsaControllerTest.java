@@ -30,11 +30,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
  * @author victor
  */
 @ExtendWith(MockitoExtension.class)
-public class DespesaViewControllerTest {
+public class DespesaAvulsaControllerTest {
 
     @Spy
     @InjectMocks
-    private DespesaAbstractController controller;
+    private DespesaAvulsaController controller;
 
     @Mock
     private CategoriaDespesaService categoriaDespesaService;
