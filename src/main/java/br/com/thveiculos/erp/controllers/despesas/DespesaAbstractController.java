@@ -61,6 +61,9 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
 
     }
 
+    public List<MovimentoPagamento> getMovimentos(){
+        return movimentos;
+    }
 
     
     @Override
@@ -111,14 +114,14 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
 
     }
 
-    private void resetarCombos() {
+    public void resetarCombos() {
         view.getComboBoxes().stream().forEach(c -> c.removeAllItems());
     }
 
     /**
      * Adiciona as categorias na combobox de categorias da view.
      */
-    void inicializarComboCategoria() {
+    public void inicializarComboCategoria() {
 
         this.categoriaDespesaService.getTodos().stream().forEach(c -> {
             view.getComboCategoria().addItem(c.getName());
@@ -130,7 +133,7 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
     /**
      * Adiciona as formas de pagamento nas combox da view.
      */
-    private void inicializarComboFormaPagamento() {
+    public void inicializarComboFormaPagamento() {
 
         this.formaPagamentoService.getTodos().stream().forEach(f -> {
             view.getComboFormaPagamento().addItem(f.getName());
@@ -143,7 +146,7 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
     /**
      * Adiciona os valores das formas de parcelamneto na combo da view.
      */
-    private void inicializarComboParcelamento() {
+    public void inicializarComboParcelamento() {
 
         Arrays.asList(Periodo.values()).stream().forEach(p
                 -> view.getComboParcelamento().addItem(p.name()));
@@ -169,7 +172,7 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
      * Atualiza o movimento de acordo com as alterações realizadas na
      * na linha da tabela na view.
      */
-    protected void editarMovimento(int linha) {
+    public void editarMovimento(int linha) {
         service.atualizarMovimentos(
                 movimentos,
                 linha,
@@ -184,7 +187,7 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
      * @param movimentos Lista de movimentos que estão salvo ou não no banco de
      * dados que irão preencher a tabela.
      */
-    protected void preencherTabela(List<MovimentoPagamento> movimentos) {
+    public void preencherTabela(List<MovimentoPagamento> movimentos) {
 
         DefaultTableModel model = (DefaultTableModel) view.getTableParcelas().getModel();
         ControllerHelper.limparTabela(model);
