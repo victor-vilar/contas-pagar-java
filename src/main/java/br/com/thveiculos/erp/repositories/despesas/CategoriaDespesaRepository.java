@@ -10,4 +10,5 @@ import br.com.thveiculos.erp.entities.despesas.CategoriaDespesa;
 @Lazy
 public interface CategoriaDespesaRepository extends JpaRepository<CategoriaDespesa,Long>{
 
+    public CategoriaDespesa getByCategoria(String categoria);
 }

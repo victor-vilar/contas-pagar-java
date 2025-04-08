@@ -15,70 +15,71 @@ import br.com.thveiculos.erp.services.despesas.interfaces.CategoriaDespesaServic
 @Lazy
 public class CategoriaDespesaServiceImpl implements CategoriaDespesaService {
 
-	
-	private CategoriaDespesaRepository repository;
-	
-	@Autowired
-	public CategoriaDespesaServiceImpl (CategoriaDespesaRepository repository) {
-		this.repository = repository; 
-	}
-	
-	@Override
-	public List<CategoriaDespesa> getTodos() {
-		// TODO Auto-generated method stub
-		return repository.findAll();
-	}
+    private CategoriaDespesaRepository repository;
 
-	@Override
-	public CategoriaDespesa getById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Autowired
+    public CategoriaDespesaServiceImpl(CategoriaDespesaRepository repository) {
+        this.repository = repository;
+    }
 
-	@Override
-	public CategoriaDespesa save(CategoriaDespesa obj) {
-		
-		if(obj.getId()!= null) {
-			return update(obj);
-		}else {
-			return repository.save(obj);
-		}
-	}
-	
-	@Override
-	public CategoriaDespesa update(CategoriaDespesa obj) {
-		
-		CategoriaDespesa toUpdate;
-		Optional<CategoriaDespesa> saved = this.repository.findById(obj.getId());
-		
-		if(saved.isPresent()) {
-			toUpdate = saved.get();
-			toUpdate.setCategoria(obj.getCategoria());
-			return repository.save(toUpdate);
-		}
+    @Override
+    public List<CategoriaDespesa> getTodos() {
+        // TODO Auto-generated method stub
+        return repository.findAll();
+    }
 
-		
-		return null;
-	}
+    @Override
+    public CategoriaDespesa getById(Long id) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public CategoriaDespesa saveAll(List<CategoriaDespesa> objs) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public CategoriaDespesa save(CategoriaDespesa obj) {
 
-	@Override
-	public void deleteById(Long id) {
-		this.repository.deleteById(id);
-		
-	}
+        if (obj.getId() != null) {
+            return update(obj);
+        } else {
+            return repository.save(obj);
+        }
+    }
 
-	@Override
-	public void deleteAll(List<CategoriaDespesa> objs) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public CategoriaDespesa update(CategoriaDespesa obj) {
 
+        CategoriaDespesa toUpdate;
+        Optional<CategoriaDespesa> saved = this.repository.findById(obj.getId());
 
+        if (saved.isPresent()) {
+            toUpdate = saved.get();
+            toUpdate.setCategoria(obj.getCategoria());
+            return repository.save(toUpdate);
+        }
+
+        return null;
+    }
+
+    @Override
+    public CategoriaDespesa saveAll(List<CategoriaDespesa> objs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        this.repository.deleteById(id);
+
+    }
+
+    @Override
+    public void deleteAll(List<CategoriaDespesa> objs) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public CategoriaDespesa getByCategoria(String categoria) {
+        return repository.getByCategoria(categoria);
+    }
 
 }
