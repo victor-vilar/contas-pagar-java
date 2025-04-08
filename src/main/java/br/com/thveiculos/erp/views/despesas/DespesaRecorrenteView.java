@@ -7,11 +7,13 @@ package br.com.thveiculos.erp.views.despesas;
 import br.com.thveiculos.erp.controllers.despesas.DespesaViewController;
 import br.com.thveiculos.erp.util.ConversorData;
 import br.com.thveiculos.erp.util.ConversorMoeda;
+import br.com.thveiculos.erp.views.interfaces.DespesaView;
 import br.com.thveiculos.erp.views.interfaces.Subscriber;
 import jakarta.annotation.PostConstruct;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.time.format.DateTimeParseException;
+import java.util.Collections;
 import java.util.List;
 import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
@@ -33,17 +35,17 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Lazy
-public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber {
+public class DespesaRecorrenteView extends javax.swing.JFrame implements Subscriber, DespesaView {
     
     private javax.swing.JComboBox<String> comboFormaPagamentoTabela;
     private final DespesaViewController controller;
-    private static final String TIPO_DESPESA = "AVULSA";
+    private static final String TIPO_DESPESA = "RECORRENTE";
     private final ApplicationContext context;
     
     @Autowired
-    public DespesaAvulsaView(DespesaViewController controller, ApplicationContext context) {
+    public DespesaRecorrenteView(DespesaViewController controller, ApplicationContext context) {
         this.controller = controller;
-        this.controller.setView(this);
+        //this.controller.setView(this);
         this.context = context;
         
     }
@@ -82,20 +84,6 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
         //Adicionando uma combo box para os valores disponiveis
         tableParcelas.getColumnModel().getColumn(5).setCellEditor(new DefaultCellEditor(comboFormaPagamentoTabela));
 
-        //Adicionando evento que envia a linha que foi selecionada pra a lista
-        //A linha pode ter colunas que sofreram alteração, por isso as linhas
-        //serão guardadas para que seja possivel compara-las
-//        tableParcelas.getSelectionModel().addListSelectionListener(new ListSelectionListener(){;
-//            public void valueChanged(ListSelectionEvent e) {
-//                ListSelectionModel lsm = (ListSelectionModel)e.getSource();
-//                
-//                int[] linhas = lsm.getSelectedIndices();
-//                for(int i = 0; i < linhas.length; i++ ){
-//                    controller.adicionarLinhaAlterada(linhas[i]);
-//                }
-//            }
-//            
-//        });
         //Adicionando evento para deletar linhas selecionadas ao apertar delete
         tableParcelas.addKeyListener(new KeyAdapter() {
             
@@ -107,7 +95,7 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
                     int[] linhas = tableParcelas.getSelectedRows();
                     if (linhas[0] != -1) {
                         
-                        if (JOptionPane.showConfirmDialog(null, "Deseja remover as parcelas selecionadas ?", "Atenção", JOptionPane.OK_CANCEL_OPTION) == 0) {
+                        if (JOptionPane.showConfirmDialog(null, "Deseja remover os lançamentos selecionadas ?", "Atenção", JOptionPane.OK_CANCEL_OPTION) == 0) {
                             controller.deletarMovimentos(linhas);
                         }
                         
@@ -165,57 +153,67 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
         return btnLockTable;
     }
 
+    @Override
     public JComboBox<String> getComboCategoria() {
         return comboCategoria;
     }
 
+    @Override
     public JComboBox<String> getComboFormaPagamento() {
         return comboFormaPagamento;
     }
 
+    @Override
     public JComboBox<String> getComboFormaPagamentoTabela() {
         return comboFormaPagamentoTabela;
     }
 
+    @Override
     public JComboBox<String> getComboParcelamento() {
         return comboParcelamento;
     }
 
+    @Override
+    public JTable getTableParcelas() {
+        return tableParcelas;
+    }
+    
     public JTextField getFieldCodFornecedor() {
         return fieldCodFornecedor;
     }
 
+    @Override
     public JTextField getFieldDescricao() {
         return fieldDescricao;
     }
 
+    @Override
     public JTextField getFieldId() {
         return fieldId;
     }
-
-    public JTextField getFieldNota() {
-        return fieldNota;
-    }
-
-    public JTextField getFieldNotaEmissao() {
-        return fieldNotaEmissao;
-    }
-
-    public JTextField getFieldValorTotal() {
+    
+        @Override
+    public JTextField getFieldValor() {
         return fieldValorTotal;
     }
 
-    public JTextField getFieldVencimentoParcela() {
-        return fieldVencimentoParcela;
+    @Override
+    public JTextField getFieldVencimento() {
+        return fieldDiaVencimento;
     }
 
-    public JSpinner getSpinnerQuantidadeParcelas() {
-        return spinnerQuantidadeParcelas;
+    public JTextField getFieldDataInicio() {
+        return fieldDataInicio;
     }
 
-    public JTable getTableParcelas() {
-        return tableParcelas;
+    public JTextField getFieldDataFim() {
+        return fieldDataFim;
     }
+
+
+
+
+
 
     public JPanel getPanelMain() {
         return panelMain;
@@ -230,19 +228,32 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
         return TIPO_DESPESA;
     }
 
-    public List<java.awt.Component> listaDeComponentes() {
+    @Override
+    public List<java.awt.Component> getAllComponentes() {
         return List.of(areaDescricao, btnDeletar, btnEditar, btnNovo, btnSalvar,
                 btnLockTable, comboCategoria,
                 comboFormaPagamento, comboParcelamento, fieldCodFornecedor,
-                fieldDescricao, fieldId, fieldNota, fieldNotaEmissao, fieldValorTotal,
-                fieldVencimentoParcela, tableParcelas, btnProcurarFormaPagamento,
-                btnProcurarFornecedor, btnProcurarCategoria, spinnerQuantidadeParcelas);
+                fieldDescricao, fieldId, fieldDataInicio, fieldDataFim, fieldValorTotal,
+                fieldDataInicio, tableParcelas, btnProcurarFormaPagamento,
+                btnProcurarFornecedor, btnProcurarCategoria);
 
     }
 
+    @Override
     public List<JTextComponent> getTextFields() {
-        return List.of(fieldCodFornecedor, fieldDescricao, fieldId, fieldNota,
-                fieldNotaEmissao, fieldValorTotal, fieldVencimentoParcela, areaDescricao);
+        return List.of(fieldCodFornecedor, fieldDescricao, fieldId, fieldDataInicio,
+                fieldDataFim, fieldValorTotal, fieldDataInicio, areaDescricao);
+    }
+    
+    @Override
+    public List<JComboBox<String>> getComboBoxes(){
+        return List.of(comboCategoria,comboFormaPagamento,comboFormaPagamentoTabela,comboParcelamento);
+    }
+    
+    
+    @Override
+    public List<JSpinner> getAllSpinners(){
+        return Collections.emptyList();
     }
 
     /**
@@ -255,9 +266,9 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
     private void initComponents() {
 
         btnGroupTipoDespesa = new javax.swing.ButtonGroup();
+        choice1 = new java.awt.Choice();
         panelMain = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        fieldNota = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         fieldDescricao = new javax.swing.JTextField();
         fieldCodFornecedor = new javax.swing.JTextField();
@@ -265,14 +276,18 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
         comboCategoria = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         fieldId = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         areaDescricao = new javax.swing.JTextArea();
-        jLabel12 = new javax.swing.JLabel();
         btnProcurarCategoria = new javax.swing.JButton();
-        fieldNotaEmissao = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        comboFormaPagamento = new javax.swing.JComboBox<>();
+        btnProcurarFormaPagamento = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        fieldDataInicio = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        fieldDataFim = new javax.swing.JTextField();
         panelToolBar = new javax.swing.JPanel();
         btnDeletar = new javax.swing.JButton();
         btnNovo = new javax.swing.JButton();
@@ -281,22 +296,18 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
         panelParcelas = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         comboParcelamento = new javax.swing.JComboBox<>();
-        jLabel9 = new javax.swing.JLabel();
-        comboFormaPagamento = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
         fieldValorTotal = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         tableParcelas = new javax.swing.JTable();
-        spinnerQuantidadeParcelas = new javax.swing.JSpinner();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         btnLockTable = new javax.swing.JButton();
-        btnProcurarFormaPagamento = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        fieldVencimentoParcela = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        fieldDiaVencimento = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        fieldMesVencimento = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Despesa");
+        setTitle("Despesas Recorrentes");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
@@ -314,9 +325,6 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
 
         jLabel1.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel1.setText("Código");
-
-        fieldNota.setEnabled(false);
-        fieldNota.setName("fieldNota"); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel2.setText("Despesa/Fornecedor");
@@ -341,9 +349,6 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
         jLabel4.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel4.setText("Cod. Fornecedor");
 
-        jLabel5.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
-        jLabel5.setText("Nota Fiscal");
-
         fieldId.setBackground(new java.awt.Color(255, 255, 204));
         fieldId.setEnabled(false);
         fieldId.setName("fieldId"); // NOI18N
@@ -357,9 +362,6 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
         areaDescricao.setName("areaDescricao"); // NOI18N
         jScrollPane1.setViewportView(areaDescricao);
 
-        jLabel12.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
-        jLabel12.setText("Data Emissão");
-
         btnProcurarCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-binoculos.png"))); // NOI18N
         btnProcurarCategoria.setToolTipText("Buscar Fornecedor");
         btnProcurarCategoria.setEnabled(false);
@@ -370,16 +372,51 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
             }
         });
 
-        fieldNotaEmissao.setEnabled(false);
-        fieldNotaEmissao.setName("fieldNotaEmissao"); // NOI18N
-        fieldNotaEmissao.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                fieldNotaEmissaoFocusLost(evt);
+        jLabel9.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
+        jLabel9.setText("Forma de Pamento");
+
+        comboFormaPagamento.setEnabled(false);
+        comboFormaPagamento.setName("comboFormaPagamento"); // NOI18N
+
+        btnProcurarFormaPagamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-binoculos.png"))); // NOI18N
+        btnProcurarFormaPagamento.setToolTipText("Buscar Fornecedor");
+        btnProcurarFormaPagamento.setEnabled(false);
+        btnProcurarFormaPagamento.setName("btnProcurarFormaPagamento"); // NOI18N
+        btnProcurarFormaPagamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProcurarFormaPagamentoActionPerformed(evt);
             }
         });
-        fieldNotaEmissao.addActionListener(new java.awt.event.ActionListener() {
+
+        jLabel6.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
+        jLabel6.setText("Data Início");
+
+        fieldDataInicio.setEnabled(false);
+        fieldDataInicio.setName("fieldDataInicio"); // NOI18N
+        fieldDataInicio.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                fieldDataInicioFocusLost(evt);
+            }
+        });
+        fieldDataInicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fieldNotaEmissaoActionPerformed(evt);
+                fieldDataInicioActionPerformed(evt);
+            }
+        });
+
+        jLabel14.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
+        jLabel14.setText("Data Fim");
+
+        fieldDataFim.setEnabled(false);
+        fieldDataFim.setName("fieldDataFim"); // NOI18N
+        fieldDataFim.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                fieldDataFimFocusLost(evt);
+            }
+        });
+        fieldDataFim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fieldDataFimActionPerformed(evt);
             }
         });
 
@@ -391,38 +428,49 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
                 .addGap(6, 6, 6)
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelMainLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(47, 47, 47)
-                        .addComponent(jLabel2)
-                        .addGap(563, 563, 563)
-                        .addComponent(jLabel4))
-                    .addGroup(panelMainLayout.createSequentialGroup()
-                        .addComponent(fieldId, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)
-                        .addComponent(fieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 689, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)
-                        .addComponent(fieldCodFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)
-                        .addComponent(btnProcurarFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelMainLayout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(35, 35, 35)
-                        .addComponent(jLabel12)
-                        .addGap(26, 26, 26)
+                        .addComponent(jLabel9)
+                        .addGap(94, 94, 94)
                         .addComponent(jLabel7))
                     .addGroup(panelMainLayout.createSequentialGroup()
                         .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelMainLayout.createSequentialGroup()
-                                .addComponent(fieldNota, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel1)
+                                .addGap(47, 47, 47)
+                                .addComponent(jLabel2))
+                            .addGroup(panelMainLayout.createSequentialGroup()
+                                .addComponent(fieldId, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 677, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addGroup(panelMainLayout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(fieldCodFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(6, 6, 6)
-                                .addComponent(fieldNotaEmissao, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnProcurarFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(panelMainLayout.createSequentialGroup()
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addGroup(panelMainLayout.createSequentialGroup()
-                                .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(comboFormaPagamento, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(comboCategoria, javax.swing.GroupLayout.Alignment.LEADING, 0, 146, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnProcurarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(11, 11, 11)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 667, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnProcurarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnProcurarFormaPagamento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(panelMainLayout.createSequentialGroup()
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelMainLayout.createSequentialGroup()
+                                .addComponent(fieldDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(fieldDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1)))
+                .addContainerGap())
         );
         panelMainLayout.setVerticalGroup(
             panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -440,23 +488,30 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
                     .addComponent(btnProcurarFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(6, 6, 6)
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel7))
-                .addGap(6, 6, 6)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(panelMainLayout.createSequentialGroup()
                         .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(fieldNota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(fieldNotaEmissao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(6, 6, 6)
+                            .addComponent(comboFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnProcurarFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnProcurarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(16, 16, 16))
+                            .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel14))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(fieldDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fieldDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         panelToolBar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -528,16 +583,10 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
         panelParcelas.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel8.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
-        jLabel8.setText("Parcelamento");
+        jLabel8.setText("Periocidade");
 
         comboParcelamento.setEnabled(false);
         comboParcelamento.setName("comboParcelamento"); // NOI18N
-
-        jLabel9.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
-        jLabel9.setText("Forma de Pamento");
-
-        comboFormaPagamento.setEnabled(false);
-        comboFormaPagamento.setName("comboFormaPagamento"); // NOI18N
 
         jLabel10.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel10.setText("Valor");
@@ -589,15 +638,6 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
             tableParcelas.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        spinnerQuantidadeParcelas.setEnabled(false);
-        spinnerQuantidadeParcelas.setName("spinnerQuantidadeParcelas"); // NOI18N
-
-        jLabel11.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
-        jLabel11.setText("Nº Parcelas");
-
-        jLabel6.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
-        jLabel6.setText("Vencimento");
-
         btnLockTable.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/lock.png"))); // NOI18N
         btnLockTable.setToolTipText("Destravar Tabela");
         btnLockTable.setEnabled(false);
@@ -608,33 +648,36 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
             }
         });
 
-        btnProcurarFormaPagamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-binoculos.png"))); // NOI18N
-        btnProcurarFormaPagamento.setToolTipText("Buscar Fornecedor");
-        btnProcurarFormaPagamento.setEnabled(false);
-        btnProcurarFormaPagamento.setName("btnProcurarFormaPagamento"); // NOI18N
-        btnProcurarFormaPagamento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnProcurarFormaPagamentoActionPerformed(evt);
-            }
-        });
+        jLabel11.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
+        jLabel11.setText("Dia");
 
-        jButton1.setText("Gerar Parcelas");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        fieldVencimentoParcela.setEnabled(false);
-        fieldVencimentoParcela.setName("fieldVencimentoParcela"); // NOI18N
-        fieldVencimentoParcela.addFocusListener(new java.awt.event.FocusAdapter() {
+        fieldDiaVencimento.setEnabled(false);
+        fieldDiaVencimento.setName("fieldDataInicio"); // NOI18N
+        fieldDiaVencimento.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                fieldVencimentoParcelaFocusLost(evt);
+                fieldDiaVencimentoFocusLost(evt);
             }
         });
-        fieldVencimentoParcela.addActionListener(new java.awt.event.ActionListener() {
+        fieldDiaVencimento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fieldVencimentoParcelaActionPerformed(evt);
+                fieldDiaVencimentoActionPerformed(evt);
+            }
+        });
+
+        jLabel12.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
+        jLabel12.setText("Mês ");
+
+        fieldMesVencimento.setEnabled(false);
+        fieldMesVencimento.setName("fieldDataInicio"); // NOI18N
+        fieldMesVencimento.setVerifyInputWhenFocusTarget(false);
+        fieldMesVencimento.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                fieldMesVencimentoFocusLost(evt);
+            }
+        });
+        fieldMesVencimento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fieldMesVencimentoActionPerformed(evt);
             }
         });
 
@@ -649,78 +692,52 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
                     .addGroup(panelParcelasLayout.createSequentialGroup()
                         .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelParcelasLayout.createSequentialGroup()
-                                .addComponent(comboParcelamento, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(comboParcelamento, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6)
+                                .addComponent(fieldValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(4, 4, 4)
+                                .addComponent(fieldDiaVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel11)
-                                    .addComponent(spinnerQuantidadeParcelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(fieldMesVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(492, 492, 492)
+                                .addComponent(btnLockTable, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(panelParcelasLayout.createSequentialGroup()
-                                .addComponent(comboFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel8)
+                                .addGap(84, 84, 84)
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnProcurarFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel9))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(fieldValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(fieldVencimentoParcela, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 153, Short.MAX_VALUE)
-                        .addComponent(btnLockTable, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
-            .addGroup(panelParcelasLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton1)
-                .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(jLabel11)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 7, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         panelParcelasLayout.setVerticalGroup(
             panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelParcelasLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
                 .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelParcelasLayout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(panelParcelasLayout.createSequentialGroup()
-                                .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(fieldValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(fieldVencimentoParcela, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(23, 23, 23))
-                            .addGroup(panelParcelasLayout.createSequentialGroup()
-                                .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel10))
-                                .addGap(18, 18, 18)
-                                .addComponent(btnLockTable, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(6, 6, 6))))
+                    .addComponent(jLabel8)
+                    .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel10)
+                        .addComponent(jLabel11)
+                        .addComponent(jLabel12)))
+                .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelParcelasLayout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelParcelasLayout.createSequentialGroup()
-                                .addComponent(jLabel9)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(comboFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnProcurarFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(panelParcelasLayout.createSequentialGroup()
-                                    .addComponent(jLabel8)
-                                    .addGap(6, 6, 6)
-                                    .addComponent(comboParcelamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(panelParcelasLayout.createSequentialGroup()
-                                    .addComponent(jLabel11)
-                                    .addGap(6, 6, 6)
-                                    .addComponent(spinnerQuantidadeParcelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(18, 18, 18)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addComponent(comboParcelamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelParcelasLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(fieldValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fieldDiaVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fieldMesVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(panelParcelasLayout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(btnLockTable, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addGap(10, 10, 10))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -743,25 +760,12 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelParcelas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panelParcelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnLockTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLockTableActionPerformed
-
-        if (!tableParcelas.isEnabled()) {
-            tableParcelas.setEnabled(true);
-            btnLockTable.setIcon(new ImageIcon(getClass().getResource("/img/icon-unlock.png")));
-
-        } else {
-            tableParcelas.setEnabled(false);
-            btnLockTable.setIcon(new ImageIcon(getClass().getResource("/img/icon-lock.png")));
-
-        }
-    }//GEN-LAST:event_btnLockTableActionPerformed
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
         controller.novo();
@@ -784,60 +788,18 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
 
     }//GEN-LAST:event_formWindowOpened
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            controller.gerarParcelas();        // TODO add your handling code here:
-        } catch (DateTimeParseException e) {
-            JOptionPane.showMessageDialog(null, "Ocorreu um erro, cheque a data do parcelamento e o valor e veja se estão nos formatos corretos !", "Erro", JOptionPane.ERROR_MESSAGE);
-        } catch (NullPointerException | NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Verifique se todos os campos referente as parcelas foram preenchidos corretamente !", "Erro na Geração das Parcelas", JOptionPane.ERROR_MESSAGE);
-
-}
-
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void btnProcurarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcurarCategoriaActionPerformed
         var categoriaView = context.getBean(CategoriaDespesaView.class);
         categoriaView.setVisible(true);
         categoriaView.adicionarSubscribers(this);
     }//GEN-LAST:event_btnProcurarCategoriaActionPerformed
 
-    private void fieldVencimentoParcelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldVencimentoParcelaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fieldVencimentoParcelaActionPerformed
-
-    private void fieldNotaEmissaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldNotaEmissaoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fieldNotaEmissaoActionPerformed
-
-    private void fieldNotaEmissaoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldNotaEmissaoFocusLost
-        try {
-            fieldNotaEmissao.setText(ConversorData.paraString(ConversorData.paraData(fieldNotaEmissao.getText())));
-        } catch (DateTimeParseException ex) {
-            fieldNotaEmissao.setText("");
-            fieldNotaEmissao.requestFocus();
-            JOptionPane.showMessageDialog(null, "A data informada não esta correta !", "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_fieldNotaEmissaoFocusLost
-
-    private void fieldVencimentoParcelaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldVencimentoParcelaFocusLost
-        try {
-            fieldVencimentoParcela.setText(ConversorData.paraString(ConversorData.paraData(fieldVencimentoParcela.getText())));
-        } catch (DateTimeParseException ex) {
-            fieldVencimentoParcela.setText("");
-            fieldVencimentoParcela.requestFocus();
-            JOptionPane.showMessageDialog(null, "A data informada não esta correta !", "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_fieldVencimentoParcelaFocusLost
-
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         controller.limparCampos();
     }//GEN-LAST:event_formWindowClosing
 
     private void btnProcurarFormaPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcurarFormaPagamentoActionPerformed
-        var formaPagamentoView = context.getBean(FormaPagamentoView.class  
-
-);
+        var formaPagamentoView = context.getBean(FormaPagamentoView.class);
         formaPagamentoView.setVisible(true);
         formaPagamentoView.adicionarSubscribers(this);
     }//GEN-LAST:event_btnProcurarFormaPagamentoActionPerformed
@@ -845,6 +807,63 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         // TODO add your handling code here:
     }//GEN-LAST:event_formWindowActivated
+
+    private void fieldMesVencimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldMesVencimentoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fieldMesVencimentoActionPerformed
+
+    private void fieldMesVencimentoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldMesVencimentoFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fieldMesVencimentoFocusLost
+
+    private void fieldDiaVencimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldDiaVencimentoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fieldDiaVencimentoActionPerformed
+
+    private void fieldDiaVencimentoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldDiaVencimentoFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fieldDiaVencimentoFocusLost
+
+    private void fieldDataFimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldDataFimActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fieldDataFimActionPerformed
+
+    private void fieldDataFimFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldDataFimFocusLost
+        try {
+            fieldDataFim.setText(ConversorData.paraString(ConversorData.paraData(fieldDataFim.getText())));
+        } catch (DateTimeParseException ex) {
+            fieldDataFim.setText("");
+            fieldDataFim.requestFocus();
+            JOptionPane.showMessageDialog(null, "A data informada não esta correta !", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_fieldDataFimFocusLost
+
+    private void fieldDataInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldDataInicioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fieldDataInicioActionPerformed
+
+    private void fieldDataInicioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldDataInicioFocusLost
+        try {
+            fieldDataInicio.setText(ConversorData.paraString(ConversorData.paraData(fieldDataInicio.getText())));
+        } catch (DateTimeParseException ex) {
+            fieldDataInicio.setText("");
+            fieldDataInicio.requestFocus();
+            JOptionPane.showMessageDialog(null, "A data informada não esta correta !", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_fieldDataInicioFocusLost
+
+    private void btnLockTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLockTableActionPerformed
+
+        if (!tableParcelas.isEnabled()) {
+            tableParcelas.setEnabled(true);
+            btnLockTable.setIcon(new ImageIcon(getClass().getResource("/img/icon-unlock.png")));
+
+        } else {
+            tableParcelas.setEnabled(false);
+            btnLockTable.setIcon(new ImageIcon(getClass().getResource("/img/icon-lock.png")));
+
+        }
+    }//GEN-LAST:event_btnLockTableActionPerformed
 
     private void fieldValorTotalFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldValorTotalFocusLost
         try {
@@ -868,25 +887,26 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
     private javax.swing.JButton btnProcurarFormaPagamento;
     private javax.swing.JButton btnProcurarFornecedor;
     private javax.swing.JButton btnSalvar;
+    private java.awt.Choice choice1;
     private javax.swing.JComboBox<String> comboCategoria;
     private javax.swing.JComboBox<String> comboFormaPagamento;
     private javax.swing.JComboBox<String> comboParcelamento;
     private javax.swing.JTextField fieldCodFornecedor;
+    private javax.swing.JTextField fieldDataFim;
+    private javax.swing.JTextField fieldDataInicio;
     private javax.swing.JTextField fieldDescricao;
+    private javax.swing.JTextField fieldDiaVencimento;
     private javax.swing.JTextField fieldId;
-    private javax.swing.JTextField fieldNota;
-    private javax.swing.JTextField fieldNotaEmissao;
+    private javax.swing.JTextField fieldMesVencimento;
     private javax.swing.JTextField fieldValorTotal;
-    private javax.swing.JTextField fieldVencimentoParcela;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -896,7 +916,6 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
     private javax.swing.JPanel panelMain;
     private javax.swing.JPanel panelParcelas;
     private javax.swing.JPanel panelToolBar;
-    private javax.swing.JSpinner spinnerQuantidadeParcelas;
     private javax.swing.JTable tableParcelas;
     // End of variables declaration//GEN-END:variables
 

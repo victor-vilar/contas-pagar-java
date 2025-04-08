@@ -95,7 +95,7 @@ public class DespesaViewControllerTest {
         List<String> exludeComponents = List.of("btnNovo", "btnEditar",
                 "btnSalvar", "btnDeletar", "fieldId");
 
-        view.listaDeComponentes().stream().forEach(c -> {
+        view.getAllComponentes().stream().forEach(c -> {
 
             if ((c.getName() != null) && !exludeComponents.contains(c.getName())) {
                 c.setEnabled(false);
@@ -104,7 +104,7 @@ public class DespesaViewControllerTest {
 
         controller.enableDisableComponents(true);
 
-        view.listaDeComponentes().stream().forEach(c -> {
+        view.getAllComponentes().stream().forEach(c -> {
             if ((c.getName() != null) && !exludeComponents.contains(c.getName())) {
                 assertEquals(true, c.isEnabled());
             }
@@ -118,7 +118,7 @@ public class DespesaViewControllerTest {
         List<String> exludeComponents = List.of("btnNovo", "btnEditar",
                 "btnSalvar", "btnDeletar", "fieldId");
 
-        view.listaDeComponentes().stream().forEach(c -> {
+        view.getAllComponentes().stream().forEach(c -> {
 
             if ((c.getName() != null) && !exludeComponents.contains(c.getName())) {
                 c.setEnabled(true);
@@ -127,7 +127,7 @@ public class DespesaViewControllerTest {
 
         controller.enableDisableComponents(false);
 
-        view.listaDeComponentes().stream().forEach(c -> {
+        view.getAllComponentes().stream().forEach(c -> {
             if ((c.getName() != null) && !exludeComponents.contains(c.getName())) {
                 assertEquals(false, c.isEnabled());
             }
@@ -173,8 +173,8 @@ public class DespesaViewControllerTest {
 
         view.getComboParcelamento().setSelectedIndex(0);
         view.getComboFormaPagamento().setSelectedIndex(0);
-        view.getFieldValorTotal().setText("teste");
-        view.getFieldVencimentoParcela().setText("0102");
+        view.getFieldValor().setText("teste");
+        view.getFieldVencimento().setText("0102");
 
         controller.limparCampos();
 

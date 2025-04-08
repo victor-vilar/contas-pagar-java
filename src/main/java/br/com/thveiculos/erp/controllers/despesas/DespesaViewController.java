@@ -7,7 +7,6 @@ package br.com.thveiculos.erp.controllers.despesas;
 import br.com.thveiculos.erp.controllers.AppViewController;
 import br.com.thveiculos.erp.controllers.util.ControllerHelper;
 import br.com.thveiculos.erp.entities.despesas.Despesa;
-import br.com.thveiculos.erp.entities.despesas.DespesaAbstrata;
 import br.com.thveiculos.erp.entities.despesas.DespesaAvulsa;
 import br.com.thveiculos.erp.entities.despesas.DespesaRecorrente;
 import br.com.thveiculos.erp.entities.despesas.MovimentoPagamento;
@@ -23,8 +22,8 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.JTextComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -32,7 +31,7 @@ import org.springframework.stereotype.Controller;
  *
  * @author victor
  */
-@Controller
+
 public class DespesaViewController implements AppViewController<DespesaAvulsaView> {
 
     private final DespesaService service;
@@ -118,7 +117,7 @@ public class DespesaViewController implements AppViewController<DespesaAvulsaVie
     @Override
     public void limparCampos() {
         view.getTextFields().stream().forEach(f -> f.setText(""));
-        view.getComboCategoria().setSelectedIndex(-1);
+        view.getComboBoxes().stream().forEach(c -> c.setSelectedIndex(-1));
         view.getSpinnerQuantidadeParcelas().getModel().setValue(1);
         movimentos.clear();
         limparCamposParcelamento();
@@ -149,18 +148,21 @@ public class DespesaViewController implements AppViewController<DespesaAvulsaVie
      * Atualiza os combobox da view com os valores vindos do banco de dados.
      */
     public void inicializarComboBox() {
+        resetarCombos();
         inicializarComboCategoria();
         inicializarComboFormaPagamento();
         inicializarComboParcelamento();
 
     }
 
+    void resetarCombos() {
+        view.getComboBoxes().stream().forEach(c -> c.removeAllItems());
+    }
+
     /**
      * Adiciona as categorias na combobox de categorias da view.
      */
     void inicializarComboCategoria() {
-
-        view.getComboCategoria().removeAllItems();
 
         this.categoriaDespesaService.getTodos().stream().forEach(c -> {
             view.getComboCategoria().addItem(c.getName());
@@ -173,9 +175,6 @@ public class DespesaViewController implements AppViewController<DespesaAvulsaVie
      * Adiciona as formas de pagamento nas combox da view.
      */
     private void inicializarComboFormaPagamento() {
-
-        view.getComboFormaPagamento().removeAllItems();
-        view.getComboFormaPagamentoTabela().removeAllItems();
 
         this.formaPagamentoService.getTodos().stream().forEach(f -> {
             view.getComboFormaPagamento().addItem(f.getName());
@@ -190,8 +189,6 @@ public class DespesaViewController implements AppViewController<DespesaAvulsaVie
      */
     private void inicializarComboParcelamento() {
 
-        view.getComboParcelamento().removeAllItems();
-
         Arrays.asList(Periodo.values()).stream().forEach(p
                 -> view.getComboParcelamento().addItem(p.name()));
         view.getComboParcelamento().setSelectedIndex(-1);
@@ -204,7 +201,7 @@ public class DespesaViewController implements AppViewController<DespesaAvulsaVie
      */
     public void enableDisableComponents(boolean con) {
 
-        view.listaDeComponentes().stream().forEach(c -> {
+        view.getAllComponentes().stream().forEach(c -> {
             if ((c.getName() != null) && !exludeComponents.contains(c.getName())) {
                 c.setEnabled(con);
             }
@@ -218,17 +215,20 @@ public class DespesaViewController implements AppViewController<DespesaAvulsaVie
         limparCamposParcelamento();
     }
 
+
     /**
      * Cria os movimentos/parcelas de acordo com os valores adicionados nos
      * campos referentes as parcelas na view.
      */
     private void criarMovimentos() {
 
+        
+
         movimentos = service.gerarMovimentos(
                 (String) view.getComboParcelamento().getSelectedItem(),
                 (int) view.getSpinnerQuantidadeParcelas().getValue(),
-                view.getFieldVencimentoParcela().getText(),
-                view.getFieldValorTotal().getText(),
+                view.getFieldVencimento().getText(),
+                view.getFieldValor().getText(),
                 formaPagamentoService.getByForma((String) view.getComboFormaPagamento().getSelectedItem()));
 
     }
@@ -238,7 +238,11 @@ public class DespesaViewController implements AppViewController<DespesaAvulsaVie
      * tabela da view.
      */
     private void atualizarMovimento(int linha) {
-        service.atualizarMovimentos(movimentos, linha, (DefaultTableModel) view.getTableParcelas().getModel());
+        service.atualizarMovimentos(
+                movimentos,
+                linha,
+                (DefaultTableModel) view.getTableParcelas().getModel()
+        );
     }
 
     /**
@@ -280,8 +284,8 @@ public class DespesaViewController implements AppViewController<DespesaAvulsaVie
     private void limparCamposParcelamento() {
         view.getComboParcelamento().setSelectedIndex(-1);
         view.getSpinnerQuantidadeParcelas().getModel().setValue(1);
-        view.getFieldVencimentoParcela().setText("");
-        view.getFieldValorTotal().setText("");
+        view.getFieldVencimento().setText("");
+        view.getFieldValor().setText("");
         view.getComboFormaPagamento().setSelectedIndex(-1);
     }
 
@@ -315,21 +319,22 @@ public class DespesaViewController implements AppViewController<DespesaAvulsaVie
 
     }
 
-        /**
-         Metodo que ira disparar quando alguma valor de alguma coluna na
-         * tabela alterar.
-         * @param linhas = linha que foi alterada
-         * @param coluna = coluna que foi alterada
-         * @param value = valor que sera usado para realizar a conversão
-         */
+    /**
+     * Metodo que ira disparar quando alguma valor de alguma coluna na tabela
+     * alterar.
+     *
+     * @param linhas = linha que foi alterada
+     * @param coluna = coluna que foi alterada
+     * @param value = valor que sera usado para realizar a conversão
+     */
     public void eventoTableChanged(int linha, int coluna, Object value) throws DateTimeParseException {
         switch (coluna) {
             //Se as colunas forem ou 2 ou 4 que são as que possuem datas,
             //ira tentar converter o valor em data;
             case 2:
             case 4:
-                
-                if(!String.valueOf(value).equals("")){
+
+                if (!String.valueOf(value).equals("")) {
                     ConversorData.paraData(String.valueOf(value));
                     atualizarLinhaAlterada(linha);
                 }
@@ -337,15 +342,15 @@ public class DespesaViewController implements AppViewController<DespesaAvulsaVie
             //Se as coluna for igual a 3 que é a que possui valor pago
             // ira tentar ocnverter
             case 3:
-                
-                if(!String.valueOf(value).equals("")){
+
+                if (!String.valueOf(value).equals("")) {
                     ConversorMoeda.paraBigDecimal(String.valueOf(value));
                     atualizarLinhaAlterada(linha);
                 }
                 break;
-                
+
             default:
-                
+
                 atualizarLinhaAlterada(linha);
                 break;
         }

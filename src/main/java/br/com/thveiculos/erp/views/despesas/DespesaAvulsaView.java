@@ -82,20 +82,7 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
         //Adicionando uma combo box para os valores disponiveis
         tableParcelas.getColumnModel().getColumn(5).setCellEditor(new DefaultCellEditor(comboFormaPagamentoTabela));
 
-        //Adicionando evento que envia a linha que foi selecionada pra a lista
-        //A linha pode ter colunas que sofreram alteração, por isso as linhas
-        //serão guardadas para que seja possivel compara-las
-//        tableParcelas.getSelectionModel().addListSelectionListener(new ListSelectionListener(){;
-//            public void valueChanged(ListSelectionEvent e) {
-//                ListSelectionModel lsm = (ListSelectionModel)e.getSource();
-//                
-//                int[] linhas = lsm.getSelectedIndices();
-//                for(int i = 0; i < linhas.length; i++ ){
-//                    controller.adicionarLinhaAlterada(linhas[i]);
-//                }
-//            }
-//            
-//        });
+  
         //Adicionando evento para deletar linhas selecionadas ao apertar delete
         tableParcelas.addKeyListener(new KeyAdapter() {
             
@@ -141,28 +128,9 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
 
     }
 
+    
     public JTextArea getAreaDescricao() {
         return areaDescricao;
-    }
-
-    public JButton getBtnDeletar() {
-        return btnDeletar;
-    }
-
-    public JButton getBtnEditar() {
-        return btnEditar;
-    }
-
-    public JButton getBtnNovo() {
-        return btnNovo;
-    }
-
-    public JButton getBtnSalvar() {
-        return btnSalvar;
-    }
-
-    public JButton getBtnTable() {
-        return btnLockTable;
     }
 
     public JComboBox<String> getComboCategoria() {
@@ -201,12 +169,12 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
         return fieldNotaEmissao;
     }
 
-    public JTextField getFieldValorTotal() {
-        return fieldValorTotal;
+    public JTextField getFieldValor() {
+        return fieldValor;
     }
 
-    public JTextField getFieldVencimentoParcela() {
-        return fieldVencimentoParcela;
+    public JTextField getFieldVencimento() {
+        return fieldVencimento;
     }
 
     public JSpinner getSpinnerQuantidadeParcelas() {
@@ -230,19 +198,24 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
         return TIPO_DESPESA;
     }
 
-    public List<java.awt.Component> listaDeComponentes() {
+    public List<java.awt.Component> getAllComponentes() {
         return List.of(areaDescricao, btnDeletar, btnEditar, btnNovo, btnSalvar,
                 btnLockTable, comboCategoria,
                 comboFormaPagamento, comboParcelamento, fieldCodFornecedor,
-                fieldDescricao, fieldId, fieldNota, fieldNotaEmissao, fieldValorTotal,
-                fieldVencimentoParcela, tableParcelas, btnProcurarFormaPagamento,
+                fieldDescricao, fieldId, fieldNota, fieldNotaEmissao, fieldValor,
+                fieldVencimento, tableParcelas, btnProcurarFormaPagamento,
                 btnProcurarFornecedor, btnProcurarCategoria, spinnerQuantidadeParcelas);
 
     }
 
     public List<JTextComponent> getTextFields() {
         return List.of(fieldCodFornecedor, fieldDescricao, fieldId, fieldNota,
-                fieldNotaEmissao, fieldValorTotal, fieldVencimentoParcela, areaDescricao);
+                fieldNotaEmissao, fieldValor, fieldVencimento, areaDescricao);
+    }
+    
+    public List<JComboBox<String>> getComboBoxes(){
+        return List.of(comboCategoria,comboFormaPagamento,
+                comboFormaPagamentoTabela,comboParcelamento);
     }
 
     /**
@@ -284,7 +257,7 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
         jLabel9 = new javax.swing.JLabel();
         comboFormaPagamento = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
-        fieldValorTotal = new javax.swing.JTextField();
+        fieldValor = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         tableParcelas = new javax.swing.JTable();
         spinnerQuantidadeParcelas = new javax.swing.JSpinner();
@@ -293,10 +266,11 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
         btnLockTable = new javax.swing.JButton();
         btnProcurarFormaPagamento = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        fieldVencimentoParcela = new javax.swing.JTextField();
+        fieldVencimento = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Despesas Avulsas");
+        setPreferredSize(new java.awt.Dimension(896, 548));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
@@ -542,11 +516,11 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
         jLabel10.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel10.setText("Valor");
 
-        fieldValorTotal.setEnabled(false);
-        fieldValorTotal.setName("fieldValorTotal"); // NOI18N
-        fieldValorTotal.addFocusListener(new java.awt.event.FocusAdapter() {
+        fieldValor.setEnabled(false);
+        fieldValor.setName("fieldValor"); // NOI18N
+        fieldValor.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                fieldValorTotalFocusLost(evt);
+                fieldValorFocusLost(evt);
             }
         });
 
@@ -625,16 +599,16 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
             }
         });
 
-        fieldVencimentoParcela.setEnabled(false);
-        fieldVencimentoParcela.setName("fieldVencimentoParcela"); // NOI18N
-        fieldVencimentoParcela.addFocusListener(new java.awt.event.FocusAdapter() {
+        fieldVencimento.setEnabled(false);
+        fieldVencimento.setName("fieldVencimento"); // NOI18N
+        fieldVencimento.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                fieldVencimentoParcelaFocusLost(evt);
+                fieldVencimentoFocusLost(evt);
             }
         });
-        fieldVencimentoParcela.addActionListener(new java.awt.event.ActionListener() {
+        fieldVencimento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fieldVencimentoParcelaActionPerformed(evt);
+                fieldVencimentoActionPerformed(evt);
             }
         });
 
@@ -642,6 +616,10 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
         panelParcelas.setLayout(panelParcelasLayout);
         panelParcelasLayout.setHorizontalGroup(
             panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelParcelasLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(panelParcelasLayout.createSequentialGroup()
                 .addGap(6, 6, 6)
                 .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -665,18 +643,14 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(fieldValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(fieldValor, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(fieldVencimentoParcela, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(fieldVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 153, Short.MAX_VALUE)
-                        .addComponent(btnLockTable, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
-            .addGroup(panelParcelasLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton1)
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(btnLockTable, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         panelParcelasLayout.setVerticalGroup(
             panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -687,8 +661,8 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
                         .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(panelParcelasLayout.createSequentialGroup()
                                 .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(fieldValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(fieldVencimentoParcela, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(fieldValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(fieldVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(23, 23, 23))
                             .addGroup(panelParcelasLayout.createSequentialGroup()
                                 .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -714,11 +688,9 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
                                 .addGroup(panelParcelasLayout.createSequentialGroup()
                                     .addComponent(jLabel11)
                                     .addGap(6, 6, 6)
-                                    .addComponent(spinnerQuantidadeParcelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(18, 18, 18)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(spinnerQuantidadeParcelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(10, 10, 10))
         );
@@ -731,7 +703,7 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelToolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelParcelas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelParcelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(panelMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -802,9 +774,9 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
         categoriaView.adicionarSubscribers(this);
     }//GEN-LAST:event_btnProcurarCategoriaActionPerformed
 
-    private void fieldVencimentoParcelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldVencimentoParcelaActionPerformed
+    private void fieldVencimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldVencimentoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_fieldVencimentoParcelaActionPerformed
+    }//GEN-LAST:event_fieldVencimentoActionPerformed
 
     private void fieldNotaEmissaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldNotaEmissaoActionPerformed
         // TODO add your handling code here:
@@ -820,24 +792,22 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
         }
     }//GEN-LAST:event_fieldNotaEmissaoFocusLost
 
-    private void fieldVencimentoParcelaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldVencimentoParcelaFocusLost
+    private void fieldVencimentoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldVencimentoFocusLost
         try {
-            fieldVencimentoParcela.setText(ConversorData.paraString(ConversorData.paraData(fieldVencimentoParcela.getText())));
+            fieldVencimento.setText(ConversorData.paraString(ConversorData.paraData(fieldVencimento.getText())));
         } catch (DateTimeParseException ex) {
-            fieldVencimentoParcela.setText("");
-            fieldVencimentoParcela.requestFocus();
+            fieldVencimento.setText("");
+            fieldVencimento.requestFocus();
             JOptionPane.showMessageDialog(null, "A data informada não esta correta !", "Erro", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_fieldVencimentoParcelaFocusLost
+    }//GEN-LAST:event_fieldVencimentoFocusLost
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         controller.limparCampos();
     }//GEN-LAST:event_formWindowClosing
 
     private void btnProcurarFormaPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcurarFormaPagamentoActionPerformed
-        var formaPagamentoView = context.getBean(FormaPagamentoView.class  
-
-);
+        var formaPagamentoView = context.getBean(FormaPagamentoView.class);
         formaPagamentoView.setVisible(true);
         formaPagamentoView.adicionarSubscribers(this);
     }//GEN-LAST:event_btnProcurarFormaPagamentoActionPerformed
@@ -846,15 +816,15 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
         // TODO add your handling code here:
     }//GEN-LAST:event_formWindowActivated
 
-    private void fieldValorTotalFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldValorTotalFocusLost
+    private void fieldValorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldValorFocusLost
         try {
-            fieldValorTotal.setText(ConversorMoeda.paraString(ConversorMoeda.paraBigDecimal(fieldValorTotal.getText())));
+            fieldValor.setText(ConversorMoeda.paraString(ConversorMoeda.paraBigDecimal(fieldValor.getText())));
         } catch (DateTimeParseException ex) {
-            fieldValorTotal.setText("");
-            fieldValorTotal.requestFocus();
+            fieldValor.setText("");
+            fieldValor.requestFocus();
             JOptionPane.showMessageDialog(null, "A data informada não esta correta !", "Erro", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_fieldValorTotalFocusLost
+    }//GEN-LAST:event_fieldValorFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -876,8 +846,8 @@ public class DespesaAvulsaView extends javax.swing.JFrame implements Subscriber 
     private javax.swing.JTextField fieldId;
     private javax.swing.JTextField fieldNota;
     private javax.swing.JTextField fieldNotaEmissao;
-    private javax.swing.JTextField fieldValorTotal;
-    private javax.swing.JTextField fieldVencimentoParcela;
+    private javax.swing.JTextField fieldValor;
+    private javax.swing.JTextField fieldVencimento;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
