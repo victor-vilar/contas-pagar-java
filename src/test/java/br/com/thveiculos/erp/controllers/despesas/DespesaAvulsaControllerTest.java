@@ -340,6 +340,7 @@ public class DespesaAvulsaControllerTest {
         verify(controller.service,times(1)).deletarMovimentos(anyList(), eq(linhas));
         verify(controller,times(1)).preencherTabela(anyList());
     }
+    
 
     
     @Test
@@ -359,6 +360,75 @@ public class DespesaAvulsaControllerTest {
         assertEquals(nota.getDataEmissao(), LocalDate.of(2025,02,01)); 
         
     
+    }
+    
+    @Test
+    public void metodoGerarParcelasChamaOutrosMetodos(){
+        
+        controller.gerarParcelas();
+        verify(controller,times(1)).criarMovimentos();
+        verify(controller,times(1)).preencherTabela(anyList());
+        verify(controller,times(1)).limparCamposParcelamento();
+    }
+    
+    @Test
+    public void metodoCriarMovimentosChamaServicoERecebeListaDeMovimento(){
+    
+        view.getComboParcelamento().setSelectedIndex(0);
+        view.getSpinnerQuantidadeParcelas().getModel().setValue(2);
+        view.getFieldVencimento().setText("01/03/2025");
+        view.getFieldValor().setText("R$1000,00");
+        view.getComboFormaPagamento().setSelectedIndex(0);
+        
+        MovimentoPagamento m1 = new MovimentoPagamento();
+        m1.setId(1L);
+        m1.setReferenteParcela("1/2");
+        m1.setDataVencimento(LocalDate.of(2025, Month.MARCH, 1));
+        m1.setValorPagamento(new BigDecimal("1000"));
+        m1.setFormaPagamento(fp1);
+        
+        MovimentoPagamento m2 = new MovimentoPagamento();
+        m2.setId(2L);
+        m2.setReferenteParcela("2/2");
+        m2.setDataVencimento(LocalDate.of(2025, Month.APRIL, 1));
+        m2.setValorPagamento(new BigDecimal("1000"));
+        m2.setFormaPagamento(fp1);
+        
+        
+        
+        when(formaPagamentoService.getByForma("PIX")).thenReturn(fp1);
+        when(despesaService.gerarMovimentos(
+                "ANUAL",
+                2,
+                "01/03/2025",
+                "R$1000,00",
+                fp1))
+                .thenReturn(List.of(m1,m2));
+        
+        controller.criarMovimentos();
+        List<MovimentoPagamento> movimentos = controller.getMovimentos();
+        
+        assertEquals(movimentos.isEmpty(),false);
+        assertEquals(movimentos.size(),2);
+        
+    }
+    
+    @Test
+    public void metodoLimparCamposParcelamentoLimpaCamposReferenteAoParcelamento(){
+        
+        view.getComboParcelamento().setSelectedIndex(0);
+        view.getSpinnerQuantidadeParcelas().getModel().setValue(2);
+        view.getFieldVencimento().setText("01/03/2025");
+        view.getFieldValor().setText("R$1000,00");
+        view.getComboFormaPagamento().setSelectedIndex(0);
+        
+        controller.limparCamposParcelamento();
+        
+        assertEquals(view.getComboParcelamento().getSelectedIndex(),-1);
+        assertEquals(view.getSpinnerQuantidadeParcelas().getModel().getValue(),1);
+        assertEquals(view.getFieldVencimento().getText(),"");
+        assertEquals(view.getFieldValor().getText(),"");
+        assertEquals(view.getComboFormaPagamento().getSelectedIndex(),-1);
     }
 
 

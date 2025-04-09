@@ -22,13 +22,12 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 @Lazy
-public class DespesaAvulsaController extends DespesaAbstractController<DespesaAvulsaViewImpl>{
+public class DespesaAvulsaController extends DespesaAbstractController<DespesaAvulsaViewImpl> {
 
     @Autowired
     public DespesaAvulsaController(DespesaService service, CategoriaDespesaService categoriaDespesaService, FormaPagamentoService formaPagamentoService) {
         super(service, categoriaDespesaService, formaPagamentoService);
     }
-
 
     @Override
     public void salvar() {
@@ -60,7 +59,7 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
 
     }
 
-    private NotaFiscal buildNota(String numero, String data) {
+    public NotaFiscal buildNota(String numero, String data) {
 
         NotaFiscal nota = new NotaFiscal();
         nota.setDataEmissao(ConversorData.paraData(data));
@@ -74,8 +73,8 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
         limparCamposParcelamento();
     }
 
-    private void criarMovimentos() {
-       
+    public void criarMovimentos() {
+
         movimentos = service.gerarMovimentos(
                 (String) view.getComboParcelamento().getSelectedItem(),
                 (int) view.getSpinnerQuantidadeParcelas().getValue(),
@@ -85,7 +84,7 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
 
     }
 
-    protected void limparCamposParcelamento() {
+    public void limparCamposParcelamento() {
         view.getComboParcelamento().setSelectedIndex(-1);
         view.getFieldValor().setText("");
         view.getComboFormaPagamento().setSelectedIndex(-1);
