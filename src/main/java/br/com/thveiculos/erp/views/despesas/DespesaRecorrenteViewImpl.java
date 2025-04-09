@@ -5,6 +5,7 @@
 package br.com.thveiculos.erp.views.despesas;
 
 import br.com.thveiculos.erp.controllers.despesas.DespesaAbstractController;
+import br.com.thveiculos.erp.controllers.despesas.DespesaRecorrenteController;
 import br.com.thveiculos.erp.util.ConversorData;
 import br.com.thveiculos.erp.util.ConversorMoeda;
 import br.com.thveiculos.erp.views.interfaces.DespesaViewRecorrente;
@@ -34,15 +35,13 @@ import org.springframework.stereotype.Component;
 public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Subscriber, DespesaViewRecorrente {
     
     private javax.swing.JComboBox<String> comboFormaPagamentoTabela;
-    private final DespesaAbstractController controller;
+    private final DespesaRecorrenteController controller;
     private final ApplicationContext context;
     
     @Autowired
-    public DespesaRecorrenteViewImpl(
-            DespesaAbstractController controller,
-            ApplicationContext context) {
+    public DespesaRecorrenteViewImpl(DespesaRecorrenteController controller,ApplicationContext context) {
         this.controller = controller;
-        //this.controller.setView(this);
+        this.controller.setView(this);
         this.context = context;
         
     }
