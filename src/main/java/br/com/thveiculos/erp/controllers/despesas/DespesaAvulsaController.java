@@ -91,4 +91,7 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
         view.getSpinnerQuantidadeParcelas().getModel().setValue(1);
         view.getFieldVencimento().setText("");
     }
+    
+    @Override
+    public boolean checarErrosAoSalvar(){return true;}
 }
