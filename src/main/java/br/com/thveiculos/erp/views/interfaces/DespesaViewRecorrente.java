@@ -16,6 +16,6 @@ public interface DespesaViewRecorrente extends DespesaView {
     public JTextField getFieldDiaVencimento();
     public JTextField getFieldMesVencimento();
     public JTextField getFieldDataInicio();
-    public JTextField getFielldDataFim();
+    public JTextField getFieldDataFim();
     
 }

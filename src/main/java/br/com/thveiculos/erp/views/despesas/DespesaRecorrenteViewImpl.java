@@ -181,7 +181,7 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
     }
     
     @Override
-    public JTextField getFielldDataFim(){
+    public JTextField getFieldDataFim(){
         return fieldDataFim;
     }
     
