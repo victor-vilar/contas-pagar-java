@@ -20,7 +20,7 @@ public class DespesaRecorrente extends DespesaAbstrata implements Serializable {
     private LocalDate dataInicio;
     private LocalDate dataFim;
     @Column(nullable = false)
-    private Integer dataPagamento;
+    private Integer diaPagamento;
     
     private Integer mesPagamento;
 
@@ -57,11 +57,11 @@ public class DespesaRecorrente extends DespesaAbstrata implements Serializable {
     }
 
     public Integer getDataPagamento() {
-        return dataPagamento;
+        return diaPagamento;
     }
 
     public void setDataPagamento(Integer dataPagamento) {
-        this.dataPagamento = dataPagamento;
+        this.diaPagamento = dataPagamento;
     }
 
     public FormaPagamento getFormaPagamentoPadrao() {
@@ -71,6 +71,17 @@ public class DespesaRecorrente extends DespesaAbstrata implements Serializable {
     public void setFormaPagamentoPadrao(FormaPagamento formaPagamentoPadrao) {
         this.formaPagamentoPadrao = formaPagamentoPadrao;
     }
+
+    public Integer getDiaPagamento() {
+        return diaPagamento;
+    }
+
+    public void setDiaPagamento(Integer diaPagamento) {
+        this.diaPagamento = diaPagamento;
+    }
+    
+    
+    
 
     public Integer getMesPagamento() {
         return mesPagamento;
