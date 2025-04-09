@@ -64,6 +64,10 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
     public List<MovimentoPagamento> getMovimentos(){
         return movimentos;
     }
+    
+    public void setMovimentos(List<MovimentoPagamento> movimentos){
+        this.movimentos = movimentos;
+    }
 
     
     @Override
