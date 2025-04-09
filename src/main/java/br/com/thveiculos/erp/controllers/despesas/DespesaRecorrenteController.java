@@ -32,6 +32,10 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
     public void salvar() {
         DespesaRecorrente despesa = new DespesaRecorrente();
 
+        if(checarErrosAoSalvar()){
+            throw new RuntimeException("Não foram preenchidos todos os campos");
+        }
+        
         String id = view.getFieldId().getText();
 
         if (!id.equals("")) {
@@ -47,7 +51,7 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
         Periodo periodo = Periodo.valueOf((String)view.getComboParcelamento().getSelectedItem());
         String valor = view.getFieldValor().getText();
         Integer dia = Integer.valueOf(view.getFieldDiaVencimento().getText());
-        Integer mes = Integer.valueOf(view.getFieldMesVencimento().getText());
+        
         
         
         despesa.setNomeFornecedor(nome);
@@ -59,12 +63,68 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
         despesa.setPeriocidade(periodo);
         despesa.setValorTotal(ConversorMoeda.paraBigDecimal(valor));
         despesa.setDiaPagamento(dia);
-        despesa.setMesPagamento(mes);
+        
+        
+        if(!view.getFieldMesVencimento().getText().trim().isEmpty()){
+            Integer mes = Integer.valueOf(view.getFieldMesVencimento().getText());
+            
+            despesa.setMesPagamento(mes);
+        }
+        
         
         service.save(despesa);
         limparCampos();
         
         
+        
+    }
+    
+    
+    @Override
+    public boolean checarErrosAoSalvar(){
+        
+        if (view.getFieldDescricao().getText().trim().isEmpty()) {
+            return true;
+        }
+
+        if (view.getAreaDescricao().getText().trim().isEmpty()) {
+            return true;
+        }
+
+        if (view.getComboCategoria().getSelectedIndex() == -1) {
+            return true;
+        }
+        
+        if (view.getComboFormaPagamento().getSelectedIndex() == -1) {
+            return true;
+        }
+        
+        if (view.getFieldDataInicio().getText().trim().isEmpty()) {
+            return true;
+        }
+
+        if (view.getFieldDataFim().getText().trim().isEmpty()) {
+            return true;
+        }
+        
+        if (view.getComboParcelamento().getSelectedIndex() == -1) {
+            return true;
+        }
+        
+        if(view.getFieldValor().getText().trim().isEmpty()){
+            return true;
+        }
+        
+        if(view.getFieldDiaVencimento().getText().trim().isEmpty()){
+            return true;
+        }
+        
+        String parcelamento = (String)view.getComboParcelamento().getSelectedItem();
+        if((parcelamento.equals("ANUAL")) && (view.getFieldMesVencimento().getText().trim().isEmpty())){
+            return true;
+        }
+        
+        return false;
         
     }
 
