@@ -287,4 +287,20 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
                 break;
         }
     }
+    
+    public void aoSusbscrever(String valor, String tipo){
+        
+        if (tipo.equals("Categoria Despesas")) {;
+            view.getComboCategoria().removeAllItems();
+            inicializarComboCategoria();
+            view.getComboCategoria().getModel().setSelectedItem(valor);
+        }
+
+        if (tipo.equals("Formas Pagamento")) {
+            view.getComboFormaPagamento().removeAllItems();
+            inicializarComboFormaPagamento();
+            view.getComboFormaPagamento().getModel().setSelectedItem(valor);
+        }
+    }
+    
 }
