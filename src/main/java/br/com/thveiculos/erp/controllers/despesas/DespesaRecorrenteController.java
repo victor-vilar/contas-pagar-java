@@ -6,6 +6,8 @@ package br.com.thveiculos.erp.controllers.despesas;
 
 import br.com.thveiculos.erp.entities.despesas.DespesaRecorrente;
 import br.com.thveiculos.erp.enums.despesas.Periodo;
+import br.com.thveiculos.erp.exceptions.despesas.DiaVencimentoInvalidoException;
+import br.com.thveiculos.erp.exceptions.despesas.MesVencimentoInvalidoException;
 import br.com.thveiculos.erp.services.despesas.interfaces.CategoriaDespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.DespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.FormaPagamentoService;
@@ -113,6 +115,60 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
         }
         
         return false;
+        
+    }
+    
+    public void diaVencimentoAoPerderFoco() throws DiaVencimentoInvalidoException, NumberFormatException{
+ 
+        Integer dia;
+        Integer mes;
+
+        if (view.getFieldDiaVencimento().getText().trim().isEmpty()) {
+            return;
+        }
+
+        dia = Integer.valueOf(view.getFieldDiaVencimento().getText());
+        if (dia <= 0 || dia > 30) {
+            throw new DiaVencimentoInvalidoException("O dia informado deve estar entre 1 e 30");
+        }
+
+        if (view.getFieldMesVencimento().getText().trim().isEmpty()) {
+            return;
+        }
+
+        mes = Integer.valueOf(view.getFieldMesVencimento().getText());
+
+        if (dia > 28 && mes == 2) {
+            throw new DiaVencimentoInvalidoException("Se o mês for fevereiro o dia não pode ser maior que 28 !");
+        }
+        
+    }
+    
+    
+    public void mesVencimentoAoPerderFoco() throws MesVencimentoInvalidoException, NumberFormatException {
+        
+        Integer dia;
+        Integer mes;
+        
+        if (view.getFieldMesVencimento().getText().trim().isEmpty()) {
+            return;
+        }
+        
+        mes = Integer.valueOf(view.getFieldMesVencimento().getText());
+        
+        if (mes <= 0 || mes > 12) {
+            throw new MesVencimentoInvalidoException("O mês informado não é válido !");
+        }
+        
+        if (view.getFieldDiaVencimento().getText().trim().isEmpty()) {
+            return;
+        }
+
+        dia = Integer.valueOf(view.getFieldDiaVencimento().getText());
+        
+        if (dia > 28 && mes == 2) {
+            throw new MesVencimentoInvalidoException("Se o mês for fevereiro o dia não pode ser maior que 28 !");
+        }
         
     }
 
