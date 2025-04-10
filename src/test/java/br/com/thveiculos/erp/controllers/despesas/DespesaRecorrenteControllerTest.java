@@ -8,6 +8,9 @@ import br.com.thveiculos.erp.entities.despesas.CategoriaDespesa;
 import br.com.thveiculos.erp.entities.despesas.DespesaRecorrente;
 import br.com.thveiculos.erp.entities.despesas.FormaPagamento;
 import br.com.thveiculos.erp.entities.despesas.MovimentoPagamento;
+import br.com.thveiculos.erp.exceptions.despesas.DiaVencimentoInvalidoException;
+import br.com.thveiculos.erp.exceptions.despesas.FieldsEmBrancoException;
+import br.com.thveiculos.erp.exceptions.despesas.MesVencimentoInvalidoException;
 import br.com.thveiculos.erp.services.despesas.interfaces.CategoriaDespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.DespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.FormaPagamentoService;
@@ -20,6 +23,7 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -362,15 +366,136 @@ public class DespesaRecorrenteControllerTest {
 
     @Test
     public void metodoSalvarDeveCriarObjetoComOsValoresDaViewUtilizarMetodoSave() {
-
+        
+        view.getFieldId().setText("2");
+        view.getFieldDescricao().setText("Teste");
+        view.getFieldCodFornecedor().setText("22");
+        view.getAreaDescricao().setText("teste");
+        view.getComboCategoria().setSelectedIndex(0);
+        view.getComboFormaPagamento().setSelectedIndex(0);
+        view.getFieldDataInicio().setText("01/02/2025");
+        view.getFieldDataFim().setText("01/02/2025");
+        view.getComboParcelamento().setSelectedIndex(0);
+        view.getFieldValor().setText("R$1000,00");
+        view.getFieldDiaVencimento().setText("12");
+        view.getFieldMesVencimento().setText("10");
+        
+        
+        
+        
         controller.salvar();
         verify(controller.service, times(1)).save(any(DespesaRecorrente.class));
+        verify(controller,times(1)).limparCampos();
 
     }
-
+    
     @Test
-    public void metodoChecarErrosDeveVerificarSeCamposNaoEstaVazios() {
-        fail("Metodo não implementado");
+    public void metodoChecarErrosAoSalvarDeveLançarExceptionSeAlgumCampoEstiverEmBranco(){
+        view.getFieldId().setText("2");
+        view.getFieldDescricao().setText("Teste");
+        view.getFieldCodFornecedor().setText("22");
+        view.getAreaDescricao().setText("teste");
+        view.getComboCategoria().setSelectedIndex(0);
+        view.getComboFormaPagamento().setSelectedIndex(0);
+        view.getFieldDataInicio().setText("01/02/2025");
+        view.getFieldDataFim().setText("01/02/2025");
+        view.getComboParcelamento().setSelectedIndex(1);
+        view.getFieldValor().setText(" ");
+        view.getFieldDiaVencimento().setText("12");
+        view.getFieldMesVencimento().setText("");
+        
+        Assertions.assertThrows(FieldsEmBrancoException.class, ()
+                -> controller.checarErrosAoSalvar());
+        
     }
+    
+    @Test
+    public void metodoChecarErrosAoSalvarDeveLançarExceptionSeAlgumComboEstiverEmBranco(){
+        view.getFieldId().setText("2");
+        view.getFieldDescricao().setText("Teste");
+        view.getFieldCodFornecedor().setText("22");
+        view.getAreaDescricao().setText("teste");
+        view.getComboCategoria().setSelectedIndex(0);
+        view.getComboFormaPagamento().setSelectedIndex(-1);
+        view.getFieldDataInicio().setText("01/02/2025");
+        view.getFieldDataFim().setText("01/02/2025");
+        view.getComboParcelamento().setSelectedIndex(0);
+        view.getFieldValor().setText("R$1000,00 ");
+        view.getFieldDiaVencimento().setText("10 ");
+        view.getFieldMesVencimento().setText("10");
+        
+        Assertions.assertThrows(FieldsEmBrancoException.class, ()
+                -> controller.checarErrosAoSalvar());
+    }
+    
+    @Test
+    public void metodoChecarErrosAoSalvarDeveLançarExceptionSeParcelamentoForAnualEMesVEncimentoNulo(){
+        view.getFieldId().setText("2");
+        view.getFieldDescricao().setText("Teste");
+        view.getFieldCodFornecedor().setText("22");
+        view.getAreaDescricao().setText("teste");
+        view.getComboCategoria().setSelectedIndex(0);
+        view.getComboFormaPagamento().setSelectedIndex(0);
+        view.getFieldDataInicio().setText("01/02/2025");
+        view.getFieldDataFim().setText("01/02/2025");
+        view.getComboParcelamento().setSelectedIndex(0);
+        view.getFieldValor().setText("R$1000,00 ");
+        view.getFieldDiaVencimento().setText("12");
+        view.getFieldMesVencimento().setText("");
+        
+        Assertions.assertThrows(FieldsEmBrancoException.class, ()
+                -> controller.checarErrosAoSalvar());
+    }
+    
+    @Test
+    public void metodoDiaVencimentoAoPerderFocoLancaDiaVencimentoExceptionSeDiaForMenorQueZero(){
+    
+        view.getFieldDiaVencimento().setText("-1");
+        Assertions.assertThrows(DiaVencimentoInvalidoException.class, ()
+                -> controller.diaVencimentoAoPerderFoco());
+    }
+    
+    @Test
+    public void metodoDiaVencimentoAoPerderFocoLancaDiaVencimentoExceptionSeDiaForMaiorQueTrinta(){
+    
+        view.getFieldDiaVencimento().setText("35");
+        Assertions.assertThrows(DiaVencimentoInvalidoException.class, ()
+                -> controller.diaVencimentoAoPerderFoco());
+    }
+    
+    @Test
+    public void metodoDiaVencimentoAoPerderFocoLancaDiaVencimentoExceptionSeDiaForMaiorQueVinteOitoEMesDois(){
+    
+        view.getFieldDiaVencimento().setText("29");
+        view.getFieldMesVencimento().setText("2");
+        Assertions.assertThrows(DiaVencimentoInvalidoException.class, ()
+                -> controller.diaVencimentoAoPerderFoco());
+    }
+    
+        @Test
+    public void metodoMesVencimentoAoPerderFocoLancaMesVencimentoExceptionSeMesForMenorOuIgualAZero(){
+    
+        view.getFieldMesVencimento().setText("-1");
+        Assertions.assertThrows(MesVencimentoInvalidoException.class, ()
+                -> controller.mesVencimentoAoPerderFoco());
+    }
+    
+    @Test
+    public void metodoMesVencimentoAoPerderFocoLancaMesVencimentoExceptionSeMesForMaiorQueDoze(){
+    
+        view.getFieldMesVencimento().setText("35");
+        Assertions.assertThrows(MesVencimentoInvalidoException.class, ()
+                -> controller.mesVencimentoAoPerderFoco());
+    }
+    
+    @Test
+    public void metodoMesVencimentoAoPerderFocoLancaMesVencimentoExceptionSeDiaForMaiorQueVinteOitoEMesDois(){
+    
+        view.getFieldDiaVencimento().setText("29");
+        view.getFieldMesVencimento().setText("2");
+        Assertions.assertThrows(MesVencimentoInvalidoException.class, ()
+                -> controller.mesVencimentoAoPerderFoco());
+    }
+    
 
 }
