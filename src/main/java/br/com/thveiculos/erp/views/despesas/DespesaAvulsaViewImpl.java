@@ -58,13 +58,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
     @Override
     public void subscribe(String valor, String tipo) {
 
-        if (tipo.equals("Categoria Despesas")) {
-            this.comboCategoria.getModel().setSelectedItem(valor);
-        }
-
-        if (tipo.equals("Formas Pagamento")) {
-            this.comboFormaPagamento.getModel().setSelectedItem(valor);
-        }
+        controller.aoSusbscrever(valor, tipo);
 
     }
 
@@ -114,7 +108,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
     public JTextField getFieldValor() {
         return fieldValor;
     }
-    
+
     @Override
     public JTextField getFieldCodFornecedor() {
         return fieldCodFornecedor;
@@ -160,9 +154,6 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
         return fieldNotaEmissao;
     }
 
-    
-    
-    
     public void configureComponentes() {
         comboFormaPagamentoTabela = new javax.swing.JComboBox<>();
         configureTable();
@@ -221,8 +212,6 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
         });
 
     }
-
-
 
     /**
      * This method is called from within the constructor to initialize the form.
