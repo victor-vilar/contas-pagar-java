@@ -156,6 +156,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
 
     public void configureComponentes() {
         comboFormaPagamentoTabela = new javax.swing.JComboBox<>();
+        comboFormaPagamentoTabela.setName("comboFormaPagamentoTabela");
         configureTable();
     }
 
