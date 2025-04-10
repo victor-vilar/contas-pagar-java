@@ -288,19 +288,28 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
         }
     }
     
-    public void aoSusbscrever(String valor, String tipo){
-        
-        if (tipo.equals("Categoria Despesas")) {;
-            view.getComboCategoria().removeAllItems();
-            inicializarComboCategoria();
-            view.getComboCategoria().getModel().setSelectedItem(valor);
-        }
+    public void aoSusbscrever(String valor, String tipo) {
 
-        if (tipo.equals("Formas Pagamento")) {
-            view.getComboFormaPagamento().removeAllItems();
-            inicializarComboFormaPagamento();
-            view.getComboFormaPagamento().getModel().setSelectedItem(valor);
+        switch (tipo) {
+            case "Categoria Despesas":
+                subscriptionCategoriaDespesa(valor);
+                break;
+            case "Formas Pagamento":
+                subscriptionFormaPagamento(valor);
+                break;
         }
+    }
+
+    public void subscriptionCategoriaDespesa(String valor) {
+        view.getComboCategoria().removeAllItems();
+        inicializarComboCategoria();
+        view.getComboCategoria().getModel().setSelectedItem(valor);
+    }
+
+    public void subscriptionFormaPagamento(String valor) {
+        view.getComboFormaPagamento().removeAllItems();
+        inicializarComboFormaPagamento();
+        view.getComboFormaPagamento().getModel().setSelectedItem(valor);
     }
     
 }
