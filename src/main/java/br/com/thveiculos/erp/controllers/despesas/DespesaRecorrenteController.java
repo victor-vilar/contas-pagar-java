@@ -12,8 +12,11 @@ import br.com.thveiculos.erp.services.despesas.interfaces.FormaPagamentoService;
 import br.com.thveiculos.erp.util.ConversorData;
 import br.com.thveiculos.erp.util.ConversorMoeda;
 import br.com.thveiculos.erp.views.despesas.DespesaRecorrenteViewImpl;
+import java.util.List;
+import java.util.Optional;
+import javax.swing.JComboBox;
+import javax.swing.text.JTextComponent;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
 /**
@@ -71,7 +74,6 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
             despesa.setMesPagamento(mes);
         }
         
-        
         service.save(despesa);
         limparCampos();
         
@@ -83,41 +85,27 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
     @Override
     public boolean checarErrosAoSalvar(){
         
-        if (view.getFieldDescricao().getText().trim().isEmpty()) {
-            return true;
+ 
+        List<String> exclude = List.of("fieldMesVencimento","fieldCodFornecedor","fieldId", "comboFormaPagamentoTabela");
+        Optional<JTextComponent> fields = view
+                        .getTextFields()
+                        .stream()
+                        .filter(c -> c.getText().trim().isEmpty() && !exclude.contains(c.getName())).findFirst();
+
+        if(fields.isPresent()){
+             return true;
+        }
+        
+        
+        Optional<JComboBox<String>> combos = view
+                .getComboBoxes()
+                .stream()
+                .filter(c -> c.getSelectedIndex() == -1 && !exclude.contains(c.getName())).findFirst();
+        
+        if(combos.isPresent()){
+             return true;
         }
 
-        if (view.getAreaDescricao().getText().trim().isEmpty()) {
-            return true;
-        }
-
-        if (view.getComboCategoria().getSelectedIndex() == -1) {
-            return true;
-        }
-        
-        if (view.getComboFormaPagamento().getSelectedIndex() == -1) {
-            return true;
-        }
-        
-        if (view.getFieldDataInicio().getText().trim().isEmpty()) {
-            return true;
-        }
-
-        if (view.getFieldDataFim().getText().trim().isEmpty()) {
-            return true;
-        }
-        
-        if (view.getComboParcelamento().getSelectedIndex() == -1) {
-            return true;
-        }
-        
-        if(view.getFieldValor().getText().trim().isEmpty()){
-            return true;
-        }
-        
-        if(view.getFieldDiaVencimento().getText().trim().isEmpty()){
-            return true;
-        }
         
         String parcelamento = (String)view.getComboParcelamento().getSelectedItem();
         if((parcelamento.equals("ANUAL")) && (view.getFieldMesVencimento().getText().trim().isEmpty())){
