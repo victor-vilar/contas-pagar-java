@@ -7,6 +7,7 @@ package br.com.thveiculos.erp.controllers.despesas;
 import br.com.thveiculos.erp.entities.despesas.DespesaRecorrente;
 import br.com.thveiculos.erp.enums.despesas.Periodo;
 import br.com.thveiculos.erp.exceptions.despesas.DiaVencimentoInvalidoException;
+import br.com.thveiculos.erp.exceptions.despesas.FieldsEmBrancoException;
 import br.com.thveiculos.erp.exceptions.despesas.MesVencimentoInvalidoException;
 import br.com.thveiculos.erp.services.despesas.interfaces.CategoriaDespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.DespesaService;
@@ -37,9 +38,9 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
     public void salvar() {
         DespesaRecorrente despesa = new DespesaRecorrente();
 
-        if(checarErrosAoSalvar()){
-            throw new RuntimeException("Não foram preenchidos todos os campos");
-        }
+        checarErrosAoSalvar();
+       
+        
         
         String id = view.getFieldId().getText();
 
@@ -85,7 +86,7 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
     
     
     @Override
-    public boolean checarErrosAoSalvar(){
+    public void checarErrosAoSalvar()throws FieldsEmBrancoException{
         
  
         List<String> exclude = List.of("fieldMesVencimento","fieldCodFornecedor","fieldId", "comboFormaPagamentoTabela");
@@ -95,7 +96,7 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
                         .filter(c -> c.getText().trim().isEmpty() && !exclude.contains(c.getName())).findFirst();
 
         if(fields.isPresent()){
-             return true;
+             throw new FieldsEmBrancoException("Todos os campos devem ser preenchidos.");
         }
         
         
@@ -105,16 +106,16 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
                 .filter(c -> c.getSelectedIndex() == -1 && !exclude.contains(c.getName())).findFirst();
         
         if(combos.isPresent()){
-             return true;
+             throw new FieldsEmBrancoException("Todos os campos devem ser preenchidos.");
         }
 
         
         String parcelamento = (String)view.getComboParcelamento().getSelectedItem();
         if((parcelamento.equals("ANUAL")) && (view.getFieldMesVencimento().getText().trim().isEmpty())){
-            return true;
+            throw new FieldsEmBrancoException("Se a despesa for 'ANUAL' ela deve possuir um mês");
         }
         
-        return false;
+       
         
     }
     
