@@ -4,8 +4,9 @@
  */
 package br.com.thveiculos.erp.views.despesas;
 
-import br.com.thveiculos.erp.controllers.despesas.DespesaAbstractController;
 import br.com.thveiculos.erp.controllers.despesas.DespesaRecorrenteController;
+import br.com.thveiculos.erp.exceptions.despesas.DiaVencimentoInvalidoException;
+import br.com.thveiculos.erp.exceptions.despesas.MesVencimentoInvalidoException;
 import br.com.thveiculos.erp.util.ConversorData;
 import br.com.thveiculos.erp.util.ConversorMoeda;
 import br.com.thveiculos.erp.views.interfaces.DespesaViewRecorrente;
@@ -54,22 +55,15 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
     }
     
     @Override
-    public void atualizar(String valor, String tipo) {
-        
-        if (tipo.equals("Categoria Despesas")) {
-            this.comboCategoria.getModel().setSelectedItem(valor);
-        }
-        
-        if (tipo.equals("Formas Pagamento")) {
-            this.comboFormaPagamento.getModel().setSelectedItem(valor);
-        }
-        
+    public void subscribe(String valor, String tipo) {
+        controller.aoSusbscrever(valor, tipo);
     }
     
     
     @Override
     public List<java.awt.Component> getAllComponentes() {
-        return List.of(areaDescricao,
+        return List.of(
+                areaDescricao,
                 btnDeletar,
                 btnEditar,
                 btnNovo,
@@ -94,7 +88,8 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
 
     @Override
     public List<JTextComponent> getTextFields() {
-        return List.of(fieldCodFornecedor,
+        return List.of(
+                fieldCodFornecedor,
                 fieldDescricao,
                 fieldId, 
                 fieldValor,
@@ -187,6 +182,7 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
 
     public void configureComponentes() {
         comboFormaPagamentoTabela = new javax.swing.JComboBox<>();
+        comboFormaPagamentoTabela.setName("comboFormaPagamentoTabela");
         configureTable();
     }
     
@@ -642,7 +638,7 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         jLabel11.setText("Dia");
 
         fieldDiaVencimento.setEnabled(false);
-        fieldDiaVencimento.setName("fieldDataInicio"); // NOI18N
+        fieldDiaVencimento.setName("fieldDiaVencimento"); // NOI18N
         fieldDiaVencimento.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 fieldDiaVencimentoFocusLost(evt);
@@ -658,7 +654,7 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         jLabel12.setText("Mês ");
 
         fieldMesVencimento.setEnabled(false);
-        fieldMesVencimento.setName("fieldDataInicio"); // NOI18N
+        fieldMesVencimento.setName("fieldMesVencimento"); // NOI18N
         fieldMesVencimento.setVerifyInputWhenFocusTarget(false);
         fieldMesVencimento.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -766,14 +762,14 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
             controller.salvar();
             JOptionPane.showMessageDialog(null, "Despesa salva com sucesso !", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao salvar", "erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, e.getMessage(), "erro", JOptionPane.ERROR_MESSAGE);
             System.out.println(e);
         }
 
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        System.out.println("Iniciei...");
+
         controller.inicializarComboBox();
 
     }//GEN-LAST:event_formWindowOpened
@@ -803,7 +799,17 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
     }//GEN-LAST:event_fieldMesVencimentoActionPerformed
 
     private void fieldMesVencimentoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldMesVencimentoFocusLost
-        // TODO add your handling code here:
+        try {
+            controller.mesVencimentoAoPerderFoco();
+        } catch (MesVencimentoInvalidoException  d) {
+            getFieldMesVencimento().setText("");
+            getFieldMesVencimento().requestFocus();
+            JOptionPane.showMessageDialog(null, d.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        } catch (NumberFormatException d){
+            getFieldMesVencimento().setText("");
+            getFieldMesVencimento().requestFocus();
+            JOptionPane.showMessageDialog(null, "O valor informado não é um número válido", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_fieldMesVencimentoFocusLost
 
     private void fieldDiaVencimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldDiaVencimentoActionPerformed
@@ -811,7 +817,18 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
     }//GEN-LAST:event_fieldDiaVencimentoActionPerformed
 
     private void fieldDiaVencimentoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldDiaVencimentoFocusLost
-        // TODO add your handling code here:
+        try {
+            controller.diaVencimentoAoPerderFoco();
+        } catch (DiaVencimentoInvalidoException d) {
+            getFieldDiaVencimento().setText("");
+            getFieldDiaVencimento().requestFocus();
+            JOptionPane.showMessageDialog(null, d.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        } catch (NumberFormatException d) {
+            getFieldDiaVencimento().setText("");
+            getFieldDiaVencimento().requestFocus();
+            JOptionPane.showMessageDialog(null, "O valor informado não é um número válido", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+               
     }//GEN-LAST:event_fieldDiaVencimentoFocusLost
 
     private void fieldDataFimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldDataFimActionPerformed
@@ -857,7 +874,9 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
 
     private void fieldValorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldValorFocusLost
         try {
-            fieldValor.setText(ConversorMoeda.paraString(ConversorMoeda.paraBigDecimal(fieldValor.getText())));
+            if(!fieldValor.getText().trim().isEmpty()){
+                fieldValor.setText(ConversorMoeda.paraString(ConversorMoeda.paraBigDecimal(fieldValor.getText())));
+            }
         } catch (DateTimeParseException ex) {
             fieldValor.setText("");
             fieldValor.requestFocus();

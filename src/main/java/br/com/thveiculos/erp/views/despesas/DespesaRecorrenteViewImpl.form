@@ -707,7 +707,7 @@
         <Component class="javax.swing.JTextField" name="fieldDiaVencimento">
           <Properties>
             <Property name="enabled" type="boolean" value="false"/>
-            <Property name="name" type="java.lang.String" value="fieldDataInicio" noResource="true"/>
+            <Property name="name" type="java.lang.String" value="fieldDiaVencimento" noResource="true"/>
           </Properties>
           <Events>
             <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="fieldDiaVencimentoFocusLost"/>
@@ -725,7 +725,7 @@
         <Component class="javax.swing.JTextField" name="fieldMesVencimento">
           <Properties>
             <Property name="enabled" type="boolean" value="false"/>
-            <Property name="name" type="java.lang.String" value="fieldDataInicio" noResource="true"/>
+            <Property name="name" type="java.lang.String" value="fieldMesVencimento" noResource="true"/>
             <Property name="verifyInputWhenFocusTarget" type="boolean" value="false"/>
           </Properties>
           <Events>
