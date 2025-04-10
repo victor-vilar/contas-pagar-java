@@ -6,6 +6,7 @@ package br.com.thveiculos.erp.views.despesas;
 
 import br.com.thveiculos.erp.controllers.despesas.DespesaRecorrenteController;
 import br.com.thveiculos.erp.exceptions.despesas.DiaVencimentoInvalidoException;
+import br.com.thveiculos.erp.exceptions.despesas.FieldsEmBrancoException;
 import br.com.thveiculos.erp.exceptions.despesas.MesVencimentoInvalidoException;
 import br.com.thveiculos.erp.util.ConversorData;
 import br.com.thveiculos.erp.util.ConversorMoeda;
@@ -761,9 +762,9 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         try {
             controller.salvar();
             JOptionPane.showMessageDialog(null, "Despesa salva com sucesso !", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "erro", JOptionPane.ERROR_MESSAGE);
-            System.out.println(e);
+        } catch (FieldsEmBrancoException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+          
         }
 
     }//GEN-LAST:event_btnSalvarActionPerformed
