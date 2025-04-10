@@ -56,7 +56,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
     }
 
     @Override
-    public void atualizar(String valor, String tipo) {
+    public void subscribe(String valor, String tipo) {
 
         if (tipo.equals("Categoria Despesas")) {
             this.comboCategoria.getModel().setSelectedItem(valor);

@@ -114,7 +114,7 @@ public abstract class SimpleView extends javax.swing.JFrame implements Publisher
                 if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1 && row != -1) {
                     String valor = (String) table.getValueAt(row, 1);
                     if(!subscribers.isEmpty()){
-                        subscribers.stream().forEach(s -> s.atualizar(valor, getTitle()));
+                        subscribers.stream().forEach(s -> s.subscribe(valor, getTitle()));
                         dispose();                                          
                     }
                     

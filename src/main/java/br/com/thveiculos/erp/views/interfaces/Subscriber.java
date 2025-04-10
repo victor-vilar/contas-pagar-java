@@ -10,6 +10,6 @@ package br.com.thveiculos.erp.views.interfaces;
  */
 public interface Subscriber {
     
-    public void atualizar(String valor , String tipo);
+    public void subscribe(String valor , String tipo);
     
 }
