@@ -93,5 +93,5 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
     }
     
     @Override
-    public boolean checarErrosAoSalvar(){return true;}
+    public void checarErrosAoSalvar(){}
 }

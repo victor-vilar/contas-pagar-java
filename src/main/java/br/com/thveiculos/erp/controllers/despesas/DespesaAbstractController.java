@@ -69,7 +69,7 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
         this.movimentos = movimentos;
     }
 
-    public abstract boolean checarErrosAoSalvar();
+    public abstract void checarErrosAoSalvar();
     
     
     @Override
