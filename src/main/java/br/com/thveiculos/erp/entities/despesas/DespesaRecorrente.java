@@ -1,5 +1,6 @@
 package br.com.thveiculos.erp.entities.despesas;
 
+import static br.com.thveiculos.erp.entities.despesas.DespesaAvulsa.tipo;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -14,6 +15,11 @@ import jakarta.persistence.Table;
 @Table(name = "despesas_recorrentes")
 public class DespesaRecorrente extends DespesaAbstrata implements Serializable {
 
+    public static final String tipo = "RECORRENTE";
+    public static String getTipo(){
+            return tipo;
+        }
+    
     @Column(nullable = false)
     private Periodo periocidade;
     @Column(nullable = false)
