@@ -105,7 +105,9 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
                 "comboFormaPagamentoTabela",
                 "comboParcelamento",
                 "fieldNotaFiscal",
-                "fieldNotaFiscalEmissao");
+                "fieldNotaFiscalEmissao",
+                "fieldValor",
+                "fieldVencimento");
 
 
          checarFieldsEmBranco(exclude);
