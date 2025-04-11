@@ -80,43 +80,50 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
         service.save(despesa);
         limparCampos();
         
-        
-        
+
     }
     
     
     @Override
     public void checarErrosAoSalvar()throws FieldsEmBrancoException{
-        
- 
-        List<String> exclude = List.of("fieldMesVencimento","fieldCodFornecedor","fieldId", "comboFormaPagamentoTabela");
-        Optional<JTextComponent> fields = view
-                        .getTextFields()
-                        .stream()
-                        .filter(c -> c.getText().trim().isEmpty() && !exclude.contains(c.getName())).findFirst();
+          
+        List<String> exclude = List.of(
+                "fieldMesVencimento",
+                "fieldCodFornecedor",
+                "fieldId",
+                "comboFormaPagamentoTabela"
+        );
 
-        if(fields.isPresent()){
-             throw new FieldsEmBrancoException("Todos os campos devem ser preenchidos.");
-        }
-        
-        
-        Optional<JComboBox<String>> combos = view
-                .getComboBoxes()
-                .stream()
-                .filter(c -> c.getSelectedIndex() == -1 && !exclude.contains(c.getName())).findFirst();
-        
-        if(combos.isPresent()){
-             throw new FieldsEmBrancoException("Todos os campos devem ser preenchidos.");
-        }
-
+        checarFieldsEmBranco(exclude);
+        checarCombosEmBranco(exclude);
         
         String parcelamento = (String)view.getComboParcelamento().getSelectedItem();
         if((parcelamento.equals("ANUAL")) && (view.getFieldMesVencimento().getText().trim().isEmpty())){
             throw new FieldsEmBrancoException("Se a despesa for 'ANUAL' ela deve possuir um mês");
         }
         
-       
-        
+    }
+    
+    private void checarFieldsEmBranco(List<String> exclude) {
+        Optional<JTextComponent> fields = view
+                .getTextFields()
+                .stream()
+                .filter(c -> c.getText().trim().isEmpty() && !exclude.contains(c.getName())).findFirst();
+
+        if (fields.isPresent()) {
+            throw new FieldsEmBrancoException("Todos os campos devem ser preenchidos.");
+        }
+    }
+
+    private void checarCombosEmBranco(List<String> exclude) {
+        Optional<JComboBox<String>> combos = view
+                .getComboBoxes()
+                .stream()
+                .filter(c -> c.getSelectedIndex() == -1 && !exclude.contains(c.getName())).findFirst();
+
+        if (combos.isPresent()) {
+            throw new FieldsEmBrancoException("Todos os campos devem ser preenchidos.");
+        }
     }
     
     public void diaVencimentoAoPerderFoco() throws DiaVencimentoInvalidoException, NumberFormatException{
@@ -172,6 +179,7 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
         }
         
     }
+
 
 
     
