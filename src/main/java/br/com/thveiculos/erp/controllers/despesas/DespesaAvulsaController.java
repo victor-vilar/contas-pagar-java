@@ -7,11 +7,16 @@ package br.com.thveiculos.erp.controllers.despesas;
 import br.com.thveiculos.erp.controllers.AppViewController;
 import br.com.thveiculos.erp.entities.despesas.DespesaAvulsa;
 import br.com.thveiculos.erp.entities.despesas.NotaFiscal;
+import br.com.thveiculos.erp.exceptions.despesas.FieldsEmBrancoException;
 import br.com.thveiculos.erp.services.despesas.interfaces.CategoriaDespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.DespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.FormaPagamentoService;
 import br.com.thveiculos.erp.util.ConversorData;
 import br.com.thveiculos.erp.views.despesas.DespesaAvulsaViewImpl;
+import java.util.List;
+import java.util.Optional;
+import javax.swing.JComboBox;
+import javax.swing.text.JTextComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
@@ -33,9 +38,9 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
     public void salvar() {
         DespesaAvulsa despesa = new DespesaAvulsa();
 
-        String numeroNota = view.getFieldNota().getText();
-        String dataNota = view.getFieldNotaEmissao().getText();
-        String id = view.getFieldId().getText();
+        String numeroNota = view.getFieldNota().getText().trim();
+        String dataNota = view.getFieldNotaEmissao().getText().trim();
+        String id = view.getFieldId().getText().trim();
 
         if (!id.equals("")) {
             despesa.setId(Long.valueOf(id));
@@ -45,8 +50,8 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
             despesa.setNotaFiscal(buildNota(numeroNota, dataNota));
         }
 
-        String nome = view.getFieldDescricao().getText().toUpperCase();
-        String descricao = view.getAreaDescricao().getText().toUpperCase();
+        String nome = view.getFieldDescricao().getText().trim().toUpperCase();
+        String descricao = view.getAreaDescricao().getText().trim().toUpperCase();
         String categoria = (String) view.getComboCategoria().getSelectedItem();
 
         despesa.setNomeFornecedor(nome);
@@ -91,7 +96,44 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
         view.getSpinnerQuantidadeParcelas().getModel().setValue(1);
         view.getFieldVencimento().setText("");
     }
-    
+
     @Override
-    public void checarErrosAoSalvar(){}
+    public void checarErrosAoSalvar() {
+        List<String> exclude = List.of(
+                "fieldCodFornecedor",
+                "fieldId",
+                "comboFormaPagamentoTabela",
+                "comboParcelamento",
+                "fieldNotaFiscal",
+                "fieldNotaFiscalEmissao");
+
+
+         checarFieldsEmBranco(exclude);
+         checarCombosEmBranco(exclude);
+ 
+    
+    }
+    
+    private void checarFieldsEmBranco(List<String> exclude) {
+        Optional<JTextComponent> fields = view
+                .getTextFields()
+                .stream()
+                .filter(c -> c.getText().trim().isEmpty() && !exclude.contains(c.getName())).findFirst();
+
+        if (fields.isPresent()) {
+            throw new FieldsEmBrancoException("Todos os campos devem ser preenchidos.");
+        }
+    }
+
+    private void checarCombosEmBranco(List<String> exclude) {
+        Optional<JComboBox<String>> combos = view
+                .getComboBoxes()
+                .stream()
+                .filter(c -> c.getSelectedIndex() == -1 && !exclude.contains(c.getName())).findFirst();
+
+        if (combos.isPresent()) {
+            throw new FieldsEmBrancoException("Todos os campos devem ser preenchidos.");
+        }
+    }
+
 }
