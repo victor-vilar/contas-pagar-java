@@ -10,6 +10,8 @@ import br.com.thveiculos.erp.entities.despesas.DespesaAvulsa;
 import br.com.thveiculos.erp.entities.despesas.FormaPagamento;
 import br.com.thveiculos.erp.entities.despesas.MovimentoPagamento;
 import br.com.thveiculos.erp.entities.despesas.NotaFiscal;
+import br.com.thveiculos.erp.exceptions.despesas.FieldsEmBrancoException;
+import br.com.thveiculos.erp.exceptions.despesas.MesVencimentoInvalidoException;
 import br.com.thveiculos.erp.services.despesas.interfaces.CategoriaDespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.DespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.FormaPagamentoService;
@@ -22,6 +24,7 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -464,7 +467,37 @@ public class DespesaAvulsaControllerTest {
 
     @Test
     public void metodoChecarErrosDeveVerificarSeCamposNaoEstaVazios(){
-        fail("Metodo não implementado");
+        view.getFieldId().setText("");
+        view.getFieldDescricao().setText("Teste");
+        view.getAreaDescricao().setText("teste");
+        view.getComboCategoria().setSelectedIndex(0);
+        view.getComboFormaPagamento().setSelectedIndex(0);
+        view.getFieldNotaEmissao().setText("01/02/2025");
+        view.getFieldNota().setText("1421");
+        view.getComboParcelamento().setSelectedIndex(1);
+        view.getFieldValor().setText("120");
+
+        controller.checarErrosAoSalvar();
+        
+     
+    }
+    
+        @Test
+    public void metodoChecarErrosDeveLançarExceptionSeAlgumCampoImportanteTiverVazio(){
+        
+                view.getFieldId().setText("");
+        view.getFieldDescricao().setText("");
+        view.getAreaDescricao().setText("teste");
+        view.getComboCategoria().setSelectedIndex(0);
+        view.getComboFormaPagamento().setSelectedIndex(0);
+        view.getFieldNotaEmissao().setText("01/02/2025");
+        view.getFieldNota().setText("1421");
+        view.getComboParcelamento().setSelectedIndex(1);
+        view.getFieldValor().setText("120");
+
+        
+        Assertions.assertThrows(FieldsEmBrancoException.class, ()
+                -> controller.checarErrosAoSalvar());
     }
 
     
