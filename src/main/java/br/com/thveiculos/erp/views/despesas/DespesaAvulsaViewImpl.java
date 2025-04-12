@@ -736,7 +736,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        System.out.println("Iniciei...");
+
         controller.inicializarComboBox();
 
     }//GEN-LAST:event_formWindowOpened
