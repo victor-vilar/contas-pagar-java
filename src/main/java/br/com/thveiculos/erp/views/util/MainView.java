@@ -17,6 +17,7 @@ import br.com.thveiculos.erp.views.despesas.DespesaAvulsaViewImpl;
 import br.com.thveiculos.erp.views.despesas.DespesaRecorrenteViewImpl;
 import br.com.thveiculos.erp.views.despesas.FormaPagamentoView;
 import br.com.thveiculos.erp.views.despesas.MovimentoPagamentoView;
+import br.com.thveiculos.erp.views.despesas.MovimentoPagamentoView2;
 
 @Component
 public class MainView extends JFrame {
@@ -29,6 +30,7 @@ public class MainView extends JFrame {
         private JButton btnMovimentoPagamento;
         private JButton btnDespesaAvulsa;
         private JButton btnDespesaRecorrente;
+        private JButton btnMovimentos;
 
 	@Autowired
 	public void MainView(ApplicationContext context) {
@@ -66,7 +68,7 @@ public class MainView extends JFrame {
             btnMovimentoPagamento = new JButton("MovimentoPagamento");
             btnMovimentoPagamento.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent arg0) {
-                    var view = context.getBean(MovimentoPagamentoView.class);
+                    var view = context.getBean(MovimentoPagamentoView2.class);
                     view.setVisible(true);
                 }
             });
@@ -86,13 +88,22 @@ public class MainView extends JFrame {
                     view.setVisible(true);
                 }
             });
+            
+            btnMovimentos = new JButton("Movimentos");
+            btnMovimentos.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent arg0) {
+                    var view = context.getBean(MovimentoPagamentoView.class);
+                    view.setVisible(true);
+                }
+            });
+            
 		
 		contentPane.add(btnFormaPagamento);
 		contentPane.add(btnCategoriaDespesa);
                 contentPane.add(btnMovimentoPagamento);
                 contentPane.add(btnDespesaAvulsa);
                 contentPane.add(btnDespesaRecorrente);
-                
+                contentPane.add(btnMovimentos);
 		
 		
 		
