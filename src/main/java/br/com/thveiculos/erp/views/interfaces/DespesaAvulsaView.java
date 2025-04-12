@@ -4,18 +4,19 @@
  */
 package br.com.thveiculos.erp.views.interfaces;
 
-import br.com.thveiculos.erp.entities.despesas.DespesaAvulsa;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
 
 /**
  *
  * @author victor
  */
-public interface DespesaViewRecorrente extends DespesaView {
+public interface DespesaAvulsaView extends DespesaView {
     
-    public JTextField getFieldDiaVencimento();
-    public JTextField getFieldMesVencimento();
-    public JTextField getFieldDataInicio();
-    public JTextField getFieldDataFim();
+   JSpinner getSpinnerQuantidadeParcelas();
+   JTextField getFieldNota();
+   JTextField getFieldNotaEmissao();
+   public JTextField getFieldVencimento();
+   
     
 }

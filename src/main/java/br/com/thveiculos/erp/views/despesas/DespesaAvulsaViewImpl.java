@@ -8,7 +8,6 @@ import br.com.thveiculos.erp.controllers.despesas.DespesaAvulsaController;
 import br.com.thveiculos.erp.controllers.despesas.DespesaAbstractController;
 import br.com.thveiculos.erp.util.ConversorData;
 import br.com.thveiculos.erp.util.ConversorMoeda;
-import br.com.thveiculos.erp.views.interfaces.DespesaViewAvulsa;
 import br.com.thveiculos.erp.views.interfaces.Subscriber;
 import jakarta.annotation.PostConstruct;
 import java.awt.event.KeyAdapter;
@@ -30,10 +29,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+import br.com.thveiculos.erp.views.interfaces.DespesaAvulsaView;
 
 @Component
 @Lazy
-public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscriber, DespesaViewAvulsa {
+public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscriber, DespesaAvulsaView {
 
     private javax.swing.JComboBox<String> comboFormaPagamentoTabela;
     private final DespesaAvulsaController controller;

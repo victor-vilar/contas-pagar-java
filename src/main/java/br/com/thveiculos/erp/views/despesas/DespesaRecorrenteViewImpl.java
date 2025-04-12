@@ -10,7 +10,6 @@ import br.com.thveiculos.erp.exceptions.despesas.FieldsEmBrancoException;
 import br.com.thveiculos.erp.exceptions.despesas.MesVencimentoInvalidoException;
 import br.com.thveiculos.erp.util.ConversorData;
 import br.com.thveiculos.erp.util.ConversorMoeda;
-import br.com.thveiculos.erp.views.interfaces.DespesaViewRecorrente;
 import br.com.thveiculos.erp.views.interfaces.Subscriber;
 import jakarta.annotation.PostConstruct;
 import java.awt.event.KeyAdapter;
@@ -31,10 +30,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+import br.com.thveiculos.erp.views.interfaces.DespesaRecorrenteView;
 
 @Component
 @Lazy
-public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Subscriber, DespesaViewRecorrente {
+public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Subscriber, DespesaRecorrenteView {
     
     private javax.swing.JComboBox<String> comboFormaPagamentoTabela;
     private final DespesaRecorrenteController controller;
