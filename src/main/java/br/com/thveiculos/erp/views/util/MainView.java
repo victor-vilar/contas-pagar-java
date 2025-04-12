@@ -17,7 +17,7 @@ import br.com.thveiculos.erp.views.despesas.DespesaAvulsaViewImpl;
 import br.com.thveiculos.erp.views.despesas.DespesaRecorrenteViewImpl;
 import br.com.thveiculos.erp.views.despesas.FormaPagamentoView;
 import br.com.thveiculos.erp.views.despesas.MovimentoPagamentoView;
-import br.com.thveiculos.erp.views.despesas.MovimentoPagamentoView2;
+
 
 @Component
 public class MainView extends JFrame {
@@ -64,14 +64,6 @@ public class MainView extends JFrame {
                     view.setVisible(true);
                 }
             });
-
-            btnMovimentoPagamento = new JButton("MovimentoPagamento");
-            btnMovimentoPagamento.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent arg0) {
-                    var view = context.getBean(MovimentoPagamentoView2.class);
-                    view.setVisible(true);
-                }
-            });
  
             btnDespesaAvulsa = new JButton("Despesa Avulsa");
             btnDespesaAvulsa.addActionListener(new ActionListener() {
@@ -100,7 +92,6 @@ public class MainView extends JFrame {
 		
 		contentPane.add(btnFormaPagamento);
 		contentPane.add(btnCategoriaDespesa);
-                contentPane.add(btnMovimentoPagamento);
                 contentPane.add(btnDespesaAvulsa);
                 contentPane.add(btnDespesaRecorrente);
                 contentPane.add(btnMovimentos);
