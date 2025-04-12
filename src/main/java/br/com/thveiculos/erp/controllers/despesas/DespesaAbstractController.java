@@ -27,7 +27,10 @@ import javax.swing.table.DefaultTableModel;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- *
+ * Controlador para os fomulários de despesas. Esses controladores precisam
+ * controlar uma view que tenha extendido de DespesaView.
+ * Implementações dessa classe são {@link DespesaAvulsaController} e
+ * {@link DespesaRecorrenteController}.
  * @author victor
  */
 

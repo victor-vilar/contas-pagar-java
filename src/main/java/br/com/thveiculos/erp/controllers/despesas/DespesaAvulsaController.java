@@ -22,7 +22,8 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
 /**
- *
+ * Controlador para view que manipulem objetos do tipo {@link DespesaAvulsaView}.
+ * 
  * @author victor
  */
 @Controller

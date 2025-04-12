@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 /**
- *
+ * Controlador para view que manipulem objetos do tipo {@link DespesaRecorrenteView}.
  * @author victor
  */
 @Controller
