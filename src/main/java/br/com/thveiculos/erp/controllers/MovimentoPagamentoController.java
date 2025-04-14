@@ -4,16 +4,30 @@
  */
 package br.com.thveiculos.erp.controllers;
 
+import br.com.thveiculos.erp.controllers.util.ControllerHelper;
+import br.com.thveiculos.erp.entities.despesas.DespesaAbstrata;
 import br.com.thveiculos.erp.entities.despesas.MovimentoPagamento;
+import br.com.thveiculos.erp.services.despesas.interfaces.DespesaService;
 import br.com.thveiculos.erp.views.despesas.MovimentoPagamentoView;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 /**
  *
  * @author victor
  */
+@Controller
 public class MovimentoPagamentoController implements AppViewController<MovimentoPagamentoView> {
     
     private MovimentoPagamentoView view;
+    private DespesaService service;
+    
+    @Autowired
+    public MovimentoPagamentoController(DespesaService service){
+        this.service = service;
+    }
     
     @Override
     public void setView(MovimentoPagamentoView view) {
@@ -42,7 +56,21 @@ public class MovimentoPagamentoController implements AppViewController<Movimento
 
     @Override
     public void limparCampos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        view.getFieldDataInicio().setText("");
+        view.getFieldDataFim().setText("");
+        view.getFieldDespesa().setText("");
+        view.getCheckboxPagas();
+    }
+    
+    public void inicializarTabela(){
+    
+        DefaultTableModel model = (DefaultTableModel) view.getTableMovimentos().getModel();
+        ControllerHelper.limparTabela(model);
+        
+        List<DespesaAbstrata> despesa = service.getTodos();
+
+        
     }
     
 }
