@@ -9,6 +9,8 @@ import br.com.thveiculos.erp.controllers.util.ControllerHelper;
 import br.com.thveiculos.erp.entities.despesas.MovimentoPagamento;
 import br.com.thveiculos.erp.services.despesas.interfaces.DespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.MovimentoPagamentoService;
+import br.com.thveiculos.erp.util.ConversorData;
+import br.com.thveiculos.erp.util.ConversorMoeda;
 import br.com.thveiculos.erp.views.despesas.MovimentoPagamentoView;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -68,12 +70,35 @@ public class MovimentoPagamentoController implements AppViewController<Movimento
     
     public void inicializarTabela(){
     
+        System.out.println("Chamou");
+        List<MovimentoPagamento> movimentos = movimentoService.getTodos();
+        preencherTabela(movimentos);
+       
+    }
+    
+    public void buscarMovimentos(boolean pago){
+    
+    
+    }
+    
+    public void preencherTabela(List<MovimentoPagamento> movimentos) {
+        
         DefaultTableModel model = (DefaultTableModel) view.getTableMovimentos().getModel();
         ControllerHelper.limparTabela(model);
-        
-        List<MovimentoPagamento> despesa = service.getTodos();
+        movimentos.stream().forEach(m -> {
 
-        
+            model.addRow(new Object[]{
+                m.getId(),
+                ConversorData.paraString(m.getDataVencimento()),
+                m.getDespesa().getNomeFornecedor(),
+                m.getReferenteParcela(),
+                ConversorMoeda.paraString(m.getValorPagamento()),
+                m.getFormaPagamento().getForma(),
+                ConversorData.paraString(m.getDataPagamento())
+
+            });
+
+        });
     }
     
 }
