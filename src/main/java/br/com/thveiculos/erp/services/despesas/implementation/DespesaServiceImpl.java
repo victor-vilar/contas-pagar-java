@@ -66,21 +66,5 @@ public class DespesaServiceImpl implements DespesaService {
         return null;
     }
 
-    @Override
-    public List<MovimentoPagamento> gerarMovimentos(String parcelamento, int qtdParcelas, String dataInicial, String valor, FormaPagamento formaPagamento) {
-        return gm.gerarMovimentos(parcelamento, qtdParcelas, dataInicial, valor, formaPagamento);
-
-    }
-
-    @Override
-    public void atualizarMovimentos(List<MovimentoPagamento> movimentos, int linha, DefaultTableModel model) {    
-        gm.atualizarMovimentos(movimentos, linha, model);
-    }
-    
-    @Override
-    public void deletarMovimentos(List<MovimentoPagamento> movimentos, int[] linhas){
-        gm.deletarMovimentos(movimentos, linhas);
-        
-    }
 
 }
