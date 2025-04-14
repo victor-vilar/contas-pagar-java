@@ -8,6 +8,7 @@ import br.com.thveiculos.erp.util.ConversorMoeda;
 import br.com.thveiculos.erp.entities.despesas.FormaPagamento;
 import br.com.thveiculos.erp.entities.despesas.MovimentoPagamento;
 import br.com.thveiculos.erp.exceptions.despesas.QuantidadeDeParcelasException;
+import br.com.thveiculos.erp.repositories.despesas.MovimentoPagamentoRepository;
 import br.com.thveiculos.erp.services.despesas.interfaces.MovimentoPagamentoService;
 import br.com.thveiculos.erp.util.ConversorData;
 import java.time.LocalDate;
@@ -15,6 +16,7 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -24,8 +26,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService {
 
+    private final MovimentoPagamentoRepository repository;
     private List<MovimentoPagamento> movimentosDeletados = new ArrayList<>();
 
+    @Autowired
+    public MovimentoPagamentoServiceImpl(MovimentoPagamentoRepository repository){
+        this.repository = repository;
+    }
+    
     public List<MovimentoPagamento> getMovimentosDeletados() {
         return movimentosDeletados;
     }
@@ -147,7 +155,7 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
 
     @Override
     public List<MovimentoPagamento> getTodos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return repository.findAll();
     }
 
     @Override
