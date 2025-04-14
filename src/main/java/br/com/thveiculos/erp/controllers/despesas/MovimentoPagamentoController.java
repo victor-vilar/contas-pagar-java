@@ -71,14 +71,19 @@ public class MovimentoPagamentoController implements AppViewController<Movimento
     public void inicializarTabela(){
     
         System.out.println("Chamou");
-        List<MovimentoPagamento> movimentos = movimentoService.getTodos();
-        preencherTabela(movimentos);
+        
+        preencherTabela(buscarMovimentos(true));
        
     }
     
-    public void buscarMovimentos(boolean pago){
-    
-    
+    public List<MovimentoPagamento> buscarMovimentos(boolean pago){
+
+        if (pago == true) {
+            return movimentoService.getAllNaoPagos();
+        } else {
+            return movimentoService.getAllPagos();
+        }
+
     }
     
     public void preencherTabela(List<MovimentoPagamento> movimentos) {
