@@ -15,11 +15,13 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author victor
  */
+@Service
 public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService {
 
     private List<MovimentoPagamento> movimentosDeletados = new ArrayList<>();
