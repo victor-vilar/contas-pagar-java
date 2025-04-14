@@ -6,9 +6,9 @@ package br.com.thveiculos.erp.controllers.despesas;
 
 import br.com.thveiculos.erp.controllers.AppViewController;
 import br.com.thveiculos.erp.controllers.util.ControllerHelper;
-import br.com.thveiculos.erp.entities.despesas.DespesaAbstrata;
 import br.com.thveiculos.erp.entities.despesas.MovimentoPagamento;
 import br.com.thveiculos.erp.services.despesas.interfaces.DespesaService;
+import br.com.thveiculos.erp.services.despesas.interfaces.MovimentoPagamentoService;
 import br.com.thveiculos.erp.views.despesas.MovimentoPagamentoView;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -24,10 +24,12 @@ public class MovimentoPagamentoController implements AppViewController<Movimento
     
     private MovimentoPagamentoView view;
     private DespesaService service;
+    private MovimentoPagamentoService movimentoService;
     
     @Autowired
-    public MovimentoPagamentoController(DespesaService service){
+    public MovimentoPagamentoController(DespesaService service, MovimentoPagamentoService movimentoService){
         this.service = service;
+        this.movimentoService = movimentoService;
     }
     
     @Override
@@ -69,7 +71,7 @@ public class MovimentoPagamentoController implements AppViewController<Movimento
         DefaultTableModel model = (DefaultTableModel) view.getTableMovimentos().getModel();
         ControllerHelper.limparTabela(model);
         
-        List<DespesaAbstrata> despesa = service.getTodos();
+        List<MovimentoPagamento> despesa = service.getTodos();
 
         
     }
