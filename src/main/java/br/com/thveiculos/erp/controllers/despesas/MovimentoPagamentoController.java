@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.com.thveiculos.erp.controllers;
+package br.com.thveiculos.erp.controllers.despesas;
 
+import br.com.thveiculos.erp.controllers.AppViewController;
 import br.com.thveiculos.erp.controllers.util.ControllerHelper;
 import br.com.thveiculos.erp.entities.despesas.DespesaAbstrata;
 import br.com.thveiculos.erp.entities.despesas.MovimentoPagamento;
