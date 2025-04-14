@@ -8,7 +8,4 @@ import javax.swing.table.DefaultTableModel;
 
 public interface DespesaService extends AppService<DespesaAbstrata>{
 
-       public List<MovimentoPagamento> gerarMovimentos(String parcelamento,int qtdParcelas, String dataInicial, String valor, FormaPagamento formaPagamento);
-       public void atualizarMovimentos(List<MovimentoPagamento> movimentos, int linha, DefaultTableModel model);
-       public void deletarMovimentos(List<MovimentoPagamento> movimentos, int[] linhas);
 }
