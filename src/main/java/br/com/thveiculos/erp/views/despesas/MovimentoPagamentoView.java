@@ -4,19 +4,20 @@
  */
 package br.com.thveiculos.erp.views.despesas;
 
+import br.com.thveiculos.erp.controllers.despesas.MovimentoPagamentoController;
 import br.com.thveiculos.erp.util.ConversorData;
 import br.com.thveiculos.erp.util.ConversorMoeda;
-import br.com.thveiculos.erp.views.interfaces.Publisher;
-import br.com.thveiculos.erp.views.interfaces.Subscriber;
 import jakarta.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import javax.swing.JCheckBox;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +34,13 @@ import org.springframework.stereotype.Component;
 public class MovimentoPagamentoView extends javax.swing.JFrame{
 
     private ApplicationContext context;
+    private MovimentoPagamentoController controller;
     
     @Autowired
-    public MovimentoPagamentoView(ApplicationContext context) {
+    public MovimentoPagamentoView(ApplicationContext context, MovimentoPagamentoController controller) {
         this.context = context;
+        this.controller = controller;
+        controller.setView(this);
     }
 
     @PostConstruct
@@ -114,39 +118,28 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         sorter.sort();
         //------------------
 
-        DefaultTableModel model = (DefaultTableModel) tableMovimentos.getModel();
-        model.addRow(new Object[]{1L, "01/04/2025", "Despesa Teste 1", "1/3", "R$1000,00", "BUMBUM","01/04/2025"});
-        model.addRow(new Object[]{2L, "01/05/2025", "Despesa Teste 1", "2/3", "R$1000,00", "BUMBUM","01/04/2025"});
-        model.addRow(new Object[]{3L, "01/06/2025", "Despesa Teste 1", "2/3", "R$1000,00", "BUMBUM",""});
-        model.addRow(new Object[]{4L, "03/04/2025", "Despesa Teste 2", "UNICA", "R$500,00", "BOLETO","01/04/2025"});
-        model.addRow(new Object[]{5L, "10/04/2025", "Despesa Teste 3", "UNICA", "R$184,00", "PIX"});
-        model.addRow(new Object[]{6L, "21/04/2025", "Despesa Teste 4", "UNICA", "R$100,00", "BUMBUM"});
-                model.addRow(new Object[]{1L, "01/04/2025", "Despesa Teste 1", "1/3", "R$1000,00", "BUMBUM"});
-        model.addRow(new Object[]{2L, "01/05/2025", "Despesa Teste 1", "2/3", "R$1000,00", "BUMBUM"});
-        model.addRow(new Object[]{3L, "01/06/2025", "Despesa Teste 1", "2/3", "R$1000,00", "BUMBUM"});
-        model.addRow(new Object[]{4L, "03/04/2025", "Despesa Teste 2", "UNICA", "R$500,00", "BOLETO"});
-        model.addRow(new Object[]{5L, "10/04/2025", "Despesa Teste 3", "UNICA", "R$184,00", "PIX"});
-        model.addRow(new Object[]{6L, "21/04/2025", "Despesa Teste 4", "UNICA", "R$100,00", "BUMBUM"});
-                model.addRow(new Object[]{1L, "01/04/2025", "Despesa Teste 1", "1/3", "R$1000,00", "BUMBUM"});
-        model.addRow(new Object[]{2L, "01/05/2025", "Despesa Teste 1", "2/3", "R$1000,00", "BUMBUM"});
-        model.addRow(new Object[]{3L, "01/06/2025", "Despesa Teste 1", "2/3", "R$1000,00", "BUMBUM"});
-        model.addRow(new Object[]{4L, "03/04/2025", "Despesa Teste 2", "UNICA", "R$500,00", "BOLETO"});
-        model.addRow(new Object[]{5L, "10/04/2025", "Despesa Teste 3", "UNICA", "R$184,00", "PIX"});
-        model.addRow(new Object[]{6L, "21/04/2025", "Despesa Teste 4", "UNICA", "R$100,00", "BUMBUM"});
-                model.addRow(new Object[]{1L, "01/04/2025", "Despesa Teste 1", "1/3", "R$1000,00", "BUMBUM"});
-        model.addRow(new Object[]{2L, "01/05/2025", "Despesa Teste 1", "2/3", "R$1000,00", "BUMBUM"});
-        model.addRow(new Object[]{3L, "01/06/2025", "Despesa Teste 1", "2/3", "R$1000,00", "BUMBUM"});
-        model.addRow(new Object[]{4L, "03/04/2025", "Despesa Teste 2", "UNICA", "R$500,00", "BOLETO"});
-        model.addRow(new Object[]{5L, "10/04/2025", "Despesa Teste 3", "UNICA", "R$184,00", "PIX"});
-        model.addRow(new Object[]{6L, "21/04/2025", "Despesa Teste 4", "UNICA", "R$100,00", "BUMBUM"});
-                model.addRow(new Object[]{1L, "01/04/2025", "Despesa Teste 1", "1/3", "R$1000,00", "BUMBUM"});
-        model.addRow(new Object[]{2L, "01/05/2025", "Despesa Teste 1", "2/3", "R$1000,00", "BUMBUM"});
-        model.addRow(new Object[]{3L, "01/06/2025", "Despesa Teste 1", "2/3", "R$1000,00", "BUMBUM"});
-        model.addRow(new Object[]{4L, "03/04/2025", "Despesa Teste 2", "UNICA", "R$500,00", "BOLETO"});
-        model.addRow(new Object[]{5L, "10/04/2025", "Despesa Teste 3", "UNICA", "R$184,00", "PIX"});
-        model.addRow(new Object[]{6L, "21/04/2025", "Despesa Teste 4", "UNICA", "R$100,00", "BUMBUM"});
-
     }
+    
+    public JTextField getFieldDataInicio(){
+        return fieldDataInicio;
+    }
+    
+    public JTextField getFieldDataFim(){ 
+        return fieldDataFim;
+    }
+    
+    public JTextField getFieldDespesa(){
+        return fieldDespesa;
+    }
+    
+    public JCheckBox getCheckboxPagas(){
+        return checkboxPagas;
+    }
+    
+    public JTable getTableMovimentos(){
+        return tableMovimentos;
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -172,15 +165,21 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         jLabel3 = new javax.swing.JLabel();
         fieldDataInicio = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        checkBoxPagas = new javax.swing.JCheckBox();
+        checkboxPagas = new javax.swing.JCheckBox();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Pagamentos");
         setPreferredSize(new java.awt.Dimension(1200, 800));
         setSize(new java.awt.Dimension(1200, 800));
         addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -341,7 +340,7 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         jLabel2.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel2.setText("Início");
 
-        checkBoxPagas.setText("Pagas");
+        checkboxPagas.setText("Pagas");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -363,7 +362,7 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(fieldDespesa, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(checkBoxPagas)
+                        .addComponent(checkboxPagas)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1))
                     .addComponent(jLabel4))
@@ -384,7 +383,7 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
                     .addComponent(fieldDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1)
                     .addComponent(fieldDespesa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(checkBoxPagas))
+                    .addComponent(checkboxPagas))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelTabela, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -418,24 +417,28 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
 
         var view = context.getBean(DespesaRecorrenteViewImpl.class);
         view.setVisible(true);
-        
+
     }//GEN-LAST:event_btnEditar1ActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        
+
     }//GEN-LAST:event_formWindowClosing
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+         controller.inicializarTabela();
+    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        controller.inicializarTabela();
+    }//GEN-LAST:event_formWindowActivated
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnDeletar;
     private javax.swing.JButton btnDeletar1;
-    private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEditar1;
-    private javax.swing.JButton btnNovo;
     private javax.swing.JButton btnNovo1;
-    private javax.swing.JButton btnSalvar;
     private javax.swing.JButton btnSalvar1;
-    private javax.swing.JCheckBox checkBoxPagas;
+    private javax.swing.JCheckBox checkboxPagas;
     private javax.swing.JTextField fieldDataFim;
     private javax.swing.JTextField fieldDataInicio;
     private javax.swing.JTextField fieldDespesa;
@@ -445,7 +448,6 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panelTabela;
-    private javax.swing.JPanel panelToolBar;
     private javax.swing.JPanel panelToolBar1;
     private javax.swing.JTable tableMovimentos;
     // End of variables declaration//GEN-END:variables
