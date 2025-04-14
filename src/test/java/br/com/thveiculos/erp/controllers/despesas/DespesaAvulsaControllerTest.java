@@ -4,17 +4,16 @@
  */
 package br.com.thveiculos.erp.controllers.despesas;
 
-import br.com.thveiculos.erp.controllers.util.ControllerHelper;
 import br.com.thveiculos.erp.entities.despesas.CategoriaDespesa;
 import br.com.thveiculos.erp.entities.despesas.DespesaAvulsa;
 import br.com.thveiculos.erp.entities.despesas.FormaPagamento;
 import br.com.thveiculos.erp.entities.despesas.MovimentoPagamento;
 import br.com.thveiculos.erp.entities.despesas.NotaFiscal;
 import br.com.thveiculos.erp.exceptions.despesas.FieldsEmBrancoException;
-import br.com.thveiculos.erp.exceptions.despesas.MesVencimentoInvalidoException;
 import br.com.thveiculos.erp.services.despesas.interfaces.CategoriaDespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.DespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.FormaPagamentoService;
+import br.com.thveiculos.erp.services.despesas.interfaces.MovimentoPagamentoService;
 import br.com.thveiculos.erp.util.ConversorData;
 import br.com.thveiculos.erp.util.ConversorMoeda;
 import br.com.thveiculos.erp.views.despesas.DespesaAvulsaViewImpl;
@@ -35,7 +34,6 @@ import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.eq;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -58,6 +56,9 @@ public class DespesaAvulsaControllerTest {
 
     @Mock
     private FormaPagamentoService formaPagamentoService;
+    
+    @Mock
+    private MovimentoPagamentoService movimentoService;
 
     @Mock
     private DespesaService despesaService;
@@ -287,7 +288,7 @@ public class DespesaAvulsaControllerTest {
     @Test
     public void metodoEditarDevePassarMovimentosParaEdicao(){
         controller.editarMovimento(1);
-        verify(controller.service,times(1)).atualizarMovimentos(anyList(),eq(1) , any(DefaultTableModel.class));
+        verify(controller.movimentoService,times(1)).atualizarMovimentos(anyList(),eq(1) , any(DefaultTableModel.class));
     }
     
     @Test
@@ -341,7 +342,7 @@ public class DespesaAvulsaControllerTest {
         
         int[] linhas = {2,3,10};
         controller.deletarMovimentos(linhas);
-        verify(controller.service,times(1)).deletarMovimentos(anyList(), eq(linhas));
+        verify(controller.movimentoService,times(1)).deletarMovimentos(anyList(), eq(linhas));
         verify(controller,times(1)).preencherTabela(anyList());
     }
     
@@ -430,7 +431,7 @@ public class DespesaAvulsaControllerTest {
         
         
         when(formaPagamentoService.getByForma("PIX")).thenReturn(fp1);
-        when(despesaService.gerarMovimentos(
+        when(movimentoService.gerarMovimentos(
                 "ANUAL",
                 2,
                 "01/03/2025",

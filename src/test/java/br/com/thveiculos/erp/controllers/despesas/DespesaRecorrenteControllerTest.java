@@ -14,6 +14,7 @@ import br.com.thveiculos.erp.exceptions.despesas.MesVencimentoInvalidoException;
 import br.com.thveiculos.erp.services.despesas.interfaces.CategoriaDespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.DespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.FormaPagamentoService;
+import br.com.thveiculos.erp.services.despesas.interfaces.MovimentoPagamentoService;
 import br.com.thveiculos.erp.util.ConversorData;
 import br.com.thveiculos.erp.util.ConversorMoeda;
 import br.com.thveiculos.erp.views.despesas.DespesaRecorrenteViewImpl;
@@ -56,6 +57,9 @@ public class DespesaRecorrenteControllerTest {
 
     @Mock
     private FormaPagamentoService formaPagamentoService;
+    
+    @Mock
+    private MovimentoPagamentoService movimentoService;
 
     @Mock
     private DespesaService despesaService;
@@ -277,7 +281,7 @@ public class DespesaRecorrenteControllerTest {
     @Test
     public void metodoEditarDevePassarMovimentosParaEdicao() {
         controller.editarMovimento(1);
-        verify(controller.service, times(1)).atualizarMovimentos(anyList(), eq(1), any(DefaultTableModel.class));
+        verify(controller.movimentoService, times(1)).atualizarMovimentos(anyList(), eq(1), any(DefaultTableModel.class));
     }
 
     @Test
@@ -331,7 +335,7 @@ public class DespesaRecorrenteControllerTest {
 
         int[] linhas = {2, 3, 10};
         controller.deletarMovimentos(linhas);
-        verify(controller.service, times(1)).deletarMovimentos(anyList(), eq(linhas));
+        verify(controller.movimentoService, times(1)).deletarMovimentos(anyList(), eq(linhas));
         verify(controller, times(1)).preencherTabela(anyList());
     }
 
