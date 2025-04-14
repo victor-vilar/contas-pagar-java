@@ -7,28 +7,40 @@ package br.com.thveiculos.erp.services.despesas.implementation;
 import br.com.thveiculos.erp.entities.despesas.FormaPagamento;
 import br.com.thveiculos.erp.entities.despesas.MovimentoPagamento;
 import br.com.thveiculos.erp.exceptions.despesas.QuantidadeDeParcelasException;
+import br.com.thveiculos.erp.repositories.despesas.MovimentoPagamentoRepository;
+import br.com.thveiculos.erp.services.despesas.interfaces.MovimentoPagamentoService;
 import br.com.thveiculos.erp.util.ConversorData;
 import br.com.thveiculos.erp.util.ConversorMoeda;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.swing.table.DefaultTableModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
  *
  * @author victor
  */
+@ExtendWith(MockitoExtension.class)
 public class MovimentoPagamentoServiceTest {
 
+    @Spy
+    @InjectMocks
+    MovimentoPagamentoServiceImpl service;
+    
+    @Mock
+    MovimentoPagamentoRepository repository;
+    
     FormaPagamento fp1;
     FormaPagamento fp2;
 
@@ -98,24 +110,24 @@ public class MovimentoPagamentoServiceTest {
     @Test
     @DisplayName("Deve lançar um Quantidade De Parcelas Exception se a quantidade de parcelas for 0")
     public void DeveLancarExceptionSeParcelasForZero() {
-        MovimentoPagamentoServiceImpl instance = new MovimentoPagamentoServiceImpl();
+        
         Assertions.assertThrows(QuantidadeDeParcelasException.class, ()
-                -> instance.gerarMovimentos("ANUAL", 0, "31/03/2025", "2000", fp1));
+                -> service.gerarMovimentos("ANUAL", 0, "31/03/2025", "2000", fp1));
     }
 
     @Test
     @DisplayName("Deve lançar um Quantidade De Parcelas Exception se a quantidade de parcelas for negativa")
     public void DeveLancarExceptionSeQuantidadeDeParcelasForNegativa() {
-        MovimentoPagamentoServiceImpl instance = new MovimentoPagamentoServiceImpl();
+        
         Assertions.assertThrows(QuantidadeDeParcelasException.class, ()
-                -> instance.gerarMovimentos("ANUAL", -10, "31/03/2025", "2000", fp1));
+                -> service.gerarMovimentos("ANUAL", -10, "31/03/2025", "2000", fp1));
     }
 
     @Test
     @DisplayName("Se for passada o dia 31 de qualquer mes, a data deve ser reconfigurada para o dia 30")
     public void DeveReconfigurarDataParaDiaTrinta() {
-        MovimentoPagamentoServiceImpl instance = new MovimentoPagamentoServiceImpl();
-        List<MovimentoPagamento> result = instance.gerarMovimentos("ANUAL", 1, "31/03/2025", "2000", fp1);
+        
+        List<MovimentoPagamento> result = service.gerarMovimentos("ANUAL", 1, "31/03/2025", "2000", fp1);
         assertEquals(result.get(0).getDataVencimento(), LocalDate.of(2025, 03, 30));
 
     }
@@ -124,29 +136,29 @@ public class MovimentoPagamentoServiceTest {
     @DisplayName("Deve gerar a parcela unica se a quantidade de parcelas for igual a 1 independente do perído passado")
     public void DeveGerarParcelasUnicasSeAQuantidadeForIgualAUm() {
 
-        MovimentoPagamentoServiceImpl instance = new MovimentoPagamentoServiceImpl();
-        List<MovimentoPagamento> result = instance.gerarMovimentos("ANUAL", 1, "31/03/2025", "2000", fp1);
+        
+        List<MovimentoPagamento> result = service.gerarMovimentos("ANUAL", 1, "31/03/2025", "2000", fp1);
         assertEquals(result.size(), 1);
         assertEquals(result.get(0).getReferenteParcela(), "UNICA");
         assertEquals(result.get(0).getDataVencimento(), LocalDate.of(2025, 03, 30));
         assertEquals(result.get(0).getValorPagamento(), new BigDecimal("2000"));
         assertTrue(result.get(0).getFormaPagamento().getName().equals(fp1.getName()));
 
-        result = instance.gerarMovimentos("MENSAL", 1, "31/03/2025", "2000", fp1);
+        result = service.gerarMovimentos("MENSAL", 1, "31/03/2025", "2000", fp1);
         assertEquals(result.size(), 1);
         assertEquals(result.get(0).getReferenteParcela(), "UNICA");
         assertEquals(result.get(0).getDataVencimento(), LocalDate.of(2025, 03, 30));
         assertEquals(result.get(0).getValorPagamento(), new BigDecimal("2000"));
         assertTrue(result.get(0).getFormaPagamento().getName().equals(fp1.getName()));
 
-        result = instance.gerarMovimentos("QUINZENAL", 1, "31/03/2025", "2000", fp2);
+        result = service.gerarMovimentos("QUINZENAL", 1, "31/03/2025", "2000", fp2);
         assertEquals(result.size(), 1);
         assertEquals(result.get(0).getReferenteParcela(), "UNICA");
         assertEquals(result.get(0).getDataVencimento(), LocalDate.of(2025, 03, 30));
         assertEquals(result.get(0).getValorPagamento(), new BigDecimal("2000"));
         assertTrue(result.get(0).getFormaPagamento().getName().equals(fp2.getName()));
 
-        result = instance.gerarMovimentos("SEMANAL", 1, "31/03/2025", "2000", fp2);
+        result = service.gerarMovimentos("SEMANAL", 1, "31/03/2025", "2000", fp2);
         assertEquals(result.size(), 1);
         assertEquals(result.get(0).getReferenteParcela(), "UNICA");
         assertEquals(result.get(0).getDataVencimento(), LocalDate.of(2025, 03, 30));
@@ -159,12 +171,12 @@ public class MovimentoPagamentoServiceTest {
     @DisplayName("Deve gerar parcelas anuais quando existem mais de uma parcela")
     public void DeveGerarQuantidadeDeParcelasAnuaisPassadas() {
 
-        MovimentoPagamentoServiceImpl instance = new MovimentoPagamentoServiceImpl();
+        
 
         int qtdParcelas = 10;
 
         List<MovimentoPagamento> result
-                = instance.gerarMovimentos("ANUAL",
+                = service.gerarMovimentos("ANUAL",
                         qtdParcelas, "31/03/2025",
                         "2000", fp1);
 
@@ -185,12 +197,12 @@ public class MovimentoPagamentoServiceTest {
             + "e o periodo for mensal")
     public void DeveGerarQuantidadeDeParcelasMensais() {
 
-        MovimentoPagamentoServiceImpl instance = new MovimentoPagamentoServiceImpl();
+        
 
         int qtdParcelas = 12;
 
         List<MovimentoPagamento> result
-                = instance.gerarMovimentos("MENSAL",
+                = service.gerarMovimentos("MENSAL",
                         qtdParcelas, "31/03/2025",
                         "2000", fp1);
 
@@ -211,12 +223,12 @@ public class MovimentoPagamentoServiceTest {
             + "e o periodo for quinzenal")
     public void DeveGerarQuantidadeDeParcelasQuinzenais() {
 
-        MovimentoPagamentoServiceImpl instance = new MovimentoPagamentoServiceImpl();
+
 
         int qtdParcelas = 12;
 
         List<MovimentoPagamento> result
-                = instance.gerarMovimentos("QUINZENAL",
+                = service.gerarMovimentos("QUINZENAL",
                         qtdParcelas, "31/03/2025",
                         "2000", fp2);
 
@@ -239,12 +251,12 @@ public class MovimentoPagamentoServiceTest {
             + "e o periodo for semanal")
     public void DeveGerarQuantidadeDeParcelasSemanais() {
 
-        MovimentoPagamentoServiceImpl instance = new MovimentoPagamentoServiceImpl();
+        
 
         int qtdParcelas = 12;
 
         List<MovimentoPagamento> result
-                = instance.gerarMovimentos("SEMANAL",
+                = service.gerarMovimentos("SEMANAL",
                         qtdParcelas, "31/03/2025",
                         "2000", fp2);
 
@@ -274,9 +286,9 @@ public class MovimentoPagamentoServiceTest {
         model.addRow(new Object[]{null, "1/5", "0106", "20000", null," ",""});
         model.addRow(new Object[]{null, "1/5", "0109", "21000", null," ",""});
 
-        MovimentoPagamentoServiceImpl gm = new MovimentoPagamentoServiceImpl();
-        gm.atualizarMovimentos(movimentos, 0, model);
-        gm.atualizarMovimentos(movimentos, 2, model);
+        
+        service.atualizarMovimentos(movimentos, 0, model);
+        service.atualizarMovimentos(movimentos, 2, model);
 
         //Objetos que devem ser alterados
         assertEquals(mp1.getDataVencimento(), LocalDate.of(2025, 5, 1));
@@ -300,7 +312,7 @@ public class MovimentoPagamentoServiceTest {
     @DisplayName("Deve remover os movimentos das linhas selecionandas na view")
     public void removerMovimentoLinhasTabela() {
 
-        MovimentoPagamentoServiceImpl gm = new MovimentoPagamentoServiceImpl();
+        
 
         movimentos.add(mp1);
         movimentos.add(mp2);
@@ -312,7 +324,7 @@ public class MovimentoPagamentoServiceTest {
 
         int[] linhas = {0, 2};
 
-        gm.deletarMovimentos(movimentos, linhas);
+        service.deletarMovimentos(movimentos, linhas);
 
         assertEquals(movimentos.size(), 1);
         assertEquals(movimentos.get(0).getReferenteParcela(), "UNICA");
@@ -329,7 +341,7 @@ public class MovimentoPagamentoServiceTest {
 
         int[] outrasLinhas = {1};
 
-        gm.deletarMovimentos(movimentos, outrasLinhas);
+        service.deletarMovimentos(movimentos, outrasLinhas);
 
         assertEquals(movimentos.size(), 2);
         assertEquals(movimentos.get(0).getReferenteParcela(), "1/2");
@@ -341,7 +353,7 @@ public class MovimentoPagamentoServiceTest {
     @DisplayName("deletarMovimentos deve adicionar os movimentos removidos na lista")
     public void deletarMovimentosDeveAdicionarALista() {
 
-        MovimentoPagamentoServiceImpl gm = new MovimentoPagamentoServiceImpl();
+        
 
         movimentos.add(mp1);
         movimentos.add(mp2);
@@ -353,9 +365,9 @@ public class MovimentoPagamentoServiceTest {
 
         int[] linhas = {0, 2};
 
-        gm.deletarMovimentos(movimentos, linhas);
+        service.deletarMovimentos(movimentos, linhas);
         
-        List<MovimentoPagamento> deletados = gm.getMovimentosDeletados();
+        List<MovimentoPagamento> deletados = service.getMovimentosDeletados();
         assertEquals(deletados.size(),2);
         assertEquals(mp2.getReferenteParcela(), "UNICA");
         
