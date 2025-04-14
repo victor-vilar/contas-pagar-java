@@ -188,4 +188,14 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    @Override
+    public List<MovimentoPagamento> getAllNaoPagos() {
+        return repository.findByDataPagamentoIsNull();
+    }
+
+    @Override
+    public List<MovimentoPagamento> getAllPagos() {
+        return repository.findByDataPagamentoIsNotNull();
+    }
+
 }
