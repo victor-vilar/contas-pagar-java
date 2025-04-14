@@ -17,12 +17,12 @@ import javax.swing.table.DefaultTableModel;
 public class DespesaServiceImpl implements DespesaService {
 
     private DespesaRepository repository;
-    private MovimentoPagamentoService gm ;
+    private MovimentoPagamentoServiceImpl gm ;
 
     @Autowired
     public DespesaServiceImpl(DespesaRepository repository) {
         this.repository = repository;
-        gm = new MovimentoPagamentoService();
+        gm = new MovimentoPagamentoServiceImpl();
     }
 
     @Override

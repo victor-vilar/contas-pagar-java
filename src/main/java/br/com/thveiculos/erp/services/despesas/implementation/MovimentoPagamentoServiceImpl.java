@@ -8,6 +8,7 @@ import br.com.thveiculos.erp.util.ConversorMoeda;
 import br.com.thveiculos.erp.entities.despesas.FormaPagamento;
 import br.com.thveiculos.erp.entities.despesas.MovimentoPagamento;
 import br.com.thveiculos.erp.exceptions.despesas.QuantidadeDeParcelasException;
+import br.com.thveiculos.erp.services.despesas.interfaces.MovimentoPagamentoService;
 import br.com.thveiculos.erp.util.ConversorData;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -19,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author victor
  */
-public class MovimentoPagamentoService {
+public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService {
 
     private List<MovimentoPagamento> movimentosDeletados = new ArrayList<>();
 
@@ -140,6 +141,41 @@ public class MovimentoPagamentoService {
             movimentos.get(i).setReferenteParcela(i + 1 + "/" + tamanho);
         }
 
+    }
+
+    @Override
+    public List<MovimentoPagamento> getTodos() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public MovimentoPagamento getById(Long id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public MovimentoPagamento save(MovimentoPagamento obj) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public MovimentoPagamento saveAll(List<MovimentoPagamento> objs) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public MovimentoPagamento update(MovimentoPagamento obj) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void deleteAll(List<MovimentoPagamento> objs) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

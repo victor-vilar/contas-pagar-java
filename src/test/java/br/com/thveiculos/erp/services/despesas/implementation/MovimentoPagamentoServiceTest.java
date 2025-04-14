@@ -98,7 +98,7 @@ public class MovimentoPagamentoServiceTest {
     @Test
     @DisplayName("Deve lançar um Quantidade De Parcelas Exception se a quantidade de parcelas for 0")
     public void DeveLancarExceptionSeParcelasForZero() {
-        MovimentoPagamentoService instance = new MovimentoPagamentoService();
+        MovimentoPagamentoServiceImpl instance = new MovimentoPagamentoServiceImpl();
         Assertions.assertThrows(QuantidadeDeParcelasException.class, ()
                 -> instance.gerarMovimentos("ANUAL", 0, "31/03/2025", "2000", fp1));
     }
@@ -106,7 +106,7 @@ public class MovimentoPagamentoServiceTest {
     @Test
     @DisplayName("Deve lançar um Quantidade De Parcelas Exception se a quantidade de parcelas for negativa")
     public void DeveLancarExceptionSeQuantidadeDeParcelasForNegativa() {
-        MovimentoPagamentoService instance = new MovimentoPagamentoService();
+        MovimentoPagamentoServiceImpl instance = new MovimentoPagamentoServiceImpl();
         Assertions.assertThrows(QuantidadeDeParcelasException.class, ()
                 -> instance.gerarMovimentos("ANUAL", -10, "31/03/2025", "2000", fp1));
     }
@@ -114,7 +114,7 @@ public class MovimentoPagamentoServiceTest {
     @Test
     @DisplayName("Se for passada o dia 31 de qualquer mes, a data deve ser reconfigurada para o dia 30")
     public void DeveReconfigurarDataParaDiaTrinta() {
-        MovimentoPagamentoService instance = new MovimentoPagamentoService();
+        MovimentoPagamentoServiceImpl instance = new MovimentoPagamentoServiceImpl();
         List<MovimentoPagamento> result = instance.gerarMovimentos("ANUAL", 1, "31/03/2025", "2000", fp1);
         assertEquals(result.get(0).getDataVencimento(), LocalDate.of(2025, 03, 30));
 
@@ -124,7 +124,7 @@ public class MovimentoPagamentoServiceTest {
     @DisplayName("Deve gerar a parcela unica se a quantidade de parcelas for igual a 1 independente do perído passado")
     public void DeveGerarParcelasUnicasSeAQuantidadeForIgualAUm() {
 
-        MovimentoPagamentoService instance = new MovimentoPagamentoService();
+        MovimentoPagamentoServiceImpl instance = new MovimentoPagamentoServiceImpl();
         List<MovimentoPagamento> result = instance.gerarMovimentos("ANUAL", 1, "31/03/2025", "2000", fp1);
         assertEquals(result.size(), 1);
         assertEquals(result.get(0).getReferenteParcela(), "UNICA");
@@ -159,7 +159,7 @@ public class MovimentoPagamentoServiceTest {
     @DisplayName("Deve gerar parcelas anuais quando existem mais de uma parcela")
     public void DeveGerarQuantidadeDeParcelasAnuaisPassadas() {
 
-        MovimentoPagamentoService instance = new MovimentoPagamentoService();
+        MovimentoPagamentoServiceImpl instance = new MovimentoPagamentoServiceImpl();
 
         int qtdParcelas = 10;
 
@@ -185,7 +185,7 @@ public class MovimentoPagamentoServiceTest {
             + "e o periodo for mensal")
     public void DeveGerarQuantidadeDeParcelasMensais() {
 
-        MovimentoPagamentoService instance = new MovimentoPagamentoService();
+        MovimentoPagamentoServiceImpl instance = new MovimentoPagamentoServiceImpl();
 
         int qtdParcelas = 12;
 
@@ -211,7 +211,7 @@ public class MovimentoPagamentoServiceTest {
             + "e o periodo for quinzenal")
     public void DeveGerarQuantidadeDeParcelasQuinzenais() {
 
-        MovimentoPagamentoService instance = new MovimentoPagamentoService();
+        MovimentoPagamentoServiceImpl instance = new MovimentoPagamentoServiceImpl();
 
         int qtdParcelas = 12;
 
@@ -239,7 +239,7 @@ public class MovimentoPagamentoServiceTest {
             + "e o periodo for semanal")
     public void DeveGerarQuantidadeDeParcelasSemanais() {
 
-        MovimentoPagamentoService instance = new MovimentoPagamentoService();
+        MovimentoPagamentoServiceImpl instance = new MovimentoPagamentoServiceImpl();
 
         int qtdParcelas = 12;
 
@@ -274,7 +274,7 @@ public class MovimentoPagamentoServiceTest {
         model.addRow(new Object[]{null, "1/5", "0106", "20000", null," ",""});
         model.addRow(new Object[]{null, "1/5", "0109", "21000", null," ",""});
 
-        MovimentoPagamentoService gm = new MovimentoPagamentoService();
+        MovimentoPagamentoServiceImpl gm = new MovimentoPagamentoServiceImpl();
         gm.atualizarMovimentos(movimentos, 0, model);
         gm.atualizarMovimentos(movimentos, 2, model);
 
@@ -300,7 +300,7 @@ public class MovimentoPagamentoServiceTest {
     @DisplayName("Deve remover os movimentos das linhas selecionandas na view")
     public void removerMovimentoLinhasTabela() {
 
-        MovimentoPagamentoService gm = new MovimentoPagamentoService();
+        MovimentoPagamentoServiceImpl gm = new MovimentoPagamentoServiceImpl();
 
         movimentos.add(mp1);
         movimentos.add(mp2);
@@ -341,7 +341,7 @@ public class MovimentoPagamentoServiceTest {
     @DisplayName("deletarMovimentos deve adicionar os movimentos removidos na lista")
     public void deletarMovimentosDeveAdicionarALista() {
 
-        MovimentoPagamentoService gm = new MovimentoPagamentoService();
+        MovimentoPagamentoServiceImpl gm = new MovimentoPagamentoServiceImpl();
 
         movimentos.add(mp1);
         movimentos.add(mp2);
