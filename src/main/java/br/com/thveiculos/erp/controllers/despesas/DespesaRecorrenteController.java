@@ -12,6 +12,7 @@ import br.com.thveiculos.erp.exceptions.despesas.MesVencimentoInvalidoException;
 import br.com.thveiculos.erp.services.despesas.interfaces.CategoriaDespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.DespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.FormaPagamentoService;
+import br.com.thveiculos.erp.services.despesas.interfaces.MovimentoPagamentoService;
 import br.com.thveiculos.erp.util.ConversorData;
 import br.com.thveiculos.erp.util.ConversorMoeda;
 import br.com.thveiculos.erp.views.despesas.DespesaRecorrenteViewImpl;
@@ -30,8 +31,8 @@ import org.springframework.stereotype.Controller;
 public class DespesaRecorrenteController extends DespesaAbstractController<DespesaRecorrenteViewImpl>{
 
     @Autowired
-    public DespesaRecorrenteController(DespesaService service, CategoriaDespesaService categoriaDespesaService, FormaPagamentoService formaPagamentoService) {
-        super(service, categoriaDespesaService, formaPagamentoService);
+    public DespesaRecorrenteController(DespesaService service, CategoriaDespesaService categoriaDespesaService, FormaPagamentoService formaPagamentoService,MovimentoPagamentoService movimentoService) {
+        super(service, categoriaDespesaService, formaPagamentoService,movimentoService);
     }
     
     @Override

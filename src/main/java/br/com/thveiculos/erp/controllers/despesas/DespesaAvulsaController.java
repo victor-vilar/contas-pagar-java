@@ -4,15 +4,16 @@
  */
 package br.com.thveiculos.erp.controllers.despesas;
 
-import br.com.thveiculos.erp.controllers.AppViewController;
 import br.com.thveiculos.erp.entities.despesas.DespesaAvulsa;
 import br.com.thveiculos.erp.entities.despesas.NotaFiscal;
 import br.com.thveiculos.erp.exceptions.despesas.FieldsEmBrancoException;
 import br.com.thveiculos.erp.services.despesas.interfaces.CategoriaDespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.DespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.FormaPagamentoService;
+import br.com.thveiculos.erp.services.despesas.interfaces.MovimentoPagamentoService;
 import br.com.thveiculos.erp.util.ConversorData;
 import br.com.thveiculos.erp.views.despesas.DespesaAvulsaViewImpl;
+import br.com.thveiculos.erp.views.interfaces.DespesaAvulsaView;
 import java.util.List;
 import java.util.Optional;
 import javax.swing.JComboBox;
@@ -31,8 +32,8 @@ import org.springframework.stereotype.Controller;
 public class DespesaAvulsaController extends DespesaAbstractController<DespesaAvulsaViewImpl> {
 
     @Autowired
-    public DespesaAvulsaController(DespesaService service, CategoriaDespesaService categoriaDespesaService, FormaPagamentoService formaPagamentoService) {
-        super(service, categoriaDespesaService, formaPagamentoService);
+    public DespesaAvulsaController(DespesaService service, CategoriaDespesaService categoriaDespesaService, FormaPagamentoService formaPagamentoService,MovimentoPagamentoService movimentoService) {
+        super(service, categoriaDespesaService, formaPagamentoService,movimentoService);
     }
 
     @Override
@@ -81,7 +82,7 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
 
     public void criarMovimentos() {
 
-        movimentos = service.gerarMovimentos(
+        movimentos = movimentoService.gerarMovimentos(
                 (String) view.getComboParcelamento().getSelectedItem(),
                 (int) view.getSpinnerQuantidadeParcelas().getValue(),
                 view.getFieldVencimento().getText(),
