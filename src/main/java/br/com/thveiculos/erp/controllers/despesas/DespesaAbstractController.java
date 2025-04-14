@@ -6,25 +6,20 @@ package br.com.thveiculos.erp.controllers.despesas;
 
 import br.com.thveiculos.erp.controllers.AppViewController;
 import br.com.thveiculos.erp.controllers.util.ControllerHelper;
-import br.com.thveiculos.erp.entities.despesas.Despesa;
-import br.com.thveiculos.erp.entities.despesas.DespesaAvulsa;
-import br.com.thveiculos.erp.entities.despesas.DespesaRecorrente;
 import br.com.thveiculos.erp.entities.despesas.MovimentoPagamento;
-import br.com.thveiculos.erp.entities.despesas.NotaFiscal;
 import br.com.thveiculos.erp.enums.despesas.Periodo;
 import br.com.thveiculos.erp.util.ConversorMoeda;
 import br.com.thveiculos.erp.services.despesas.interfaces.CategoriaDespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.DespesaService;
 import br.com.thveiculos.erp.services.despesas.interfaces.FormaPagamentoService;
+import br.com.thveiculos.erp.services.despesas.interfaces.MovimentoPagamentoService;
 import br.com.thveiculos.erp.util.ConversorData;
-import br.com.thveiculos.erp.views.despesas.DespesaAvulsaViewImpl;
 import br.com.thveiculos.erp.views.interfaces.DespesaView;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Controlador para os fomulários de despesas. Esses controladores precisam
@@ -37,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class DespesaAbstractController<T extends DespesaView> implements AppViewController<T> {
 
     protected final DespesaService service;
+    protected final MovimentoPagamentoService movimentoService;
     protected final CategoriaDespesaService categoriaDespesaService;
     protected final FormaPagamentoService formaPagamentoService;
     protected T view;
@@ -56,8 +52,10 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
     public DespesaAbstractController(
             DespesaService service,
             CategoriaDespesaService categoriaDespesaService,
-            FormaPagamentoService formaPagamentoService) {
+            FormaPagamentoService formaPagamentoService,
+            MovimentoPagamentoService movimentoService) {
         this.service = service;
+        this.movimentoService = movimentoService;
         this.categoriaDespesaService = categoriaDespesaService;
         this.formaPagamentoService = formaPagamentoService;
         movimentos = new ArrayList<>();
@@ -182,7 +180,7 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
      * na linha da tabela na view.
      */
     public void editarMovimento(int linha) {
-        service.atualizarMovimentos(
+        movimentoService.atualizarMovimentos(
                 movimentos,
                 linha,
                 (DefaultTableModel) view.getTableParcelas().getModel()
@@ -247,7 +245,7 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
         //utilizado o serviço para remover os movimentos que estão na tabela.
         //O serviço armazena os movimentos em uma lista para serem deletadas
         //do banco, caso já tenham sido salvas.
-        service.deletarMovimentos(movimentos, linhas);
+        movimentoService.deletarMovimentos(movimentos, linhas);
 
         //atualiza a view com a nova tabela.
         preencherTabela(movimentos);
