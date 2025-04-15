@@ -160,7 +160,7 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
 
     @Override
     public MovimentoPagamento getById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return repository.findById(id).orElseThrow(() -> new RuntimeException("Não encontrado"));
     }
 
     @Override
