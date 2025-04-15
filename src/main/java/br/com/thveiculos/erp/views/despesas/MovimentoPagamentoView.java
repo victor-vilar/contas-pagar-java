@@ -126,11 +126,10 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
                 JTable table = (JTable) mouseEvent.getSource();
                 int row = table.getSelectedRow();
                 if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1 && row != -1) {
-                    Long valor = (Long)table.getValueAt(row, 0);
-                     var finalizarView = context.getBean(FinalizarMovimentoPagamentoView.class);
-                     finalizarView.baixar(valor);
-                     finalizarView.setVisible(true);
-                     
+                    Long valor = (Long) table.getValueAt(row, 0);
+                    var finalizarView = context.getBean(FinalizarMovimentoPagamentoView.class);
+                    finalizarView.buscar(valor);
+                    finalizarView.setVisible(true);
 
                 }
             }
