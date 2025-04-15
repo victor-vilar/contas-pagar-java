@@ -66,6 +66,7 @@ public abstract class SimpleView extends javax.swing.JFrame implements Publisher
         this.title = title;
         setTitle(title);
         this.tableColumnName = tableColumnName;
+        setLocationRelativeTo(null);
         this.setUp();
     }
 

@@ -49,6 +49,7 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
     public void configurarComponents() {
         initComponents();
         configureComponentes();
+        setLocationRelativeTo(null);
     }
 
     void configureComponentes() {

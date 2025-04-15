@@ -52,6 +52,7 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
     public void configurarComponent() {
         initComponents();
         configureComponentes();
+        setLocationRelativeTo(null);
         
     }
     

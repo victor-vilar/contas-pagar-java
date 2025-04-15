@@ -52,6 +52,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
     public void configurarComponent() {
         initComponents();
         configureComponentes();
+        setLocationRelativeTo(null);
 
     }
 
