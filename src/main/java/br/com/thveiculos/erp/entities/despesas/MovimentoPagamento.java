@@ -17,105 +17,101 @@ import jakarta.persistence.Table;
 @Table(name="movimento_pagamento")
 public class MovimentoPagamento implements Serializable {
 
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
-	
-	private String referenteParcela;
-	private LocalDate dataVencimento;
-	private LocalDate dataPagamento;
-	private BigDecimal valorPagamento;        
-        private String observacao;
-	
-	@ManyToOne
-        @JoinColumn(name="despesa_id")
-        private DespesaAbstrata despesa;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String referenteParcela;
+    private LocalDate dataVencimento;
+    private LocalDate dataPagamento;
+    private BigDecimal valorPagamento;
+    private BigDecimal valorPago;
+    private String observacao;
+
+    @ManyToOne
+    @JoinColumn(name = "despesa_id")
+    private DespesaAbstrata despesa;
+
+    @ManyToOne
+    @JoinColumn(name = "forma_pagamento_id", foreignKey = @ForeignKey(name = "forma_pagamento_fk", foreignKeyDefinition = "FOREIGN KEY (forma_pagamento_id) REFERENCES formas_pagamento(id) ON DELETE SET NULL"))
+    private FormaPagamento formaPagamento;
+
+    public MovimentoPagamento() {
+
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getReferenteParcela() {
+        return referenteParcela;
+    }
+
+    public void setReferenteParcela(String referenteParcela) {
+        this.referenteParcela = referenteParcela;
+    }
+
+    public LocalDate getDataPagamento() {
+        return dataPagamento;
+    }
+
+    public void setDataPagamento(LocalDate dataPagamento) {
+        this.dataPagamento = dataPagamento;
+    }
+
+    public BigDecimal getValorPagamento() {
+        return valorPagamento;
+    }
+
+    public void setValorPagamento(BigDecimal valorPagamento) {
+        this.valorPagamento = valorPagamento;
+    }
+
+    public LocalDate getDataVencimento() {
+        return dataVencimento;
+    }
+
+    public void setDataVencimento(LocalDate dataVencimento) {
+        this.dataVencimento = dataVencimento;
+    }
+
+    public FormaPagamento getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public void setFormaPagamento(FormaPagamento formaPagamento) {
+        this.formaPagamento = formaPagamento;
+    }
+
+    public void setObservacao(String obs) {
+        this.observacao = obs;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setDespesa(DespesaAbstrata despesa) {
+        this.despesa = despesa;
+
+    }
+
+    public Despesa getDespesa() {
+        return despesa;
+    }
+
+    public BigDecimal getValorPago() {
+        return valorPago;
+    }
+
+    public void setValorPago(BigDecimal valorPago) {
+        this.valorPago = valorPago;
+    }
+
         
-        @ManyToOne
-	@JoinColumn(name = "forma_pagamento_id", foreignKey = @ForeignKey(name="forma_pagamento_fk", foreignKeyDefinition = "FOREIGN KEY (forma_pagamento_id) REFERENCES formas_pagamento(id) ON DELETE SET NULL"))
-	private FormaPagamento formaPagamento;
-	
-	
-	public MovimentoPagamento () {
-		
-	}
-
-
-	public Long getId() {
-		return id;
-	}
-
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-
-	public String getReferenteParcela() {
-		return referenteParcela;
-	}
-
-
-	public void setReferenteParcela(String referenteParcela) {
-		this.referenteParcela = referenteParcela;
-	}
-
-
-	public LocalDate getDataPagamento() {
-		return dataPagamento;
-	}
-
-
-	public void setDataPagamento(LocalDate dataPagamento) {
-		this.dataPagamento = dataPagamento;
-	}
-
-
-	public BigDecimal getValorPagamento() {
-		return valorPagamento;
-	}
-
-
-	public void setValorPagamento(BigDecimal valorPagamento) {
-		this.valorPagamento = valorPagamento;
-	}
-
-
-	public LocalDate getDataVencimento() {
-		return dataVencimento;
-	}
-
-
-	public void setDataVencimento(LocalDate dataVencimento) {
-		this.dataVencimento = dataVencimento;
-	}
-
-	public FormaPagamento getFormaPagamento() {
-		return formaPagamento;
-	}
-
-
-	public void setFormaPagamento(FormaPagamento formaPagamento) {
-		this.formaPagamento = formaPagamento;
-	}
-	
-	
-	public void setObservacao(String obs){
-            this.observacao = obs;
-        }
-        
-        public String getObservacao(){
-            return observacao;
-        }
-	
-
-        public void setDespesa(DespesaAbstrata despesa){
-            this.despesa =despesa ;
-           
-        }
-        
-        public Despesa getDespesa(){
-            return despesa;
-        }
 }
