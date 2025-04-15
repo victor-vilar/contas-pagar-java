@@ -38,6 +38,10 @@ public abstract class ConversorMoeda {
      * @throws ParseException 
      */
     public static String paraString(BigDecimal moeda) {
+        
+        if(moeda == null){
+            return null;
+        }
         String texto = formater.format(moeda);
         return texto;
     }
