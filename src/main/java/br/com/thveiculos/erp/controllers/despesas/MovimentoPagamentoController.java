@@ -69,9 +69,6 @@ public class MovimentoPagamentoController implements AppViewController<Movimento
     }
     
     public void inicializarTabela(){
-    
-        System.out.println("Chamou");
-        
         preencherTabela(buscarMovimentos(true));
        
     }
