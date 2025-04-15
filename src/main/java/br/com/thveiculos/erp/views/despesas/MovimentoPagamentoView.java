@@ -8,6 +8,8 @@ import br.com.thveiculos.erp.controllers.despesas.MovimentoPagamentoController;
 import br.com.thveiculos.erp.util.ConversorData;
 import br.com.thveiculos.erp.util.ConversorMoeda;
 import jakarta.annotation.PostConstruct;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -117,6 +119,25 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         sorter.setSortKeys(sortKeys);
         sorter.sort();
         //------------------
+        
+        tableMovimentos.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent mouseEvent) {
+
+                JTable table = (JTable) mouseEvent.getSource();
+                int row = table.getSelectedRow();
+                if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1 && row != -1) {
+                    Long valor = (Long)table.getValueAt(row, 0);
+                     var finalizarView = context.getBean(FinalizarMovimentoPagamentoView.class);
+                     finalizarView.baixar(valor);
+                     finalizarView.setVisible(true);
+                     
+
+                }
+            }
+        });
+        
+        
+        
 
     }
     
