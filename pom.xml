@@ -9,11 +9,11 @@
 		<version>3.4.3</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>br.com.thveiculos</groupId>
+	<groupId>br.com.victorvilar</groupId>
 	<artifactId>erp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>erp</name>
-	<description>Sistema Th Veículos</description>
+	<description>Sistema de Contas a Pagar</description>
 	<url />
 	<licenses>
 		<license />

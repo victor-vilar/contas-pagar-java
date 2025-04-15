@@ -1,0 +1,15 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package br.com.victorvilar.contaspagar.views.interfaces;
+
+/**
+ *  Subscriber para se inscrever em eventos para que possam receber atualizações.
+ * @author victor
+ */
+public interface Subscriber {
+    
+    public void subscribe(String valor , String tipo);
+    
+}
