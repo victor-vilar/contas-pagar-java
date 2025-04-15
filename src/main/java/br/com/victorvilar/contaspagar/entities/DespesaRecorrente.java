@@ -16,10 +16,11 @@ import jakarta.persistence.Table;
 public class DespesaRecorrente extends DespesaAbstrata implements Serializable {
 
     public static final String tipo = "RECORRENTE";
-    public static String getTipo(){
-            return tipo;
-        }
     
+    public String getTipo() {
+        return tipo;
+    }
+
     @Column(nullable = false)
     private Periodo periocidade;
     @Column(nullable = false)

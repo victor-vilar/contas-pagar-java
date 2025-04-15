@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 public class DespesaAvulsa extends DespesaAbstrata implements Serializable {
 
         public static final String tipo = "AVULSA";
-        public static String getTipo(){
+        public String getTipo(){
             return tipo;
         }
     
