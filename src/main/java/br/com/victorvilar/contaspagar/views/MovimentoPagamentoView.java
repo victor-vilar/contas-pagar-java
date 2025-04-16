@@ -5,9 +5,14 @@
 package br.com.victorvilar.contaspagar.views;
 
 import br.com.victorvilar.contaspagar.controllers.MovimentoPagamentoController;
+import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
 import br.com.victorvilar.contaspagar.util.ConversorData;
 import br.com.victorvilar.contaspagar.util.ConversorMoeda;
+import br.com.victorvilar.contaspagar.views.interfaces.DespesaAvulsaView;
+import br.com.victorvilar.contaspagar.views.interfaces.DespesaRecorrenteView;
 import jakarta.annotation.PostConstruct;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
@@ -121,19 +126,52 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         sorter.sort();
         //------------------
         
+        
+        // evento de clicar duas vezes na linha
         tableMovimentos.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent mouseEvent) {
 
                 JTable table = (JTable) mouseEvent.getSource();
                 int row = table.getSelectedRow();
                 if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1 && row != -1) {
-                    Long valor = (Long) table.getValueAt(row, 0);
+                    Long id = (Long) table.getValueAt(row, 0);
                     var finalizarView = context.getBean(FinalizarMovimentoPagamentoView.class);
-                    finalizarView.buscar(valor);
+                    finalizarView.buscar(id);
                     finalizarView.setVisible(true);
 
                 }
             }
+        });
+        
+        
+        // evento de apertar f11
+        tableMovimentos.addKeyListener(new KeyAdapter() {
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+                if (e.getKeyCode() == KeyEvent.VK_F1) {
+
+                    int row = tableMovimentos.getSelectedRow();
+                    if (tableMovimentos.getSelectedRow() != -1 && row != -1) {
+                        
+                        Long id = (Long) tableMovimentos.getValueAt(row, 0);
+                        System.out.println(tableMovimentos.getValueAt(row, 0));
+                        DespesaAbstrata despesa = controller.buscarDespesa(id);
+                        
+                        if(despesa.getTipo().equals("AVULSA")){
+                            var avulsa = context.getBean(DespesaAvulsaViewImpl.class);
+                            avulsa.preencherView(despesa);
+                            avulsa.setVisible(true);
+                        }else{
+                            var recorrente = context.getBean(DespesaRecorrenteViewImpl.class);
+                            recorrente.preencherView(despesa);
+                            recorrente.setVisible(true);
+                        }
+                    }
+                }
+            }
+
         });
         
         
@@ -175,7 +213,6 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         jScrollPane1 = new javax.swing.JScrollPane();
         tableMovimentos = new javax.swing.JTable();
         panelToolBar1 = new javax.swing.JPanel();
-        btnDeletar1 = new javax.swing.JButton();
         btnNovo1 = new javax.swing.JButton();
         btnEditar1 = new javax.swing.JButton();
         btnSalvar1 = new javax.swing.JButton();
@@ -259,11 +296,6 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
 
         panelToolBar1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
-        btnDeletar1.setBackground(new java.awt.Color(242, 242, 242));
-        btnDeletar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/3.png"))); // NOI18N
-        btnDeletar1.setToolTipText("Deletar");
-        btnDeletar1.setBorder(null);
-
         btnNovo1.setBackground(new java.awt.Color(242, 242, 242));
         btnNovo1.setText("Nova Despesa Avulsa");
         btnNovo1.setToolTipText("Novo");
@@ -303,9 +335,7 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
                 .addComponent(btnEditar1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSalvar1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnDeletar1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(614, Short.MAX_VALUE))
             .addGroup(panelToolBar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelToolBar1Layout.createSequentialGroup()
                     .addGap(15, 15, 15)
@@ -317,8 +347,7 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
             .addGroup(panelToolBar1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelToolBar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnDeletar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEditar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEditar1, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                     .addComponent(btnSalvar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(panelToolBar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -454,7 +483,6 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnDeletar1;
     private javax.swing.JButton btnEditar1;
     private javax.swing.JButton btnNovo1;
     private javax.swing.JButton btnSalvar1;
