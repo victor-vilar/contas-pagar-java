@@ -4,6 +4,8 @@
  */
 package br.com.victorvilar.contaspagar.controllers;
 
+import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
+import br.com.victorvilar.contaspagar.entities.DespesaAvulsa;
 import br.com.victorvilar.contaspagar.entities.DespesaRecorrente;
 import br.com.victorvilar.contaspagar.enums.Periodo;
 import br.com.victorvilar.contaspagar.exceptions.DiaVencimentoInvalidoException;
@@ -177,6 +179,35 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
         
         if (dia > 28 && mes == 2) {
             throw new MesVencimentoInvalidoException("Se o mês for fevereiro o dia não pode ser maior que 28 !");
+        }
+        
+    }
+
+    @Override
+    public void preencherView(DespesaAbstrata despesa) {
+        DespesaRecorrente despesaRecorrente = (DespesaRecorrente) despesa;
+        this.movimentos = despesa.getParcelas();
+        preencherFields(despesaRecorrente);
+        preencherTabela(movimentos);
+    }
+    
+    public void preencherFields(DespesaRecorrente despesa){
+    
+        view.getFieldId().setText(String.valueOf(despesa.getId()));      
+        view.getFieldDescricao().setText(despesa.getNomeFornecedor());
+        view.getAreaDescricao().setText(despesa.getDescricao());
+        view.getComboCategoria().setSelectedItem(despesa.getCategoria().getName());
+        view.getComboFormaPagamento().setSelectedItem(despesa.getFormaPagamentoPadrao().getName());
+        view.getFieldDataInicio().setText(ConversorData.paraString(despesa.getDataInicio()));
+        view.getFieldDataFim().setText(ConversorData.paraString(despesa.getDataFim()));
+        view.getComboParcelamento().setSelectedItem(despesa.getPeriocidade().toString());
+        view.getFieldValor().setText(ConversorMoeda.paraString(despesa.getValorTotal()));
+        view.getFieldDiaVencimento().setText(String.valueOf(despesa.getDiaPagamento()));
+        
+        String mes = String.valueOf(despesa.getMesPagamento());
+        
+        if(mes != null){
+        view.getFieldMesVencimento().setText(mes);
         }
         
     }
