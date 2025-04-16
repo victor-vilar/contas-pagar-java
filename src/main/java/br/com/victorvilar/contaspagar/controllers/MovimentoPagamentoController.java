@@ -104,7 +104,7 @@ public class MovimentoPagamentoController implements AppViewController<Movimento
     }
     
     public DespesaAbstrata buscarDespesa(Long id){
-        return this.service.getById(id);
+        return this.movimentoService.getById(id).getDespesa();
     }
     
 }
