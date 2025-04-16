@@ -32,7 +32,7 @@ public class DespesaRecorrente extends DespesaAbstrata implements Serializable {
     private Integer mesPagamento;
 
     @ManyToOne
-    @JoinColumn(name = "forma_pagamento_pradrão")
+    @JoinColumn(name = "forma_pagamento_padrao")
     private FormaPagamento formaPagamentoPadrao;
 
     public DespesaRecorrente() {
