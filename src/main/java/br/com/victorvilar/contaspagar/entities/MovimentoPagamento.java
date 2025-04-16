@@ -101,7 +101,7 @@ public class MovimentoPagamento implements Serializable {
 
     }
 
-    public Despesa getDespesa() {
+    public DespesaAbstrata getDespesa() {
         return despesa;
     }
 
