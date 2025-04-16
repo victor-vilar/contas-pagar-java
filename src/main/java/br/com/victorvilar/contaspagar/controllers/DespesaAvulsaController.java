@@ -155,10 +155,12 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
     public void preencherFields(DespesaAvulsa despesa){
     
         view.getFieldId().setText(String.valueOf(despesa.getId()));
-        view.getFieldNota().setText(despesa.getNotaFiscal().getNumero());
-        view.getFieldNotaEmissao().setText(ConversorData.paraString(despesa.getNotaFiscal().getDataEmissao()));
-   
-
+        
+        if(despesa.getNotaFiscal() != null){
+            view.getFieldNota().setText(despesa.getNotaFiscal().getNumero());
+            view.getFieldNotaEmissao().setText(ConversorData.paraString(despesa.getNotaFiscal().getDataEmissao()));
+        }
+       
         view.getFieldDescricao().setText(despesa.getNomeFornecedor());
         view.getAreaDescricao().setText(despesa.getDescricao());
         view.getComboCategoria().setSelectedItem(despesa.getCategoria().getName());
