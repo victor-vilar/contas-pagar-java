@@ -4,6 +4,8 @@
  */
 package br.com.victorvilar.contaspagar.controllers;
 
+import br.com.victorvilar.contaspagar.entities.Despesa;
+import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
 import br.com.victorvilar.contaspagar.entities.DespesaAvulsa;
 import br.com.victorvilar.contaspagar.entities.NotaFiscal;
 import br.com.victorvilar.contaspagar.exceptions.FieldsEmBrancoException;
@@ -138,6 +140,31 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
         if (combos.isPresent()) {
             throw new FieldsEmBrancoException("Todos os campos devem ser preenchidos.");
         }
+    }
+
+    @Override
+    public void preencherView(DespesaAbstrata despesa) {
+        DespesaAvulsa despesaAvulsa = (DespesaAvulsa) despesa;
+        this.movimentos = despesa.getParcelas();
+        preencherFields(despesaAvulsa);
+        preencherTabela(movimentos);
+        
+     
+    }
+    
+    public void preencherFields(DespesaAvulsa despesa){
+    
+        view.getFieldId().setText(String.valueOf(despesa.getId()));
+        view.getFieldNota().setText(despesa.getNotaFiscal().getNumero());
+        view.getFieldNotaEmissao().setText(ConversorData.paraString(despesa.getNotaFiscal().getDataEmissao()));
+   
+
+        view.getFieldDescricao().setText(despesa.getNomeFornecedor());
+        view.getAreaDescricao().setText(despesa.getDescricao());
+        view.getComboCategoria().setSelectedItem(despesa.getCategoria().getName());
+        
+        
+
     }
 
 }
