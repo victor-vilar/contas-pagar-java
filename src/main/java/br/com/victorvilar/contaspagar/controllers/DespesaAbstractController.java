@@ -4,7 +4,7 @@
  */
 package br.com.victorvilar.contaspagar.controllers;
 
-import br.com.victorvilar.contaspagar.controllers.AppViewController;
+import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
 import br.com.victorvilar.contaspagar.util.ControllerHelper;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.enums.Periodo;
@@ -313,4 +313,6 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
         view.getComboFormaPagamento().getModel().setSelectedItem(valor);
     }
     
+    
+    public abstract void preencherView(DespesaAbstrata despesa);
 }
