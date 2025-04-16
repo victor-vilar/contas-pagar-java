@@ -5,6 +5,7 @@
 package br.com.victorvilar.contaspagar.views;
 
 import br.com.victorvilar.contaspagar.controllers.DespesaRecorrenteController;
+import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
 import br.com.victorvilar.contaspagar.exceptions.DiaVencimentoInvalidoException;
 import br.com.victorvilar.contaspagar.exceptions.FieldsEmBrancoException;
 import br.com.victorvilar.contaspagar.exceptions.MesVencimentoInvalidoException;
@@ -60,6 +61,12 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
     public void subscribe(String valor, String tipo) {
         controller.aoSusbscrever(valor, tipo);
     }
+    
+    @Override
+    public void preencherView(DespesaAbstrata despesa) {
+        controller.preencherView(despesa);
+    }
+    
     
     
     @Override

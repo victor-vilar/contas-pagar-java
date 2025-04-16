@@ -6,6 +6,7 @@ package br.com.victorvilar.contaspagar.views;
 
 import br.com.victorvilar.contaspagar.controllers.DespesaAvulsaController;
 import br.com.victorvilar.contaspagar.controllers.DespesaAbstractController;
+import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
 import br.com.victorvilar.contaspagar.util.ConversorData;
 import br.com.victorvilar.contaspagar.util.ConversorMoeda;
 import br.com.victorvilar.contaspagar.views.interfaces.Subscriber;
@@ -61,6 +62,11 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
 
         controller.aoSusbscrever(valor, tipo);
 
+    }
+    
+    @Override
+    public void preencherView(DespesaAbstrata despesa) {
+        controller.preencherView(despesa);
     }
 
     @Override
@@ -855,5 +861,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
     private javax.swing.JSpinner spinnerQuantidadeParcelas;
     private javax.swing.JTable tableParcelas;
     // End of variables declaration//GEN-END:variables
+
+
 
 }
