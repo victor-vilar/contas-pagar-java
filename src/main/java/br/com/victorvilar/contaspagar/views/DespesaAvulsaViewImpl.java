@@ -457,6 +457,11 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
         btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/2.png"))); // NOI18N
         btnEditar.setToolTipText("Editar");
         btnEditar.setBorder(null);
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnSalvar.setBackground(new java.awt.Color(242, 242, 242));
         btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-save.png"))); // NOI18N
@@ -796,6 +801,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         controller.limparCampos();
+        controller.enableDisableComponents(false);
     }//GEN-LAST:event_formWindowClosing
 
     private void btnProcurarFormaPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcurarFormaPagamentoActionPerformed
@@ -817,6 +823,10 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
             JOptionPane.showMessageDialog(null, "A data informada não esta correta !", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_fieldValorFocusLost
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        controller.editar();        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
