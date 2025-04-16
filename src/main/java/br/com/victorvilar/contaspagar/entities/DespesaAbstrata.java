@@ -97,6 +97,10 @@ public abstract class DespesaAbstrata implements Despesa{
              movimentos.stream().forEach(m ->addParcela(m));
             
 	}
+        
+        public List<MovimentoPagamento> getParcelas(){
+            return this.movimentos;
+        }
 	
 	public void addParcela(MovimentoPagamento parcela) {
 		
@@ -104,6 +108,8 @@ public abstract class DespesaAbstrata implements Despesa{
 			movimentos.add(parcela);
                         parcela.setDespesa(this);
 		}
+                
+                getValorTotal();
 	}
 	
 	public int getQuantidadeParcelas() {
