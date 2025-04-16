@@ -156,7 +156,6 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
                     if (tableMovimentos.getSelectedRow() != -1 && row != -1) {
                         
                         Long id = (Long) tableMovimentos.getValueAt(row, 0);
-                        System.out.println(tableMovimentos.getValueAt(row, 0));
                         DespesaAbstrata despesa = controller.buscarDespesa(id);
                         
                         if(despesa.getTipo().equals("AVULSA")){
