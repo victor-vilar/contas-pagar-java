@@ -4,7 +4,7 @@
  */
 package br.com.victorvilar.contaspagar.controllers;
 
-import br.com.victorvilar.contaspagar.controllers.AppViewController;
+import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
 import br.com.victorvilar.contaspagar.util.ControllerHelper;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.services.interfaces.DespesaService;
@@ -101,6 +101,10 @@ public class MovimentoPagamentoController implements AppViewController<Movimento
             });
 
         });
+    }
+    
+    public DespesaAbstrata buscarDespesa(Long id){
+        return this.service.getById(id);
     }
     
 }
