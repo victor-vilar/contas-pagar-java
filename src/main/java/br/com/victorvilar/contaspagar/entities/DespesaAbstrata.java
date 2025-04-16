@@ -7,6 +7,7 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,7 +35,7 @@ public abstract class DespesaAbstrata implements Despesa{
 	private boolean quitado = false;
 	private BigDecimal valorTotal;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy="despesa")
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="despesa")
 	private List<MovimentoPagamento> movimentos = new ArrayList<>();
 	
 	@ManyToOne
