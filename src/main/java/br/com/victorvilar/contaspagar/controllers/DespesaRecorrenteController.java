@@ -206,7 +206,7 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
         
         String mes = String.valueOf(despesa.getMesPagamento());
         
-        if(mes != null){
+        if(!mes.equals("")){
         view.getFieldMesVencimento().setText(mes);
         }
         
