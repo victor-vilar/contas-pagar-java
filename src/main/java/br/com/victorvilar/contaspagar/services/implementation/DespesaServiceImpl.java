@@ -81,9 +81,11 @@ public class DespesaServiceImpl implements DespesaService {
             updateDespesaRecorrente((DespesaRecorrente) obj, (DespesaRecorrente) despesa);
         }
         
+        despesa = repository.save(despesa); 
+        
         movimentoService.update(obj.getParcelas());
         
-        return repository.save(despesa);
+        return despesa;
     }
     
     public void updateDespesaAvulsa(DespesaAvulsa obj, DespesaAvulsa despesa) {
