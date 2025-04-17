@@ -5,23 +5,25 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.victorvilar.contaspagar.entities.Despesa;
 import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
-import br.com.victorvilar.contaspagar.entities.FormaPagamento;
-import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
+import br.com.victorvilar.contaspagar.entities.DespesaAvulsa;
+import br.com.victorvilar.contaspagar.entities.DespesaRecorrente;
+import br.com.victorvilar.contaspagar.exceptions.DespesaNotFoundException;
 import br.com.victorvilar.contaspagar.repositories.DespesaRepository;
 import br.com.victorvilar.contaspagar.services.interfaces.DespesaService;
-import javax.swing.table.DefaultTableModel;
+import br.com.victorvilar.contaspagar.services.interfaces.MovimentoPagamentoService;
 
 @Service
 public class DespesaServiceImpl implements DespesaService {
 
-    private DespesaRepository repository;
+    private final DespesaRepository repository;
+    private final MovimentoPagamentoService movimentoService;
     
 
     @Autowired
-    public DespesaServiceImpl(DespesaRepository repository) {
+    public DespesaServiceImpl(DespesaRepository repository, MovimentoPagamentoService movimentoService) {
         this.repository = repository;
+        this.movimentoService = movimentoService;
     
     }
 
@@ -39,6 +41,10 @@ public class DespesaServiceImpl implements DespesaService {
 
     @Override
     public DespesaAbstrata save(DespesaAbstrata obj) {
+        
+        if(obj.getId() !=null){
+            return update(obj);
+        }
         return this.repository.save(obj);
     }
 
@@ -62,9 +68,40 @@ public class DespesaServiceImpl implements DespesaService {
 
     @Override
     public DespesaAbstrata update(DespesaAbstrata obj) {
-        // TODO Auto-generated method stub
-        return null;
+        DespesaAbstrata despesa = repository.findById(obj.getId()).orElseThrow(() -> new DespesaNotFoundException("Despesa não encontrada"));
+        despesa.setNomeFornecedor(obj.getNomeFornecedor());
+        despesa.setDescricao(obj.getDescricao());
+        despesa.setCategoria(obj.getCategoria());
+        
+        if(obj.getTipo().equals("AVULSA")){
+            updateDespesaAvulsa((DespesaAvulsa) obj,(DespesaAvulsa) despesa);
+        }
+        
+        if(obj.getTipo().equals("RECORRENTE")){
+            updateDespesaRecorrente((DespesaRecorrente) obj, (DespesaRecorrente) despesa);
+        }
+        
+        movimentoService.update(obj.getParcelas());
+        
+        return despesa;
     }
+    
+    public void updateDespesaAvulsa(DespesaAvulsa obj, DespesaAvulsa despesa) {
+        despesa.setNotaFiscal(obj.getNotaFiscal());
+    }
+
+    public void updateDespesaRecorrente(DespesaRecorrente obj, DespesaRecorrente despesa) {
+        despesa.setPeriocidade(obj.getPeriocidade());
+        despesa.setDataInicio(obj.getDataInicio());
+        despesa.setDataFim(obj.getDataFim());
+        despesa.setDiaPagamento(obj.getDiaPagamento());
+        despesa.setMesPagamento(obj.getMesPagamento());
+        despesa.setFormaPagamentoPadrao(obj.getFormaPagamentoPadrao());
+    }
+
+
+
+    
 
 
 }
