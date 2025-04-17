@@ -1,0 +1,6 @@
+
+- Alterar nome de MovimentoPagamento para outro nome;
+- Criar formulário para visualizar todas as despesas recorrentes;
+- Incluir tipo de despesa no banco para que seja possivel criar um consulta pelo tipo;
+- Adicionar alguma maneira de adicionar mais parcelas as Despesas Avulsas sem eliminar as que já existem;
+- Corrigir nome das tabelas que estão sendo criadas no banco de dados;
