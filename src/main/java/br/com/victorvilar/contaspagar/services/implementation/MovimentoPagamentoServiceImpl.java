@@ -10,6 +10,7 @@ import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.exceptions.MovimentoPagamentoNotFoundException;
 import br.com.victorvilar.contaspagar.exceptions.QuantidadeDeParcelasException;
 import br.com.victorvilar.contaspagar.repositories.MovimentoPagamentoRepository;
+import br.com.victorvilar.contaspagar.services.interfaces.FormaPagamentoService;
 import br.com.victorvilar.contaspagar.services.interfaces.MovimentoPagamentoService;
 import br.com.victorvilar.contaspagar.util.ConversorData;
 import java.time.LocalDate;
@@ -28,11 +29,14 @@ import org.springframework.stereotype.Service;
 public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService {
 
     private final MovimentoPagamentoRepository repository;
+    private final FormaPagamentoService formaPagamentoService;
     private List<MovimentoPagamento> movimentosDeletados = new ArrayList<>();
+    
 
     @Autowired
-    public MovimentoPagamentoServiceImpl(MovimentoPagamentoRepository repository){
+    public MovimentoPagamentoServiceImpl(MovimentoPagamentoRepository repository, FormaPagamentoService formaPagamentoService){
         this.repository = repository;
+        this.formaPagamentoService = formaPagamentoService;
     }
     
     public List<MovimentoPagamento> getMovimentosDeletados() {
@@ -107,7 +111,7 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
 
         //Busca o movimento na lista. O movimento se encontra na mesma posição da linha
         MovimentoPagamento mp = movimentos.get(linha);
-
+        
         //Atualiza a data de vencimento 
         mp.setDataVencimento(ConversorData.paraData(String.valueOf(model.getValueAt(linha, 2))));
 
@@ -118,10 +122,11 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
         mp.setDataPagamento(ConversorData.paraData(String.valueOf(model.getValueAt(linha, 4))));
         
         //Atualiza a forma de pagamento
-        //TODO
+        mp.setFormaPagamento(formaPagamentoService.getByForma(String.valueOf(model.getValueAt(linha,5))));
         
         //Atualiza observaçao
         mp.setObservacao((String)model.getValueAt(linha, 6));
+        
 
     }
 
