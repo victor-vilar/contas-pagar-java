@@ -17,6 +17,7 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 
 
@@ -36,6 +37,7 @@ public abstract class DespesaAbstrata implements Despesa{
 	private BigDecimal valorTotal;
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="despesa")
+        @OrderBy("id ASC")
 	private List<MovimentoPagamento> movimentos = new ArrayList<>();
 	
 	@ManyToOne
