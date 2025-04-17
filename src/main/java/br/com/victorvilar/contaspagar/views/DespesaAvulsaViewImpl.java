@@ -54,6 +54,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
         initComponents();
         configureComponentes();
         setLocationRelativeTo(null);
+        controller.inicializarComboBox();
 
     }
 
@@ -749,7 +750,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
 
-        controller.inicializarComboBox();
+
 
     }//GEN-LAST:event_formWindowOpened
 

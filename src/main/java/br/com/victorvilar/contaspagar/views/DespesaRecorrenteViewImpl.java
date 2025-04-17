@@ -54,6 +54,8 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         initComponents();
         configureComponentes();
         setLocationRelativeTo(null);
+        controller.inicializarComboBox();
+        
         
     }
     
@@ -783,8 +785,6 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-
-        controller.inicializarComboBox();
 
     }//GEN-LAST:event_formWindowOpened
 
