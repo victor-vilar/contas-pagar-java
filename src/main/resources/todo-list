@@ -4,3 +4,11 @@
 - Incluir tipo de despesa no banco para que seja possivel criar um consulta pelo tipo;
 - Adicionar alguma maneira de adicionar mais parcelas as Despesas Avulsas sem eliminar as que já existem;
 - Corrigir nome das tabelas que estão sendo criadas no banco de dados;
+- Adicionar anotação @Transactional (?) nos metodos que realizam operações com o banco de dados;
+- As vezes posso realizar alguma alteração em uma despesa, mas não realizar alterações nas parcelas
+tenho que adicionar uma condicional para atualizar as parcelas somente se em algum momento eles 
+tiverem sido alterados. Dessa consiguirei melhorar o desempenho do sistema.
+- No metodo de atualizar os movimentos na tabela, eu devo criar um metodo melhor de comparar se
+o movimento na lista é o mesmo que foi alterado na linha.
+- No DespesaAvulsaView eu tenho que apos salvar travar a tabela e fazer com que o botão de edição
+da tabela volte ao normal
