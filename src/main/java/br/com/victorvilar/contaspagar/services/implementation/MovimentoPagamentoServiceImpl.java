@@ -175,12 +175,20 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
 
     @Override
     public MovimentoPagamento update(MovimentoPagamento obj) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        MovimentoPagamento movimento = getById(obj.getId());
+        movimento.setReferenteParcela(obj.getReferenteParcela());
+        movimento.setDataVencimento(obj.getDataVencimento());
+        movimento.setDataPagamento(obj.getDataPagamento());
+        movimento.setValorPagamento(obj.getValorPagamento());
+        movimento.setValorPago(obj.getValorPago());
+        movimento.setObservacao(obj.getObservacao());
+        movimento.setFormaPagamento(obj.getFormaPagamento());
+        return repository.save(movimento);
     }
     
     @Override
-    public List<MovimentoPagamento> update(List<MovimentoPagamento> movimentos){
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<MovimentoPagamento> update(List<MovimentoPagamento> movimentos) {
+        return movimentos.stream().map(m -> update(m)).toList();
     }
     
 
