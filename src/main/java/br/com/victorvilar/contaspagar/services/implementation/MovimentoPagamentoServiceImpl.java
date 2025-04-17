@@ -7,6 +7,7 @@ package br.com.victorvilar.contaspagar.services.implementation;
 import br.com.victorvilar.contaspagar.util.ConversorMoeda;
 import br.com.victorvilar.contaspagar.entities.FormaPagamento;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
+import br.com.victorvilar.contaspagar.exceptions.MovimentoPagamentoNotFoundException;
 import br.com.victorvilar.contaspagar.exceptions.QuantidadeDeParcelasException;
 import br.com.victorvilar.contaspagar.repositories.MovimentoPagamentoRepository;
 import br.com.victorvilar.contaspagar.services.interfaces.MovimentoPagamentoService;
@@ -160,7 +161,7 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
 
     @Override
     public MovimentoPagamento getById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new RuntimeException("Não encontrado"));
+        return repository.findById(id).orElseThrow(() -> new MovimentoPagamentoNotFoundException("Não encontrado"));
     }
 
     @Override
