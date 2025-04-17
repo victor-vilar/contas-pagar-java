@@ -779,7 +779,8 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
             JOptionPane.showMessageDialog(null, "Despesa salva com sucesso !", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         } catch (FieldsEmBrancoException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-          
+        } catch (NumberFormatException e){
+            JOptionPane.showMessageDialog(null, "O valor informado não é um número", "Erro", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_btnSalvarActionPerformed
