@@ -196,8 +196,8 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
         view.getFieldId().setText(String.valueOf(despesa.getId()));      
         view.getFieldDescricao().setText(despesa.getNomeFornecedor());
         view.getAreaDescricao().setText(despesa.getDescricao());
-        view.getComboCategoria().setSelectedItem(despesa.getCategoria().getName());
-        view.getComboFormaPagamento().setSelectedItem(despesa.getFormaPagamentoPadrao().getName());
+        view.getComboCategoria().getModel().setSelectedItem(despesa.getCategoria().getName());
+        view.getComboFormaPagamento().getModel().setSelectedItem(despesa.getFormaPagamentoPadrao().getName());
         view.getFieldDataInicio().setText(ConversorData.paraString(despesa.getDataInicio()));
         view.getFieldDataFim().setText(ConversorData.paraString(despesa.getDataFim()));
         view.getComboParcelamento().setSelectedItem(despesa.getPeriocidade().toString());

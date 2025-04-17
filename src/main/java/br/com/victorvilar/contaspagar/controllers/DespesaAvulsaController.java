@@ -163,7 +163,7 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
        
         view.getFieldDescricao().setText(despesa.getNomeFornecedor());
         view.getAreaDescricao().setText(despesa.getDescricao());
-        view.getComboCategoria().setSelectedItem(despesa.getCategoria().getName());
+        view.getComboCategoria().getModel().setSelectedItem(despesa.getCategoria().getName());
         
         
 
