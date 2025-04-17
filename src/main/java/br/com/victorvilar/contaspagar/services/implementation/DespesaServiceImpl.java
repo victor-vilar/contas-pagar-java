@@ -83,7 +83,7 @@ public class DespesaServiceImpl implements DespesaService {
         
         movimentoService.update(obj.getParcelas());
         
-        return despesa;
+        return repository.save(despesa);
     }
     
     public void updateDespesaAvulsa(DespesaAvulsa obj, DespesaAvulsa despesa) {
