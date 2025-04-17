@@ -180,7 +180,7 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
      * na linha da tabela na view.
      */
     public void editarMovimento(int linha) {
-        movimentoService.atualizarMovimentos(
+        movimentoService.atualizarMovimentosTabela(
                 movimentos,
                 linha,
                 (DefaultTableModel) view.getTableParcelas().getModel()
@@ -245,7 +245,7 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
         //utilizado o serviço para remover os movimentos que estão na tabela.
         //O serviço armazena os movimentos em uma lista para serem deletadas
         //do banco, caso já tenham sido salvas.
-        movimentoService.deletarMovimentos(movimentos, linhas);
+        movimentoService.deletarMovimentosTabela(movimentos, linhas);
 
         //atualiza a view com a nova tabela.
         preencherTabela(movimentos);

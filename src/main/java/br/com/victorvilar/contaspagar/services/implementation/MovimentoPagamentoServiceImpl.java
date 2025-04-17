@@ -102,7 +102,7 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
         return novaData;
     }
 
-    public void atualizarMovimentos(List<MovimentoPagamento> movimentos, int linha, DefaultTableModel model) {
+    public void atualizarMovimentosTabela(List<MovimentoPagamento> movimentos, int linha, DefaultTableModel model) {
 
         //Busca o movimento na lista. O movimento se encontra na mesma posição da linha
         MovimentoPagamento mp = movimentos.get(linha);
@@ -128,7 +128,7 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
      * Deleta os movimentos da lista, de acordo com as linhas deletadas da
      * tabela. Atualiza a propriedade referenteParcela do movimento .
      */
-    public void deletarMovimentos(List<MovimentoPagamento> movimentos, int[] linhas) {
+    public void deletarMovimentosTabela(List<MovimentoPagamento> movimentos, int[] linhas) {
 
         //deleta os movimentos da lista que estão nas mesma posiçaõ das linhas
         //adiciona movimentos deletados na lista para que possam ser excluidos
@@ -177,6 +177,12 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
     public MovimentoPagamento update(MovimentoPagamento obj) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+    
+    @Override
+    public List<MovimentoPagamento> update(List<MovimentoPagamento> movimentos){
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
 
     @Override
     public void deleteById(Long id) {

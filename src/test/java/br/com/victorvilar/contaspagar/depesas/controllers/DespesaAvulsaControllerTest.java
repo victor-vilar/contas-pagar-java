@@ -50,21 +50,22 @@ public class DespesaAvulsaControllerTest {
 
     @Spy
     @InjectMocks
-    private DespesaAvulsaController controller;
+    public DespesaAvulsaController controller;
 
     @Mock
-    private CategoriaDespesaService categoriaDespesaService;
+    public CategoriaDespesaService categoriaDespesaService;
 
     @Mock
-    private FormaPagamentoService formaPagamentoService;
+    public FormaPagamentoService formaPagamentoService;
     
     @Mock
-    private MovimentoPagamentoService movimentoService;
+    public MovimentoPagamentoService movimentoService;
 
     @Mock
-    private DespesaService despesaService;
+    @Spy
+    public DespesaService despesaService;
 
-    private DespesaAvulsaViewImpl view;
+    public DespesaAvulsaViewImpl view;
     
     CategoriaDespesa cd1;
     CategoriaDespesa cd2;

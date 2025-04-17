@@ -288,8 +288,8 @@ public class MovimentoPagamentoServiceTest {
         model.addRow(new Object[]{null, "1/5", "0109", "21000", null," ",""});
 
         
-        service.atualizarMovimentos(movimentos, 0, model);
-        service.atualizarMovimentos(movimentos, 2, model);
+        service.atualizarMovimentosTabela(movimentos, 0, model);
+        service.atualizarMovimentosTabela(movimentos, 2, model);
 
         //Objetos que devem ser alterados
         assertEquals(mp1.getDataVencimento(), LocalDate.of(2025, 5, 1));
@@ -325,7 +325,7 @@ public class MovimentoPagamentoServiceTest {
 
         int[] linhas = {0, 2};
 
-        service.deletarMovimentos(movimentos, linhas);
+        service.deletarMovimentosTabela(movimentos, linhas);
 
         assertEquals(movimentos.size(), 1);
         assertEquals(movimentos.get(0).getReferenteParcela(), "UNICA");
@@ -342,7 +342,7 @@ public class MovimentoPagamentoServiceTest {
 
         int[] outrasLinhas = {1};
 
-        service.deletarMovimentos(movimentos, outrasLinhas);
+        service.deletarMovimentosTabela(movimentos, outrasLinhas);
 
         assertEquals(movimentos.size(), 2);
         assertEquals(movimentos.get(0).getReferenteParcela(), "1/2");
@@ -366,7 +366,7 @@ public class MovimentoPagamentoServiceTest {
 
         int[] linhas = {0, 2};
 
-        service.deletarMovimentos(movimentos, linhas);
+        service.deletarMovimentosTabela(movimentos, linhas);
         
         List<MovimentoPagamento> deletados = service.getMovimentosDeletados();
         assertEquals(deletados.size(),2);
