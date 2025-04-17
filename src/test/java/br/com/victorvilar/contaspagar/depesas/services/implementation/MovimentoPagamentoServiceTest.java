@@ -9,13 +9,13 @@ import br.com.victorvilar.contaspagar.entities.FormaPagamento;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.exceptions.QuantidadeDeParcelasException;
 import br.com.victorvilar.contaspagar.repositories.MovimentoPagamentoRepository;
-import br.com.victorvilar.contaspagar.services.interfaces.MovimentoPagamentoService;
 import br.com.victorvilar.contaspagar.util.ConversorData;
 import br.com.victorvilar.contaspagar.util.ConversorMoeda;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javax.swing.table.DefaultTableModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,8 +23,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.when;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -373,6 +375,46 @@ public class MovimentoPagamentoServiceTest {
         assertEquals(mp2.getReferenteParcela(), "UNICA");
         
 
+    }
+    
+    @Test
+    @DisplayName("metodo atulizar deve atualizar todos as propriedades do objeto passado")
+    public void updateDeveAtualizarPropriedadesDoObjeto(){
+       
+       when(repository.findById(mp1.getId())).thenReturn(Optional.of(mp1));
+       when(repository.save(any(MovimentoPagamento.class))).thenAnswer(c -> c.getArgument(0));
+       MovimentoPagamento mp = service.update(mp1);
+       
+       assertEquals(mp.getId(),mp1.getId());
+       assertEquals(mp.getDataPagamento(),mp1.getDataPagamento());
+       assertEquals(mp.getDataVencimento(),mp1.getDataVencimento());
+       assertEquals(mp.getFormaPagamento(),mp1.getFormaPagamento());
+       assertEquals(mp.getReferenteParcela(),mp1.getReferenteParcela());
+       assertEquals(mp.getValorPagamento(),mp1.getValorPagamento());
+       assertEquals(mp.getValorPago(),mp1.getValorPago());
+       assertEquals(mp.getObservacao(),mp1.getObservacao());
+       
+        
+    }
+    
+    @Test
+    @DisplayName("deve chamr o metodo update para cada item da lista")
+    public void updateDeveAtualizarListaDeObjetos() {
+        when(repository.findById(mp1.getId())).thenReturn(Optional.of(mp1));
+        when(repository.findById(mp2.getId())).thenReturn(Optional.of(mp2));
+        when(repository.findById(mp3.getId())).thenReturn(Optional.of(mp3));
+        when(repository.save(any(MovimentoPagamento.class))).thenAnswer(c -> c.getArgument(0));
+        movimentos.add(mp1);
+        movimentos.add(mp2);
+        movimentos.add(mp3);
+        
+        List<MovimentoPagamento> movimentosAtualizados = service.update(movimentos);
+        
+        assertNotNull(movimentosAtualizados);
+        assertFalse(movimentos.isEmpty());
+        assertEquals(movimentos.size(),3);
+      
+        
     }
 
 }
