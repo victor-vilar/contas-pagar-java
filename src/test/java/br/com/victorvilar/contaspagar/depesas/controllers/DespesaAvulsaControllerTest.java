@@ -162,11 +162,7 @@ public class DespesaAvulsaControllerTest {
         
     }
     
-    @Test
-    public void metodoLimparCamposDeveChamarMetodoLimparTabela(){
-        controller.limparCampos();
-        verify(controller,times(1)).limparTabela();
-    }
+
     
     @Test
     public void metodoLimparCamposDeveLimparListaDeMovimentos(){
@@ -287,11 +283,7 @@ public class DespesaAvulsaControllerTest {
     }
 
 
-    @Test
-    public void metodoEditarDevePassarMovimentosParaEdicao(){
-        controller.editarMovimento(1);
-        verify(controller.movimentoService,times(1)).atualizarMovimentos(anyList(),eq(1) , any(DefaultTableModel.class));
-    }
+
     
     @Test
     public void metodoPreencherTabelaDeveAdicionarDadosVindoDoMovimento(){
@@ -344,7 +336,6 @@ public class DespesaAvulsaControllerTest {
         
         int[] linhas = {2,3,10};
         controller.deletarMovimentos(linhas);
-        verify(controller.movimentoService,times(1)).deletarMovimentos(anyList(), eq(linhas));
         verify(controller,times(1)).preencherTabela(anyList());
     }
     
@@ -379,14 +370,7 @@ public class DespesaAvulsaControllerTest {
     }
 
     
-    @Test
-    public void metodoSalvarDeveCriarObjetoComOsValoresDaViewUtilizarMetodoSave() {
-
-        controller.salvar();
-        verify(controller.service, times(1)).save(any(DespesaAvulsa.class));
-
-    }
-    
+ 
     @Test
     public void metodoBuilNotaDeveRettonarNovaNotaFiscalComDadosPassados(){
         

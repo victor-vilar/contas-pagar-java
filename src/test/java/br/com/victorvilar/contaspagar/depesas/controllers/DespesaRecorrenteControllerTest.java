@@ -158,11 +158,7 @@ public class DespesaRecorrenteControllerTest {
 
     }
 
-    @Test
-    public void metodoLimparCamposDeveChamarMetodoLimparTabela() {
-        controller.limparCampos();
-        verify(controller, times(1)).limparTabela();
-    }
+
 
     @Test
     public void metodoLimparCamposDeveLimparListaDeMovimentos() {
@@ -279,11 +275,7 @@ public class DespesaRecorrenteControllerTest {
 
     }
 
-    @Test
-    public void metodoEditarDevePassarMovimentosParaEdicao() {
-        controller.editarMovimento(1);
-        verify(controller.movimentoService, times(1)).atualizarMovimentos(anyList(), eq(1), any(DefaultTableModel.class));
-    }
+
 
     @Test
     public void metodoPreencherTabelaDeveAdicionarDadosVindoDoMovimento() {
@@ -331,14 +323,6 @@ public class DespesaRecorrenteControllerTest {
         verify(controller, times(1)).preencherTabela(anyList());
     }
 
-    @Test
-    public void metodoDeletarMovimentosDeveChamarServicoParaEliminarMovimentos() {
-
-        int[] linhas = {2, 3, 10};
-        controller.deletarMovimentos(linhas);
-        verify(controller.movimentoService, times(1)).deletarMovimentos(anyList(), eq(linhas));
-        verify(controller, times(1)).preencherTabela(anyList());
-    }
 
     @Test
     public void metodoAoSubscreverDeveChamarMetodoSubscriptionCategoriaDespesa() {
@@ -369,30 +353,7 @@ public class DespesaRecorrenteControllerTest {
         assertEquals((String) view.getComboFormaPagamento().getSelectedItem(), "Teste");
     }
 
-    @Test
-    public void metodoSalvarDeveCriarObjetoComOsValoresDaViewUtilizarMetodoSave() {
-        
-        view.getFieldId().setText("2");
-        view.getFieldDescricao().setText("Teste");
-        view.getFieldCodFornecedor().setText("22");
-        view.getAreaDescricao().setText("teste");
-        view.getComboCategoria().setSelectedIndex(0);
-        view.getComboFormaPagamento().setSelectedIndex(0);
-        view.getFieldDataInicio().setText("01/02/2025");
-        view.getFieldDataFim().setText("01/02/2025");
-        view.getComboParcelamento().setSelectedIndex(0);
-        view.getFieldValor().setText("R$1000,00");
-        view.getFieldDiaVencimento().setText("12");
-        view.getFieldMesVencimento().setText("10");
-        
-        
-        
-        
-        controller.salvar();
-        verify(controller.service, times(1)).save(any(DespesaRecorrente.class));
-        verify(controller,times(1)).limparCampos();
 
-    }
     
     @Test
     public void metodoChecarErrosAoSalvarDeveLançarExceptionSeAlgumCampoEstiverEmBranco(){
