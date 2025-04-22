@@ -1,6 +1,5 @@
 package br.com.victorvilar.contaspagar.entities;
 
-import static br.com.victorvilar.contaspagar.entities.DespesaAvulsa.tipo;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -15,7 +14,7 @@ import jakarta.persistence.Table;
 @Table(name = "despesas_recorrentes")
 public class DespesaRecorrente extends DespesaAbstrata implements Serializable {
 
-    public static final String tipo = "RECORRENTE";
+    public final String tipo = "RECORRENTE";
     
     public String getTipo() {
         return tipo;
