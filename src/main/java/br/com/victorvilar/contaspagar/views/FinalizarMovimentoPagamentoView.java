@@ -325,7 +325,9 @@ public class FinalizarMovimentoPagamentoView extends javax.swing.JDialog {
     }//GEN-LAST:event_formWindowClosing
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        controller.salvar();        // TODO add your handling code here:
+        controller.salvar();        
+        JOptionPane.showMessageDialog(null, "Pagamento salvo com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        dispose();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
