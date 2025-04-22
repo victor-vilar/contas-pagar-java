@@ -4,6 +4,7 @@
  */
 package br.com.victorvilar.contaspagar.controllers;
 
+import br.com.victorvilar.contaspagar.controllers.interfaces.AppViewController;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.services.interfaces.MovimentoPagamentoService;
 import br.com.victorvilar.contaspagar.util.ConversorData;
@@ -37,12 +38,6 @@ public class FinalizarMovimentoController implements AppViewController<Finalizar
         this.view = view;
     }
 
-    @Override
-    public void novo() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
     public void salvar() {
         LocalDate dataPagamento = ConversorData.paraData(view.getFieldDataPagamento().getText());
         BigDecimal valorPago = ConversorMoeda.paraBigDecimal(view.getFieldValorPago().getText());
@@ -54,18 +49,7 @@ public class FinalizarMovimentoController implements AppViewController<Finalizar
         this.service.save(movimento);
     }
 
-    @Override
-    public void editar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void deletar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-
-    
+ 
     public void buscar(Long valor){
        movimento = this.service.getById(valor);
        preencherCampos(movimento);

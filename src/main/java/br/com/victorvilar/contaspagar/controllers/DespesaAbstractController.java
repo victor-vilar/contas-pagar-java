@@ -4,6 +4,7 @@
  */
 package br.com.victorvilar.contaspagar.controllers;
 
+import br.com.victorvilar.contaspagar.controllers.interfaces.CrudViewController;
 import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
 import br.com.victorvilar.contaspagar.util.ControllerHelper;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
@@ -29,7 +30,7 @@ import javax.swing.table.DefaultTableModel;
  * @author victor
  */
 
-public abstract class DespesaAbstractController<T extends DespesaView> implements AppViewController<T> {
+public abstract class DespesaAbstractController<T extends DespesaView> implements CrudViewController<T> {
 
     protected final DespesaService service;
     protected final MovimentoPagamentoService movimentoService;

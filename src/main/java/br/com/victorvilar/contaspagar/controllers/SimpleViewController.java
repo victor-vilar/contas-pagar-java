@@ -1,5 +1,6 @@
 package br.com.victorvilar.contaspagar.controllers;
 
+import br.com.victorvilar.contaspagar.controllers.interfaces.CrudViewController;
 import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
@@ -16,17 +17,11 @@ import br.com.victorvilar.contaspagar.views.FormaPagamentoView;
  * objetos que manipulam objetos do tipo {@link SimpleEntity}.As views
  * {@link FormaPagamentoView} e {@link CategoriaDespesaView} são exemplos de
  * formulários que extendem essa classe. As entidades ao qual elas manipulam
- * possuem somente o id e o nome como propriedades então os formulários e suas
+ * possuem somente o 'id'e o 'nome' como propriedades, então os formulários e suas
  * carecteristicas e layout seguem o mesmo padrão. Essa entidades são conhecidas
- * nesse sistema como  *
- * Essas views controlam entidades que se comportam como um ENUM, como quero
- * criar a possibilidade do usuário conseguir registrar mais entidades desse
- * tipo, foram criados tabelas no banco de dados para que assim elas possam ser
- * registradas e removidas como qualquer outra classe.
- *
- *
+ * nesse sistema como {@link SimpleEntity}.
  */
-public abstract class SimpleViewController implements AppViewController<SimpleView> {
+public abstract class SimpleViewController implements CrudViewController<SimpleView> {
 
     protected SimpleView view;
     protected AppService service;
