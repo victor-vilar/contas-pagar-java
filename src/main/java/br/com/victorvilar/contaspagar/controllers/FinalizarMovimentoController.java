@@ -102,11 +102,13 @@ public class FinalizarMovimentoController implements AppViewController<Finalizar
 
     }
     
-    public void aoAbrirFormulário(){
+    public void aoAbrirFormulario(){
        view.getFieldDataPagamento().setText(view.getFieldVencimento().getText());
        view.getFieldValorPago().setText(view.getFieldValor().getText());
        view.getFieldDataPagamento().requestFocus();
     }
     
-    
+    public MovimentoPagamento getMovimento(){
+        return this.movimento;
+    }
 }

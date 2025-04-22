@@ -41,7 +41,9 @@ public class FinalizarMovimentoPagamentoView extends javax.swing.JDialog {
         controller.setView(this);
     }
     
-    
+    public FinalizarMovimentoPagamentoView(){
+        inicializar();
+    }
     
     @PostConstruct
     public void inicializar(){
@@ -335,7 +337,7 @@ public class FinalizarMovimentoPagamentoView extends javax.swing.JDialog {
     }//GEN-LAST:event_formWindowOpened
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        controller.aoAbrirFormulário();
+        controller.aoAbrirFormulario();
     }//GEN-LAST:event_formWindowActivated
 
     private void jPanel1AncestorMoved(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jPanel1AncestorMoved
