@@ -65,14 +65,14 @@ public class FinalizarMovimentoController implements AppViewController<Finalizar
     
     public void preencherCampos(MovimentoPagamento pagamento) {
 
-        view.getLabelCodigo().setText(String.valueOf(pagamento.getId()));
-        view.getLabelParcela().setText(pagamento.getReferenteParcela());
-        view.getLabelDescricao().setText(pagamento.getDespesa().getNomeFornecedor());
-        view.getLabelDataVencimento().setText(ConversorData.paraString(pagamento.getDataVencimento()));
-        view.getLabelValor().setText(ConversorMoeda.paraString(pagamento.getValorPagamento()));
+        view.getFieldCodigo().setText(String.valueOf(pagamento.getId()));
+        view.getFieldParcela().setText(pagamento.getReferenteParcela());
+        view.getFieldDescricao().setText(pagamento.getDespesa().getNomeFornecedor());
+        view.getFieldVencimento().setText(ConversorData.paraString(pagamento.getDataVencimento()));
+        view.getFieldValor().setText(ConversorMoeda.paraString(pagamento.getValorPagamento()));
         
         view.getFieldDataPagamento().setText(ConversorData.paraString(pagamento.getDataPagamento()));
-        view.getFiledValorPago().setText(ConversorMoeda.paraString(pagamento.getValorPago()));
+        view.getFieldValorPago().setText(ConversorMoeda.paraString(pagamento.getValorPago()));
         view.getFieldObservacao().setText(pagamento.getObservacao());
         
 
@@ -80,16 +80,22 @@ public class FinalizarMovimentoController implements AppViewController<Finalizar
 
     @Override
     public void limparCampos() {
-        view.getLabelCodigo().setText("-");
-        view.getLabelParcela().setText("-");
-        view.getLabelDescricao().setText("-");
-        view.getLabelDataVencimento().setText("-");
-        view.getLabelValor().setText("-");
+        view.getFieldCodigo().setText("");
+        view.getFieldParcela().setText("");
+        view.getFieldDescricao().setText("");
+        view.getFieldVencimento().setText("");
+        view.getFieldValor().setText("");
         
         view.getFieldDataPagamento().setText("");
-        view.getFiledValorPago().setText("");
+        view.getFieldValorPago().setText("");
         view.getFieldObservacao().setText("");
 
+    }
+    
+    public void aoAbrirFormulário(){
+       view.getFieldDataPagamento().setText(view.getFieldVencimento().getText());
+       view.getFieldValorPago().setText(view.getFieldValor().getText());
+       view.getFieldDataPagamento().requestFocus();
     }
     
     
