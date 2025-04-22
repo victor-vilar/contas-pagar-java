@@ -4,12 +4,13 @@
  */
 package br.com.victorvilar.contaspagar.controllers;
 
-import br.com.victorvilar.contaspagar.controllers.AppViewController;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.services.interfaces.MovimentoPagamentoService;
 import br.com.victorvilar.contaspagar.util.ConversorData;
 import br.com.victorvilar.contaspagar.util.ConversorMoeda;
 import br.com.victorvilar.contaspagar.views.FinalizarMovimentoPagamentoView;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,7 @@ public class FinalizarMovimentoController implements AppViewController<Finalizar
 
     private FinalizarMovimentoPagamentoView view;
     private final MovimentoPagamentoService service;
+    private MovimentoPagamento movimento;
     
     @Autowired
     public FinalizarMovimentoController(MovimentoPagamentoService service){
@@ -42,7 +44,14 @@ public class FinalizarMovimentoController implements AppViewController<Finalizar
 
     @Override
     public void salvar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        LocalDate dataPagamento = ConversorData.paraData(view.getFieldDataPagamento().getText());
+        BigDecimal valorPago = ConversorMoeda.paraBigDecimal(view.getFieldValorPago().getText());
+        String observacao = view.getFieldObservacao().getText();
+        
+        movimento.setDataPagamento(dataPagamento);
+        movimento.setValorPago(valorPago);
+        movimento.setObservacao(observacao);
+        this.service.save(movimento);
     }
 
     @Override
@@ -58,8 +67,8 @@ public class FinalizarMovimentoController implements AppViewController<Finalizar
 
     
     public void buscar(Long valor){
-       MovimentoPagamento pagamento = this.service.getById(valor);
-       preencherCampos(pagamento);
+       movimento = this.service.getById(valor);
+       preencherCampos(movimento);
         
     }
     
@@ -89,6 +98,7 @@ public class FinalizarMovimentoController implements AppViewController<Finalizar
         view.getFieldDataPagamento().setText("");
         view.getFieldValorPago().setText("");
         view.getFieldObservacao().setText("");
+        this.movimento = null;
 
     }
     
