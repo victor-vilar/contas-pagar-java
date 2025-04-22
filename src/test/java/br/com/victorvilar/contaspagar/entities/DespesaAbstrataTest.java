@@ -1,4 +1,4 @@
-package br.com.victorvilar.contaspagar.depesas.entities;
+package br.com.victorvilar.contaspagar.entities;
 
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.entities.DespesaAvulsa;

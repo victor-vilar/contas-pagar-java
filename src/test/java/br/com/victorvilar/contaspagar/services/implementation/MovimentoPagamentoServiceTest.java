@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
  */
-package br.com.victorvilar.contaspagar.depesas.services.implementation;
+package br.com.victorvilar.contaspagar.services.implementation;
 
 import br.com.victorvilar.contaspagar.services.implementation.MovimentoPagamentoServiceImpl;
 import br.com.victorvilar.contaspagar.entities.FormaPagamento;

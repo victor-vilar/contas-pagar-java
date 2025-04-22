@@ -1,6 +1,6 @@
-package br.com.victorvilar.contaspagar.depesas.controllers;
+package br.com.victorvilar.contaspagar.controllers;
 
-import br.com.victorvilar.contaspagar.controllers.FormaPagamentoController;
+import br.com.victorvilar.contaspagar.controllers.CategoriaDespesaController;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -22,27 +22,28 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import br.com.victorvilar.contaspagar.entities.CategoriaDespesa;
 import br.com.victorvilar.contaspagar.entities.FormaPagamento;
-import br.com.victorvilar.contaspagar.services.interfaces.FormaPagamentoService;
+import br.com.victorvilar.contaspagar.services.interfaces.CategoriaDespesaService;
 import br.com.victorvilar.contaspagar.views.SimpleView;
-import br.com.victorvilar.contaspagar.views.FormaPagamentoView;
+import br.com.victorvilar.contaspagar.views.CategoriaDespesaView;
 
 @ExtendWith(MockitoExtension.class)
-class FormaPagamentoControllerTest {
+class CategoriaDespesaControllerTest {
 
 	@Spy
 	@InjectMocks
-	public FormaPagamentoController controller;
+	public CategoriaDespesaController controller;
 	
 	@Mock
-	public FormaPagamentoService service;
+	public CategoriaDespesaService service;
 	
 	
 	public SimpleView view;
 	
 	@BeforeEach
 	void setUp() {
-		view = new FormaPagamentoView(controller);
+		view = new CategoriaDespesaView(controller);
 	}
 	
 	
@@ -64,8 +65,8 @@ class FormaPagamentoControllerTest {
 		controller.salvar();
 		
 		
-		verify(service,times(0)).save(any(FormaPagamento.class));
-		verify(service,times(0)).update(any(FormaPagamento.class));
+		verify(service,times(0)).save(any(CategoriaDespesa.class));
+		verify(service,times(0)).update(any(CategoriaDespesa.class));
 		
 	}
 	
@@ -78,7 +79,7 @@ class FormaPagamentoControllerTest {
 		controller.salvar();
 		
 		
-		verify(service,times(1)).save(any(FormaPagamento.class));
+		verify(service,times(1)).save(any(CategoriaDespesa.class));
 		verify(controller,times(1)).updateView();
 	}
 	
@@ -147,11 +148,11 @@ class FormaPagamentoControllerTest {
 	
 	@Test
 	void metodoAtualizarTabelaDeveAdiciionarOsItensDoBancoNaTabela() {
-		List<FormaPagamento> formas = List.of(new FormaPagamento(),new FormaPagamento());
+		List<CategoriaDespesa> formas = List.of(new CategoriaDespesa(),new CategoriaDespesa());
 		formas.get(0).setId(1L);
-		formas.get(0).setForma("Teste1");
+		formas.get(0).setCategoria("Teste1");
 		formas.get(0).setId(2L);
-		formas.get(0).setForma("Teste2");
+		formas.get(0).setCategoria("Teste2");
 		
 		when(service.getTodos()).thenReturn(formas);
 		controller.atualizarTabela();

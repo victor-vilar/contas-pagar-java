@@ -1,4 +1,4 @@
-package br.com.victorvilar.contaspagar.depesas.services.implementation;
+package br.com.victorvilar.contaspagar.services.implementation;
 
 import br.com.victorvilar.contaspagar.entities.CategoriaDespesa;
 import br.com.victorvilar.contaspagar.entities.DespesaAvulsa;

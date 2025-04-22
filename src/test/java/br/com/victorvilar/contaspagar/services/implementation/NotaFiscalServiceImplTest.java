@@ -1,11 +1,11 @@
-package br.com.victorvilar.contaspagar.depesas.services.implementation;
+package br.com.victorvilar.contaspagar.services.implementation;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class CategoriaDespesaServiceImplTest {
+class NotaFiscalServiceImplTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
