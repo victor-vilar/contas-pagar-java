@@ -10,6 +10,7 @@ import br.com.victorvilar.contaspagar.entities.DespesaAvulsa;
 import br.com.victorvilar.contaspagar.entities.DespesaRecorrente;
 import br.com.victorvilar.contaspagar.entities.FormaPagamento;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
+import br.com.victorvilar.contaspagar.enums.Periodo;
 import br.com.victorvilar.contaspagar.exceptions.DiaVencimentoInvalidoException;
 import br.com.victorvilar.contaspagar.exceptions.FieldsEmBrancoException;
 import br.com.victorvilar.contaspagar.exceptions.MesVencimentoInvalidoException;
@@ -59,7 +60,7 @@ public class DespesaRecorrenteControllerTest {
 
     @Mock
     private FormaPagamentoService formaPagamentoService;
-    
+
     @Mock
     private MovimentoPagamentoService movimentoService;
 
@@ -73,6 +74,8 @@ public class DespesaRecorrenteControllerTest {
 
     FormaPagamento fp1;
     FormaPagamento fp2;
+
+    DespesaRecorrente d1;
 
     @BeforeEach
     public void setUp() {
@@ -97,7 +100,39 @@ public class DespesaRecorrenteControllerTest {
 
         view = new DespesaRecorrenteViewImpl(controller, null);
         view.configurarComponent();
-        
+
+        d1 = new DespesaRecorrente();
+
+        List<MovimentoPagamento> d1Movimentos = new ArrayList<>();
+        MovimentoPagamento m1 = new MovimentoPagamento();
+        m1.setId(1L);
+        m1.setReferenteParcela("1/2");
+        m1.setDataVencimento(LocalDate.of(2025, Month.MARCH, 1));
+        m1.setValorPagamento(new BigDecimal("1000"));
+        m1.setFormaPagamento(fp1);
+
+        MovimentoPagamento m2 = new MovimentoPagamento();
+        m2.setId(2L);
+        m2.setReferenteParcela("2/2");
+        m2.setDataVencimento(LocalDate.of(2025, Month.APRIL, 1));
+        m2.setValorPagamento(new BigDecimal("1000"));
+        m2.setFormaPagamento(fp1);
+
+        d1Movimentos.add(m1);
+        d1Movimentos.add(m2);
+
+        d1.setId(1l);
+        d1.setNomeFornecedor("LOREM TEST");
+        d1.setDescricao("LOREM IPSUM");
+        d1.setCategoria(cd1);
+        d1.setParcelas(d1Movimentos);
+        d1.setQuitado(false);
+        d1.setValorTotal(new BigDecimal("0"));
+        d1.setPeriocidade(Periodo.MENSAL);
+        d1.setDataInicio(LocalDate.now());
+        d1.setDataFim(LocalDate.of(9999, Month.MARCH, 1));
+        d1.setDiaPagamento(Integer.MIN_VALUE);
+        d1.setFormaPagamentoPadrao(fp1);
 
     }
 
@@ -158,8 +193,6 @@ public class DespesaRecorrenteControllerTest {
         assertEquals(view.getComboCategoria().getSelectedIndex(), -1);
 
     }
-
-
 
     @Test
     public void metodoLimparCamposDeveLimparListaDeMovimentos() {
@@ -276,8 +309,6 @@ public class DespesaRecorrenteControllerTest {
 
     }
 
-
-
     @Test
     public void metodoPreencherTabelaDeveAdicionarDadosVindoDoMovimento() {
         List<MovimentoPagamento> movimentos = new ArrayList<>();
@@ -324,7 +355,6 @@ public class DespesaRecorrenteControllerTest {
         verify(controller, times(1)).preencherTabela(anyList());
     }
 
-
     @Test
     public void metodoAoSubscreverDeveChamarMetodoSubscriptionCategoriaDespesa() {
 
@@ -355,7 +385,7 @@ public class DespesaRecorrenteControllerTest {
     }
 
     @Test
-    public void metodoSalvarDeveChamarMetodoChecarErrosAoSalvar(){
+    public void metodoSalvarDeveChamarMetodoChecarErrosAoSalvar() {
         view.getFieldId().setText("2");
         view.getFieldDescricao().setText("Teste");
         view.getFieldCodFornecedor().setText("22");
@@ -369,28 +399,11 @@ public class DespesaRecorrenteControllerTest {
         view.getFieldDiaVencimento().setText("12");
         view.getFieldMesVencimento().setText("12");
         controller.salvar();
-        verify(controller,times(1)).checarErrosAoSalvar();
+        verify(controller, times(1)).checarErrosAoSalvar();
     }
-        @Test
-    public void metodoSalvarChamaMetodoSaveDoService(){
-        view.getFieldId().setText("2");
-        view.getFieldDescricao().setText("Teste");
-        view.getFieldCodFornecedor().setText("22");
-        view.getAreaDescricao().setText("teste");
-        view.getComboCategoria().setSelectedIndex(0);
-        view.getComboFormaPagamento().setSelectedIndex(0);
-        view.getFieldDataInicio().setText("01/02/2025");
-        view.getFieldDataFim().setText("01/02/2025");
-        view.getComboParcelamento().setSelectedIndex(1);
-        view.getFieldValor().setText("100");
-        view.getFieldDiaVencimento().setText("12");
-        view.getFieldMesVencimento().setText("12");
-        controller.salvar();
-        verify(despesaService,times(1)).save(any(DespesaRecorrente.class));
-    }
-    
+
     @Test
-    public void metodoSalvarChamaMetodoLimparCampos(){
+    public void metodoSalvarChamaMetodoSaveDoService() {
         view.getFieldId().setText("2");
         view.getFieldDescricao().setText("Teste");
         view.getFieldCodFornecedor().setText("22");
@@ -404,11 +417,11 @@ public class DespesaRecorrenteControllerTest {
         view.getFieldDiaVencimento().setText("12");
         view.getFieldMesVencimento().setText("12");
         controller.salvar();
-        verify(controller,times(1)).limparCampos();
+        verify(despesaService, times(1)).save(any(DespesaRecorrente.class));
     }
-    
+
     @Test
-    public void metodoSalvarChamaMetodoEnableComponentsComFalse(){
+    public void metodoSalvarChamaMetodoLimparCampos() {
         view.getFieldId().setText("2");
         view.getFieldDescricao().setText("Teste");
         view.getFieldCodFornecedor().setText("22");
@@ -422,14 +435,29 @@ public class DespesaRecorrenteControllerTest {
         view.getFieldDiaVencimento().setText("12");
         view.getFieldMesVencimento().setText("12");
         controller.salvar();
-        verify(controller,times(1)).enableDisableComponents(false);
+        verify(controller, times(1)).limparCampos();
     }
-    
-    
-    
-    
+
     @Test
-    public void metodoChecarErrosAoSalvarDeveLançarExceptionSeAlgumCampoEstiverEmBranco(){
+    public void metodoSalvarChamaMetodoEnableComponentsComFalse() {
+        view.getFieldId().setText("2");
+        view.getFieldDescricao().setText("Teste");
+        view.getFieldCodFornecedor().setText("22");
+        view.getAreaDescricao().setText("teste");
+        view.getComboCategoria().setSelectedIndex(0);
+        view.getComboFormaPagamento().setSelectedIndex(0);
+        view.getFieldDataInicio().setText("01/02/2025");
+        view.getFieldDataFim().setText("01/02/2025");
+        view.getComboParcelamento().setSelectedIndex(1);
+        view.getFieldValor().setText("100");
+        view.getFieldDiaVencimento().setText("12");
+        view.getFieldMesVencimento().setText("12");
+        controller.salvar();
+        verify(controller, times(1)).enableDisableComponents(false);
+    }
+
+    @Test
+    public void metodoChecarErrosAoSalvarDeveLançarExceptionSeAlgumCampoEstiverEmBranco() {
         view.getFieldId().setText("2");
         view.getFieldDescricao().setText("Teste");
         view.getFieldCodFornecedor().setText("22");
@@ -442,14 +470,14 @@ public class DespesaRecorrenteControllerTest {
         view.getFieldValor().setText(" ");
         view.getFieldDiaVencimento().setText("12");
         view.getFieldMesVencimento().setText("");
-        
+
         Assertions.assertThrows(FieldsEmBrancoException.class, ()
                 -> controller.checarErrosAoSalvar());
-        
+
     }
-    
+
     @Test
-    public void metodoChecarErrosAoSalvarDeveLançarExceptionSeAlgumComboEstiverEmBranco(){
+    public void metodoChecarErrosAoSalvarDeveLançarExceptionSeAlgumComboEstiverEmBranco() {
         view.getFieldId().setText("2");
         view.getFieldDescricao().setText("Teste");
         view.getFieldCodFornecedor().setText("22");
@@ -462,13 +490,13 @@ public class DespesaRecorrenteControllerTest {
         view.getFieldValor().setText("R$1000,00 ");
         view.getFieldDiaVencimento().setText("10 ");
         view.getFieldMesVencimento().setText("10");
-        
+
         Assertions.assertThrows(FieldsEmBrancoException.class, ()
                 -> controller.checarErrosAoSalvar());
     }
-    
+
     @Test
-    public void metodoChecarErrosAoSalvarDeveLançarExceptionSeParcelamentoForAnualEMesVEncimentoNulo(){
+    public void metodoChecarErrosAoSalvarDeveLançarExceptionSeParcelamentoForAnualEMesVEncimentoNulo() {
         view.getFieldId().setText("2");
         view.getFieldDescricao().setText("Teste");
         view.getFieldCodFornecedor().setText("22");
@@ -481,60 +509,96 @@ public class DespesaRecorrenteControllerTest {
         view.getFieldValor().setText("R$1000,00 ");
         view.getFieldDiaVencimento().setText("12");
         view.getFieldMesVencimento().setText("");
-        
+
         Assertions.assertThrows(FieldsEmBrancoException.class, ()
                 -> controller.checarErrosAoSalvar());
     }
-    
+
     @Test
-    public void metodoDiaVencimentoAoPerderFocoLancaDiaVencimentoExceptionSeDiaForMenorQueZero(){
-    
+    public void metodoDiaVencimentoAoPerderFocoLancaDiaVencimentoExceptionSeDiaForMenorQueZero() {
+
         view.getFieldDiaVencimento().setText("-1");
         Assertions.assertThrows(DiaVencimentoInvalidoException.class, ()
                 -> controller.diaVencimentoAoPerderFoco());
     }
-    
+
     @Test
-    public void metodoDiaVencimentoAoPerderFocoLancaDiaVencimentoExceptionSeDiaForMaiorQueTrinta(){
-    
+    public void metodoDiaVencimentoAoPerderFocoLancaDiaVencimentoExceptionSeDiaForMaiorQueTrinta() {
+
         view.getFieldDiaVencimento().setText("35");
         Assertions.assertThrows(DiaVencimentoInvalidoException.class, ()
                 -> controller.diaVencimentoAoPerderFoco());
     }
-    
+
     @Test
-    public void metodoDiaVencimentoAoPerderFocoLancaDiaVencimentoExceptionSeDiaForMaiorQueVinteOitoEMesDois(){
-    
+    public void metodoDiaVencimentoAoPerderFocoLancaDiaVencimentoExceptionSeDiaForMaiorQueVinteOitoEMesDois() {
+
         view.getFieldDiaVencimento().setText("29");
         view.getFieldMesVencimento().setText("2");
         Assertions.assertThrows(DiaVencimentoInvalidoException.class, ()
                 -> controller.diaVencimentoAoPerderFoco());
     }
-    
-        @Test
-    public void metodoMesVencimentoAoPerderFocoLancaMesVencimentoExceptionSeMesForMenorOuIgualAZero(){
-    
+
+    @Test
+    public void metodoMesVencimentoAoPerderFocoLancaMesVencimentoExceptionSeMesForMenorOuIgualAZero() {
+
         view.getFieldMesVencimento().setText("-1");
         Assertions.assertThrows(MesVencimentoInvalidoException.class, ()
                 -> controller.mesVencimentoAoPerderFoco());
     }
-    
+
     @Test
-    public void metodoMesVencimentoAoPerderFocoLancaMesVencimentoExceptionSeMesForMaiorQueDoze(){
-    
+    public void metodoMesVencimentoAoPerderFocoLancaMesVencimentoExceptionSeMesForMaiorQueDoze() {
+
         view.getFieldMesVencimento().setText("35");
         Assertions.assertThrows(MesVencimentoInvalidoException.class, ()
                 -> controller.mesVencimentoAoPerderFoco());
     }
-    
+
     @Test
-    public void metodoMesVencimentoAoPerderFocoLancaMesVencimentoExceptionSeDiaForMaiorQueVinteOitoEMesDois(){
-    
+    public void metodoMesVencimentoAoPerderFocoLancaMesVencimentoExceptionSeDiaForMaiorQueVinteOitoEMesDois() {
+
         view.getFieldDiaVencimento().setText("29");
         view.getFieldMesVencimento().setText("2");
         Assertions.assertThrows(MesVencimentoInvalidoException.class, ()
                 -> controller.mesVencimentoAoPerderFoco());
     }
-    
+
+    @Test
+    public void metodoPreencherViewDevePegarListaDeMovimentosDoObjetoPassado() {
+        controller.preencherView(d1);
+        assertNotNull(controller.getMovimentos());
+        assertEquals(controller.getMovimentos().get(0), d1.getParcelas().get(0));
+        assertEquals(controller.getMovimentos().get(1), d1.getParcelas().get(1));
+        assertEquals(controller.getMovimentos().size(), 2);
+    }
+
+    @Test
+    public void metodoPreencherViewDeveChamarMetodoPreencherFields() {
+        controller.preencherView(d1);
+        verify(controller, times(1)).preencherFields(any(DespesaRecorrente.class));
+    }
+
+    @Test
+    public void metodoPreencherViewDeveChamarMetodoPreencherTabela() {
+        controller.preencherView(d1);
+        verify(controller, times(1)).preencherTabela(anyList());
+    }
+
+    @Test
+    public void metodoPreencherFieldsDevePreencherTodosOsCampos() {
+        controller.preencherFields(d1);
+        assertEquals(view.getFieldId().getText(), String.valueOf(d1.getId()));
+        assertEquals(view.getFieldDescricao().getText(), d1.getNomeFornecedor());
+        assertEquals(view.getAreaDescricao().getText(), d1.getDescricao());
+        assertEquals(view.getComboCategoria().getModel().getSelectedItem(), d1.getCategoria().getCategoria());
+        assertEquals(view.getComboFormaPagamento().getModel().getSelectedItem(), d1.getFormaPagamentoPadrao().getForma());
+        assertEquals(view.getFieldDataInicio().getText(), ConversorData.paraString(d1.getDataInicio()));
+        assertEquals(view.getFieldDataFim().getText(), ConversorData.paraString(d1.getDataFim()));
+        assertEquals(view.getComboParcelamento().getModel().getSelectedItem(), d1.getPeriocidade().toString());
+        assertEquals(view.getFieldValor().getText(), ConversorMoeda.paraString(d1.getValorTotal()));
+        assertEquals(view.getFieldDiaVencimento().getText(), String.valueOf(d1.getDiaPagamento()));
+
+    }
 
 }

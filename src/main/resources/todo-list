@@ -12,6 +12,5 @@ tiverem sido alterados. Dessa conseguirei melhorar o desempenho do sistema.
 o movimento na lista é o mesmo que foi alterado na linha.
 - No DespesaAvulsaView eu tenho que apos salvar travar a tabela e fazer com que o botão de edição
 da tabela volte ao normal
-- O spinner me DespesaAvulsaView tem que começar no 1 e não no zero, deve tambem impedir que zero
-ou números negativos sejam inseridos.
 - Criar constantes para as mensagens de erro nos formulários de DespesaAvulsaView e DespesaRecorrenteView.
+

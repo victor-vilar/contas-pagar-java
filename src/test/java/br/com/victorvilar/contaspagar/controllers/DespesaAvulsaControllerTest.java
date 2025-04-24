@@ -586,4 +586,21 @@ public class DespesaAvulsaControllerTest {
         assertEquals(view.getComboCategoria().getModel().getSelectedItem(), d1.getCategoria().getCategoria());
 
     }
+
+    @Test
+    public void metodoPreencherFieldsDevePreencherTodosOsCamposQuandoPossuiNotaFiscal() {
+        NotaFiscal nota = new NotaFiscal();
+        nota.setDataEmissao(LocalDate.now());
+        nota.setNumero("123");
+        d1.setNotaFiscal(nota);
+        controller.preencherFields(d1);
+        assertEquals(view.getFieldId().getText(), String.valueOf(d1.getId()));
+        assertEquals(view.getFieldDescricao().getText(), d1.getNomeFornecedor());
+        assertEquals(view.getAreaDescricao().getText(), d1.getDescricao());
+        assertEquals(view.getComboCategoria().getModel().getSelectedItem(), d1.getCategoria().getCategoria());
+
+        assertEquals(view.getFieldNota().getText(), d1.getNotaFiscal().getNumero());
+        assertEquals(view.getFieldNotaEmissao().getText(), ConversorData.paraString(d1.getNotaFiscal().getDataEmissao()));
+
+    }
 }
