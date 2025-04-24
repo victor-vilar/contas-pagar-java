@@ -729,9 +729,9 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
     private void btnLockTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLockTableActionPerformed
 
         if (!tableParcelas.isEnabled()) {
-            controller.travarDestravarTabelaParcelas(true);
+            controller.ativarDesativarTabelaParcelas(true);
         } else {
-            controller.travarDestravarTabelaParcelas(false);
+            controller.ativarDesativarTabelaParcelas(false);
         }
     }//GEN-LAST:event_btnLockTableActionPerformed
 
