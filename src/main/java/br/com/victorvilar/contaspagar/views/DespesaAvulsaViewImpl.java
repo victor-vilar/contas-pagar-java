@@ -5,7 +5,6 @@
 package br.com.victorvilar.contaspagar.views;
 
 import br.com.victorvilar.contaspagar.controllers.DespesaAvulsaController;
-import br.com.victorvilar.contaspagar.controllers.DespesaAbstractController;
 import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
 import br.com.victorvilar.contaspagar.util.ConversorData;
 import br.com.victorvilar.contaspagar.util.ConversorMoeda;
@@ -31,6 +30,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import br.com.victorvilar.contaspagar.views.interfaces.DespesaAvulsaView;
+import javax.swing.JButton;
 
 @Component
 @Lazy
@@ -160,6 +160,11 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
     @Override
     public JTextField getFieldNotaEmissao() {
         return fieldNotaEmissao;
+    }
+    
+    @Override
+    public JButton getBtnLockTable(){
+        return btnLockTable;
     }
 
     public void configureComponentes() {
@@ -724,13 +729,9 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
     private void btnLockTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLockTableActionPerformed
 
         if (!tableParcelas.isEnabled()) {
-            tableParcelas.setEnabled(true);
-            btnLockTable.setIcon(new ImageIcon(getClass().getResource("/img/icon-unlock.png")));
-
+            controller.travarDestravarTabelaParcelas(true);
         } else {
-            tableParcelas.setEnabled(false);
-            btnLockTable.setIcon(new ImageIcon(getClass().getResource("/img/icon-lock.png")));
-
+            controller.travarDestravarTabelaParcelas(false);
         }
     }//GEN-LAST:event_btnLockTableActionPerformed
 

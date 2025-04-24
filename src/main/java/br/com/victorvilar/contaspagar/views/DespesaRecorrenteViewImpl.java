@@ -32,6 +32,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import br.com.victorvilar.contaspagar.views.interfaces.DespesaRecorrenteView;
+import javax.swing.JButton;
 
 @Component
 @Lazy
@@ -169,6 +170,11 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
     public JTable getTableParcelas() {
         return tableParcelas;
     }
+
+    @Override
+    public JButton getBtnLockTable() {
+        return btnLockTable;
+    }
     
     @Override
     public JTextField getFieldDiaVencimento(){
@@ -189,6 +195,7 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
     public JTextField getFieldDataFim(){
         return fieldDataFim;
     }
+    
     
 
     public void configureComponentes() {
@@ -878,14 +885,10 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
 
     private void btnLockTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLockTableActionPerformed
 
-        if (!tableParcelas.isEnabled()) {
-            tableParcelas.setEnabled(true);
-            btnLockTable.setIcon(new ImageIcon(getClass().getResource("/img/icon-unlock.png")));
-
+       if (!tableParcelas.isEnabled()) {
+            controller.travarDestravarTabelaParcelas(true);
         } else {
-            tableParcelas.setEnabled(false);
-            btnLockTable.setIcon(new ImageIcon(getClass().getResource("/img/icon-lock.png")));
-
+            controller.travarDestravarTabelaParcelas(false);
         }
     }//GEN-LAST:event_btnLockTableActionPerformed
 
