@@ -151,6 +151,10 @@ public abstract class DespesaAbstrata implements Despesa {
         if (this == obj) {
             return true;
         }
+
+        if (id == null) {
+            return false;
+        }
         if (obj == null) {
             return false;
         }

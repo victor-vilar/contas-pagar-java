@@ -4,7 +4,7 @@
  */
 package br.com.victorvilar.contaspagar.controllers;
 
-import br.com.victorvilar.contaspagar.entities.Despesa;
+import br.com.victorvilar.contaspagar.entities.interfaces.Despesa;
 import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
 import br.com.victorvilar.contaspagar.entities.DespesaAvulsa;
 import br.com.victorvilar.contaspagar.entities.NotaFiscal;

@@ -12,42 +12,40 @@ import jakarta.persistence.Table;
 import java.util.Objects;
 
 @Entity
-@Table(name="categorias_despesas")
-public class CategoriaDespesa implements Serializable, SimpleEntity{
+@Table(name = "categorias_despesas")
+public class CategoriaDespesa implements Serializable, SimpleEntity {
 
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
-	@Column(unique=true, nullable = false)
-	private String categoria;
-	
-	public CategoriaDespesa() {
-		
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(unique = true, nullable = false)
+    private String categoria;
 
-	@Override
-	public Long getId() {
-		return id;
-	}
+    public CategoriaDespesa() {
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
+    }
 
-	public String getCategoria() {
-		return categoria;
-	}
+    @Override
+    public Long getId() {
+        return id;
+    }
 
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
-	}
-	
-	@Override
-	public String getName() {
-		return this.categoria;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    @Override
+    public String getName() {
+        return this.categoria;
+    }
 
     @Override
     public int hashCode() {
@@ -64,6 +62,11 @@ public class CategoriaDespesa implements Serializable, SimpleEntity{
         if (obj == null) {
             return false;
         }
+
+        if (id == null) {
+            return false;
+        }
+
         if (getClass() != obj.getClass()) {
             return false;
         }
@@ -73,7 +76,5 @@ public class CategoriaDespesa implements Serializable, SimpleEntity{
         }
         return Objects.equals(this.id, other.id);
     }
-	
-	
 
 }

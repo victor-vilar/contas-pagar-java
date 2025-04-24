@@ -62,6 +62,10 @@ public class FormaPagamento implements Serializable, SimpleEntity {
         if (obj == null) {
             return false;
         }
+
+        if (id == null) {
+            return false;
+        }
         if (getClass() != obj.getClass()) {
             return false;
         }
