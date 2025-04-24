@@ -36,7 +36,7 @@ public abstract class DespesaAbstrata implements Despesa{
 	private boolean quitado = false;
 	private BigDecimal valorTotal;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="despesa")
+	@OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy="despesa")
         @OrderBy("id ASC")
 	private List<MovimentoPagamento> movimentos = new ArrayList<>();
 	
