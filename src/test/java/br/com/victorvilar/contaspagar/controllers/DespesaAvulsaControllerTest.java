@@ -62,7 +62,6 @@ public class DespesaAvulsaControllerTest {
     public MovimentoPagamentoService movimentoService;
 
     @Mock
-    @Spy
     public DespesaService despesaService;
 
     public DespesaAvulsaViewImpl view;
@@ -96,7 +95,7 @@ public class DespesaAvulsaControllerTest {
 
         view = new DespesaAvulsaViewImpl(controller, null);
         view.configurarComponent();
-        controller.inicializarComboBox();
+        
 
     }
     
@@ -487,5 +486,65 @@ public class DespesaAvulsaControllerTest {
                 -> controller.checarErrosAoSalvar());
     }
 
+    @Test
+    public void metodoSalvarDeveChamarMetodoChecarErros(){
+        
+        view.getFieldId().setText("");
+        view.getFieldDescricao().setText("Teste");
+        view.getAreaDescricao().setText("teste");
+        view.getComboCategoria().setSelectedIndex(0);
+        view.getComboFormaPagamento().setSelectedIndex(0);
+        view.getFieldNotaEmissao().setText("01/02/2025");
+        view.getFieldNota().setText("1421");
+        view.getComboParcelamento().setSelectedIndex(1);
+        view.getFieldValor().setText("120");
+        controller.salvar();
+        verify(controller,times(1)).checarErrosAoSalvar();
+        
+    }
     
+    @Test
+    public void metodoSalvarChamaMetodoSaveDoService(){
+        view.getFieldId().setText("");
+        view.getFieldDescricao().setText("Teste");
+        view.getAreaDescricao().setText("teste");
+        view.getComboCategoria().setSelectedIndex(0);
+        view.getComboFormaPagamento().setSelectedIndex(0);
+        view.getFieldNotaEmissao().setText("01/02/2025");
+        view.getFieldNota().setText("1421");
+        view.getComboParcelamento().setSelectedIndex(1);
+        view.getFieldValor().setText("120");
+        controller.salvar();
+        verify(despesaService,times(1)).save(any(DespesaAvulsa.class));
+    }
+    
+    @Test
+    public void metodoSalvarChamaMetodoLimparCampos(){
+        view.getFieldId().setText("");
+        view.getFieldDescricao().setText("Teste");
+        view.getAreaDescricao().setText("teste");
+        view.getComboCategoria().setSelectedIndex(0);
+        view.getComboFormaPagamento().setSelectedIndex(0);
+        view.getFieldNotaEmissao().setText("01/02/2025");
+        view.getFieldNota().setText("1421");
+        view.getComboParcelamento().setSelectedIndex(1);
+        view.getFieldValor().setText("120");
+        controller.salvar();
+        verify(controller,times(1)).limparCampos();
+    }
+    
+    @Test
+    public void metodoSalvarChamaMetodoEnableComponentsComFalse(){
+        view.getFieldId().setText("");
+        view.getFieldDescricao().setText("Teste");
+        view.getAreaDescricao().setText("teste");
+        view.getComboCategoria().setSelectedIndex(0);
+        view.getComboFormaPagamento().setSelectedIndex(0);
+        view.getFieldNotaEmissao().setText("01/02/2025");
+        view.getFieldNota().setText("1421");
+        view.getComboParcelamento().setSelectedIndex(1);
+        view.getFieldValor().setText("120");
+        controller.salvar();
+        verify(controller,times(1)).enableDisableComponents(false);
+    }
 }

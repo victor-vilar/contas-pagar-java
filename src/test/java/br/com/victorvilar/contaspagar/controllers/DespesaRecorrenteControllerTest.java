@@ -6,6 +6,7 @@ package br.com.victorvilar.contaspagar.controllers;
 
 import br.com.victorvilar.contaspagar.controllers.DespesaRecorrenteController;
 import br.com.victorvilar.contaspagar.entities.CategoriaDespesa;
+import br.com.victorvilar.contaspagar.entities.DespesaAvulsa;
 import br.com.victorvilar.contaspagar.entities.DespesaRecorrente;
 import br.com.victorvilar.contaspagar.entities.FormaPagamento;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
@@ -96,7 +97,7 @@ public class DespesaRecorrenteControllerTest {
 
         view = new DespesaRecorrenteViewImpl(controller, null);
         view.configurarComponent();
-        controller.inicializarComboBox();
+        
 
     }
 
@@ -353,7 +354,79 @@ public class DespesaRecorrenteControllerTest {
         assertEquals((String) view.getComboFormaPagamento().getSelectedItem(), "Teste");
     }
 
-
+    @Test
+    public void metodoSalvarDeveChamarMetodoChecarErrosAoSalvar(){
+        view.getFieldId().setText("2");
+        view.getFieldDescricao().setText("Teste");
+        view.getFieldCodFornecedor().setText("22");
+        view.getAreaDescricao().setText("teste");
+        view.getComboCategoria().setSelectedIndex(0);
+        view.getComboFormaPagamento().setSelectedIndex(0);
+        view.getFieldDataInicio().setText("01/02/2025");
+        view.getFieldDataFim().setText("01/02/2025");
+        view.getComboParcelamento().setSelectedIndex(1);
+        view.getFieldValor().setText("100");
+        view.getFieldDiaVencimento().setText("12");
+        view.getFieldMesVencimento().setText("12");
+        controller.salvar();
+        verify(controller,times(1)).checarErrosAoSalvar();
+    }
+        @Test
+    public void metodoSalvarChamaMetodoSaveDoService(){
+        view.getFieldId().setText("2");
+        view.getFieldDescricao().setText("Teste");
+        view.getFieldCodFornecedor().setText("22");
+        view.getAreaDescricao().setText("teste");
+        view.getComboCategoria().setSelectedIndex(0);
+        view.getComboFormaPagamento().setSelectedIndex(0);
+        view.getFieldDataInicio().setText("01/02/2025");
+        view.getFieldDataFim().setText("01/02/2025");
+        view.getComboParcelamento().setSelectedIndex(1);
+        view.getFieldValor().setText("100");
+        view.getFieldDiaVencimento().setText("12");
+        view.getFieldMesVencimento().setText("12");
+        controller.salvar();
+        verify(despesaService,times(1)).save(any(DespesaRecorrente.class));
+    }
+    
+    @Test
+    public void metodoSalvarChamaMetodoLimparCampos(){
+        view.getFieldId().setText("2");
+        view.getFieldDescricao().setText("Teste");
+        view.getFieldCodFornecedor().setText("22");
+        view.getAreaDescricao().setText("teste");
+        view.getComboCategoria().setSelectedIndex(0);
+        view.getComboFormaPagamento().setSelectedIndex(0);
+        view.getFieldDataInicio().setText("01/02/2025");
+        view.getFieldDataFim().setText("01/02/2025");
+        view.getComboParcelamento().setSelectedIndex(1);
+        view.getFieldValor().setText("100");
+        view.getFieldDiaVencimento().setText("12");
+        view.getFieldMesVencimento().setText("12");
+        controller.salvar();
+        verify(controller,times(1)).limparCampos();
+    }
+    
+    @Test
+    public void metodoSalvarChamaMetodoEnableComponentsComFalse(){
+        view.getFieldId().setText("2");
+        view.getFieldDescricao().setText("Teste");
+        view.getFieldCodFornecedor().setText("22");
+        view.getAreaDescricao().setText("teste");
+        view.getComboCategoria().setSelectedIndex(0);
+        view.getComboFormaPagamento().setSelectedIndex(0);
+        view.getFieldDataInicio().setText("01/02/2025");
+        view.getFieldDataFim().setText("01/02/2025");
+        view.getComboParcelamento().setSelectedIndex(1);
+        view.getFieldValor().setText("100");
+        view.getFieldDiaVencimento().setText("12");
+        view.getFieldMesVencimento().setText("12");
+        controller.salvar();
+        verify(controller,times(1)).enableDisableComponents(false);
+    }
+    
+    
+    
     
     @Test
     public void metodoChecarErrosAoSalvarDeveLançarExceptionSeAlgumCampoEstiverEmBranco(){
