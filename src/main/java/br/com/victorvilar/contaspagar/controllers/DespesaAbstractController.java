@@ -20,6 +20,7 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -314,6 +315,17 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
         view.getComboFormaPagamento().getModel().setSelectedItem(valor);
     }
     
+    public void travarDestravarTabelaParcelas(boolean ativar){
+        
+        view.getTableParcelas().setEnabled(ativar);
+        
+        if(ativar){
+            view.getBtnLockTable().setIcon(new ImageIcon(getClass().getResource("/img/icon-unlock.png")));
+        }else{
+            view.getBtnLockTable().setIcon(new ImageIcon(getClass().getResource("/img/icon-lock.png")));
+        }
+        
+    }
     
     public abstract void preencherView(DespesaAbstrata despesa);
 }
