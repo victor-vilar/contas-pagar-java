@@ -6,6 +6,7 @@ package br.com.victorvilar.contaspagar.views.interfaces;
 
 import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
 import java.util.List;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -39,4 +40,5 @@ public interface DespesaView {
   
    public JTable getTableParcelas();
    public void preencherView(DespesaAbstrata despesa);
+   public JButton getBtnLockTable();
 }
