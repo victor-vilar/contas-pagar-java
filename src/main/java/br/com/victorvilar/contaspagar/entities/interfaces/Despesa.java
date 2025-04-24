@@ -1,5 +1,6 @@
-package br.com.victorvilar.contaspagar.entities;
+package br.com.victorvilar.contaspagar.entities.interfaces;
 
+import br.com.victorvilar.contaspagar.entities.CategoriaDespesa;
 import java.math.BigDecimal;
 
 public interface Despesa {

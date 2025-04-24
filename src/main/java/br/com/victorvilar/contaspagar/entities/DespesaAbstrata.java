@@ -1,5 +1,6 @@
 package br.com.victorvilar.contaspagar.entities;
 
+import br.com.victorvilar.contaspagar.entities.interfaces.Despesa;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,120 +20,145 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
-
+import java.util.Objects;
 
 @Entity
-@Table(name="despesa")
+@Table(name = "despesa")
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class DespesaAbstrata implements Despesa{
+public abstract class DespesaAbstrata implements Despesa {
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
-	@Column(nullable=false)
-	private String nomeFornecedor;
-	@Column(nullable=false)
-	private String descricao;
-	private boolean quitado = false;
-	private BigDecimal valorTotal;
-	
-	@OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy="despesa")
-        @OrderBy("id ASC")
-	private List<MovimentoPagamento> movimentos = new ArrayList<>();
-	
-	@ManyToOne
-	@JoinColumn(name = "categoria_id", foreignKey = @ForeignKey(name="categoria_fk",foreignKeyDefinition="FOREIGN KEY (categoria_id) REFERENCES categorias_despesas(id) ON DELETE SET NULL"))
-	private CategoriaDespesa categoria;
-	
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(nullable = false)
+    private String nomeFornecedor;
+    @Column(nullable = false)
+    private String descricao;
+    private boolean quitado = false;
+    private BigDecimal valorTotal;
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "despesa")
+    @OrderBy("id ASC")
+    private List<MovimentoPagamento> movimentos = new ArrayList<>();
 
-	public Long getId() {
-		return id;
-	}
-	
-	@Override
-	public CategoriaDespesa getCategoria() {
-		return this.categoria;
-	}
-	
-	
-	@Override
-	public String getNomeFornecedor() {
-		return nomeFornecedor;
-	}
-	
-	@Override
-	public String getDescricao() {
-		return this.descricao;
-	}
-	
-	@Override
-	public boolean isQuitado() {
-		return this.quitado;
-	}
-	
+    @ManyToOne
+    @JoinColumn(name = "categoria_id", foreignKey = @ForeignKey(name = "categoria_fk", foreignKeyDefinition = "FOREIGN KEY (categoria_id) REFERENCES categorias_despesas(id) ON DELETE SET NULL"))
+    private CategoriaDespesa categoria;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setNomeFornecedor(String nomeFornecedor) {
-		this.nomeFornecedor = nomeFornecedor;
-	}
+    @Override
+    public CategoriaDespesa getCategoria() {
+        return this.categoria;
+    }
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
+    @Override
+    public String getNomeFornecedor() {
+        return nomeFornecedor;
+    }
 
-	public void setQuitado(boolean quitado) {
-		this.quitado = quitado;
-	}
+    @Override
+    public String getDescricao() {
+        return this.descricao;
+    }
 
-	public void setValorTotal(BigDecimal valorTotal) {
-		this.valorTotal = valorTotal;
-	}
+    @Override
+    public boolean isQuitado() {
+        return this.quitado;
+    }
 
-	public void setCategoria(CategoriaDespesa categoria) {
-		this.categoria = categoria;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setParcelas(List<MovimentoPagamento> movimentos) {
-             this.movimentos.clear();
-             movimentos.stream().forEach(m ->addParcela(m));
-            
-	}
-        
-        public List<MovimentoPagamento> getParcelas(){
-            return this.movimentos;
+    public void setNomeFornecedor(String nomeFornecedor) {
+        this.nomeFornecedor = nomeFornecedor;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public void setQuitado(boolean quitado) {
+        this.quitado = quitado;
+    }
+
+    public void setValorTotal(BigDecimal valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
+    public void setCategoria(CategoriaDespesa categoria) {
+        this.categoria = categoria;
+    }
+
+    public void setParcelas(List<MovimentoPagamento> movimentos) {
+        this.movimentos.clear();
+        movimentos.stream().forEach(m -> addParcela(m));
+
+    }
+
+    public List<MovimentoPagamento> getParcelas() {
+        return this.movimentos;
+    }
+
+    public void addParcela(MovimentoPagamento parcela) {
+
+        if (!this.movimentos.contains(parcela)) {
+            movimentos.add(parcela);
+            parcela.setDespesa(this);
         }
-	
-	public void addParcela(MovimentoPagamento parcela) {
-		
-		if(!this.movimentos.contains(parcela)) {
-			movimentos.add(parcela);
-                        parcela.setDespesa(this);
-		}
-                
-                getValorTotal();
-	}
-	
-	public int getQuantidadeParcelas() {
-		return this.movimentos.size();
-	}
-	
-	@Override
-	public BigDecimal getValorTotal() {
-		BigDecimal total = BigDecimal.ZERO;
-		for(MovimentoPagamento p : movimentos) {
-		 total = total.add(p.getValorPagamento());
-		}
-		this.valorTotal = total;
-		return total;
-	}
-	
 
+        getValorTotal();
+    }
 
-	
-	
-	
-	
+    public void removerParcela(MovimentoPagamento parcela) {
+        if (this.movimentos.contains(parcela)) {
+            movimentos.remove(parcela);
+            parcela.setDespesa(null);
+        }
+
+        getValorTotal();
+    }
+
+    public void removerParcela(List<MovimentoPagamento> parcelas) {
+        parcelas.stream().forEach(p -> removerParcela(p));
+    }
+
+    public int getQuantidadeParcelas() {
+        return this.movimentos.size();
+    }
+
+    @Override
+    public BigDecimal getValorTotal() {
+        BigDecimal total = BigDecimal.ZERO;
+        for (MovimentoPagamento p : movimentos) {
+            total = total.add(p.getValorPagamento());
+        }
+        this.valorTotal = total;
+        return total;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 23 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final DespesaAbstrata other = (DespesaAbstrata) obj;
+        return Objects.equals(this.id, other.id);
+    }
+
 }
