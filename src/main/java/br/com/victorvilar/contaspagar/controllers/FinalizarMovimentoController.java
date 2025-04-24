@@ -5,7 +5,9 @@
 package br.com.victorvilar.contaspagar.controllers;
 
 import br.com.victorvilar.contaspagar.controllers.interfaces.AppViewController;
+import br.com.victorvilar.contaspagar.entities.FormaPagamento;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
+import br.com.victorvilar.contaspagar.services.interfaces.FormaPagamentoService;
 import br.com.victorvilar.contaspagar.services.interfaces.MovimentoPagamentoService;
 import br.com.victorvilar.contaspagar.util.ConversorData;
 import br.com.victorvilar.contaspagar.util.ConversorMoeda;
@@ -27,10 +29,12 @@ public class FinalizarMovimentoController implements AppViewController<Finalizar
     private FinalizarMovimentoPagamentoView view;
     private final MovimentoPagamentoService service;
     private MovimentoPagamento movimento;
+    private FormaPagamentoService formaPagamentoService;
     
     @Autowired
-    public FinalizarMovimentoController(MovimentoPagamentoService service){
+    public FinalizarMovimentoController(MovimentoPagamentoService service, FormaPagamentoService formaPagamentoService){
         this.service = service;
+        this.formaPagamentoService = formaPagamentoService;
     }
     
     @Override
@@ -39,12 +43,15 @@ public class FinalizarMovimentoController implements AppViewController<Finalizar
     }
 
     public void salvar() {
+        
         LocalDate dataPagamento = ConversorData.paraData(view.getFieldDataPagamento().getText());
         BigDecimal valorPago = ConversorMoeda.paraBigDecimal(view.getFieldValorPago().getText());
+        FormaPagamento forma = formaPagamentoService.getByForma(view.getComboFormaPagamento().getSelectedItem().toString());
         String observacao = view.getFieldObservacao().getText();
         
         movimento.setDataPagamento(dataPagamento);
         movimento.setValorPago(valorPago);
+        movimento.setFormaPagamento(forma);
         movimento.setObservacao(observacao);
         this.service.save(movimento);
     }
@@ -66,6 +73,7 @@ public class FinalizarMovimentoController implements AppViewController<Finalizar
         
         view.getFieldDataPagamento().setText(ConversorData.paraString(pagamento.getDataPagamento()));
         view.getFieldValorPago().setText(ConversorMoeda.paraString(pagamento.getValorPago()));
+        view.getComboFormaPagamento().getModel().setSelectedItem(pagamento.getFormaPagamento().getForma());
         view.getFieldObservacao().setText(pagamento.getObservacao());
         
 
@@ -94,5 +102,12 @@ public class FinalizarMovimentoController implements AppViewController<Finalizar
     
     public MovimentoPagamento getMovimento(){
         return this.movimento;
+    }
+    
+    public void inicializarComboBox(){
+        
+        formaPagamentoService.getTodos()
+                .stream()
+                .forEach(f -> view.getComboFormaPagamento().addItem(f.getForma()));
     }
 }
