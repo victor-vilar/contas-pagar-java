@@ -660,6 +660,9 @@
           <Properties>
             <Property name="enabled" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="spinnerQuantidadeParcelas" noResource="true"/>
+            <Property name="value" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="1" type="code"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel11">

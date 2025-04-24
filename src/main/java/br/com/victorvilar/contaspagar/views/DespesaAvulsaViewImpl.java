@@ -574,6 +574,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
 
         spinnerQuantidadeParcelas.setEnabled(false);
         spinnerQuantidadeParcelas.setName("spinnerQuantidadeParcelas"); // NOI18N
+        spinnerQuantidadeParcelas.setValue(1);
 
         jLabel11.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel11.setText("Nº Parcelas");
