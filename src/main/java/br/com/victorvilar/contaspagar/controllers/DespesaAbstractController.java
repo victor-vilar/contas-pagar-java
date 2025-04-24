@@ -82,9 +82,10 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
             
     
     @Override
-    public void novo() {
+    public void novo() {        
         enableDisableComponents(true);
         limparCampos();
+        
 
     }
 
@@ -109,6 +110,7 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
         view.getComboBoxes().stream().forEach(c -> c.setSelectedIndex(-1));
         limparTabela();
         movimentos.clear();
+        ativarDesativarTabelaParcelas(false);
     }
 
 
@@ -291,6 +293,12 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
         }
     }
     
+    /**
+     * Atualiza o valor da combobox de acordo com o que foi
+     * selecionado em seus respectivos formulários de cadastro. 
+     * @param valor = Valor que deve ser colocado na combobox.
+     * @param tipo = Nome do formulario que representa o objeto que será manipulado
+     */
     public void aoSusbscrever(String valor, String tipo) {
 
         switch (tipo) {
@@ -303,19 +311,37 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
         }
     }
 
+    /**
+     * Recebe o valor vindo do formulário {@link CategoriaDespesaView}, então
+     * limpa a combobox, busca novos valores adicionados no banco de dados, e
+     * seleciona o mesmo valor na combobox que foi passado pelo formulário.
+     * 
+     * @param valor = Nome do CategoriaDespesa selecionada
+     */
     public void subscriptionCategoriaDespesa(String valor) {
         view.getComboCategoria().removeAllItems();
         inicializarComboCategoria();
         view.getComboCategoria().getModel().setSelectedItem(valor);
     }
 
+        /**
+     * Recebe o valor vindo do formulário {@link FormaPagamentoView}, então
+     * limpa a combobox, busca novos valores adicionados no banco de dados, e
+     * seleciona o mesmo valor na combobox que foi passado pelo formulário.
+     * 
+     * @param valor = Nome da FormaPagamento selecionada
+     */
     public void subscriptionFormaPagamento(String valor) {
         view.getComboFormaPagamento().removeAllItems();
         inicializarComboFormaPagamento();
         view.getComboFormaPagamento().getModel().setSelectedItem(valor);
     }
     
-    public void travarDestravarTabelaParcelas(boolean ativar){
+    /**
+     * Metodo utilizado para ativar ou desativar a tabela de parcelas na view.
+     * @param ativar true para ativar , 'false' para desativar
+     */
+    public void ativarDesativarTabelaParcelas(boolean ativar){
         
         view.getTableParcelas().setEnabled(ativar);
         
@@ -327,5 +353,10 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
         
     }
     
+    /** 
+     * Preenche os campos da view com os valores das despeas passadas, cada
+     * objeto e subclasse de DespesaAbstractController possuem diferentes 
+     * quantidades de campos, então suas subclasses devem implementar esse metodo.
+     */
     public abstract void preencherView(DespesaAbstrata despesa);
 }
