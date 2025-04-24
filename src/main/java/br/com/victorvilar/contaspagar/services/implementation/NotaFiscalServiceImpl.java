@@ -38,7 +38,7 @@ public class NotaFiscalServiceImpl implements NotaFiscalService{
 	}
 
 	@Override
-	public NotaFiscal saveAll(List<NotaFiscal> objs) {
+	public List<NotaFiscal> saveAll(List<NotaFiscal> objs) {
 		// TODO Auto-generated method stub
 		return null;
 	}

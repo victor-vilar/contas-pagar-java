@@ -60,7 +60,7 @@ public class CategoriaDespesaServiceImpl implements CategoriaDespesaService {
     }
 
     @Override
-    public CategoriaDespesa saveAll(List<CategoriaDespesa> objs) {
+    public List<CategoriaDespesa> saveAll(List<CategoriaDespesa> objs) {
         // TODO Auto-generated method stub
         return null;
     }

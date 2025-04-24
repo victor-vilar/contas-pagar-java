@@ -5,12 +5,20 @@
 - Adicionar alguma maneira de adicionar mais parcelas as Despesas Avulsas sem eliminar as que já existem;
 - Corrigir nome das tabelas que estão sendo criadas no banco de dados;
 - Adicionar anotação @Transactional (?) nos metodos que realizam operações com o banco de dados;
+- No metodo de atualizar os movimentos na tabela, eu devo criar um metodo melhor de comparar se
+o movimento na lista é o mesmo que foi alterado na linha.
+- Criar constantes para as mensagens de erro nos formulários de DespesaAvulsaView e DespesaRecorrenteView.
+
+
+
 - As vezes posso realizar alguma alteração em uma despesa, mas não realizar alterações nas parcelas
 tenho que adicionar uma condicional para atualizar as parcelas somente se em algum momento eles 
 tiverem sido alterados. Dessa conseguirei melhorar o desempenho do sistema.
-- No metodo de atualizar os movimentos na tabela, eu devo criar um metodo melhor de comparar se
-o movimento na lista é o mesmo que foi alterado na linha.
-- No DespesaAvulsaView eu tenho que apos salvar travar a tabela e fazer com que o botão de edição
-da tabela volte ao normal
-- Criar constantes para as mensagens de erro nos formulários de DespesaAvulsaView e DespesaRecorrenteView.
+- Alterar o cascade do movimentoPagamento para somente DELETE e atualizar o metodo de salvar as despesas,
+para que assim que salvar a despesa eu precise chamar o metodo de salvar os movimentos. Dessa forma acredito que
+sera mais facil controlar as depespesas que precisam ser atualizadas para evitar de tentar atualizar todos os itens
+que não precisam.
+- Implementar no salvar de cada formulário de despesa metodo para deletar os movimentos que estão na lista
+de MovimentoPagmaentoService.
+
 

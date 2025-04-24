@@ -63,7 +63,7 @@ public class FormaPagamentoServiceImpl implements FormaPagamentoService {
     }
 
     @Override
-    public FormaPagamento saveAll(List<FormaPagamento> objs) {
+    public List<FormaPagamento> saveAll(List<FormaPagamento> objs) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Not yet implemented");
     }

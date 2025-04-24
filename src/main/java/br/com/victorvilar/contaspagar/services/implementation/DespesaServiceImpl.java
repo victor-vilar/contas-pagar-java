@@ -49,7 +49,7 @@ public class DespesaServiceImpl implements DespesaService {
     }
 
     @Override
-    public DespesaAbstrata saveAll(List<DespesaAbstrata> objs) {
+    public List<DespesaAbstrata> saveAll(List<DespesaAbstrata> objs) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -81,9 +81,10 @@ public class DespesaServiceImpl implements DespesaService {
             updateDespesaRecorrente((DespesaRecorrente) obj, (DespesaRecorrente) despesa);
         }
         
+        
         despesa = repository.save(despesa); 
         
-        movimentoService.update(obj.getParcelas());
+        
         
         return despesa;
     }
