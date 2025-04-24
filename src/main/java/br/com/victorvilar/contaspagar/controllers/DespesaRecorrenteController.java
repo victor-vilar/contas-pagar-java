@@ -39,12 +39,9 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
     
     @Override
     public void salvar() {
+        checarErrosAoSalvar();
         DespesaRecorrente despesa = new DespesaRecorrente();
 
-        checarErrosAoSalvar();
-       
-        
-        
         String id = view.getFieldId().getText();
 
         if (!id.equals("")) {
@@ -82,6 +79,7 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
         
         service.save(despesa);
         limparCampos();
+        travarDestravarTabelaParcelas(false);
         
 
     }
