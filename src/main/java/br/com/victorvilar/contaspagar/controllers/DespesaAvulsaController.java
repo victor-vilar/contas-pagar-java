@@ -40,6 +40,7 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
 
     @Override
     public void salvar() {
+        checarErrosAoSalvar();
         DespesaAvulsa despesa = new DespesaAvulsa();
 
         String numeroNota = view.getFieldNota().getText().trim();
@@ -65,6 +66,7 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
 
         this.service.save(despesa);
         limparCampos();
+        travarDestravarTabelaParcelas(false);
 
     }
 
@@ -106,10 +108,11 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
         List<String> exclude = List.of(
                 "fieldCodFornecedor",
                 "fieldId",
+                "comboFormaPagamento",
                 "comboFormaPagamentoTabela",
                 "comboParcelamento",
-                "fieldNotaFiscal",
-                "fieldNotaFiscalEmissao",
+                "fieldNota",
+                "fieldNotaEmissao",
                 "fieldValor",
                 "fieldVencimento");
 
@@ -127,6 +130,7 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
                 .filter(c -> c.getText().trim().isEmpty() && !exclude.contains(c.getName())).findFirst();
 
         if (fields.isPresent()) {
+            System.out.println(fields.get().getName());
             throw new FieldsEmBrancoException("Todos os campos devem ser preenchidos.");
         }
     }
@@ -138,6 +142,7 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
                 .filter(c -> c.getSelectedIndex() == -1 && !exclude.contains(c.getName())).findFirst();
 
         if (combos.isPresent()) {
+            System.out.println(combos.get().getName());
             throw new FieldsEmBrancoException("Todos os campos devem ser preenchidos.");
         }
     }
