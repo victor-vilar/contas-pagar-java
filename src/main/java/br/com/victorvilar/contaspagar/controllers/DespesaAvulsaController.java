@@ -66,7 +66,7 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
 
         this.service.save(despesa);
         limparCampos();
-        travarDestravarTabelaParcelas(false);
+        enableDisableComponents(false);
 
     }
 

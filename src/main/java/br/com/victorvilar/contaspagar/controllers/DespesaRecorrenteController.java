@@ -79,7 +79,8 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
         
         service.save(despesa);
         limparCampos();
-        travarDestravarTabelaParcelas(false);
+        enableDisableComponents(false);
+        
         
 
     }
