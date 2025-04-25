@@ -18,6 +18,8 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +33,7 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
     private final MovimentoPagamentoRepository repository;
     private final FormaPagamentoService formaPagamentoService;
     private List<MovimentoPagamento> movimentosDeletados = new ArrayList<>();
+    private List<MovimentoPagamento> movimentosAtualizados = new ArrayList<>();
     
 
     @Autowired
@@ -39,8 +42,17 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
         this.formaPagamentoService = formaPagamentoService;
     }
     
+    public void clearList(){
+        movimentosDeletados.clear();
+        movimentosAtualizados.clear();
+    }
+    
     public List<MovimentoPagamento> getMovimentosDeletados() {
         return movimentosDeletados;
+    }
+    
+    public List<MovimentoPagamento> getMovimentosAtualizados(){
+        return movimentosAtualizados;
     }
 
     public List<MovimentoPagamento> gerarMovimentos(String parcelamento, int qtdParcelas, String dataInicial, String valor, FormaPagamento formaPagamento)
@@ -127,6 +139,7 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
         //Atualiza observaçao
         mp.setObservacao((String)model.getValueAt(linha, 6));
         
+        movimentosAtualizados.add(mp);
 
     }
 
@@ -175,8 +188,8 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
     }
 
     @Override
-    public MovimentoPagamento saveAll(List<MovimentoPagamento> objs) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<MovimentoPagamento> saveAll(List<MovimentoPagamento> objs) {
+        return repository.saveAll(objs);
     }
 
     @Override
@@ -196,16 +209,48 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
     public List<MovimentoPagamento> update(List<MovimentoPagamento> movimentos) {
         return movimentos.stream().map(m -> update(m)).toList();
     }
+
+    @Override
+    public List<MovimentoPagamento> getAllByDespesaId(Long id) {
+        return repository.getAllByDespesaId(id);
+    }
     
+    
+    
+    /**
+     * Atualiza o banco de dados de acordo com as alterações realizadas nos movimentos.
+     * Se houve movimentos deletados, eles serão removidos do banco.
+     * Se houve movimentos atualizados, eles serão atualizados no banco.
+     */
+    @Transactional
+    public void update(){
+        
+        if(!movimentosDeletados.isEmpty()){
+           deleteAll(movimentosDeletados);
+        }
+        
+        if(!movimentosAtualizados.isEmpty()){
+           update(movimentosAtualizados); 
+        }
+
+       clearList();
+        
+    }
 
     @Override
     public void deleteById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        this.repository.deleteById(id);
+        System.out.println("id: " + id);
+        
     }
 
     @Override
     public void deleteAll(List<MovimentoPagamento> objs) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        objs.stream().forEach(o -> { 
+           System.out.println(o.getDespesa());
+           deleteById(o.getId());
+        });
     }
 
     @Override
