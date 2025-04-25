@@ -9,4 +9,6 @@ public interface MovimentoPagamentoRepository extends JpaRepository<MovimentoPag
 
     List<MovimentoPagamento> findByDataPagamentoIsNull();
     List<MovimentoPagamento> findByDataPagamentoIsNotNull();
+
+    public List<MovimentoPagamento> getAllByDespesaId(Long id);
 }
