@@ -124,7 +124,7 @@ public class DespesaAvulsaControllerTest {
         d1.setCategoria(cd1);
         d1.setParcelas(d1Movimentos);
         d1.setQuitado(false);
-        d1.setValorTotal(new BigDecimal("0"));
+
 
     }
 

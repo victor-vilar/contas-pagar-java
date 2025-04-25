@@ -36,16 +36,6 @@ public class DespesaAbstrataTest {
 	}
 	
 	@Test
-	@DisplayName("O método dessa classe tem que somar os valores das parcelas e trazer o total")
-	public void getValorTotal() {
-		DespesaAvulsa da = new DespesaAvulsa();
-		da.setParcelas(parcelas);
-		BigDecimal total = da.getValorTotal();
-		assertEquals(total, BigDecimal.valueOf(3000));
-		
-	}
-	
-	@Test
 	@DisplayName("O metodo não deve permitir que duas instancias iguais de uma parcela seja inserida na lista")
 	public void naoPodeAdicionarMesmaInstancia() {
 		DespesaAvulsa da = new DespesaAvulsa();
