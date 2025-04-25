@@ -7,6 +7,7 @@ package br.com.victorvilar.contaspagar.controllers;
 import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
 import br.com.victorvilar.contaspagar.entities.DespesaAvulsa;
 import br.com.victorvilar.contaspagar.entities.DespesaRecorrente;
+import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.enums.Periodo;
 import br.com.victorvilar.contaspagar.exceptions.DiaVencimentoInvalidoException;
 import br.com.victorvilar.contaspagar.exceptions.FieldsEmBrancoException;
@@ -22,6 +23,8 @@ import java.util.List;
 import java.util.Optional;
 import javax.swing.JComboBox;
 import javax.swing.text.JTextComponent;
+
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -156,36 +159,37 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
     
     
     public void mesVencimentoAoPerderFoco() throws MesVencimentoInvalidoException, NumberFormatException {
-        
+
         Integer dia;
         Integer mes;
-        
+
         if (view.getFieldMesVencimento().getText().trim().isEmpty()) {
             return;
         }
-        
+
         mes = Integer.valueOf(view.getFieldMesVencimento().getText());
-        
+
         if (mes <= 0 || mes > 12) {
             throw new MesVencimentoInvalidoException("O mês informado não é válido !");
         }
-        
+
         if (view.getFieldDiaVencimento().getText().trim().isEmpty()) {
             return;
         }
 
         dia = Integer.valueOf(view.getFieldDiaVencimento().getText());
-        
+
         if (dia > 28 && mes == 2) {
             throw new MesVencimentoInvalidoException("Se o mês for fevereiro o dia não pode ser maior que 28 !");
         }
-        
+
     }
 
     @Override
     public void preencherView(DespesaAbstrata despesa) {
         DespesaRecorrente despesaRecorrente = (DespesaRecorrente) despesa;
-        this.movimentos = despesa.getParcelas();
+        List<MovimentoPagamento> movimentosDespesa = movimentoService.getAllByDespesaId(despesa.getId());
+        this.movimentos = movimentosDespesa;
         preencherFields(despesaRecorrente);
         preencherTabela(movimentos);
     }

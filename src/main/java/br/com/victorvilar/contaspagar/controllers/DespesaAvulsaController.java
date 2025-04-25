@@ -7,6 +7,7 @@ package br.com.victorvilar.contaspagar.controllers;
 import br.com.victorvilar.contaspagar.entities.interfaces.Despesa;
 import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
 import br.com.victorvilar.contaspagar.entities.DespesaAvulsa;
+import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.entities.NotaFiscal;
 import br.com.victorvilar.contaspagar.exceptions.FieldsEmBrancoException;
 import br.com.victorvilar.contaspagar.services.interfaces.CategoriaDespesaService;
@@ -65,6 +66,7 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
         despesa.setParcelas(this.movimentos);
 
         this.service.save(despesa);
+        movimentoService.update();
         limparCampos();
         enableDisableComponents(false);
 
@@ -150,11 +152,10 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
     @Override
     public void preencherView(DespesaAbstrata despesa) {
         DespesaAvulsa despesaAvulsa = (DespesaAvulsa) despesa;
-        this.movimentos = despesa.getParcelas();
+        List<MovimentoPagamento> movimentosDespesa = movimentoService.getAllByDespesaId(despesa.getId());
+        this.movimentos = movimentosDespesa;
         preencherFields(despesaAvulsa);
         preencherTabela(movimentos);
-        
-     
     }
     
     public void preencherFields(DespesaAvulsa despesa){
