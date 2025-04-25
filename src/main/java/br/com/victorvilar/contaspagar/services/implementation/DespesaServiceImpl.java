@@ -2,12 +2,14 @@ package br.com.victorvilar.contaspagar.services.implementation;
 
 import java.util.List;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
 import br.com.victorvilar.contaspagar.entities.DespesaAvulsa;
 import br.com.victorvilar.contaspagar.entities.DespesaRecorrente;
+import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.exceptions.DespesaNotFoundException;
 import br.com.victorvilar.contaspagar.repositories.DespesaRepository;
 import br.com.victorvilar.contaspagar.services.interfaces.DespesaService;
@@ -66,6 +68,7 @@ public class DespesaServiceImpl implements DespesaService {
 
     }
 
+
     @Override
     public DespesaAbstrata update(DespesaAbstrata obj) {
         DespesaAbstrata despesa = repository.findById(obj.getId()).orElseThrow(() -> new DespesaNotFoundException("Despesa não encontrada"));
@@ -76,16 +79,21 @@ public class DespesaServiceImpl implements DespesaService {
         if(obj.getTipo().equals("AVULSA")){
             updateDespesaAvulsa((DespesaAvulsa) obj,(DespesaAvulsa) despesa);
         }
-        
-        if(obj.getTipo().equals("RECORRENTE")){
+
+        if (obj.getTipo().equals("RECORRENTE")) {
             updateDespesaRecorrente((DespesaRecorrente) obj, (DespesaRecorrente) despesa);
         }
-        
-        
-        despesa = repository.save(despesa); 
-        
-        
-        
+
+        List<MovimentoPagamento> movimentosDeletados =movimentoService
+                .getMovimentosDeletados();
+
+
+        if(!movimentosDeletados.isEmpty()){
+            despesa.removerParcela(movimentosDeletados);
+            movimentoService.saveAll(movimentosDeletados);
+        }
+
+        despesa = repository.save(despesa);
         return despesa;
     }
     
