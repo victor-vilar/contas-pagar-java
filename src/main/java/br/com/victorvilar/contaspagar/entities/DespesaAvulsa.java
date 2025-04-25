@@ -2,6 +2,7 @@ package br.com.victorvilar.contaspagar.entities;
 
 import jakarta.persistence.CascadeType;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -13,7 +14,23 @@ import jakarta.persistence.Table;
 public class DespesaAvulsa extends DespesaAbstrata implements Serializable {
 
         public final String tipo = "AVULSA";
-        public String getTipo(){
+
+	@Override
+	public BigDecimal getValorTotal() {
+		if (getParcelas().isEmpty()) {
+			return BigDecimal.ZERO;
+
+		}
+
+		BigDecimal total = BigDecimal.ZERO;
+		for (MovimentoPagamento m : getParcelas()){
+			total = total.add(m.getValorPagamento());
+		}
+		return total;
+
+	}
+
+	public String getTipo(){
             return tipo;
         }
     
@@ -36,6 +53,8 @@ public class DespesaAvulsa extends DespesaAbstrata implements Serializable {
 	public void setNotaFiscal(NotaFiscal notaFiscal) {
 		this.notaFiscal = notaFiscal;
 	}
+
+
 
 
 	

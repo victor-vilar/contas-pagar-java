@@ -12,5 +12,5 @@ public interface Despesa {
 	public boolean isQuitado();
 	public BigDecimal getValorTotal();
 	public int getQuantidadeParcelas();
-        public String getTipo();
+	public String getTipo();
 }

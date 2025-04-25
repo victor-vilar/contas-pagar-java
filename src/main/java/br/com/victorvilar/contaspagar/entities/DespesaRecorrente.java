@@ -1,6 +1,7 @@
 package br.com.victorvilar.contaspagar.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import br.com.victorvilar.contaspagar.enums.Periodo;
@@ -15,7 +16,9 @@ import jakarta.persistence.Table;
 public class DespesaRecorrente extends DespesaAbstrata implements Serializable {
 
     public final String tipo = "RECORRENTE";
-    
+
+
+
     public String getTipo() {
         return tipo;
     }
@@ -27,7 +30,7 @@ public class DespesaRecorrente extends DespesaAbstrata implements Serializable {
     private LocalDate dataFim;
     @Column(nullable = false)
     private Integer diaPagamento;
-    
+    private BigDecimal valorTotal;
     private Integer mesPagamento;
 
     @ManyToOne
@@ -85,8 +88,15 @@ public class DespesaRecorrente extends DespesaAbstrata implements Serializable {
     public void setDiaPagamento(Integer diaPagamento) {
         this.diaPagamento = diaPagamento;
     }
-    
-    
+
+    @Override
+    public BigDecimal getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(BigDecimal valorTotal){
+        this.valorTotal = valorTotal;
+    }
     
 
     public Integer getMesPagamento() {

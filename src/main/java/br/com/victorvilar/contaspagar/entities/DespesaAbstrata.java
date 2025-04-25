@@ -84,9 +84,6 @@ public abstract class DespesaAbstrata implements Despesa {
         this.quitado = quitado;
     }
 
-    public void setValorTotal(BigDecimal valorTotal) {
-        this.valorTotal = valorTotal;
-    }
 
     public void setCategoria(CategoriaDespesa categoria) {
         this.categoria = categoria;
@@ -129,15 +126,6 @@ public abstract class DespesaAbstrata implements Despesa {
         return this.movimentos.size();
     }
 
-    @Override
-    public BigDecimal getValorTotal() {
-        BigDecimal total = BigDecimal.ZERO;
-        for (MovimentoPagamento p : movimentos) {
-            total = total.add(p.getValorPagamento());
-        }
-        this.valorTotal = total;
-        return total;
-    }
 
     @Override
     public int hashCode() {
