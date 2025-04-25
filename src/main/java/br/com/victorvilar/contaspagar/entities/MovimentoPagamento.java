@@ -116,30 +116,14 @@ public class MovimentoPagamento implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 23 * hash + Objects.hashCode(this.id);
-        return hash;
+        return Objects.hashCode(id);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        
-        if(id == null){
-            return false;
-        }
-        
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final MovimentoPagamento other = (MovimentoPagamento) obj;
-        return Objects.equals(this.id, other.id);
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        MovimentoPagamento that = (MovimentoPagamento) o;
+        if(that.id == null) return false;
+        return Objects.equals(id, that.id);
     }
-
-        
 }
