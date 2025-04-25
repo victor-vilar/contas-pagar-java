@@ -223,9 +223,6 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnProcurarFornecedor">
           <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/img/icon-binoculos.png"/>
-            </Property>
             <Property name="toolTipText" type="java.lang.String" value="Buscar Fornecedor"/>
             <Property name="enabled" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="btnProcurarFornecedor" noResource="true"/>
@@ -295,9 +292,6 @@
         </Container>
         <Component class="javax.swing.JButton" name="btnProcurarCategoria">
           <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/img/icon-binoculos.png"/>
-            </Property>
             <Property name="toolTipText" type="java.lang.String" value="Buscar Fornecedor"/>
             <Property name="enabled" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="btnProcurarCategoria" noResource="true"/>
@@ -328,9 +322,6 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnProcurarFormaPagamento">
           <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/img/icon-binoculos.png"/>
-            </Property>
             <Property name="toolTipText" type="java.lang.String" value="Buscar Fornecedor"/>
             <Property name="enabled" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="btnProcurarFormaPagamento" noResource="true"/>
@@ -435,7 +426,7 @@
               <Color blue="f2" green="f2" red="f2" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/img/3.png"/>
+              <Image iconType="3" name="/img/icon-delete.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Deletar"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -449,7 +440,7 @@
               <Color blue="f2" green="f2" red="f2" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/img/1.png"/>
+              <Image iconType="3" name="/img/icon-novo.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Novo"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -466,7 +457,7 @@
               <Color blue="f2" green="f2" red="f2" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/img/2.png"/>
+              <Image iconType="3" name="/img/icon-editar.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Editar"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -689,7 +680,7 @@
         <Component class="javax.swing.JButton" name="btnLockTable">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/img/lock.png"/>
+              <Image iconType="3" name="/img/icon-lock.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Destravar Tabela"/>
             <Property name="enabled" type="boolean" value="false"/>

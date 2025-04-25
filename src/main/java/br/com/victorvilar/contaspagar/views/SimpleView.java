@@ -167,7 +167,7 @@ public abstract class SimpleView extends javax.swing.JFrame implements Publisher
         toolBar.setMaximumSize(null);
 
         btnDeletar.setBackground(new java.awt.Color(242, 242, 242));
-        btnDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/3.png"))); // NOI18N
+        btnDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-delete.png"))); // NOI18N
         btnDeletar.setToolTipText("Deletar");
         btnDeletar.setBorder(null);
         btnDeletar.addActionListener(new java.awt.event.ActionListener() {
@@ -177,7 +177,7 @@ public abstract class SimpleView extends javax.swing.JFrame implements Publisher
         });
 
         btnNovo.setBackground(new java.awt.Color(242, 242, 242));
-        btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/1.png"))); // NOI18N
+        btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-novo.png"))); // NOI18N
         btnNovo.setToolTipText("Novo");
         btnNovo.setBorder(null);
         btnNovo.addActionListener(new java.awt.event.ActionListener() {
@@ -187,7 +187,7 @@ public abstract class SimpleView extends javax.swing.JFrame implements Publisher
         });
 
         btnEditar.setBackground(new java.awt.Color(242, 242, 242));
-        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/2.png"))); // NOI18N
+        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-editar.png"))); // NOI18N
         btnEditar.setToolTipText("Editar");
         btnEditar.setBorder(null);
         btnEditar.addActionListener(new java.awt.event.ActionListener() {

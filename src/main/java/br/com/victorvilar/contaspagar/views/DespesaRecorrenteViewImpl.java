@@ -339,7 +339,6 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         fieldCodFornecedor.setEnabled(false);
         fieldCodFornecedor.setName("fieldCodFornecedor"); // NOI18N
 
-        btnProcurarFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-binoculos.png"))); // NOI18N
         btnProcurarFornecedor.setToolTipText("Buscar Fornecedor");
         btnProcurarFornecedor.setEnabled(false);
         btnProcurarFornecedor.setName("btnProcurarFornecedor"); // NOI18N
@@ -366,7 +365,6 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         areaDescricao.setName("areaDescricao"); // NOI18N
         jScrollPane1.setViewportView(areaDescricao);
 
-        btnProcurarCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-binoculos.png"))); // NOI18N
         btnProcurarCategoria.setToolTipText("Buscar Fornecedor");
         btnProcurarCategoria.setEnabled(false);
         btnProcurarCategoria.setName("btnProcurarCategoria"); // NOI18N
@@ -382,7 +380,6 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         comboFormaPagamento.setEnabled(false);
         comboFormaPagamento.setName("comboFormaPagamento"); // NOI18N
 
-        btnProcurarFormaPagamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-binoculos.png"))); // NOI18N
         btnProcurarFormaPagamento.setToolTipText("Buscar Fornecedor");
         btnProcurarFormaPagamento.setEnabled(false);
         btnProcurarFormaPagamento.setName("btnProcurarFormaPagamento"); // NOI18N
@@ -521,12 +518,12 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         panelToolBar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         btnDeletar.setBackground(new java.awt.Color(242, 242, 242));
-        btnDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/3.png"))); // NOI18N
+        btnDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-delete.png"))); // NOI18N
         btnDeletar.setToolTipText("Deletar");
         btnDeletar.setBorder(null);
 
         btnNovo.setBackground(new java.awt.Color(242, 242, 242));
-        btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/1.png"))); // NOI18N
+        btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-novo.png"))); // NOI18N
         btnNovo.setToolTipText("Novo");
         btnNovo.setBorder(null);
         btnNovo.addActionListener(new java.awt.event.ActionListener() {
@@ -536,7 +533,7 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         });
 
         btnEditar.setBackground(new java.awt.Color(242, 242, 242));
-        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/2.png"))); // NOI18N
+        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-editar.png"))); // NOI18N
         btnEditar.setToolTipText("Editar");
         btnEditar.setBorder(null);
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
@@ -647,7 +644,7 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
             tableParcelas.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        btnLockTable.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/lock.png"))); // NOI18N
+        btnLockTable.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-lock.png"))); // NOI18N
         btnLockTable.setToolTipText("Destravar Tabela");
         btnLockTable.setEnabled(false);
         btnLockTable.setName("btnLockTable"); // NOI18N
