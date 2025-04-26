@@ -87,10 +87,8 @@ public class DespesaServiceImpl implements DespesaService {
         List<MovimentoPagamento> movimentosDeletados =movimentoService
                 .getMovimentosDeletados();
 
-
         if(!movimentosDeletados.isEmpty()){
-            despesa.removerParcela(movimentosDeletados);
-            movimentoService.saveAll(movimentosDeletados);
+            removerParcelas(despesa,movimentosDeletados);
         }
 
         despesa = repository.save(despesa);
@@ -108,6 +106,16 @@ public class DespesaServiceImpl implements DespesaService {
         despesa.setDiaPagamento(obj.getDiaPagamento());
         despesa.setMesPagamento(obj.getMesPagamento());
         despesa.setFormaPagamentoPadrao(obj.getFormaPagamentoPadrao());
+    }
+    /**
+     * metodo para desvincular as parcelas deletadas da lista da despesa, e remover do banco de dados.
+     * @param despesa = despesa
+     * @param movimentos = lista de movimentos que devem ser excluidos.
+     * */
+    private void removerParcelas(DespesaAbstrata despesa, List<MovimentoPagamento> movimentos){
+        despesa.removerParcela(movimentos);
+        movimentoService.saveAll(movimentos);
+        movimentoService.deleteAll(movimentos);
     }
 
 
