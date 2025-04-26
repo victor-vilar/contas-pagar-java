@@ -42,7 +42,7 @@ public class FinalizarMovimentoPagamentoView extends javax.swing.JDialog {
     }
     
     public FinalizarMovimentoPagamentoView(){
-        inicializar();
+        initComponents();
     }
     
     @PostConstruct
@@ -52,6 +52,8 @@ public class FinalizarMovimentoPagamentoView extends javax.swing.JDialog {
         pack();
         controller.inicializarComboBox();
     }
+
+
     
     public void buscar(Long valor){
         controller.buscar(valor);
