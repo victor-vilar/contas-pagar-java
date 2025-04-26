@@ -114,6 +114,7 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
         view.getComboBoxes().stream().forEach(c -> c.setSelectedIndex(-1));
         limparTabela();
         movimentos.clear();
+        movimentoService.getMovimentosDeletados().clear();
         ativarDesativarTabelaParcelas(false);
     }
 
@@ -250,10 +251,9 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
      */
     public void deletarMovimentos(int[] linhas) {
 
-        //utilizado o serviço para remover os movimentos que estão na tabela.
-        //O serviço armazena os movimentos em uma lista para serem deletadas
-        //do banco, caso já tenham sido salvas.
-        controllerHelper.deletarMovimentosTabela(movimentos, linhas);
+        controllerHelper.deletarMovimentosTabela(movimentos, linhas)
+                .stream()
+                .forEach(e -> movimentoService.addMovimentoDeletado(e));
 
         //atualiza a view com a nova tabela.
         preencherTabela(movimentos);
