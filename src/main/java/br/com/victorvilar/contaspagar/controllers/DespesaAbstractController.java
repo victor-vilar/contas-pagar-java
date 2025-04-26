@@ -6,6 +6,7 @@ package br.com.victorvilar.contaspagar.controllers;
 
 import br.com.victorvilar.contaspagar.controllers.interfaces.CrudViewController;
 import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
+import br.com.victorvilar.contaspagar.services.DespesaControllerHelper;
 import br.com.victorvilar.contaspagar.util.ControllerHelper;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.enums.Periodo;
@@ -35,6 +36,7 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
 
     protected final DespesaService service;
     protected final MovimentoPagamentoService movimentoService;
+    protected final DespesaControllerHelper controllerHelper;
     protected final CategoriaDespesaService categoriaDespesaService;
     protected final FormaPagamentoService formaPagamentoService;
     protected T view;
@@ -55,11 +57,13 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
             DespesaService service,
             CategoriaDespesaService categoriaDespesaService,
             FormaPagamentoService formaPagamentoService,
-            MovimentoPagamentoService movimentoService) {
+            MovimentoPagamentoService movimentoService,
+            DespesaControllerHelper controllerHelper) {
         this.service = service;
         this.movimentoService = movimentoService;
         this.categoriaDespesaService = categoriaDespesaService;
         this.formaPagamentoService = formaPagamentoService;
+        this.controllerHelper = controllerHelper;
         movimentos = new ArrayList<>();
 
     }
@@ -184,7 +188,7 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
      * na linha da tabela na view.
      */
     public void editarMovimento(int linha) {
-        movimentoService.atualizarMovimentosTabela(
+        controllerHelper.atualizarMovimentosTabela(
                 movimentos,
                 linha,
                 (DefaultTableModel) view.getTableParcelas().getModel()
@@ -249,7 +253,7 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
         //utilizado o serviço para remover os movimentos que estão na tabela.
         //O serviço armazena os movimentos em uma lista para serem deletadas
         //do banco, caso já tenham sido salvas.
-        movimentoService.deletarMovimentosTabela(movimentos, linhas);
+        controllerHelper.deletarMovimentosTabela(movimentos, linhas);
 
         //atualiza a view com a nova tabela.
         preencherTabela(movimentos);
@@ -260,7 +264,7 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
      * Metodo que ira disparar quando alguma valor de alguma coluna na tabela
      * alterar.
      *      *
-     * @param linhas = linha que foi alterada
+     * @param linha = linha que foi alterada
      * @param coluna = coluna que foi alterada
      * @param value = valor que sera usado para realizar a conversão
      */

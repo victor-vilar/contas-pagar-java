@@ -12,6 +12,7 @@ import br.com.victorvilar.contaspagar.enums.Periodo;
 import br.com.victorvilar.contaspagar.exceptions.DiaVencimentoInvalidoException;
 import br.com.victorvilar.contaspagar.exceptions.FieldsEmBrancoException;
 import br.com.victorvilar.contaspagar.exceptions.MesVencimentoInvalidoException;
+import br.com.victorvilar.contaspagar.services.DespesaControllerHelper;
 import br.com.victorvilar.contaspagar.services.interfaces.CategoriaDespesaService;
 import br.com.victorvilar.contaspagar.services.interfaces.DespesaService;
 import br.com.victorvilar.contaspagar.services.interfaces.FormaPagamentoService;
@@ -36,8 +37,12 @@ import org.springframework.stereotype.Controller;
 public class DespesaRecorrenteController extends DespesaAbstractController<DespesaRecorrenteViewImpl>{
 
     @Autowired
-    public DespesaRecorrenteController(DespesaService service, CategoriaDespesaService categoriaDespesaService, FormaPagamentoService formaPagamentoService,MovimentoPagamentoService movimentoService) {
-        super(service, categoriaDespesaService, formaPagamentoService,movimentoService);
+    public DespesaRecorrenteController(DespesaService service,
+                                       CategoriaDespesaService categoriaDespesaService,
+                                       FormaPagamentoService formaPagamentoService,
+                                       MovimentoPagamentoService movimentoService,
+                                       DespesaControllerHelper controllerHelper) {
+        super(service, categoriaDespesaService, formaPagamentoService,movimentoService,controllerHelper);
     }
     
     @Override
