@@ -34,6 +34,15 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
     private List<MovimentoPagamento> movimentosDeletados = new ArrayList<>();
     private List<MovimentoPagamento> movimentosAtualizados = new ArrayList<>();
 
+    public List<MovimentoPagamento> getMovimentosDeletados(){
+        return movimentosDeletados;
+    }
+
+    public void addMovimentoDeletado(MovimentoPagamento movimento){
+        if(!movimentosDeletados.contains(movimento)){
+            movimentosDeletados.add(movimento);
+        }
+    }
 
 
     @Autowired
