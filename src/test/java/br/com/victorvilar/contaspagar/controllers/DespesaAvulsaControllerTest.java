@@ -11,6 +11,7 @@ import br.com.victorvilar.contaspagar.entities.FormaPagamento;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.entities.NotaFiscal;
 import br.com.victorvilar.contaspagar.exceptions.FieldsEmBrancoException;
+import br.com.victorvilar.contaspagar.services.DespesaControllerHelper;
 import br.com.victorvilar.contaspagar.services.interfaces.CategoriaDespesaService;
 import br.com.victorvilar.contaspagar.services.interfaces.DespesaService;
 import br.com.victorvilar.contaspagar.services.interfaces.FormaPagamentoService;
@@ -64,8 +65,12 @@ public class DespesaAvulsaControllerTest {
     @Mock
     public DespesaService despesaService;
 
+    @Mock
+    public DespesaControllerHelper controllerHelper;
+
     public DespesaAvulsaViewImpl view;
 
+    List<MovimentoPagamento> d1Movimentos = new ArrayList<>();
     CategoriaDespesa cd1;
     CategoriaDespesa cd2;
 
@@ -100,7 +105,7 @@ public class DespesaAvulsaControllerTest {
 
         d1 = new DespesaAvulsa();
 
-        List<MovimentoPagamento> d1Movimentos = new ArrayList<>();
+
         MovimentoPagamento m1 = new MovimentoPagamento();
         m1.setId(1L);
         m1.setReferenteParcela("1/2");
@@ -427,7 +432,7 @@ public class DespesaAvulsaControllerTest {
         m2.setFormaPagamento(fp1);
 
         when(formaPagamentoService.getByForma("PIX")).thenReturn(fp1);
-        when(movimentoService.gerarMovimentos(
+        when(controllerHelper.gerarMovimentos(
                 "ANUAL",
                 2,
                 "01/03/2025",
@@ -558,6 +563,7 @@ public class DespesaAvulsaControllerTest {
 
     @Test
     public void metodoPreencherViewDevePegarListaDeMovimentosDoObjetoPassado() {
+        when(movimentoService.getAllByDespesaId(d1.getId())).thenReturn(d1Movimentos);
         controller.preencherView(d1);
         assertNotNull(controller.getMovimentos());
         assertEquals(controller.getMovimentos().get(0), d1.getParcelas().get(0));

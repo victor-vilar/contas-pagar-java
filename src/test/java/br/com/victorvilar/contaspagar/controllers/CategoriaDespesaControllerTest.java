@@ -13,6 +13,8 @@ import java.util.List;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import br.com.victorvilar.contaspagar.services.interfaces.FormaPagamentoService;
+import br.com.victorvilar.contaspagar.util.ControllerHelper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,7 +39,9 @@ class CategoriaDespesaControllerTest {
 	
 	@Mock
 	public CategoriaDespesaService service;
-	
+
+	@Mock
+	public FormaPagamentoService formaPagamentoService;
 	
 	public SimpleView view;
 	
@@ -116,6 +120,7 @@ class CategoriaDespesaControllerTest {
 	//Metodo necessário pois apos o teste ser executado o numero de linhas é alterado.
 	private void addRows() {
 		DefaultTableModel model = (DefaultTableModel) view.getTable().getModel();
+		ControllerHelper.limparTabela(model);
 		model.addRow(new Object[] {1L,"Teste"});
 		model.addRow(new Object[] {2L,"Teste"});
 		model.addRow(new Object[] {3L,"Teste"});

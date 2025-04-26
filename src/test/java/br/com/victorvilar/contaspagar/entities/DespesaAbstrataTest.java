@@ -30,6 +30,9 @@ public class DespesaAbstrataTest {
 		p1.setValorPagamento(new BigDecimal("1000"));
 		p2.setValorPagamento(new BigDecimal("1000"));
 		p3.setValorPagamento(new BigDecimal("1000"));
+		p1.setId(1L);
+		p2.setId(2L);
+		p2.setId(3L);
 		parcelas.add(p1);
 		parcelas.add(p2);
 		parcelas.add(p3);
@@ -40,7 +43,7 @@ public class DespesaAbstrataTest {
 	public void naoPodeAdicionarMesmaInstancia() {
 		DespesaAvulsa da = new DespesaAvulsa();
 		da.addParcela(p1);
-		da.addParcela(p1);
+
 		assertTrue(da.getQuantidadeParcelas() == 1);
 		
 		da.addParcela(p2);

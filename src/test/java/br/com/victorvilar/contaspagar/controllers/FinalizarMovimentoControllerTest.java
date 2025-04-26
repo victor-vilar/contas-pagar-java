@@ -7,6 +7,7 @@ package br.com.victorvilar.contaspagar.controllers;
 import br.com.victorvilar.contaspagar.entities.DespesaAvulsa;
 import br.com.victorvilar.contaspagar.entities.FormaPagamento;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
+import br.com.victorvilar.contaspagar.services.interfaces.FormaPagamentoService;
 import br.com.victorvilar.contaspagar.services.interfaces.MovimentoPagamentoService;
 import br.com.victorvilar.contaspagar.util.ConversorData;
 import br.com.victorvilar.contaspagar.util.ConversorMoeda;
@@ -26,6 +27,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import java.util.List;
+
 
 /**
  *
@@ -41,17 +44,30 @@ public class FinalizarMovimentoControllerTest {
     @Mock
     private MovimentoPagamentoService service;
     
-    private FinalizarMovimentoPagamentoView view; 
-    
+    private FinalizarMovimentoPagamentoView view;
+
+    @Mock
+    private FormaPagamentoService formaPagamentoService;
+
     MovimentoPagamento movimento;
     public FinalizarMovimentoControllerTest() {
     }
     
     @BeforeEach
     public void setUpClass() {
+        FormaPagamento f1 = new FormaPagamento();
+        FormaPagamento f2 = new FormaPagamento();
+        f1.setId(1L);
+        f1.setForma("forma 1");
+        f2.setId(2L);
+        f2.setForma("forma 2");
+        when(formaPagamentoService.getTodos()).thenReturn(List.of(f1,f2));
+
         view = new FinalizarMovimentoPagamentoView();
         controller.setView(view);
-        
+        controller.inicializarComboBox();
+
+
         DespesaAvulsa despesa = new DespesaAvulsa();
         despesa.setNomeFornecedor("CONTA TESTE");
         movimento = new MovimentoPagamento();
@@ -85,6 +101,7 @@ public class FinalizarMovimentoControllerTest {
        view.getFieldDataPagamento().setText(ConversorData.paraString(LocalDate.now()));
        view.getFieldValorPago().setText(ConversorMoeda.paraString(new BigDecimal("1000.00")));
        view.getFieldObservacao().setText("Observacao");
+       view.getComboFormaPagamento().setSelectedIndex(1);
        
        
        
@@ -119,7 +136,7 @@ public class FinalizarMovimentoControllerTest {
         
         view.getFieldVencimento().setText("teste");
         view.getFieldValor().setText("teste");
-        
+
         view.getFieldDataPagamento().setText("");
         view.getFieldValorPago().setText("");
         

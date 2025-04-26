@@ -31,19 +31,32 @@ class FormaPagamentoServiceImplTest {
 	void setUp() throws Exception {
 	}
 
+	@Test
+	void DeveSalvarOObjetoComSucessoQuandoNaoPossuiId() {
+
+		FormaPagamento forma = new FormaPagamento();
+
+		forma.setForma("teste");
+		when(repository.save(any(FormaPagamento.class))).thenReturn(forma);
+		FormaPagamento f = service.save(forma);
+		Assertions.assertEquals(f.getForma(), forma.getForma());
+
+
+	}
 	
 	@Test
-	void DeveSalvarOObjetoComSucesso() {
+	void DeveSalvarOObjetoComSucessoQuandoPossuiId() {
 		
 		FormaPagamento forma = new FormaPagamento();
 		forma.setId(1L);
 		forma.setForma("teste");
 		when(repository.save(any(FormaPagamento.class))).thenReturn(forma);
+		when(repository.findById(forma.getId())).thenReturn(Optional.of(forma));
 		
 		FormaPagamento f = service.save(forma);
 		
 		Assertions.assertEquals(f.getId(), forma.getId());
-		Assertions.assertEquals(f.getId(), forma.getId());
+		Assertions.assertEquals(f.getForma(), forma.getForma());
 		
 
 	}
@@ -77,6 +90,7 @@ class FormaPagamentoServiceImplTest {
 		formaAtualizada.setForma("teste2");
 		
 		when(repository.findById(1L)).thenReturn(Optional.of(formaSalva));
+		when(repository.save(any(FormaPagamento.class))).thenAnswer(c -> c.getArgument(0));
 		
 		FormaPagamento f3 = service.update(formaAtualizada);
 		
