@@ -15,6 +15,6 @@ public interface MovimentoPagamentoService extends AppService<MovimentoPagamento
     public List<MovimentoPagamento> getAllPagos();
     public List<MovimentoPagamento> update(List<MovimentoPagamento> movimentos);
     public void update();
-
+    void adicionarOuAtualizarReferenteParcela(List<MovimentoPagamento> movimentos);
     public List<MovimentoPagamento> getAllByDespesaId(Long id);
 }
