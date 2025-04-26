@@ -19,7 +19,6 @@ import java.util.List;
 public class DespesaControllerHelper {
 
     private final FormaPagamentoService formaPagamentoService;
-    private List<MovimentoPagamento> movimentosDeletados = new ArrayList<>();
     private List<MovimentoPagamento> movimentosAtualizados = new ArrayList<>();
 
     @Autowired
@@ -27,15 +26,11 @@ public class DespesaControllerHelper {
         this.formaPagamentoService = formaPagamentoService;
     }
 
-    public List<MovimentoPagamento> getMovimentosDeletados() {
-        return movimentosDeletados;
-    }
     public List<MovimentoPagamento> getMovimentosAtualizados(){
         return movimentosAtualizados;
     }
 
     public void clearList(){
-        movimentosDeletados.clear();
         movimentosAtualizados.clear();
     }
 
@@ -117,18 +112,14 @@ public class DespesaControllerHelper {
         movimentosAtualizados.add(mp);
     }
 
-    public void deletarMovimentosTabela(List<MovimentoPagamento> movimentos, int[] linhas) {
+    public List<MovimentoPagamento> deletarMovimentosTabela(List<MovimentoPagamento> movimentos, int[] linhas) {
 
-        //deleta os movimentos da lista que estão nas mesma posiçaõ das linhas
-        //adiciona movimentos deletados na lista para que possam ser excluidos
-        //caso já tenham sido salvos no banco.
-        //O código começa a eliminar a partir do fim da fila, pois os elementos
-        //mudam de posição quando são removidos
+        List<MovimentoPagamento> movimentosDeletados = new ArrayList<>();
         for (int i = linhas.length - 1; i >= 0; i--) {
             movimentosDeletados.add(movimentos.remove(linhas[i]));
         }
 
         adicionarOuAtualizarReferenteParcela(movimentos);
-
+        return movimentosDeletados;
     }
 }

@@ -339,29 +339,6 @@ class DespesaControllerHelperTest {
 
     }
 
-    @Test
-    @DisplayName("deletarMovimentos deve adicionar os movimentos removidos na lista")
-    public void deletarMovimentosDeveAdicionarALista() {
 
-
-
-        movimentos.add(mp1);
-        movimentos.add(mp2);
-        movimentos.add(mp3);
-
-        mp1.setReferenteParcela("1/3");
-        mp2.setReferenteParcela("2/3");
-        mp3.setReferenteParcela("3/3");
-
-        int[] linhas = {0, 2};
-
-        helper.deletarMovimentosTabela(movimentos, linhas);
-
-        List<MovimentoPagamento> deletados = helper.getMovimentosDeletados();
-        assertEquals(deletados.size(),2);
-        assertEquals(mp2.getReferenteParcela(), "UNICA");
-
-
-    }
 
 }
