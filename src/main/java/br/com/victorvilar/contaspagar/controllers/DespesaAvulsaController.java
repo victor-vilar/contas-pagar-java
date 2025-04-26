@@ -66,7 +66,6 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
         despesa.setParcelas(this.movimentos);
 
         this.service.save(despesa);
-        movimentoService.update();
         limparCampos();
         enableDisableComponents(false);
 
