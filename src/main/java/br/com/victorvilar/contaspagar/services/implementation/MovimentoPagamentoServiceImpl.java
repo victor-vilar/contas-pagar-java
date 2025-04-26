@@ -76,13 +76,6 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
             mp.setValorPagamento(ConversorMoeda.paraBigDecimal(valor));
             mp.setFormaPagamento(formaPagamento);
 
-            if (qtdParcelas == 1) {
-                mp.setReferenteParcela("UNICA");
-            } else {
-                mp.setReferenteParcela(i + 1 + "/" + qtdParcelas);
-
-            }
-
             if (i != 0) {
                 data = dataProximaParcela(parcelamento, data);
             }
@@ -90,8 +83,28 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
             mp.setDataVencimento(data);
             movimentos.add(mp);
         }
-
+        adicionarOuAtualizarReferenteParcela(movimentos);
         return movimentos;
+    }
+
+    /**
+     * Adiciona no numero das parcelas ou atualiza caso já existam.
+     * @param movimentos
+     */
+    public void adicionarOuAtualizarReferenteParcela(List<MovimentoPagamento> movimentos){
+
+        int quantidade = movimentos.size();
+
+        for(int i = 0; i < quantidade ; i++){
+
+            if(quantidade == 1){
+                movimentos.get(0).setReferenteParcela("UNICA");
+                break;
+            }
+
+            movimentos.get(i).setReferenteParcela(i+1 +"/" + quantidade);
+
+        }
     }
 
     private LocalDate dataProximaParcela(String parcelamento, LocalDate dataAtual) {
@@ -158,17 +171,7 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
             movimentosDeletados.add(movimentos.remove(linhas[i]));
         }
 
-        //reorganiza a propriedade referencia parcela dos movimentos.
-        int tamanho = movimentos.size();
-        for (int i = 0; i < tamanho; i++) {
-            
-            if(tamanho == 1){
-                movimentos.get(i).setReferenteParcela("UNICA");
-                break;
-            }
-            
-            movimentos.get(i).setReferenteParcela(i + 1 + "/" + tamanho);
-        }
+        adicionarOuAtualizarReferenteParcela(movimentos);
 
     }
 
@@ -239,18 +242,12 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
 
     @Override
     public void deleteById(Long id) {
-        
         this.repository.deleteById(id);
-        System.out.println("id: " + id);
-        
     }
 
     @Override
     public void deleteAll(List<MovimentoPagamento> objs) {
-        objs.stream().forEach(o -> { 
-           System.out.println(o.getDespesa());
-           deleteById(o.getId());
-        });
+        repository.deleteAll(objs);
     }
 
     @Override
