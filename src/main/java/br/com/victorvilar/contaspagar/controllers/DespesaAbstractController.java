@@ -189,11 +189,11 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
      * na linha da tabela na view.
      */
     public void editarMovimento(int linha) {
-        controllerHelper.atualizarMovimentosTabela(
+        movimentoService.addMovimentoAtualizado(controllerHelper.atualizarMovimentosTabela(
                 movimentos,
                 linha,
                 (DefaultTableModel) view.getTableParcelas().getModel()
-        );
+        ));
     }
 
     /**

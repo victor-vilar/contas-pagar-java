@@ -19,20 +19,13 @@ import java.util.List;
 public class DespesaControllerHelper {
 
     private final FormaPagamentoService formaPagamentoService;
-    private List<MovimentoPagamento> movimentosAtualizados = new ArrayList<>();
+
 
     @Autowired
     public DespesaControllerHelper(FormaPagamentoService formaPagamentoService){
         this.formaPagamentoService = formaPagamentoService;
     }
 
-    public List<MovimentoPagamento> getMovimentosAtualizados(){
-        return movimentosAtualizados;
-    }
-
-    public void clearList(){
-        movimentosAtualizados.clear();
-    }
 
     public List<MovimentoPagamento> gerarMovimentos(String parcelamento, int qtdParcelas, String dataInicial, String valor, FormaPagamento formaPagamento)
             throws QuantidadeDeParcelasException, DateTimeParseException {
@@ -77,6 +70,8 @@ public class DespesaControllerHelper {
         }
     }
 
+
+
     private LocalDate dataProximaParcela(String parcelamento, LocalDate dataAtual) {
 
         LocalDate novaData;
@@ -102,14 +97,14 @@ public class DespesaControllerHelper {
         return novaData;
     }
 
-    public void atualizarMovimentosTabela(List<MovimentoPagamento> movimentos, int linha, DefaultTableModel model) {
+    public MovimentoPagamento atualizarMovimentosTabela(List<MovimentoPagamento> movimentos, int linha, DefaultTableModel model) {
         MovimentoPagamento mp = movimentos.get(linha);
         mp.setDataVencimento(ConversorData.paraData(String.valueOf(model.getValueAt(linha, 2))));
         mp.setValorPagamento(ConversorMoeda.paraBigDecimal(String.valueOf(model.getValueAt(linha, 3))));
         mp.setDataPagamento(ConversorData.paraData(String.valueOf(model.getValueAt(linha, 4))));
         mp.setFormaPagamento(formaPagamentoService.getByForma(String.valueOf(model.getValueAt(linha,5))));
         mp.setObservacao((String)model.getValueAt(linha, 6));
-        movimentosAtualizados.add(mp);
+        return mp;
     }
 
     public List<MovimentoPagamento> deletarMovimentosTabela(List<MovimentoPagamento> movimentos, int[] linhas) {
