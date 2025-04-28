@@ -4,20 +4,13 @@
  */
 package br.com.victorvilar.contaspagar.services.implementation;
 
-import br.com.victorvilar.contaspagar.util.ConversorMoeda;
-import br.com.victorvilar.contaspagar.entities.FormaPagamento;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.exceptions.MovimentoPagamentoNotFoundException;
-import br.com.victorvilar.contaspagar.exceptions.QuantidadeDeParcelasException;
 import br.com.victorvilar.contaspagar.repositories.MovimentoPagamentoRepository;
-import br.com.victorvilar.contaspagar.services.interfaces.FormaPagamentoService;
 import br.com.victorvilar.contaspagar.services.interfaces.MovimentoPagamentoService;
-import br.com.victorvilar.contaspagar.util.ConversorData;
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
+
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.table.DefaultTableModel;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +26,11 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
     private final MovimentoPagamentoRepository repository;
     private List<MovimentoPagamento> movimentosDeletados = new ArrayList<>();
     private List<MovimentoPagamento> movimentosAtualizados = new ArrayList<>();
+    private Long idDespesa;
+
+    public void setIdDespesa(Long id){
+        idDespesa = id;
+    }
 
 
     @Autowired
@@ -40,9 +38,10 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
         this.repository = repository;
     }
 
-    public void limparListas(){
+    public void limpar(){
         movimentosDeletados.clear();
         movimentosAtualizados.clear();
+        idDespesa = null;
     }
     @Override
     public List<MovimentoPagamento> getMovimentosDeletados(){
@@ -72,14 +71,20 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
 
     @Override
     public void sincronizarMovimentos(){
+        //remove os movimentos deletados e atualiza a propriedade referencia dos movimentos que ainda estao no banco.
         if(!movimentosDeletados.isEmpty()){
             deleteAll(movimentosDeletados);
+            List<MovimentoPagamento> movimentos = getAllByDespesaId(idDespesa);
+            adicionarOuAtualizarReferenteParcela(movimentos);
+            saveAll(movimentos);
         }
+
+        //atualiza as propriedades dos movimetnos que forma atualizado
         if(!movimentosAtualizados.isEmpty()){
             update(movimentosAtualizados);
         }
 
-        limparListas();
+        limpar();
     }
 
 
@@ -107,7 +112,6 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
     @Override
     public MovimentoPagamento update(MovimentoPagamento obj) {
         MovimentoPagamento movimento = getById(obj.getId());
-        movimento.setReferenteParcela(obj.getReferenteParcela());
         movimento.setDataVencimento(obj.getDataVencimento());
         movimento.setDataPagamento(obj.getDataPagamento());
         movimento.setValorPagamento(obj.getValorPagamento());
@@ -122,26 +126,12 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
         return movimentos.stream().map(m -> update(m)).toList();
     }
 
+
     @Override
     public List<MovimentoPagamento> getAllByDespesaId(Long id) {
         return repository.getAllByDespesaId(id);
     }
-    
-    
-    
-    /**
-     * Atualiza o banco de dados de acordo com as alterações realizadas nos movimentos.
-     * Se houve movimentos deletados, eles serão removidos do banco.
-     * Se houve movimentos atualizados, eles serão atualizados no banco.
-     */
-    @Transactional
-    public void update(){
 
-        if(!movimentosAtualizados.isEmpty()){
-           update(movimentosAtualizados); 
-        }
-
-    }
 
     @Override
     public void deleteById(Long id) {
@@ -163,7 +153,11 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
         return repository.findByDataPagamentoIsNotNull();
     }
 
-
+    /**
+     * Cria os valores da propriedade referente parcela, ou atualiza os valores, caso já existam, de uma lista
+     * de movimentos passados.
+     * @param movimentos
+     */
     public void adicionarOuAtualizarReferenteParcela(List<MovimentoPagamento> movimentos){
         int quantidade = movimentos.size();
         for(int i = 0; i < quantidade ; i++){
