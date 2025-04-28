@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
 import br.com.victorvilar.contaspagar.entities.DespesaAvulsa;
 import br.com.victorvilar.contaspagar.entities.DespesaRecorrente;
-import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.exceptions.DespesaNotFoundException;
 import br.com.victorvilar.contaspagar.repositories.DespesaRepository;
 import br.com.victorvilar.contaspagar.services.interfaces.DespesaService;
@@ -20,7 +19,7 @@ public class DespesaServiceImpl implements DespesaService {
 
     private final DespesaRepository repository;
     private final MovimentoPagamentoService movimentoService;
-    
+
 
     @Autowired
     public DespesaServiceImpl(DespesaRepository repository, MovimentoPagamentoService movimentoService) {
@@ -37,8 +36,11 @@ public class DespesaServiceImpl implements DespesaService {
 
     @Override
     public DespesaAbstrata getById(Long id) {
-        // TODO Auto-generated method stub
-        return null;
+        return repository.findById(id).orElseThrow(() -> new DespesaNotFoundException("Despesa não encontrada"));
+    }
+
+    public DespesaAbstrata getByIdWithMovimentos(Long id){
+        return repository.findByIdWithMovimentos(id);
     }
 
     @Override
@@ -68,33 +70,35 @@ public class DespesaServiceImpl implements DespesaService {
 
     }
 
-
     @Override
+    @Transactional
     public DespesaAbstrata update(DespesaAbstrata obj) {
-        DespesaAbstrata despesa = repository.findById(obj.getId()).orElseThrow(() -> new DespesaNotFoundException("Despesa não encontrada"));
+
+        DespesaAbstrata despesa;
+
+        if(!movimentoService.getMovimentosDeletados().isEmpty()){
+            despesa = getByIdWithMovimentos(obj.getId());
+            deletarMovimentos(despesa);
+        }else{
+            despesa = getById(obj.getId());
+        }
         despesa.setNomeFornecedor(obj.getNomeFornecedor());
         despesa.setDescricao(obj.getDescricao());
         despesa.setCategoria(obj.getCategoria());
-        
-        if(obj.getTipo().equals("AVULSA")){
-            updateDespesaAvulsa((DespesaAvulsa) obj,(DespesaAvulsa) despesa);
+        updateCamposDoTipo(obj,despesa);
+        return repository.save(despesa);
+    }
+
+    public void updateCamposDoTipo(DespesaAbstrata obj, DespesaAbstrata despesa){
+        String tipo = obj.getTipo();
+        switch (tipo) {
+            case "AVULSA":
+                updateDespesaAvulsa((DespesaAvulsa) obj, (DespesaAvulsa) despesa);
+                break;
+            case "RECORRENTE":
+                updateDespesaRecorrente((DespesaRecorrente) obj, (DespesaRecorrente) despesa);
+                break;
         }
-
-        if (obj.getTipo().equals("RECORRENTE")) {
-            updateDespesaRecorrente((DespesaRecorrente) obj, (DespesaRecorrente) despesa);
-        }
-
-        List<MovimentoPagamento> movimentosDeletados =movimentoService
-                .getMovimentosDeletados();
-
-        if(!movimentosDeletados.isEmpty()){
-            despesa.removerParcela(movimentosDeletados);
-            movimentoService.saveAll(movimentosDeletados);
-        }
-        despesa = repository.save(despesa);
-        movimentoService.deleteAll(movimentosDeletados);
-
-        return despesa;
     }
     
     public void updateDespesaAvulsa(DespesaAvulsa obj, DespesaAvulsa despesa) {
@@ -108,6 +112,16 @@ public class DespesaServiceImpl implements DespesaService {
         despesa.setDiaPagamento(obj.getDiaPagamento());
         despesa.setMesPagamento(obj.getMesPagamento());
         despesa.setFormaPagamentoPadrao(obj.getFormaPagamentoPadrao());
+    }
+
+    /**
+     * Remove os movimentos da lista de movimentos da despesa, os movimentos que estão na lista de movimentos
+     * deletados do service.
+     * @param despesa
+     */
+    public void deletarMovimentos(DespesaAbstrata despesa){
+        despesa.removerParcela(movimentoService.getMovimentosDeletados());
+        movimentoService.saveAll(movimentoService.getMovimentosDeletados());
     }
 
 
