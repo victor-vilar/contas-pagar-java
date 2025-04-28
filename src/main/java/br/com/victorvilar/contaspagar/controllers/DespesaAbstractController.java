@@ -184,17 +184,7 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
 
     }
 
-    /**
-     * Atualiza o movimento de acordo com as alterações realizadas na
-     * na linha da tabela na view.
-     */
-    public void editarMovimento(int linha) {
-        movimentoService.addMovimentoAtualizado(controllerHelper.atualizarMovimentosTabela(
-                movimentos,
-                linha,
-                (DefaultTableModel) view.getTableParcelas().getModel()
-        ));
-    }
+
 
     /**
      * Atualiza os valores da tabela a partir de uma lista de
@@ -238,9 +228,23 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
      *
      * @param indexLinha
      */
-    public void atualizarLinhaAlterada(int indexLinha) {
+    public void atualizarMovimento(int indexLinha) {
         editarMovimento(indexLinha);
         preencherTabela(movimentos);
+    }
+
+    /**
+     * Atualiza o movimento de acordo com as alterações realizadas na
+     * na linha da tabela na view.
+     */
+    public void editarMovimento(int linha) {
+        movimentoService.addMovimentoAtualizado(controllerHelper.atualizarMovimentosTabela(
+                movimentos,
+                linha,
+                (DefaultTableModel) view.getTableParcelas().getModel()
+        ));
+
+        movimentoService.adicionarOuAtualizarReferenteParcela(this.movimentos);
     }
 
     /**
@@ -256,6 +260,7 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
                 .forEach(e -> movimentoService.addMovimentoDeletado(e));
 
         //atualiza a view com a nova tabela.
+        movimentoService.adicionarOuAtualizarReferenteParcela(this.movimentos);
         preencherTabela(movimentos);
 
     }
@@ -277,7 +282,7 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
 
                 if (!String.valueOf(value).equals("")) {
                     ConversorData.paraData(String.valueOf(value));
-                    atualizarLinhaAlterada(linha);
+                    atualizarMovimento(linha);
                 }
                 break;
             //Se as coluna for igual a 3 que é a que possui valor pago
@@ -286,13 +291,13 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
 
                 if (!String.valueOf(value).equals("")) {
                     ConversorMoeda.paraBigDecimal(String.valueOf(value));
-                    atualizarLinhaAlterada(linha);
+                    atualizarMovimento(linha);
                 }
                 break;
 
             default:
 
-                atualizarLinhaAlterada(linha);
+                atualizarMovimento(linha);
                 break;
         }
     }
