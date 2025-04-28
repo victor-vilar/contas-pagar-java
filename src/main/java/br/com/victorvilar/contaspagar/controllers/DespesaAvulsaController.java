@@ -99,6 +99,8 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
                 view.getFieldValor().getText(),
                 formaPagamentoService.getByForma((String) view.getComboFormaPagamento().getSelectedItem()));
 
+        movimentoService.adicionarOuAtualizarReferenteParcela(movimentos);
+
     }
 
     public void limparCamposParcelamento() {
