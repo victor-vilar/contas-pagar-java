@@ -55,20 +55,11 @@ public class DespesaControllerHelper {
             mp.setDataVencimento(data);
             movimentos.add(mp);
         }
-        adicionarOuAtualizarReferenteParcela(movimentos);
+
         return movimentos;
     }
 
-    public void adicionarOuAtualizarReferenteParcela(List<MovimentoPagamento> movimentos){
-        int quantidade = movimentos.size();
-        for(int i = 0; i < quantidade ; i++){
-            if(quantidade == 1){
-                movimentos.get(0).setReferenteParcela("UNICA");
-                break;
-            }
-            movimentos.get(i).setReferenteParcela(i+1 +"/" + quantidade);
-        }
-    }
+
 
 
 
@@ -114,7 +105,6 @@ public class DespesaControllerHelper {
             movimentosDeletados.add(movimentos.remove(linhas[i]));
         }
 
-        adicionarOuAtualizarReferenteParcela(movimentos);
         return movimentosDeletados;
     }
 }
