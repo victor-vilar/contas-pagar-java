@@ -34,21 +34,55 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
     private List<MovimentoPagamento> movimentosDeletados = new ArrayList<>();
     private List<MovimentoPagamento> movimentosAtualizados = new ArrayList<>();
 
-    public List<MovimentoPagamento> getMovimentosDeletados(){
-        return movimentosDeletados;
-    }
-
-    public void addMovimentoDeletado(MovimentoPagamento movimento){
-        if(!movimentosDeletados.contains(movimento)){
-            movimentosDeletados.add(movimento);
-        }
-    }
-
 
     @Autowired
     public MovimentoPagamentoServiceImpl(MovimentoPagamentoRepository repository){
         this.repository = repository;
     }
+
+    public void limparListas(){
+        movimentosDeletados.clear();
+        movimentosAtualizados.clear();
+    }
+    @Override
+    public List<MovimentoPagamento> getMovimentosDeletados(){
+        return movimentosDeletados;
+    }
+    @Override
+    public List<MovimentoPagamento> getMovimentosAtualizados(){
+        return movimentosAtualizados;
+    }
+    @Override
+    public void addMovimentoDeletado(MovimentoPagamento movimento){
+        if(!movimentosDeletados.contains(movimento)){
+            movimentosDeletados.add(movimento);
+        }
+    }
+    @Override
+    public void addMovimentoAtualizado(MovimentoPagamento movimento){
+        // se o movimento existir dentro da lista e estou tentando coloca-lo novamente
+        // antes eu tenho que remover o que já exite e depois adicionar o novo.
+        // o metodo contains usa o equals do objeto para saber se ele existe dentro da lista
+        // então aqui ele so vai comparar nesse caso o id dos movimentos.
+        if(movimentosAtualizados.contains(movimento)){
+           movimentosAtualizados.remove(movimento);
+        }
+        movimentosAtualizados.add(movimento);
+    }
+
+    @Override
+    public void sincronizarMovimentos(){
+        if(!movimentosDeletados.isEmpty()){
+            deleteAll(movimentosDeletados);
+        }
+        if(!movimentosAtualizados.isEmpty()){
+            update(movimentosAtualizados);
+        }
+
+        limparListas();
+    }
+
+
 
     @Override
     public List<MovimentoPagamento> getTodos() {
@@ -127,6 +161,18 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
     @Override
     public List<MovimentoPagamento> getAllPagos() {
         return repository.findByDataPagamentoIsNotNull();
+    }
+
+
+    public void adicionarOuAtualizarReferenteParcela(List<MovimentoPagamento> movimentos){
+        int quantidade = movimentos.size();
+        for(int i = 0; i < quantidade ; i++){
+            if(quantidade == 1){
+                movimentos.get(0).setReferenteParcela("UNICA");
+                break;
+            }
+            movimentos.get(i).setReferenteParcela(i+1 +"/" + quantidade);
+        }
     }
 
 }
