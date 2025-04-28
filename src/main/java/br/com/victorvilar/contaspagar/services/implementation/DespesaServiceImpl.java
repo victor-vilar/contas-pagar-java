@@ -39,6 +39,11 @@ public class DespesaServiceImpl implements DespesaService {
         return repository.findById(id).orElseThrow(() -> new DespesaNotFoundException("Despesa não encontrada"));
     }
 
+    /**
+     * Busca uma despesa trazendo a sua lista de {@link br.com.victorvilar.contaspagar.entities.MovimentoPagamento}
+     * @param id Id da despesa que esta buscando
+     * @return despesa referente ao id passado.
+     */
     public DespesaAbstrata getByIdWithMovimentos(Long id){
         return repository.findByIdWithMovimentos(id);
     }
@@ -78,6 +83,7 @@ public class DespesaServiceImpl implements DespesaService {
 
         if(!movimentoService.getMovimentosDeletados().isEmpty()){
             despesa = getByIdWithMovimentos(obj.getId());
+            movimentoService.setIdDespesa(despesa.getId());
             deletarMovimentos(despesa);
         }else{
             despesa = getById(obj.getId());
@@ -86,9 +92,18 @@ public class DespesaServiceImpl implements DespesaService {
         despesa.setDescricao(obj.getDescricao());
         despesa.setCategoria(obj.getCategoria());
         updateCamposDoTipo(obj,despesa);
-        return repository.save(despesa);
+        despesa = repository.save(despesa);
+        movimentoService.sincronizarMovimentos();
+        return despesa;
     }
 
+    /**
+     * As despesas podem ser tanto {@link DespesaAvulsa} ou {@link DespesaRecorrente} então deve
+     * pegar a sua propriedade 'tipo' para conseguir atualizar os outros campos que pertencem especificamente
+     * a essas classes.
+     * @param obj Objeto 'detached' que possui os novos valores que serão atualizados.
+     * @param despesa Objeto 'persisted' que possui valores que ainda precisam ser atualizados.
+     */
     public void updateCamposDoTipo(DespesaAbstrata obj, DespesaAbstrata despesa){
         String tipo = obj.getTipo();
         switch (tipo) {
@@ -100,11 +115,21 @@ public class DespesaServiceImpl implements DespesaService {
                 break;
         }
     }
-    
+
+    /**
+     * Atualia os campos de {@link DespesaAvulsa}
+     * @param obj Objeto 'detached' que possui os novos valores que serão atualizados.
+     * @param despesa Objeto 'persisted' que possui valores que ainda precisam ser atualizados.
+     */
     public void updateDespesaAvulsa(DespesaAvulsa obj, DespesaAvulsa despesa) {
         despesa.setNotaFiscal(obj.getNotaFiscal());
     }
 
+    /**
+     * Atualia os campos de {@link DespesaRecorrente}
+     * @param obj Objeto 'detached' que possui os novos valores que serão atualizados.
+     * @param despesa Objeto 'persisted' que possui valores que ainda precisam ser atualizados.
+     */
     public void updateDespesaRecorrente(DespesaRecorrente obj, DespesaRecorrente despesa) {
         despesa.setPeriocidade(obj.getPeriocidade());
         despesa.setDataInicio(obj.getDataInicio());
@@ -115,9 +140,9 @@ public class DespesaServiceImpl implements DespesaService {
     }
 
     /**
-     * Remove os movimentos da lista de movimentos da despesa, os movimentos que estão na lista de movimentos
-     * deletados do service.
-     * @param despesa
+     * Remove da lista de movimentos de despesa, todos os movimentos que foram excluídos e armazenados
+     * temporatiamente na lista de movimentos deletados de {@link MovimentoPagamentoService}
+     * @param despesa Despesa que possui os movimentos que devem ser deletados.
      */
     public void deletarMovimentos(DespesaAbstrata despesa){
         despesa.removerParcela(movimentoService.getMovimentosDeletados());
