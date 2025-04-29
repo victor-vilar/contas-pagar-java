@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 @Table(name="despesas_avulsas")
 public class DespesaAvulsa extends DespesaAbstrata implements Serializable {
 
-        public final String tipo = "AVULSA";
+
 
 	@Override
 	public BigDecimal getValorTotal() {
@@ -30,17 +30,15 @@ public class DespesaAvulsa extends DespesaAbstrata implements Serializable {
 
 	}
 
-	public String getTipo(){
-            return tipo;
-        }
     
     
 	@OneToOne(cascade = CascadeType.ALL)
-        @JoinColumn(name="despesa_id")
+	@JoinColumn(name="despesa_id")
 	private NotaFiscal notaFiscal;
 	
 	public DespesaAvulsa(){
 		super();
+		this.setTipo("AVULSA");
 	}
 	
 

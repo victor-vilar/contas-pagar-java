@@ -36,6 +36,7 @@ public abstract class DespesaAbstrata implements Despesa {
     private String descricao;
     private boolean quitado = false;
     private BigDecimal valorTotal;
+    private String tipo;
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "despesa")
     @OrderBy("id ASC")
     private List<MovimentoPagamento> movimentos = new ArrayList<>();
@@ -126,6 +127,14 @@ public abstract class DespesaAbstrata implements Despesa {
         return this.movimentos.size();
     }
 
+    @Override
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
 
     @Override
     public int hashCode() {
