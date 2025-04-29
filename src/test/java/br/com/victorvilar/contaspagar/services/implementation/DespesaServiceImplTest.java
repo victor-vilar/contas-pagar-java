@@ -1,11 +1,6 @@
 package br.com.victorvilar.contaspagar.services.implementation;
 
-import br.com.victorvilar.contaspagar.entities.CategoriaDespesa;
-import br.com.victorvilar.contaspagar.entities.DespesaAvulsa;
-import br.com.victorvilar.contaspagar.entities.DespesaRecorrente;
-import br.com.victorvilar.contaspagar.entities.FormaPagamento;
-import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
-import br.com.victorvilar.contaspagar.entities.NotaFiscal;
+import br.com.victorvilar.contaspagar.entities.*;
 import br.com.victorvilar.contaspagar.enums.Periodo;
 import br.com.victorvilar.contaspagar.repositories.DespesaRepository;
 import br.com.victorvilar.contaspagar.services.implementation.DespesaServiceImpl;
@@ -22,11 +17,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.*;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -100,9 +95,46 @@ class DespesaServiceImplTest {
     }
 
     @Test
+    @DisplayName("metodo update deve chamar getByyId quando a lista de movimentos deletados no serviço for vazio")
+    public void deveChamarGetByIdQuandoListaDeDeletadosForVazio(){
+        when(repository.findById(1l)).thenReturn(Optional.of(avulsa));
+        service.update(avulsa);
+        verify(service,times(1)).getById(avulsa.getId());
+    }
+
+    @Test
+    @DisplayName("metodo update deve chamar getByIdWithMovimentos quando a lista de movimentos deletados NÃO for vazio")
+    public void deveChamarGetByIdQuandoListaDeDeletadosNaoForVazio() {
+        when(movimentoService.getMovimentosDeletados()).thenReturn(List.of(new MovimentoPagamento()));
+        when(repository.findByIdWithMovimentos(1l)).thenReturn(avulsa);
+        service.update(avulsa);
+        verify(service, times(1)).getByIdWithMovimentos(avulsa.getId());
+    }
+
+    @Test
+    @DisplayName("metodo update")
+    public void deveChamarMetodosetIdDespesaDoMovimentoService() {
+        when(movimentoService.getMovimentosDeletados()).thenReturn(List.of(new MovimentoPagamento()));
+        when(repository.findByIdWithMovimentos(1l)).thenReturn(avulsa);
+        service.update(avulsa);
+        verify(movimentoService, times(1)).setIdDespesa(avulsa.getId());
+    }
+
+    @Test
+    @DisplayName("metodo update")
+    public void deveChamarMetodoDeletarMovimentos() {
+        when(movimentoService.getMovimentosDeletados()).thenReturn(List.of(new MovimentoPagamento()));
+        when(repository.findByIdWithMovimentos(1l)).thenReturn(avulsa);
+        service.update(avulsa);
+        verify(service, times(1)).deletarMovimentos(avulsa);
+    }
+
+
+    @Test
     @DisplayName("metodo update")
     public void deveAtualizarCamposDaDespesaAbstrata() {
-        when(repository.findById(1l)).thenReturn(Optional.of(avulsa));
+        when(repository.findById(any())).thenReturn(Optional.of(avulsa));
+        when(repository.save(any())).thenReturn(avulsa);
         DespesaAvulsa desp = (DespesaAvulsa) service.update(avulsa);
         assertEquals(desp.getNomeFornecedor(), avulsa.getNomeFornecedor());
         assertEquals(desp.getDescricao(), avulsa.getDescricao());
@@ -126,12 +158,31 @@ class DespesaServiceImplTest {
     }
 
     @Test
-    @DisplayName("metodo udpate ")
-    public void deveChamarMetodoUpdateDeMovimentoPagamentoService() {
-        when(repository.findById(1l)).thenReturn(Optional.of(avulsa));
+    @DisplayName("metodo update")
+    public void deveChamarMetodoNoSincroninarDeMovimentoService() {
+        when(repository.findById(any())).thenReturn(Optional.of(avulsa));
         service.update(avulsa);
-        verify(movimentoService, times(1)).update(anyList());
+        verify(movimentoService,times(1)).sincronizarMovimentos();
     }
+
+    @Test
+    @DisplayName("metodo updateCamposDoTipo")
+    public void deveChamarMetodoUpdateDespesaAvulsaQuandoTipoForAvulsa() {
+        DespesaAbstrata d1 = new DespesaAvulsa();
+        DespesaAbstrata d2 = new DespesaAvulsa();
+        service.updateCamposDoTipo(d1,d2);
+        verify(service,times(1)).updateDespesaAvulsa(any(),any());
+    }
+
+    @Test
+    @DisplayName("metodo updateCamposDoTipo")
+    public void deveChamarMetodoUpdateDespesaAvulsaQuandoTipoForRecorrente() {
+        DespesaAbstrata d1 = new DespesaRecorrente();
+        DespesaAbstrata d2 = new DespesaRecorrente();
+        service.updateCamposDoTipo(d1,d2);
+        verify(service,times(1)).updateDespesaRecorrente(any(),any());
+    }
+
 
     @Test
     @DisplayName("metodo udpate despesa avulsa")
@@ -155,4 +206,10 @@ class DespesaServiceImplTest {
         assertEquals(obj.getFormaPagamentoPadrao(),recorrente.getFormaPagamentoPadrao());
     }
 
+    @Test
+    @DisplayName("metodo deletar movimentos")
+    public void deveChamarMetodoSaveAllDoMovimentoService() {
+        service.deletarMovimentos(new DespesaAvulsa());
+        verify(movimentoService,times(1)).saveAll(any());
+    }
 }
