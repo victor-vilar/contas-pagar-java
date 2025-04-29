@@ -10,4 +10,5 @@ public interface DespesaRepository extends JpaRepository<DespesaAbstrata, Long> 
 
     @Query("SELECT d FROM DespesaAbstrata d LEFT JOIN FETCH d.movimentos WHERE d.id = :id")
     DespesaAbstrata findByIdWithMovimentos(@Param("id")Long id);
+    DespesaAbstrata findByTipo(String tipo);
 }
