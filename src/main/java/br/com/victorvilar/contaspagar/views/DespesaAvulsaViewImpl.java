@@ -6,6 +6,7 @@ package br.com.victorvilar.contaspagar.views;
 
 import br.com.victorvilar.contaspagar.controllers.DespesaAvulsaController;
 import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
+import br.com.victorvilar.contaspagar.exceptions.QuantidadeDeParcelasException;
 import br.com.victorvilar.contaspagar.util.ConversorData;
 import br.com.victorvilar.contaspagar.util.ConversorMoeda;
 import br.com.victorvilar.contaspagar.views.interfaces.Subscriber;
@@ -189,12 +190,14 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
             public void keyPressed(KeyEvent e) {
 
                 if (e.getKeyCode() == KeyEvent.VK_DELETE) {
-
                     int[] linhas = tableParcelas.getSelectedRows();
                     if (linhas[0] != -1) {
-
                         if (JOptionPane.showConfirmDialog(null, "Deseja remover as parcelas selecionadas ?", "Atenção", JOptionPane.OK_CANCEL_OPTION) == 0) {
-                            controller.deletarMovimentos(linhas);
+                            try {
+                                controller.deletarMovimentos(linhas);
+                            }catch(QuantidadeDeParcelasException q){
+                                JOptionPane.showMessageDialog(null, q.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                            }
                         }
 
                     }

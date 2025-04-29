@@ -6,6 +6,7 @@ package br.com.victorvilar.contaspagar.controllers;
 
 import br.com.victorvilar.contaspagar.controllers.interfaces.CrudViewController;
 import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
+import br.com.victorvilar.contaspagar.exceptions.QuantidadeDeParcelasException;
 import br.com.victorvilar.contaspagar.util.ControllerHelper;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.enums.Periodo;
@@ -40,6 +41,9 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
     protected final FormaPagamentoService formaPagamentoService;
     protected T view;
     protected List<MovimentoPagamento> movimentos;
+    public static final String REMOVER_TODAS_PARCELAS =
+            "Não é possível remover todas as parcelas de uma despesa.\n" +
+                    "A despesa precisa possuir pelo menos uma parcela.";
 
 
     private final List<String> exludeComponents = List.of(
@@ -253,6 +257,10 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
      * @param linhas
      */
     public void deletarMovimentos(int[] linhas) {
+
+        if(view.getTableParcelas().getRowCount() == linhas.length){
+            throw new QuantidadeDeParcelasException(REMOVER_TODAS_PARCELAS);
+        }
 
         controllerHelper.deletarMovimentosTabela(movimentos, linhas)
                 .stream()
