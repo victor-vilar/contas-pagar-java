@@ -31,7 +31,7 @@ public class DespesaControllerHelper {
             throws QuantidadeDeParcelasException, DateTimeParseException {
 
         if (qtdParcelas <= 0) {
-            throw new QuantidadeDeParcelasException();
+            throw new QuantidadeDeParcelasException("A quantidade de parcelas não pode ser zero ou negativa");
         }
 
         LocalDate data = ConversorData.paraData(dataInicial);
