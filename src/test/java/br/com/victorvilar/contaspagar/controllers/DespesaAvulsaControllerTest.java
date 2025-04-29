@@ -4,7 +4,6 @@
  */
 package br.com.victorvilar.contaspagar.controllers;
 
-import br.com.victorvilar.contaspagar.controllers.DespesaAvulsaController;
 import br.com.victorvilar.contaspagar.entities.CategoriaDespesa;
 import br.com.victorvilar.contaspagar.entities.DespesaAvulsa;
 import br.com.victorvilar.contaspagar.entities.FormaPagamento;
@@ -24,7 +23,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.table.DefaultTableModel;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -347,7 +346,7 @@ public class DespesaAvulsaControllerTest {
     @Test
     public void metodoAtualizarLinhaAlteradaDeveChamarMetodos() {
 
-        controller.atualizarLinhaAlterada(1);
+        controller.atualizarMovimento(1);
         verify(controller, times(1)).editarMovimento(eq(1));
         verify(controller, times(1)).preencherTabela(anyList());
     }
