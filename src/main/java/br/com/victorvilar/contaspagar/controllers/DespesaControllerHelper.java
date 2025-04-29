@@ -26,7 +26,17 @@ public class DespesaControllerHelper {
         this.formaPagamentoService = formaPagamentoService;
     }
 
-
+    /**
+     * Gera uma lista de movimetnos de acordo com os dados passados
+     * @param parcelamento tipo de parcelamento que a despesa possui {@link br.com.victorvilar.contaspagar.enums.Periodo}
+     * @param qtdParcelas quantidade de parcelas que serão criadas
+     * @param dataInicial data do vencimento da primeira parcela
+     * @param valor valor de cada parcela
+     * @param formaPagamento forma de pagamento de cada parcela
+     * @return uma lista de movimentoPagamento
+     * @throws QuantidadeDeParcelasException Lançada caso a quantidade de parcelas for igual ou menor que zero
+     * @throws DateTimeParseException Lançada caso a data informada esteja incorreta ou não exista
+     */
     public List<MovimentoPagamento> gerarMovimentos(String parcelamento, int qtdParcelas, String dataInicial, String valor, FormaPagamento formaPagamento)
             throws QuantidadeDeParcelasException, DateTimeParseException {
 
@@ -60,9 +70,12 @@ public class DespesaControllerHelper {
     }
 
 
-
-
-
+    /**
+     * Cria uma data nova dependendo da forma de parcelamento passado
+     * @param parcelamento tipo de parcelamento que a despesa possui
+     * @param dataAtual data da ultima parcela registrada
+     * @return nova data para a proxima parcela
+     */
     private LocalDate dataProximaParcela(String parcelamento, LocalDate dataAtual) {
 
         LocalDate novaData;
@@ -88,6 +101,13 @@ public class DespesaControllerHelper {
         return novaData;
     }
 
+    /**
+     * Atualiza um movimento na lista de movimento de acordo com os novos valores inseridos em uma linha de uma tabela
+     * @param movimentos lista de movimentos
+     * @param linha linha na tabela que sofreu alteração e que sera usado para buscar o indice
+     * @param model model de uma tabela na view
+     * @return movimento atualizado
+     */
     public MovimentoPagamento atualizarMovimentosTabela(List<MovimentoPagamento> movimentos, int linha, DefaultTableModel model) {
         MovimentoPagamento mp = movimentos.get(linha);
         mp.setDataVencimento(ConversorData.paraData(String.valueOf(model.getValueAt(linha, 2))));
@@ -98,6 +118,12 @@ public class DespesaControllerHelper {
         return mp;
     }
 
+    /**
+     * Remove de uma lista de movimentos os itens que se encontram no mesmo indice de um elemento do array passado.
+     * @param movimentos lista de movimentos
+     * @param linhas indices que devem ser eliminados na lista.
+     * @return lista de movimentos deletados.
+     */
     public List<MovimentoPagamento> deletarMovimentosTabela(List<MovimentoPagamento> movimentos, int[] linhas) {
 
         List<MovimentoPagamento> movimentosDeletados = new ArrayList<>();

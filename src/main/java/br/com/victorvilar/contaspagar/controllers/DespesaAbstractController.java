@@ -173,7 +173,9 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
     }
 
     /**
-     * Ativa ou desativa os componentes da view.
+     * Ativa ou desativa os componentes da view. Ignorando os que se encontram
+     * dentro da lista 'excludedComponents', já que esses valores devem sempre
+     * estar ativos.
      *
      * @param con boolean 'true' para ativar 'false' para desativar
      */
@@ -239,6 +241,9 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
     /**
      * Atualiza o movimento de acordo com as alterações realizadas na
      * na linha da tabela na view.
+     * Adiciona o movimento atualizado a lista de movimentos atualizados de movimentoPagamentoService
+     * para que os dados possam ser salvos no banco de dados após o salvamento.
+     * @param linha linha na tabela da view que foi alterada
      */
     public void editarMovimento(int linha) {
         movimentoService.addMovimentoAtualizado(controllerHelper.atualizarMovimentosTabela(
@@ -254,7 +259,7 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
      * Remove da lista de movimentos, os movimentos que foram deletados na
      * tabela.
      *
-     * @param linhas
+     * @param linhas linhas selecionadas na view
      */
     public void deletarMovimentos(int[] linhas) {
 
@@ -373,6 +378,10 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
      * Preenche os campos da view com os valores das despeas passadas, cada
      * objeto e subclasse de DespesaAbstractController possuem diferentes 
      * quantidades de campos, então suas subclasses devem implementar esse metodo.
+     * No formulário {@link br.com.victorvilar.contaspagar.views.MovimentoPagamentoView}
+     * ao selecionar um movimento na tabela e apertar F1, o sistema busca no banco de dados
+     * a despesa ao qual o movimento selecionado pertence e abre o seu respectivo formulário
+     * dependendo do tipo de despesa.
      */
     public abstract void preencherView(DespesaAbstrata despesa);
 }
