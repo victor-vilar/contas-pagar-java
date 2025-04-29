@@ -25,6 +25,9 @@ public abstract class ConversorMoeda {
      */
     public static BigDecimal paraBigDecimal(String moeda) {
 
+           if(moeda == null){
+               return null;
+           }
            moeda = moeda.replaceAll("[^0-9,]", "");
            moeda = moeda.replace(",",".");
            return new BigDecimal(moeda);
