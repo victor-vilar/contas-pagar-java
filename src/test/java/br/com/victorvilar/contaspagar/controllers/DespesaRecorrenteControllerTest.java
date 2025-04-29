@@ -12,6 +12,7 @@ import br.com.victorvilar.contaspagar.enums.Periodo;
 import br.com.victorvilar.contaspagar.exceptions.DiaVencimentoInvalidoException;
 import br.com.victorvilar.contaspagar.exceptions.FieldsEmBrancoException;
 import br.com.victorvilar.contaspagar.exceptions.MesVencimentoInvalidoException;
+import br.com.victorvilar.contaspagar.exceptions.QuantidadeDeParcelasException;
 import br.com.victorvilar.contaspagar.services.interfaces.CategoriaDespesaService;
 import br.com.victorvilar.contaspagar.services.interfaces.DespesaService;
 import br.com.victorvilar.contaspagar.services.interfaces.FormaPagamentoService;
@@ -41,6 +42,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -166,12 +169,40 @@ public class DespesaRecorrenteControllerTest {
     }
 
     @Test
-    public void metodoDeletarDeveChamaODeleteDoServiço() {
+    @DisplayName("metodo deletar")
+    public void metodoDeletarDeveLancarExceptionSeTentarRemoverTodosOsMovimentosDeUmaDespesa(){
+        DefaultTableModel model = (DefaultTableModel) view.getTableParcelas().getModel();
+        model.addRow(new Object[]{1});
+        model.addRow(new Object[]{2});
+        model.addRow(new Object[]{3});
+        int[] linhas = {1,2,3};
+        Assertions.assertThrows(QuantidadeDeParcelasException.class, ()
+                -> controller.deletarMovimentos(linhas));
+    }
 
-        view.getFieldId().setText("1");
-        controller.deletar();
-        verify(despesaService, times(1)).deleteById(1l);
-        verify(controller, times(1)).limparCampos();
+    @Test
+    @DisplayName("metodo deletar")
+    public void metodoDeletarMovimentosDeveChamarServicoParaEliminarMovimentos() {
+
+        int[] linhas = {2, 3, 10};
+        controller.deletarMovimentos(linhas);
+        verify(controllerHelper, times(1)).deletarMovimentosTabela(anyList(),any());
+    }
+
+    @Test
+    @DisplayName("metodo deletar")
+    public void metodooDeletarMovimentosDeveChamarMetodoadicionarOuAtualizarReferenteParcelaDoServico(){
+        int[] linhas = {2, 3, 10};
+        controller.deletarMovimentos(linhas);
+        verify(movimentoService, times(1)).adicionarOuAtualizarReferenteParcela(anyList());
+    }
+
+    @Test
+    @DisplayName("metodo deletar")
+    public void metodooDeletarMovimentosDeveChamarMetodoPreencherTabela(){
+        int[] linhas = {2, 3, 10};
+        controller.deletarMovimentos(linhas);
+        verify(controller, times(1)).preencherTabela(anyList());
     }
 
     @Test
