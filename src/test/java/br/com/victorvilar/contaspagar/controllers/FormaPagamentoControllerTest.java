@@ -102,12 +102,12 @@ class FormaPagamentoControllerTest {
 		verify(service,times(1)).deleteById(1L);
 		
 		addRows();
-		view.getTable().setRowSelectionInterval(0,1);
+		view.getTable().setRowSelectionInterval(1,1);
 		controller.deletar();
 		verify(service,times(1)).deleteById(2L);
 		
 		addRows();
-		view.getTable().setRowSelectionInterval(0, 2);
+		view.getTable().setRowSelectionInterval(2, 2);
 		controller.deletar();
 		verify(service,times(1)).deleteById(3L);
 	}

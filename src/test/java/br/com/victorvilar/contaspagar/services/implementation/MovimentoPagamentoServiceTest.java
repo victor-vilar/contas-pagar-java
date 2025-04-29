@@ -24,9 +24,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Mockito.when;
+
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -70,7 +72,7 @@ public class MovimentoPagamentoServiceTest {
         mp2.setValorPagamento(ConversorMoeda.paraBigDecimal("1000"));
         mp2.setDataPagamento(ConversorData.paraData("0104"));
 
-        mp3.setId(2L);
+        mp3.setId(3L);
         mp3.setReferenteParcela("1/5");
         mp3.setDataVencimento(ConversorData.paraData("0104"));
         mp3.setValorPagamento(ConversorMoeda.paraBigDecimal("1000"));
@@ -124,6 +126,150 @@ public class MovimentoPagamentoServiceTest {
 
     }
 
+    @Test
+    @DisplayName("metodo limpar deve limpar listas e variavel id")
+    public void metodoLimparDeveLimparListasESetarValorIdDespesaNull(){
+        service.addMovimentoAtualizado(new MovimentoPagamento());
+        service.addMovimentoAtualizado(new MovimentoPagamento());
+        service.setIdDespesa(1l);
+        service.limpar();
+        assertEquals(service.getMovimentosAtualizados().size(), 0);
+        assertEquals(service.getMovimentosDeletados().size(), 0);
+        //assertEquals();
+    }
 
+    @Test
+    @DisplayName("metodo addMovimentoDeletado deve adcionar um novo movimento a lista")
+    public void metodoAddMovimentoDeletadoAdicionaNovoMovimentoALista(){
+        assertTrue(service.getMovimentosDeletados().isEmpty());
+        service.addMovimentoDeletado(new MovimentoPagamento());
+        assertEquals(service.getMovimentosDeletados().size(),1);
 
+    }
+
+    @Test
+    @DisplayName("metodo addMovimentoDeletado não deve adicionar um movimento caso ele já exista na lista")
+    public void metodoAddMovimentoDeletadoNaoAdicionaMovimentoCasoJaExistaNaLista(){
+        assertTrue(service.getMovimentosDeletados().isEmpty());
+        service.addMovimentoDeletado(mp1);
+        assertEquals(service.getMovimentosDeletados().size(),1);
+        service.addMovimentoDeletado(mp1);
+        assertEquals(service.getMovimentosDeletados().size(),1);
+        service.addMovimentoDeletado(mp2);
+        assertEquals(service.getMovimentosDeletados().size(),2);
+    }
+
+    @Test
+    @DisplayName("metodo addMovimentoAtualizado deve adicionar um movimento")
+    public void metodoAddMovimentoAtualizadoDeveAdicionarNovoMovimentoNaLista(){
+        assertTrue(service.getMovimentosAtualizados().isEmpty());
+        service.addMovimentoAtualizado(mp1);
+        assertEquals(service.getMovimentosAtualizados().size(),1);
+    }
+
+    @Test
+    @DisplayName("metodo addMovimentoAtualizado deve remover um objeto com dados desatualizados da lista e adicionar" +
+                 " o novo")
+    public void  metodoAddMovimentoAtualizadoDeveRemoverObjetoComDadosAntigosDaListaEAdicionarUmNovo(){
+
+        service.addMovimentoAtualizado(mp1);
+        assertEquals(service.getMovimentosAtualizados().size(),1);
+        MovimentoPagamento novo = new MovimentoPagamento();
+        novo.setId(1l);
+        novo.setReferenteParcela("teste");
+        service.addMovimentoAtualizado(novo);
+        assertEquals(service.getMovimentosAtualizados().size(),1);
+        assertEquals(service.getMovimentosAtualizados().get(0).getReferenteParcela(),novo.getReferenteParcela());
+        service.addMovimentoAtualizado(mp2);
+        assertEquals(service.getMovimentosAtualizados().size(),2);
+    }
+
+    @Test
+    @DisplayName("metodo sincronizarMovimentos não deve chamar metodos se a lista tiver vazia")
+    public void metodoNaoDeveChamarMetodosSeListaDeMovimentosDeletadosEstiverVazia(){
+        service.sincronizarMovimentos();
+        verify(service,times(0)).deleteAll(any());
+        verify(service,times(0)).adicionarOuAtualizarReferenteParcela(any());
+        verify(service,times(0)).saveAll(any());
+    }
+
+    @Test
+    @DisplayName(" metodo sincronizar movimentos deve chamar deleteAll se a lista de movimentos nao estiver vazia")
+    public void  metodoSincronizarMovimentosDeveChamarDeleteAllSeLIstaDeDeletadosNaoEstiverVazia() {
+        service.addMovimentoDeletado(mp1);
+        service.sincronizarMovimentos();
+        verify(service,times(1)).deleteAll(any());
+    }
+
+    @Test
+    @DisplayName(" metodo sincronizar movimentos deve chamar AdicionarOuAtualizarReferenteParcela se a lista de movimentos nao estiver vazia")
+    public void  metodoSincronizarMovimentosDeveChamarAdicionarOuAtualizarReferenteParcelaSeLIstaDeDeletadosNaoEstiverVazia() {
+        service.addMovimentoDeletado(mp1);
+        service.sincronizarMovimentos();
+        verify(service,times(1)).adicionarOuAtualizarReferenteParcela(any());
+    }
+
+    @Test
+    @DisplayName(" metodo sincronizar movimentos deve chamar deleteAll se a lista de movimentos nao estiver vazia")
+    public void metodoSincronizarMovimentosDeveChamarSaveAllSeLIstaDeDeletadosNaoEstiverVazia() {
+        service.addMovimentoDeletado(mp1);
+        service.sincronizarMovimentos();
+        verify(service,times(1)).saveAll(any());
+    }
+
+    @Test
+    @DisplayName("metodo sincronizar não deve chamar metodo se lista de atualizados estiver vazia")
+    public void metodoSincronizarNaoDeveChamarMetodoUpdateSeListaDeAtualizadosEstiverVazia(){
+        service.sincronizarMovimentos();
+        verify(service,times(0)).update(anyList());
+    }
+    @Test
+    @DisplayName("metodo sincronizar deve chamar metodo se lista de atualizados estiver vazia")
+    public void metodoSincronizarDeveChamarmetodoUpdateSeListaDeAtualizadosEstiverVazia(){
+        when(repository.findById(mp1.getId())).thenReturn(Optional.of(mp1));
+        service.addMovimentoAtualizado(mp1);
+        service.sincronizarMovimentos();
+        verify(service,times(1)).update(anyList());
+    }
+
+    @Test
+    @DisplayName("metodo sincronizar deve chamar metodo limpar")
+    public void metodoSincronizarDeveChamarmetodoLimpar(){
+        service.sincronizarMovimentos();
+        verify(service,times(1)).limpar();
+    }
+
+    @Test
+    @DisplayName("metood adicionar gera parcela 'UNICA' quando há somente um item")
+    public void metodoadicionarOuAtualizarReferentePagamentoDeveGerarParcelaUnicaQuandoHaSomenteUmMovimento(){
+        List<MovimentoPagamento> lista = new ArrayList<>();
+        mp1.setReferenteParcela("");
+        lista.add(mp1);
+        service.adicionarOuAtualizarReferenteParcela(lista);
+        assertEquals(mp1.getReferenteParcela(),"UNICA");
+        assertEquals(lista.get(0).getReferenteParcela(),"UNICA");
+
+    }
+
+    @Test
+    @DisplayName("metood adicionar gerar parcelas de acordo com a quantidade de movimentos")
+    public void metodoadicionarOuAtualizarReferentePagamentoDeveGerarParcelaDeAcordoComAQuantidadeDeMovimentos(){
+        List<MovimentoPagamento> lista = new ArrayList<>();
+        mp1.setReferenteParcela("");
+        mp2.setReferenteParcela("");
+        mp3.setReferenteParcela("");
+        lista.add(mp1);
+        lista.add(mp2);
+        lista.add(mp3);
+        service.adicionarOuAtualizarReferenteParcela(lista);
+        assertEquals(lista.get(0).getReferenteParcela(),"1/3");
+        assertEquals(lista.get(1).getReferenteParcela(),"2/3");
+        assertEquals(lista.get(2).getReferenteParcela(),"3/3");
+        assertEquals(mp1.getReferenteParcela(),"1/3");
+        assertEquals(mp2.getReferenteParcela(),"2/3");
+        assertEquals(mp3.getReferenteParcela(),"3/3");
+
+    }
 }
+
+

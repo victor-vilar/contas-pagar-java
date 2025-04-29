@@ -3,6 +3,7 @@ package br.com.victorvilar.contaspagar.controllers;
 import br.com.victorvilar.contaspagar.entities.FormaPagamento;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.exceptions.QuantidadeDeParcelasException;
+import br.com.victorvilar.contaspagar.services.interfaces.FormaPagamentoService;
 import br.com.victorvilar.contaspagar.util.ConversorData;
 import br.com.victorvilar.contaspagar.util.ConversorMoeda;
 import org.junit.jupiter.api.Assertions;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.swing.table.DefaultTableModel;
@@ -21,12 +23,16 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class DespesaControllerHelperTest {
 
     @InjectMocks
     private DespesaControllerHelper helper;
+
+    @Mock
+    private FormaPagamentoService formaService;
 
     FormaPagamento fp1;
     FormaPagamento fp2;
@@ -125,28 +131,24 @@ class DespesaControllerHelperTest {
 
         List<MovimentoPagamento> result = helper.gerarMovimentos("ANUAL", 1, "31/03/2025", "2000", fp1);
         assertEquals(result.size(), 1);
-        assertEquals(result.get(0).getReferenteParcela(), "UNICA");
         assertEquals(result.get(0).getDataVencimento(), LocalDate.of(2025, 03, 30));
         assertEquals(result.get(0).getValorPagamento(), new BigDecimal("2000"));
         assertTrue(result.get(0).getFormaPagamento().getName().equals(fp1.getName()));
 
         result = helper.gerarMovimentos("MENSAL", 1, "31/03/2025", "2000", fp1);
         assertEquals(result.size(), 1);
-        assertEquals(result.get(0).getReferenteParcela(), "UNICA");
         assertEquals(result.get(0).getDataVencimento(), LocalDate.of(2025, 03, 30));
         assertEquals(result.get(0).getValorPagamento(), new BigDecimal("2000"));
         assertTrue(result.get(0).getFormaPagamento().getName().equals(fp1.getName()));
 
         result = helper.gerarMovimentos("QUINZENAL", 1, "31/03/2025", "2000", fp2);
         assertEquals(result.size(), 1);
-        assertEquals(result.get(0).getReferenteParcela(), "UNICA");
         assertEquals(result.get(0).getDataVencimento(), LocalDate.of(2025, 03, 30));
         assertEquals(result.get(0).getValorPagamento(), new BigDecimal("2000"));
         assertTrue(result.get(0).getFormaPagamento().getName().equals(fp2.getName()));
 
         result = helper.gerarMovimentos("SEMANAL", 1, "31/03/2025", "2000", fp2);
         assertEquals(result.size(), 1);
-        assertEquals(result.get(0).getReferenteParcela(), "UNICA");
         assertEquals(result.get(0).getDataVencimento(), LocalDate.of(2025, 03, 30));
         assertEquals(result.get(0).getValorPagamento(), new BigDecimal("2000"));
         assertTrue(result.get(0).getFormaPagamento().getName().equals(fp2.getName()));
@@ -156,11 +158,7 @@ class DespesaControllerHelperTest {
     @Test
     @DisplayName("Deve gerar parcelas anuais quando existem mais de uma parcela")
     public void DeveGerarQuantidadeDeParcelasAnuaisPassadas() {
-
-
-
         int qtdParcelas = 10;
-
         List<MovimentoPagamento> result
                 = helper.gerarMovimentos("ANUAL",
                 qtdParcelas, "31/03/2025",
@@ -169,8 +167,6 @@ class DespesaControllerHelperTest {
         assertEquals(result.size(), 10);
 
         for (int i = 0; i < result.size(); i++) {
-
-            assertEquals(result.get(i).getReferenteParcela(), i + 1 + "/" + qtdParcelas);
             assertEquals(result.get(i).getDataVencimento(), LocalDate.of(2025, 03, 30).plusYears(i));
             assertEquals(result.get(i).getValorPagamento(), new BigDecimal("2000"));
             assertTrue(result.get(0).getFormaPagamento().getName().equals(fp1.getName()));
@@ -182,9 +178,6 @@ class DespesaControllerHelperTest {
     @DisplayName("Deve gerar parcelas mensais quando existem mais de uma parcela"
             + "e o periodo for mensal")
     public void DeveGerarQuantidadeDeParcelasMensais() {
-
-
-
         int qtdParcelas = 12;
 
         List<MovimentoPagamento> result
@@ -195,8 +188,6 @@ class DespesaControllerHelperTest {
         assertEquals(result.size(), qtdParcelas);
 
         for (int i = 0; i < result.size(); i++) {
-
-            assertEquals(result.get(i).getReferenteParcela(), i + 1 + "/" + qtdParcelas);
             assertEquals(result.get(i).getDataVencimento(), LocalDate.of(2025, 03, 30).plusMonths(i));
             assertEquals(result.get(i).getValorPagamento(), new BigDecimal("2000"));
             assertTrue(result.get(0).getFormaPagamento().getName().equals(fp1.getName()));
@@ -209,8 +200,6 @@ class DespesaControllerHelperTest {
             + "e o periodo for quinzenal")
     public void DeveGerarQuantidadeDeParcelasQuinzenais() {
 
-
-
         int qtdParcelas = 12;
 
         List<MovimentoPagamento> result
@@ -222,8 +211,6 @@ class DespesaControllerHelperTest {
         LocalDate dt = LocalDate.parse("2025-03-30");
 
         for (int i = 0; i < result.size(); i++) {
-
-            assertEquals(result.get(i).getReferenteParcela(), i + 1 + "/" + qtdParcelas);
             assertEquals(result.get(i).getDataVencimento(), dt);
             dt = dt.plusWeeks(2);
             assertEquals(result.get(i).getValorPagamento(), new BigDecimal("2000"));
@@ -250,8 +237,6 @@ class DespesaControllerHelperTest {
         LocalDate dt = LocalDate.parse("2025-03-30");
 
         for (int i = 0; i < result.size(); i++) {
-
-            assertEquals(result.get(i).getReferenteParcela(), i + 1 + "/" + qtdParcelas);
             assertEquals(result.get(i).getDataVencimento(), dt);
             dt = dt.plusWeeks(1);
             assertEquals(result.get(i).getValorPagamento(), new BigDecimal("2000"));
@@ -268,11 +253,11 @@ class DespesaControllerHelperTest {
         movimentos.add(mp2);
         movimentos.add(mp3);
 
-        model.addRow(new Object[]{null, "1/5", "0105", "2000", null,"",""});
-        model.addRow(new Object[]{null, "1/5", "0106", "20000", null," ",""});
-        model.addRow(new Object[]{null, "1/5", "0109", "21000", null," ",""});
+        model.addRow(new Object[]{null, "1/5", "0105", "2000", null,"PIX",""});
+        model.addRow(new Object[]{null, "1/5", "0106", "20000", null,"PIX",""});
+        model.addRow(new Object[]{null, "1/5", "0109", "21000", null,"PIX",""});
 
-        //when(formaPagmaento)
+        when(formaService.getByForma("PIX")).thenReturn(fp1);
 
         helper.atualizarMovimentosTabela(movimentos, 0, model);
         helper.atualizarMovimentosTabela(movimentos, 2, model);
@@ -298,41 +283,24 @@ class DespesaControllerHelperTest {
     @Test
     @DisplayName("Deve remover os movimentos das linhas selecionandas na view")
     public void removerMovimentoLinhasTabela() {
-
-
-
         movimentos.add(mp1);
         movimentos.add(mp2);
         movimentos.add(mp3);
 
-        mp1.setReferenteParcela("1/3");
-        mp2.setReferenteParcela("2/3");
-        mp3.setReferenteParcela("3/3");
 
         int[] linhas = {0, 2};
-
         helper.deletarMovimentosTabela(movimentos, linhas);
-
         assertEquals(movimentos.size(), 1);
-        assertEquals(movimentos.get(0).getReferenteParcela(), "UNICA");
 
         movimentos.clear();
-
         movimentos.add(mp1);
         movimentos.add(mp2);
         movimentos.add(mp3);
 
-        mp1.setReferenteParcela("1/3");
-        mp2.setReferenteParcela("2/3");
-        mp3.setReferenteParcela("3/3");
 
         int[] outrasLinhas = {1};
-
         helper.deletarMovimentosTabela(movimentos, outrasLinhas);
-
         assertEquals(movimentos.size(), 2);
-        assertEquals(movimentos.get(0).getReferenteParcela(), "1/2");
-        assertEquals(movimentos.get(1).getReferenteParcela(), "2/2");
 
     }
 
