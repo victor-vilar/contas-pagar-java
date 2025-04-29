@@ -9,6 +9,7 @@ import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
 import br.com.victorvilar.contaspagar.exceptions.QuantidadeDeParcelasException;
 import br.com.victorvilar.contaspagar.util.ConversorData;
 import br.com.victorvilar.contaspagar.util.ConversorMoeda;
+import br.com.victorvilar.contaspagar.util.AppMensagens;
 import br.com.victorvilar.contaspagar.views.interfaces.Subscriber;
 import jakarta.annotation.PostConstruct;
 import java.awt.event.KeyAdapter;
@@ -192,11 +193,11 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
                 if (e.getKeyCode() == KeyEvent.VK_DELETE) {
                     int[] linhas = tableParcelas.getSelectedRows();
                     if (linhas[0] != -1) {
-                        if (JOptionPane.showConfirmDialog(null, "Deseja remover as parcelas selecionadas ?", "Atenção", JOptionPane.OK_CANCEL_OPTION) == 0) {
+                        if (JOptionPane.showConfirmDialog(null, AppMensagens.REMOVER_ITENS, AppMensagens.HEADER_ATENCAO, JOptionPane.OK_CANCEL_OPTION) == 0) {
                             try {
                                 controller.deletarMovimentos(linhas);
                             }catch(QuantidadeDeParcelasException q){
-                                JOptionPane.showMessageDialog(null, q.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                                JOptionPane.showMessageDialog(null, q.getMessage(), AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
                             }
                         }
 
@@ -219,7 +220,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
                         controller.eventoTableChanged(row, column, novoValor);
                     } catch (DateTimeParseException ex) {
                         tableParcelas.getModel().setValueAt(null, row, column);
-                        JOptionPane.showMessageDialog(null, "A data informada não esta correta !", "Erro de Conversão", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, AppMensagens.DATA_INCORRETA , AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
                     }
 
                 }
@@ -742,9 +743,9 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
             controller.salvar();
-            JOptionPane.showMessageDialog(null, "Despesa salva com sucesso !", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, AppMensagens.SUCESSO, AppMensagens.HEADER_SUCESSO, JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao salvar", "erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, AppMensagens.ERRO_INESPERADO, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
             System.out.println(e);
         }
 
@@ -758,11 +759,11 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            controller.gerarParcelas();        // TODO add your handling code here:
+            controller.gerarParcelas();
         } catch (DateTimeParseException e) {
-            JOptionPane.showMessageDialog(null, "Ocorreu um erro, cheque a data do parcelamento e o valor e veja se estão nos formatos corretos !", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro, cheque a data do parcelamento e o valor e veja se estão nos formatos corretos !", AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
         } catch (NullPointerException | NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Verifique se todos os campos referente as parcelas foram preenchidos corretamente !", "Erro na Geração das Parcelas", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Verifique se todos os campos referente as parcelas foram preenchidos corretamente !", AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
 
         }
 
@@ -788,7 +789,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
         } catch (DateTimeParseException ex) {
             fieldNotaEmissao.setText("");
             fieldNotaEmissao.requestFocus();
-            JOptionPane.showMessageDialog(null, "A data informada não esta correta !", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, AppMensagens.DATA_INCORRETA , AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_fieldNotaEmissaoFocusLost
 
@@ -798,7 +799,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
         } catch (DateTimeParseException ex) {
             fieldVencimento.setText("");
             fieldVencimento.requestFocus();
-            JOptionPane.showMessageDialog(null, "A data informada não esta correta !", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, AppMensagens.DATA_INCORRETA , AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_fieldVencimentoFocusLost
 
@@ -820,10 +821,10 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
     private void fieldValorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldValorFocusLost
         try {
             fieldValor.setText(ConversorMoeda.paraString(ConversorMoeda.paraBigDecimal(fieldValor.getText())));
-        } catch (DateTimeParseException ex) {
+        } catch (NumberFormatException ex) {
             fieldValor.setText("");
             fieldValor.requestFocus();
-            JOptionPane.showMessageDialog(null, "A data informada não esta correta !", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, AppMensagens.VALOR_INCORRETO , AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_fieldValorFocusLost
 

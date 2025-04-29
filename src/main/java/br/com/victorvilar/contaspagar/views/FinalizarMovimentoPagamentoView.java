@@ -5,6 +5,7 @@
 package br.com.victorvilar.contaspagar.views;
 
 import br.com.victorvilar.contaspagar.controllers.FinalizarMovimentoController;
+import br.com.victorvilar.contaspagar.util.AppMensagens;
 import br.com.victorvilar.contaspagar.util.ConversorData;
 import br.com.victorvilar.contaspagar.util.ConversorMoeda;
 import jakarta.annotation.PostConstruct;
@@ -30,8 +31,6 @@ import org.springframework.stereotype.Component;
 public class FinalizarMovimentoPagamentoView extends javax.swing.JDialog {
 
     private FinalizarMovimentoController controller;
-    private static final String DATA_INCORRETA = "A data informada não está correta !";
-    private static final String VALOR_INCORRETO = "A valor informado não está correto !"; 
     
     @Autowired
     public FinalizarMovimentoPagamentoView(FinalizarMovimentoController controller) {
@@ -347,7 +346,7 @@ public class FinalizarMovimentoPagamentoView extends javax.swing.JDialog {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         controller.salvar();        
-        JOptionPane.showMessageDialog(null, "Pagamento salvo com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, AppMensagens.SUCESSO, AppMensagens.HEADER_SUCESSO, JOptionPane.INFORMATION_MESSAGE);
         dispose();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
@@ -369,17 +368,17 @@ public class FinalizarMovimentoPagamentoView extends javax.swing.JDialog {
         } catch (DateTimeParseException ex) {
             fieldDataPagamento.setText("");
             fieldDataPagamento.requestFocus();
-            JOptionPane.showMessageDialog(null, DATA_INCORRETA, "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, AppMensagens.DATA_INCORRETA, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
         }        
     }//GEN-LAST:event_fieldDataPagamentoFocusLost
 
     private void fieldValorPagoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldValorPagoFocusLost
         try {
             fieldValorPago.setText(ConversorMoeda.paraString(ConversorMoeda.paraBigDecimal(fieldValorPago.getText())));
-        } catch (DateTimeParseException ex) {
+        } catch (NumberFormatException ex) {
             fieldValorPago.setText("");
             fieldValorPago.requestFocus();
-            JOptionPane.showMessageDialog(null, VALOR_INCORRETO, "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, AppMensagens.VALOR_INCORRETO, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
         }        
     }//GEN-LAST:event_fieldValorPagoFocusLost
 
