@@ -9,11 +9,7 @@ package br.com.victorvilar.contaspagar.exceptions;
  * @author victor
  */
 public class QuantidadeDeParcelasException extends RuntimeException{
-    
-    private static final String ERROR = "A quantidade de parcelas não pode ser zero ou negativa";
-    
-    public QuantidadeDeParcelasException(){
-        super(ERROR);
+    public QuantidadeDeParcelasException(String msg){
+        super(msg);
     }
-    
 }
