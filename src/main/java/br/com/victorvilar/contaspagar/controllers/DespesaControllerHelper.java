@@ -1,4 +1,4 @@
-package br.com.victorvilar.contaspagar.services;
+package br.com.victorvilar.contaspagar.controllers;
 
 import br.com.victorvilar.contaspagar.entities.FormaPagamento;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;

@@ -1,9 +1,8 @@
-package br.com.victorvilar.contaspagar.helpers;
+package br.com.victorvilar.contaspagar.controllers;
 
 import br.com.victorvilar.contaspagar.entities.FormaPagamento;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.exceptions.QuantidadeDeParcelasException;
-import br.com.victorvilar.contaspagar.services.DespesaControllerHelper;
 import br.com.victorvilar.contaspagar.util.ConversorData;
 import br.com.victorvilar.contaspagar.util.ConversorMoeda;
 import org.junit.jupiter.api.Assertions;
@@ -19,11 +18,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class DespesaControllerHelperTest {

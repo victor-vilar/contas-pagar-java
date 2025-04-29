@@ -9,13 +9,17 @@
 o movimento na lista é o mesmo que foi alterado na linha.
 - Criar constantes para as mensagens de erro nos formulários de DespesaAvulsaView e DespesaRecorrenteView.
 - Tratar erro quando existe somente letras nos fields de valores.
-- Metodo getValor total deve retornar somente o valor
 
 
-- Implementar no salvar de cada formulário de despesa metodo para deletar os movimentos que estão na lista
-de MovimentoPagmaentoService.
+
 - Realizar mais testes no update de DespesaServiceImpl para saber se esta salvando as despesas com as parcelas
 corretamente.
-- Checar porque as parcelas depois que algumas são removidas, nao esta atualizando a referencia.
+
+
+- Criar erro ao tentar excluir todas as parcelas de uma despesa avulsa, elas tem que possuir pelo menos uma
+parcela. Já as depesas recorrentes podem possuir nenhuma despesa lançada.
+
+- As parcelas de despesas recorrentes não utilizam o mesmo padrão de referente parcela de despesa avulsa, tenho que
+criiar um metodo separado somente para o seu tipo de referente parcela.
 
 
