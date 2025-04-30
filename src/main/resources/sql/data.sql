@@ -18,7 +18,7 @@ INSERT INTO despesas_avulsas(id) VALUES(1);
 INSERT INTO movimento_pagamento(data_vencimento,valor_pagamento,despesa_id,forma_pagamento_id,referente_parcela) VALUES('2025-2-1',100,1,1,'UNICA');
 
 
-INSERT INTO despesa(nome_fornecedor,descricao,categoria_id,quitado) VALUES('PEÇAS VEICULOS UTH7645','COMPRA DE FILTRO DE OLEO \n COMPRA DE OLEO',3,false);
+INSERT INTO despesa(nome_fornecedor,descricao,categoria_id,quitado,tipo) VALUES('PEÇAS VEICULOS UTH7645','COMPRA DE FILTRO DE OLEO \n COMPRA DE OLEO',3,false,'AVULSA');
 INSERT INTO despesas_avulsas(id) VALUES(2);
 INSERT INTO movimento_pagamento(data_vencimento,valor_pagamento,despesa_id,forma_pagamento_id,referente_parcela) VALUES('2025-3-1',100,2,1,'1/5');
 INSERT INTO movimento_pagamento(data_vencimento,valor_pagamento,despesa_id,forma_pagamento_id,referente_parcela) VALUES('2025-4-1',100,2,1,'2/5');
@@ -26,7 +26,7 @@ INSERT INTO movimento_pagamento(data_vencimento,valor_pagamento,despesa_id,forma
 INSERT INTO movimento_pagamento(data_vencimento,valor_pagamento,despesa_id,forma_pagamento_id,referente_parcela) VALUES('2025-6-1',100,2,1,'4/5');
 INSERT INTO movimento_pagamento(data_vencimento,valor_pagamento,despesa_id,forma_pagamento_id,referente_parcela) VALUES('2025-7-1',100,2,1,'5/5');
 
-INSERT INTO despesa(nome_fornecedor,descricao,categoria_id,quitado) VALUES('LIGHT','PAGAMENTO MENSAL DA LUZ',3,false);
+INSERT INTO despesa(nome_fornecedor,descricao,categoria_id,quitado,tipo) VALUES('LIGHT','PAGAMENTO MENSAL DA LUZ',3,false,'RECORRENTE');
 INSERT INTO despesas_recorrentes(id,data_inicio,data_fim,dia_pagamento,periocidade,forma_pagamento_padrao) VALUES(3,'2025-1-1','9999-1-1',10,1,1);
 INSERT INTO movimento_pagamento(data_vencimento,valor_pagamento,despesa_id,forma_pagamento_id,referente_parcela) VALUES('2025-3-10',100,3,1,'ABRIL 2025');
 

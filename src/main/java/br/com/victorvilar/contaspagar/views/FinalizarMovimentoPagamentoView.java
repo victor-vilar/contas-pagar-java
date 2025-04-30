@@ -346,7 +346,7 @@ public class FinalizarMovimentoPagamentoView extends javax.swing.JDialog {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         controller.salvar();        
-        JOptionPane.showMessageDialog(null, AppMensagens.SUCESSO, AppMensagens.HEADER_SUCESSO, JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, AppMensagens.INFO_SUCESSO, AppMensagens.HEADER_SUCESSO, JOptionPane.INFORMATION_MESSAGE);
         dispose();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
@@ -368,7 +368,7 @@ public class FinalizarMovimentoPagamentoView extends javax.swing.JDialog {
         } catch (DateTimeParseException ex) {
             fieldDataPagamento.setText("");
             fieldDataPagamento.requestFocus();
-            JOptionPane.showMessageDialog(null, AppMensagens.DATA_INCORRETA, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, AppMensagens.INFO_DATA_INCORRETA, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
         }        
     }//GEN-LAST:event_fieldDataPagamentoFocusLost
 
@@ -378,7 +378,7 @@ public class FinalizarMovimentoPagamentoView extends javax.swing.JDialog {
         } catch (NumberFormatException ex) {
             fieldValorPago.setText("");
             fieldValorPago.requestFocus();
-            JOptionPane.showMessageDialog(null, AppMensagens.VALOR_INCORRETO, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, AppMensagens.INFO_VALOR_INCORRETO, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
         }        
     }//GEN-LAST:event_fieldValorPagoFocusLost
 

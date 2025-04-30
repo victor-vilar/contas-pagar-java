@@ -19,7 +19,6 @@ import java.awt.event.KeyEvent;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import javax.swing.DefaultCellEditor;
-import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -248,7 +247,7 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
                         controller.eventoTableChanged(row, column,novoValor);
                     } catch (DateTimeParseException ex) {
                         tableParcelas.getModel().setValueAt(null, row, column);
-                        JOptionPane.showMessageDialog(null, AppMensagens.DATA_INCORRETA, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, AppMensagens.INFO_DATA_INCORRETA, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
                     }   
                     
                 }
@@ -781,11 +780,11 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
             controller.salvar();
-            JOptionPane.showMessageDialog(null, AppMensagens.SUCESSO, AppMensagens.HEADER_SUCESSO, JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, AppMensagens.INFO_SUCESSO, AppMensagens.HEADER_SUCESSO, JOptionPane.INFORMATION_MESSAGE);
         } catch (FieldsEmBrancoException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
         } catch (NumberFormatException e){
-            JOptionPane.showMessageDialog(null, AppMensagens.VALOR_INCORRETO, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, AppMensagens.INFO_VALOR_INCORRETO, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_btnSalvarActionPerformed
@@ -830,7 +829,7 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         } catch (NumberFormatException d){
             getFieldMesVencimento().setText("");
             getFieldMesVencimento().requestFocus();
-            JOptionPane.showMessageDialog(null, AppMensagens.DATA_INCORRETA , AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, AppMensagens.INFO_DATA_INCORRETA, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_fieldMesVencimentoFocusLost
 
@@ -848,7 +847,7 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         } catch (NumberFormatException d) {
             getFieldDiaVencimento().setText("");
             getFieldDiaVencimento().requestFocus();
-            JOptionPane.showMessageDialog(null, AppMensagens.DATA_INCORRETA , AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, AppMensagens.INFO_DATA_INCORRETA, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
         }
                
     }//GEN-LAST:event_fieldDiaVencimentoFocusLost
@@ -863,7 +862,7 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         } catch (DateTimeParseException ex) {
             fieldDataFim.setText("");
             fieldDataFim.requestFocus();
-            JOptionPane.showMessageDialog(null, AppMensagens.DATA_INCORRETA, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, AppMensagens.INFO_DATA_INCORRETA, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_fieldDataFimFocusLost
 
@@ -877,7 +876,7 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         } catch (DateTimeParseException ex) {
             fieldDataInicio.setText("");
             fieldDataInicio.requestFocus();
-            JOptionPane.showMessageDialog(null, AppMensagens.DATA_INCORRETA, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, AppMensagens.INFO_DATA_INCORRETA, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_fieldDataInicioFocusLost
 
@@ -898,7 +897,7 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         } catch (NumberFormatException ex) {
             fieldValor.setText("");
             fieldValor.requestFocus();
-            JOptionPane.showMessageDialog(null, AppMensagens.VALOR_INCORRETO, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, AppMensagens.INFO_VALOR_INCORRETO, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_fieldValorFocusLost
 
