@@ -350,8 +350,8 @@ public abstract class SimpleView extends javax.swing.JFrame implements Publisher
 
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
         int row = getTable().getSelectedRow();
-        String msg = "Deseja remover a forma \"" + getTable().getValueAt(row, 1) + "\"";
-        if (JOptionPane.showConfirmDialog(null, msg, "Atenção", JOptionPane.YES_NO_OPTION) == 0) {
+        String msg = "Deseja remover o item \"" + getTable().getValueAt(row, 1) + "\"";
+        if (JOptionPane.showConfirmDialog(null, msg, AppMensagens.HEADER_ATENCAO, JOptionPane.YES_NO_OPTION) == 0) {
             controller.deletar();
         }
     }//GEN-LAST:event_btnDeletarActionPerformed
