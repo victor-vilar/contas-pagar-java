@@ -148,6 +148,11 @@ public class DespesaServiceImpl implements DespesaService {
         movimentoService.saveAll(movimentoService.getMovimentosDeletados());
     }
 
+    @Override
+    public DespesaAbstrata findByIdWithMovimentos(Long id) {
+        return repository.findByIdWithMovimentos(id);
+    }
+
 
 
 
