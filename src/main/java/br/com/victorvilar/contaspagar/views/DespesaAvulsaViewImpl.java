@@ -758,12 +758,14 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
+
             controller.gerarParcelas();
         } catch (DateTimeParseException e) {
             JOptionPane.showMessageDialog(null, "Ocorreu um erro, cheque a data do parcelamento e o valor e veja se estão nos formatos corretos !", AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
+            fieldVencimento.requestFocus();
         } catch (NullPointerException | NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Verifique se todos os campos referente as parcelas foram preenchidos corretamente !", AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
-
+            fieldValor.requestFocus();
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -786,9 +788,9 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
         try {
             fieldNotaEmissao.setText(ConversorData.paraString(ConversorData.paraData(fieldNotaEmissao.getText())));
         } catch (DateTimeParseException ex) {
+            JOptionPane.showMessageDialog(null, AppMensagens.INFO_DATA_INCORRETA, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
             fieldNotaEmissao.setText("");
             fieldNotaEmissao.requestFocus();
-            JOptionPane.showMessageDialog(null, AppMensagens.INFO_DATA_INCORRETA, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_fieldNotaEmissaoFocusLost
 
@@ -796,9 +798,9 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
         try {
             fieldVencimento.setText(ConversorData.paraString(ConversorData.paraData(fieldVencimento.getText())));
         } catch (DateTimeParseException ex) {
+            JOptionPane.showMessageDialog(null, AppMensagens.INFO_DATA_INCORRETA, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
             fieldVencimento.setText("");
             fieldVencimento.requestFocus();
-            JOptionPane.showMessageDialog(null, AppMensagens.INFO_DATA_INCORRETA, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_fieldVencimentoFocusLost
 
@@ -821,9 +823,9 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
         try {
             fieldValor.setText(ConversorMoeda.paraString(ConversorMoeda.paraBigDecimal(fieldValor.getText())));
         } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, AppMensagens.INFO_VALOR_INCORRETO, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
             fieldValor.setText("");
             fieldValor.requestFocus();
-            JOptionPane.showMessageDialog(null, AppMensagens.INFO_VALOR_INCORRETO, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_fieldValorFocusLost
 
