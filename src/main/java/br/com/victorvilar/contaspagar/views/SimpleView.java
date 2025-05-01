@@ -5,6 +5,7 @@
 package br.com.victorvilar.contaspagar.views;
 
 import br.com.victorvilar.contaspagar.controllers.SimpleViewController;
+import br.com.victorvilar.contaspagar.util.AppMensagens;
 import br.com.victorvilar.contaspagar.views.interfaces.Publisher;
 import br.com.victorvilar.contaspagar.views.interfaces.Subscriber;
 import java.awt.event.MouseAdapter;
@@ -29,8 +30,6 @@ public abstract class SimpleView extends javax.swing.JFrame implements Publisher
     private String title;
     private String tableColumnName;
     protected SimpleViewController controller;
-    private static final String ERROR_HEADER = "Erro";
-    private static final String ERROR_MESSAGE = "Não é possivel cadastrar outra forma de pagamento com o mesmo nome";
 
     private List<Subscriber> subscribers = new ArrayList<>();
     
@@ -346,7 +345,7 @@ public abstract class SimpleView extends javax.swing.JFrame implements Publisher
     }//GEN-LAST:event_tableMouseClicked
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
-        controller.novo();        // TODO add your handling code here:
+        controller.novo();
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
@@ -354,7 +353,7 @@ public abstract class SimpleView extends javax.swing.JFrame implements Publisher
         String msg = "Deseja remover a forma \"" + getTable().getValueAt(row, 1) + "\"";
         if (JOptionPane.showConfirmDialog(null, msg, "Atenção", JOptionPane.YES_NO_OPTION) == 0) {
             controller.deletar();
-        }        // TODO add your handling code here:
+        }
     }//GEN-LAST:event_btnDeletarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
@@ -363,19 +362,19 @@ public abstract class SimpleView extends javax.swing.JFrame implements Publisher
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        controller.atualizarTabela();        // TODO add your handling code here:
+        controller.atualizarTabela();
     }//GEN-LAST:event_formWindowOpened
 
     private void btnSalvar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvar1ActionPerformed
         try {
-            controller.salvar();// TODO add your handling code here:
+            controller.salvar();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, SimpleView.ERROR_MESSAGE, SimpleView.ERROR_HEADER, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, AppMensagens.INFO_ERRO_ENTIDADE_JA_EXISTE, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnSalvar1ActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        this.subscribers.clear();  // TODO add your handling code here:
+        this.subscribers.clear();
         
     }//GEN-LAST:event_formWindowClosed
 
