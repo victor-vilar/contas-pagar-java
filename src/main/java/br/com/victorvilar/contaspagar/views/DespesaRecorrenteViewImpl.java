@@ -521,6 +521,11 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         btnDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-delete.png"))); // NOI18N
         btnDeletar.setToolTipText("Deletar");
         btnDeletar.setBorder(null);
+        btnDeletar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeletarActionPerformed(evt);
+            }
+        });
 
         btnNovo.setBackground(new java.awt.Color(242, 242, 242));
         btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-novo.png"))); // NOI18N
@@ -904,6 +909,14 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         controller.editar();
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
+        String msg = "Deseja remover essa despesa ?\nTodos as parcelas referentes a ela serão excluídas !";
+        if (JOptionPane.showConfirmDialog(null, msg, "Atenção", JOptionPane.YES_NO_OPTION) == 0) {
+            controller.deletar();
+            JOptionPane.showMessageDialog(null, AppMensagens.INFO_SUCESSO, AppMensagens.HEADER_SUCESSO, JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnDeletarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

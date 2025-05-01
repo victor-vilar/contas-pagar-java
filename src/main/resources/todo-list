@@ -15,4 +15,9 @@ corretamente.
 - As parcelas de despesas recorrentes não utilizam o mesmo padrão de referente parcela de despesa avulsa, tenho que
 criiar um metodo separado somente para o seu tipo de referente parcela.
 
+- Deve permitir remover todos as parcelas se os movimentos não tem um id ainda.
+- Deve antes de apertar o botão de gerar parcelas conferir se as parcelas na tabela, não possuem id. Se tiverem
+deve, impedir que novas parcelas sejam inseridas.
+
+
 
