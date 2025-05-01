@@ -263,7 +263,11 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
      */
     public void deletarMovimentos(int[] linhas) {
 
-        if(view.getTableParcelas().getRowCount() == linhas.length){
+        int totalDeLinhas = view.getTableParcelas().getRowCount();
+        Long cod = (Long) view.getTableParcelas().getValueAt(0,0);
+
+        //Aqui so sera permitido remover TODOS os itens se eles ainda nao tiverem sido salvos no banco
+        if(totalDeLinhas == linhas.length && cod != null){
             throw new QuantidadeDeParcelasException(REMOVER_TODAS_PARCELAS);
         }
 
