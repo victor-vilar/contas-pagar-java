@@ -190,8 +190,7 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
     @Override
     public void preencherView(DespesaAbstrata despesa) {
         DespesaRecorrente despesaRecorrente = (DespesaRecorrente) despesa;
-        List<MovimentoPagamento> movimentosDespesa = movimentoService.getAllByDespesaId(despesa.getId());
-        this.movimentos = movimentosDespesa;
+        this.movimentos = despesa.getParcelas();
         preencherFields(despesaRecorrente);
         preencherTabela(movimentos);
     }
