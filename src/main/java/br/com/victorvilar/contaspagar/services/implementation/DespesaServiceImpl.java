@@ -59,13 +59,12 @@ public class DespesaServiceImpl implements DespesaService {
 
     @Override
     public List<DespesaAbstrata> saveAll(List<DespesaAbstrata> objs) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void deleteById(Long id) {
-        // TODO Auto-generated method stub
+        repository.deleteById(id);
 
     }
 
@@ -117,7 +116,7 @@ public class DespesaServiceImpl implements DespesaService {
     }
 
     /**
-     * Atualia os campos de {@link DespesaAvulsa}
+     * Atualiza os campos de {@link DespesaAvulsa}
      * @param obj Objeto 'detached' que possui os novos valores que serão atualizados.
      * @param despesa Objeto 'persisted' que possui valores que ainda precisam ser atualizados.
      */
@@ -140,8 +139,8 @@ public class DespesaServiceImpl implements DespesaService {
     }
 
     /**
-     * Remove da lista de movimentos de despesa, todos os movimentos que foram excluídos e armazenados
-     * temporatiamente na lista de movimentos deletados de {@link MovimentoPagamentoService}
+     * Remove da lista de movimentos da despesa, todos os movimentos que foram excluídos e armazenados
+     * temporatiamente na lista de movimentos deletados de {@link MovimentoPagamentoService}.
      * @param despesa Despesa que possui os movimentos que devem ser deletados.
      */
     public void deletarMovimentos(DespesaAbstrata despesa){
