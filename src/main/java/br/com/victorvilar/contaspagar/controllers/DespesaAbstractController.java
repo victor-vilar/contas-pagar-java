@@ -117,7 +117,7 @@ public abstract class DespesaAbstractController<T extends DespesaView> implement
         view.getComboBoxes().stream().forEach(c -> c.setSelectedIndex(-1));
         limparTabela();
         movimentos.clear();
-        movimentoService.getMovimentosDeletados().clear();
+        movimentoService.limpar();
         ativarDesativarTabelaParcelas(false);
     }
 
