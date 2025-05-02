@@ -38,6 +38,7 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
         this.repository = repository;
     }
 
+    @Override
     public void limpar(){
         movimentosDeletados.clear();
         movimentosAtualizados.clear();
