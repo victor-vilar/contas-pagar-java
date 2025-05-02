@@ -74,4 +74,10 @@ public interface MovimentoPagamentoService extends AppService<MovimentoPagamento
      * @param movimentos
      */
     public void adicionarOuAtualizarReferenteParcela(List<MovimentoPagamento> movimentos);
+    
+    /**
+     * Metodo utilizado para remover os itens que possam existir nas listas de movimento
+     * service.
+     */
+    public void limpar();
 }
