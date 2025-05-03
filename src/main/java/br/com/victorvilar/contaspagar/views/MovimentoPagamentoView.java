@@ -6,6 +6,7 @@ package br.com.victorvilar.contaspagar.views;
 
 import br.com.victorvilar.contaspagar.controllers.MovimentoPagamentoController;
 import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
+import br.com.victorvilar.contaspagar.util.AppMensagens;
 import br.com.victorvilar.contaspagar.util.ConversorData;
 import br.com.victorvilar.contaspagar.util.ConversorMoeda;
 import br.com.victorvilar.contaspagar.views.interfaces.DespesaAvulsaView;
@@ -17,10 +18,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowSorter;
@@ -217,12 +220,13 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         btnSalvar1 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         fieldDespesa = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        BtnProcurar = new javax.swing.JButton();
         fieldDataFim = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         fieldDataInicio = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         checkboxPagas = new javax.swing.JCheckBox();
+        BtnProcurar1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Pagamentos");
@@ -360,20 +364,30 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         jLabel4.setText("Despesa");
 
         fieldDespesa.setName("fieldDespesas"); // NOI18N
+        fieldDespesa.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                fieldDespesaFocusLost(evt);
+            }
+        });
         fieldDespesa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fieldDespesaActionPerformed(evt);
             }
         });
 
-        jButton1.setText("Pesquisar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        BtnProcurar.setText("Pesquisar");
+        BtnProcurar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                BtnProcurarActionPerformed(evt);
             }
         });
 
         fieldDataFim.setName("fieldDataFim"); // NOI18N
+        fieldDataFim.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                fieldDataFimFocusLost(evt);
+            }
+        });
         fieldDataFim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fieldDataFimActionPerformed(evt);
@@ -384,11 +398,28 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         jLabel3.setText("Fim");
 
         fieldDataInicio.setName("fieldDataInicio"); // NOI18N
+        fieldDataInicio.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                fieldDataInicioFocusLost(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel2.setText("Início");
 
         checkboxPagas.setText("Pagas");
+        checkboxPagas.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                checkboxPagasStateChanged(evt);
+            }
+        });
+
+        BtnProcurar1.setText("Limpar");
+        BtnProcurar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnProcurar1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -412,9 +443,11 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(checkboxPagas)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1))
+                        .addComponent(BtnProcurar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BtnProcurar1))
                     .addComponent(jLabel4))
-                .addContainerGap(426, Short.MAX_VALUE))
+                .addContainerGap(348, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -429,9 +462,10 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fieldDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fieldDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
+                    .addComponent(BtnProcurar)
                     .addComponent(fieldDespesa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(checkboxPagas))
+                    .addComponent(checkboxPagas)
+                    .addComponent(BtnProcurar1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelTabela, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -439,9 +473,9 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void BtnProcurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnProcurarActionPerformed
+        controller.pesquisar();
+    }//GEN-LAST:event_BtnProcurarActionPerformed
 
     private void fieldDataFimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldDataFimActionPerformed
         // TODO add your handling code here:
@@ -480,8 +514,46 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         controller.inicializarTabela();
     }//GEN-LAST:event_formWindowActivated
 
+    private void fieldDataInicioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldDataInicioFocusLost
+        try {
+            fieldDataInicio.setText(ConversorData.paraString(ConversorData.paraData(fieldDataInicio.getText())));
+
+        } catch (DateTimeParseException ex) {
+            JOptionPane.showMessageDialog(null, AppMensagens.INFO_DATA_INCORRETA, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
+            fieldDataInicio.setText("");
+            fieldDataInicio.requestFocus();
+
+        }
+    }//GEN-LAST:event_fieldDataInicioFocusLost
+
+    private void fieldDataFimFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldDataFimFocusLost
+        try {
+            fieldDataFim.setText(ConversorData.paraString(ConversorData.paraData(fieldDataFim.getText())));
+
+        } catch (DateTimeParseException ex) {
+            JOptionPane.showMessageDialog(null, AppMensagens.INFO_DATA_INCORRETA, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
+            fieldDataFim.setText("");
+            fieldDataFim.requestFocus();
+
+        }
+    }//GEN-LAST:event_fieldDataFimFocusLost
+
+    private void fieldDespesaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldDespesaFocusLost
+
+    }//GEN-LAST:event_fieldDespesaFocusLost
+
+    private void checkboxPagasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_checkboxPagasStateChanged
+
+    }//GEN-LAST:event_checkboxPagasStateChanged
+
+    private void BtnProcurar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnProcurar1ActionPerformed
+        controller.limparPesquisa();        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnProcurar1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnProcurar;
+    private javax.swing.JButton BtnProcurar1;
     private javax.swing.JButton btnEditar1;
     private javax.swing.JButton btnNovo1;
     private javax.swing.JButton btnSalvar1;
@@ -489,7 +561,6 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
     private javax.swing.JTextField fieldDataFim;
     private javax.swing.JTextField fieldDataInicio;
     private javax.swing.JTextField fieldDespesa;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

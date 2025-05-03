@@ -52,11 +52,13 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="checkboxPagas" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                      <Component id="BtnProcurar" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="BtnProcurar1" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="426" max="32767" attributes="0"/>
+              <EmptySpace pref="348" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -74,9 +76,10 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="fieldDataInicio" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="fieldDataFim" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="BtnProcurar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="fieldDespesa" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="checkboxPagas" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="BtnProcurar1" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="panelTabela" max="32767" attributes="0"/>
@@ -292,15 +295,16 @@
         <Property name="name" type="java.lang.String" value="fieldDespesas" noResource="true"/>
       </Properties>
       <Events>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="fieldDespesaFocusLost"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fieldDespesaActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="BtnProcurar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Pesquisar"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnProcurarActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="fieldDataFim">
@@ -308,6 +312,7 @@
         <Property name="name" type="java.lang.String" value="fieldDataFim" noResource="true"/>
       </Properties>
       <Events>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="fieldDataFimFocusLost"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fieldDataFimActionPerformed"/>
       </Events>
     </Component>
@@ -323,6 +328,9 @@
       <Properties>
         <Property name="name" type="java.lang.String" value="fieldDataInicio" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="fieldDataInicioFocusLost"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
@@ -336,6 +344,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Pagas"/>
       </Properties>
+      <Events>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="checkboxPagasStateChanged"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="BtnProcurar1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Limpar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnProcurar1ActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
