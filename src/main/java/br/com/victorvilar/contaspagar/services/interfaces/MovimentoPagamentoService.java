@@ -1,9 +1,8 @@
 package br.com.victorvilar.contaspagar.services.interfaces;
 
-import br.com.victorvilar.contaspagar.entities.FormaPagamento;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
+import java.time.LocalDate;
 import java.util.List;
-import javax.swing.table.DefaultTableModel;
 
 public interface MovimentoPagamentoService extends AppService<MovimentoPagamento>{
 
@@ -19,6 +18,16 @@ public interface MovimentoPagamentoService extends AppService<MovimentoPagamento
      */
     public List<MovimentoPagamento> getAllPagos();
 
+    /**
+     * Busca os movimentos entre datas e pela nome da despesa passada.
+     * @param dataInicio data mínima de busca das despesas
+     * @param dataFim data máxima de busca de despesa
+     * @param despesa descricao da despesa ao qual o movimento pertence
+     * @param pago buscar se o movimentos esta pago ou nao
+     */
+    public List<MovimentoPagamento> getBetweenDatesAndDespesaName(LocalDate dataInicio, LocalDate dataFim, String despesa, boolean pago);
+    
+    
     /**
      * Atualiza uma lista de movimentos que foram alterados na view.
      * @param movimentos
