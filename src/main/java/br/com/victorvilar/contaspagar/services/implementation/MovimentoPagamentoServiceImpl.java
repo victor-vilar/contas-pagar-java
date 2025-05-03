@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.transaction.Transactional;
+import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -152,6 +153,15 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
     @Override
     public List<MovimentoPagamento> getAllPagos() {
         return repository.findByDataPagamentoIsNotNull();
+    }
+    
+    @Override
+    public List<MovimentoPagamento> getBetweenDatesAndDespesaName(LocalDate dataInicio, LocalDate dataFim, String despesa, boolean pago){
+        if(!pago){
+            return repository.getBetweenDatesAndDespesaNameNaoPago(dataInicio, dataFim, despesa);
+        }else
+            return repository.getBetweenDatesAndDespesaNamePago(dataInicio, dataFim, despesa);
+
     }
 
     /**
