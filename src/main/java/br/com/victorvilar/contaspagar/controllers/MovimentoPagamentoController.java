@@ -13,6 +13,8 @@ import br.com.victorvilar.contaspagar.services.interfaces.MovimentoPagamentoServ
 import br.com.victorvilar.contaspagar.util.ConversorData;
 import br.com.victorvilar.contaspagar.util.ConversorMoeda;
 import br.com.victorvilar.contaspagar.views.MovimentoPagamentoView;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,19 +53,11 @@ public class MovimentoPagamentoController implements AppViewController<Movimento
     }
     
     public void inicializarTabela(){
-        preencherTabela(buscarMovimentos(true));
+        pesquisar();
+        
        
     }
     
-    public List<MovimentoPagamento> buscarMovimentos(boolean pago){
-
-        if (pago == true) {
-            return movimentoService.getAllNaoPagos();
-        } else {
-            return movimentoService.getAllPagos();
-        }
-
-    }
     
     public void preencherTabela(List<MovimentoPagamento> movimentos) {
         
@@ -89,6 +83,34 @@ public class MovimentoPagamentoController implements AppViewController<Movimento
         Long idDespesa = movimentoService.getById(id).getDespesa().getId();
         return service.findByIdWithMovimentos(idDespesa);
         
+    }
+    
+    public void pesquisar(){
+    
+        LocalDate dataInicial = ConversorData.paraData(view.getFieldDataInicio().getText());
+        LocalDate dataFinal = ConversorData.paraData(view.getFieldDataFim().getText());
+        String despesa = view.getFieldDespesa().getText();
+        boolean pago = view.getCheckboxPagas().isSelected();
+        
+        if(dataInicial == null){
+            dataInicial = LocalDate.of(2000, Month.MARCH, 1);
+        }
+        
+        if(dataFinal == null){
+            dataFinal = LocalDate.of(9999, Month.MARCH, 1);
+        }
+        
+        List<MovimentoPagamento> movimentos = movimentoService.getBetweenDatesAndDespesaName(dataInicial, dataFinal, despesa, pago);
+        preencherTabela(movimentos);
+        
+    }
+    
+    public void limparPesquisa(){
+        view.getFieldDataInicio().setText("");
+        view.getFieldDataFim().setText("");
+        view.getFieldDataInicio().setText("");
+        view.getCheckboxPagas().setSelected(false);
+        pesquisar();
     }
     
 }
