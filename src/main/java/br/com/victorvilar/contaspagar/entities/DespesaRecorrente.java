@@ -20,10 +20,12 @@ public class DespesaRecorrente extends DespesaAbstrata implements Serializable {
     @Column(nullable = false)
     private LocalDate dataInicio;
     private LocalDate dataFim;
+    private LocalDate dataProximoLancamento;
     @Column(nullable = false)
     private Integer diaPagamento;
     private BigDecimal valorTotal;
     private Integer mesPagamento;
+    
 
     @ManyToOne
     @JoinColumn(name = "forma_pagamento_padrao")
@@ -98,6 +100,14 @@ public class DespesaRecorrente extends DespesaAbstrata implements Serializable {
 
     public void setMesPagamento(Integer mesPagamento) {
         this.mesPagamento = mesPagamento;
+    }
+
+    public LocalDate getDataProximoLancamento() {
+        return dataProximoLancamento;
+    }
+
+    public void setDataProximoLancamento(LocalDate dataProximoLancamento) {
+        this.dataProximoLancamento = dataProximoLancamento;
     }
     
     
