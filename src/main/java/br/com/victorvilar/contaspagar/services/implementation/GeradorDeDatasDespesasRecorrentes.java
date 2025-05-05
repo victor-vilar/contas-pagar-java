@@ -31,9 +31,9 @@ public class GeradorDeDatasDespesasRecorrentes {
         Periodo periodo = despesa.getPeriocidade();
         return switch(periodo){
             case ANUAL -> gerarVencimentoAnual(diaAtual,mesAtual,diaPagamento,mesPagamento,ultimoLancamento);
-            case MENSAL -> gerarVencimentoMensal(diaAtual,mesAtual,diaPagamento,mesPagamento,ultimoLancamento);
+            case MENSAL -> gerarVencimentoMensal(diaAtual,diaPagamento,ultimoLancamento);
             case QUINZENAL -> gerarVencimentoQuinzenal(diaAtual,mesAtual,diaPagamento,mesPagamento,ultimoLancamento);
-            case SEMANAL -> gerarVencimentoQuinzenal(diaAtual,mesAtual,diaPagamento,mesPagamento,ultimoLancamento);
+            case SEMANAL -> gerarVencimentoSemanal(diaAtual,mesAtual,diaPagamento,mesPagamento,ultimoLancamento);
             default -> null;
         };
     }
@@ -50,27 +50,39 @@ public class GeradorDeDatasDespesasRecorrentes {
      * @return data do proximo lançamento.
      */
     public LocalDate gerarVencimentoAnual(int diaAtual, int mesAtual, int diaPagamento, int mesPagamento, LocalDate ultimoLancamento){
-        if((ultimoLancamento == null) && mesAtual < mesPagamento && diaAtual < diaPagamento ){
-            return LocalDate.of(diaPagamento,mesPagamento,dataHoje().getYear());
+
+        if(ultimoLancamento != null){
+            return ultimoLancamento.plusYears(1);
         }
-        return ultimoLancamento.plusYears(1);
+
+        if(mesAtual <= mesPagamento && diaAtual <= diaPagamento ){
+            return LocalDate.of(dataHoje().getYear(),mesPagamento,diaPagamento);
+        }
+
+        return LocalDate.of(dataHoje().plusYears(1).getYear(),mesPagamento,diaPagamento);
+
     }
     /**
      * Cria data de vencimento para contas mensais. Caso não exista uma data de 'ultimoLancamento' e ainda estivermos
      * em um dia anterior ao que é programado, irá criar uma nova data. Caso exista uma data de 'ultimoLancamento'
      * ele ira pegar essa data e adicionará 1 mês.
      * @param diaAtual dia atual
-     * @param mesAtual mês atual
      * @param diaPagamento dia de pagamento pre definido
-     * @param mesPagamento mes de pagamento pre definido
      * @param ultimoLancamento  data do ultimo movimento
      * @return data do proximo lançamento.
      */
-    public LocalDate gerarVencimentoMensal(int diaAtual, int mesAtual, int diaPagamento, int mesPagamento, LocalDate ultimoLancamento){
-        if((ultimoLancamento == null) &&  diaAtual < diaPagamento ){
-            return LocalDate.of(diaPagamento,dataHoje().getMonthValue(),dataHoje().getYear());
+    public LocalDate gerarVencimentoMensal(int diaAtual, int diaPagamento, LocalDate ultimoLancamento){
+
+        if(ultimoLancamento != null){
+            return ultimoLancamento.plusMonths(1);
         }
-        return ultimoLancamento.plusMonths(1);
+
+        if(diaAtual < diaPagamento ){
+            return LocalDate.of(dataHoje().getYear(),dataHoje().getMonthValue(),diaPagamento);
+        }
+
+        return LocalDate.of(dataHoje().getYear(), dataHoje().getMonth().plus(1) , diaPagamento);
+
     }
 
 
@@ -87,6 +99,7 @@ public class GeradorDeDatasDespesasRecorrentes {
      */
     public LocalDate gerarVencimentoQuinzenal(int diaAtual, int mesAtual, int diaPagamento, int mesPagamento, LocalDate ultimoLancamento){
         //TODO
+        return null;
     }
 
     /**
@@ -102,6 +115,7 @@ public class GeradorDeDatasDespesasRecorrentes {
      */
     public LocalDate gerarVencimentoSemanal(int diaAtual, int mesAtual, int diaPagamento, int mesPagamento, LocalDate ultimoLancamento){
         //TODO
+        return null;
     }
 
 }
