@@ -24,9 +24,11 @@ public class MovimentoPagamento implements Serializable {
     private Long id;
 
     private String referenteParcela;
+    @Column(nullable = false)
     private LocalDate dataVencimento;
-    private LocalDate dataPagamento;
+    @Column(nullable = false)
     private BigDecimal valorPagamento;
+    private LocalDate dataPagamento;
     private BigDecimal valorPago;
     private String observacao;
     @Column(unique=true)
