@@ -125,6 +125,8 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
         return switch(periodo){
             case ANUAL -> "ANUIDADE " + data.getYear();
             case MENSAL -> dateFormat.format(data) + " DE " + data.getYear() ;
+            case QUINZENAL -> "";
+            case SEMANAL -> "";
             default -> "";
         };
     }
@@ -140,9 +142,15 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
         return id + "/" + dataVencimento.toString();
     }
 
+    /**
+     * Adiciona o movimento na lista de movimentos da despesa, salva a despesa e os movimentos.
+     * @param despesa Objeto do tipo {@link DespesaRecorrente}
+     * @param movimento Objeto do tipo {@link MovimentoPagamento}
+     */
     public void salvar(DespesaRecorrente despesa, MovimentoPagamento movimento){
         despesa.addParcela(movimento);
-
+        despesaRepository.save(despesa);
+        movimentoRepository.save(movimento);
     }
 
 }
