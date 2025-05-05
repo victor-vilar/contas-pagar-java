@@ -21,6 +21,7 @@ public class DespesaRecorrente extends DespesaAbstrata implements Serializable {
     private LocalDate dataInicio;
     private LocalDate dataFim;
     private LocalDate dataProximoLancamento;
+    private LocalDate dataUltimoLancamento;
     @Column(nullable = false)
     private Integer diaPagamento;
     private BigDecimal valorTotal;
@@ -109,7 +110,12 @@ public class DespesaRecorrente extends DespesaAbstrata implements Serializable {
     public void setDataProximoLancamento(LocalDate dataProximoLancamento) {
         this.dataProximoLancamento = dataProximoLancamento;
     }
-    
-    
 
+    public LocalDate getDataUltimoLancamento() {
+        return dataUltimoLancamento;
+    }
+
+    public void setDataUltimoLancamento(LocalDate dataUltimoLancamento) {
+        this.dataUltimoLancamento = dataUltimoLancamento;
+    }
 }
