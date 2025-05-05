@@ -1,5 +1,6 @@
 package br.com.victorvilar.contaspagar.entities;
 
+import jakarta.persistence.Column;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -28,6 +29,8 @@ public class MovimentoPagamento implements Serializable {
     private BigDecimal valorPagamento;
     private BigDecimal valorPago;
     private String observacao;
+    @Column(unique=true)
+    private String integridade;
 
     @ManyToOne
     @JoinColumn(name = "despesa_id")
@@ -113,6 +116,16 @@ public class MovimentoPagamento implements Serializable {
     public void setValorPago(BigDecimal valorPago) {
         this.valorPago = valorPago;
     }
+
+    public String getIntegridade() {
+        return integridade;
+    }
+
+    public void setIntegridade(String integridade) {
+        this.integridade = integridade;
+    }
+    
+    
 
     @Override
     public int hashCode() {
