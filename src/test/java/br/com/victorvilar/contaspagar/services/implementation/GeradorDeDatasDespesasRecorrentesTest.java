@@ -45,52 +45,50 @@ class GeradorDeDatasDespesasRecorrentesTest {
     @Test
     @DisplayName("metodo criarDataVencimento")
     public void deveChamarMetodoGerarVencimentoAnual(){
-        when(gerador.dataHoje()).thenReturn(LocalDate.of(2025,1,1));
         despesa.setPeriocidade(Periodo.ANUAL);
         gerador.criarDataVencimento(despesa);
-        verify(gerador,times(1)).gerarVencimentoAnual(anyInt(),anyInt(),anyInt(),anyInt(),any());
+        verify(gerador,times(1)).gerarVencimentoAnual(anyInt(),anyInt(),any());
     }
     @Test
     @DisplayName("metodo criarDataVencimento")
     public void deveChamarMetodoGerarVencimentoMensal(){
-        when(gerador.dataHoje()).thenReturn(LocalDate.of(2025,1,1));
         despesa.setPeriocidade(Periodo.MENSAL);
         gerador.criarDataVencimento(despesa);
-        verify(gerador,times(1)).gerarVencimentoMensal(anyInt(),anyInt(),any());
+        verify(gerador,times(1)).gerarVencimentoMensal(anyInt(),any());
     }
     @Test
     @DisplayName("metodo criarDataVencimento")
     public void deveChamarMetodoGerarVencimentoQuinzenal(){
-        when(gerador.dataHoje()).thenReturn(LocalDate.of(2025,1,1));
         despesa.setPeriocidade(Periodo.QUINZENAL);
         gerador.criarDataVencimento(despesa);
-        verify(gerador,times(1)).gerarVencimentoQuinzenal(anyInt(),anyInt(),anyInt(),anyInt(),any());
+        verify(gerador,times(1)).gerarVencimentoQuinzenal(anyInt(),anyInt(),any());
     }
     @Test
     @DisplayName("metodo criarDataVencimento")
     public void deveChamarMetodoGerarVencimentoSemanal(){
-        when(gerador.dataHoje()).thenReturn(LocalDate.of(2025,1,1));
         despesa.setPeriocidade(Periodo.SEMANAL);
         gerador.criarDataVencimento(despesa);
-        verify(gerador,times(1)).gerarVencimentoSemanal(anyInt(),anyInt(),anyInt(),anyInt(),any());
+        verify(gerador,times(1)).gerarVencimentoSemanal(anyInt(),anyInt(),any());
     }
 
     @Test
     @DisplayName("metodo gerarVencimentoAnual")
-    public void deveGerarUmaNovaDataParaUmaDataAnualSeOUltimoLancamentoNaoForNullo(){
-        LocalDate dataGerada = gerador.gerarVencimentoAnual(1,1,30,1,LocalDate.of(2024,1,30));
+    public void deveGerarUmaNovaDataParaUmPeriodoAnualSeOUltimoLancamentoNaoForNullo(){
+        LocalDate dataGerada = gerador.gerarVencimentoAnual(30,1,LocalDate.of(2024,1,30));
         LocalDate dataEsperada = LocalDate.of(2025,1,30);
         assertEquals(dataEsperada,dataGerada);
     }
 
     @Test
     @DisplayName("metodo gerarVencimentoAnual")
-    public void deveGerarUmaNovaDataParaUmaDataAnualParaOMesmoAnoSeADataAindaNaoPassou(){
-        LocalDate dataGerada = gerador.gerarVencimentoAnual(1,1,30,1,null);
+    public void deveGerarUmaNovaDataParaUmPeriodoAnualParaOMesmoAnoSeADataAindaNaoPassou(){
+        when(gerador.dataHoje()).thenReturn(LocalDate.of(2025,1,15));
+        LocalDate dataGerada = gerador.gerarVencimentoAnual(30,1,null);
         LocalDate dataEsperada = LocalDate.of(2025,1,30);
         assertEquals(dataEsperada,dataGerada);
 
-        dataGerada = gerador.gerarVencimentoAnual(29,12,30,12,null);
+        when(gerador.dataHoje()).thenReturn(LocalDate.of(2025,12,29));
+        dataGerada = gerador.gerarVencimentoAnual(30,12,null);
         dataEsperada = LocalDate.of(2025,12,30);
         assertEquals(dataEsperada,dataGerada);
 
@@ -99,24 +97,25 @@ class GeradorDeDatasDespesasRecorrentesTest {
 
     @Test
     @DisplayName("metodo gerarVencimentoAnual")
-    public void deveGerarUmaNovaDataParaUmaDataAnualParaOProximoAnoSeADataDeVencimentoJaPassouNoAnoAtual(){
-        LocalDate dataGerada = gerador.gerarVencimentoAnual(10,1,5,1,null);
+    public void deveGerarUmaNovaDataDeUmPeriodoAnualParaOProximoAnoSeADataDeVencimentoJaPassouNoAnoAtual(){
+        when(gerador.dataHoje()).thenReturn(LocalDate.of(2025,1,15));
+        LocalDate dataGerada = gerador.gerarVencimentoAnual(5,1,null);
         LocalDate dataEsperada = LocalDate.of(2026,1,5);
         assertEquals(dataEsperada,dataGerada);
 
-        dataGerada = gerador.gerarVencimentoAnual(29,12,1,1,null);
+        dataGerada = gerador.gerarVencimentoAnual(1,1,null);
         dataEsperada = LocalDate.of(2026,1,1);
         assertEquals(dataEsperada,dataGerada);
     }
 
     @Test
     @DisplayName("metodo gerarVencimentoMensal")
-    public void deveGerarUmaNovaDataParaUmaDataMensalParaOProximoMesSeDataDoUltimoPagamentoNaoENulo(){
-        LocalDate dataGerada = gerador.gerarVencimentoMensal(1,1,LocalDate.of(2024,1,30));
+    public void deveGerarUmDataNoProximoMesLevandoEmContaOMesDoUltimoPagamento(){
+        LocalDate dataGerada = gerador.gerarVencimentoMensal(1,LocalDate.of(2024,1,30));
         LocalDate dataEsperada = LocalDate.of(2024,2,29);
         assertEquals(dataEsperada,dataGerada);
 
-        dataGerada = gerador.gerarVencimentoMensal(29,12,LocalDate.of(2025,3,28));
+        dataGerada = gerador.gerarVencimentoMensal(29,LocalDate.of(2025,3,28));
         dataEsperada = LocalDate.of(2025,4,28);
         assertEquals(dataEsperada,dataGerada);
 
@@ -124,16 +123,41 @@ class GeradorDeDatasDespesasRecorrentesTest {
 
     @Test
     @DisplayName("metodo gerarVencimentoMensal")
-    public void deveGerarUmaNovaDataParaUmaDataMensalParaOMesSeODiaDeVencimentoDeUmaDespesaMensalAindaTiverPassado(){
+    public void deveGerarUmaDataParaOMesmoMesSeODiaDePagamentoNaoTiverPassado(){
         when(gerador.dataHoje()).thenReturn(LocalDate.of(2025,1,1));
-        LocalDate dataGerada = gerador.gerarVencimentoMensal(1,10,null);
+        LocalDate dataGerada = gerador.gerarVencimentoMensal(10,null);
         LocalDate dataEsperada = LocalDate.of(2025,1,10);
         assertEquals(dataEsperada,dataGerada);
 
-
-        dataGerada = gerador.gerarVencimentoMensal(29,30,null);
-        dataEsperada = LocalDate.of(2025,1,30);
+        when(gerador.dataHoje()).thenReturn(LocalDate.of(2025,1,1));
+        dataGerada = gerador.gerarVencimentoMensal(29,null);
+        dataEsperada = LocalDate.of(2025,1,29);
         assertEquals(dataEsperada,dataGerada);
     }
+
+    @Test
+    @DisplayName("metodo gerarVencimentoMensal")
+    public void deveGerarUmaDataParaOProximoMesSeODiaDePagamentoJaTiverPassado() {
+        when(gerador.dataHoje()).thenReturn(LocalDate.of(2025,1,15));
+        LocalDate dataGerada = gerador.gerarVencimentoMensal(10,null);
+        LocalDate dataEsperada = LocalDate.of(2025,2,10);
+        assertEquals(dataEsperada,dataGerada);
+
+        when(gerador.dataHoje()).thenReturn(LocalDate.of(2026,1,30));
+        dataGerada = gerador.gerarVencimentoMensal(28,null);
+        dataEsperada = LocalDate.of(2026,2,28);
+        assertEquals(dataEsperada,dataGerada);
+    }
+
+    @Test
+    @DisplayName("metodo gerarVecimentoMensal")
+    public void deveGerarVencimentoParaOOutroAnoQuandoDiaDePagamentoJaTiverPassadoEOMesForDezembro(){
+        when(gerador.dataHoje()).thenReturn(LocalDate.of(2025,12,15));
+        LocalDate dataGerada = gerador.gerarVencimentoMensal(15,null);
+        LocalDate dataEsperada = LocalDate.of(2026,1,15);
+        assertEquals(dataEsperada,dataGerada);
+    }
+
+
 
 }
