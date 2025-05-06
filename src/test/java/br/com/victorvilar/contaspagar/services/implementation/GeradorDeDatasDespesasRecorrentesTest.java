@@ -61,7 +61,7 @@ class GeradorDeDatasDespesasRecorrentesTest {
     public void deveChamarMetodoGerarVencimentoQuinzenal(){
         despesa.setPeriocidade(Periodo.QUINZENAL);
         gerador.criarDataVencimento(despesa);
-        verify(gerador,times(1)).gerarVencimentoQuinzenal(anyInt(),anyInt(),any());
+        verify(gerador,times(1)).gerarVencimentoQuinzenal(anyInt(),any());
     }
     @Test
     @DisplayName("metodo criarDataVencimento")
@@ -129,7 +129,6 @@ class GeradorDeDatasDespesasRecorrentesTest {
         LocalDate dataEsperada = LocalDate.of(2025,1,10);
         assertEquals(dataEsperada,dataGerada);
 
-        when(gerador.dataHoje()).thenReturn(LocalDate.of(2025,1,1));
         dataGerada = gerador.gerarVencimentoMensal(29,null);
         dataEsperada = LocalDate.of(2025,1,29);
         assertEquals(dataEsperada,dataGerada);
@@ -158,6 +157,100 @@ class GeradorDeDatasDespesasRecorrentesTest {
         assertEquals(dataEsperada,dataGerada);
     }
 
+    @Test
+    @DisplayName("metodo gerarVencimentoQuinzenal")
+    public void deveGerarVencimentoParaASegundaQuinzenalSeoUltimoLancamentoFoiNaPrimeiraQuinzena(){
+        LocalDate dataGerada = gerador.gerarVencimentoQuinzenal(2,LocalDate.of(2025,1,2));
+        LocalDate dataEsperada = LocalDate.of(2025,1,16);
+        assertEquals(dataEsperada,dataGerada);
+
+        dataGerada = gerador.gerarVencimentoQuinzenal(2,LocalDate.of(2025,1,14));
+        dataEsperada = LocalDate.of(2025,1,28);
+        assertEquals(dataEsperada,dataGerada);
+    }
+
+    @Test
+    @DisplayName("metodo gerarVencimentoQuinzenal")
+    public void deveGerarOsMovimentosParaOProximoMesQuandoADataDoUltimoPagamentoForNSegundaQuinzenaMaiorQueDia14(){
+
+        LocalDate dataGerada = gerador.gerarVencimentoQuinzenal(2,LocalDate.of(2025,1,20));
+        LocalDate dataEsperada = LocalDate.of(2025,2,2);
+        assertEquals(dataEsperada,dataGerada);
+
+        dataGerada = gerador.gerarVencimentoQuinzenal(2,LocalDate.of(2025,8,30));
+        dataEsperada = LocalDate.of(2025,9,2);
+        assertEquals(dataEsperada,dataGerada);
+    }
+
+    @Test
+    @DisplayName("metodo gerarVencimentoQuinzenal")
+    public void deveGerarOsMovimentosParaOProximoMesQuandoADataDoUltimoPagamentoForNulaEODiaAtualEMaiorQue14(){
+        when(gerador.dataHoje()).thenReturn(LocalDate.of(2025,1,18));
+
+        LocalDate dataGerada = gerador.gerarVencimentoQuinzenal(2,null);
+        LocalDate dataEsperada = LocalDate.of(2025,2,2);
+        assertEquals(dataEsperada,dataGerada);
+
+        dataGerada = gerador.gerarVencimentoQuinzenal(2,null);
+        dataEsperada = LocalDate.of(2025,2,2);
+        assertEquals(dataEsperada,dataGerada);
+    }
+
+    @Test
+    @DisplayName("metodo gerarVencimentoQuinzenal")
+    public void deveGerarOsMovimentosParaOProximoAnoQuandoOUltimoLancamentoForDepoisDoDia14eOMesForIgualADezembro() {
+        when(gerador.dataHoje()).thenReturn(LocalDate.of(2025, 12, 18));
+
+        LocalDate dataGerada = gerador.gerarVencimentoQuinzenal(2, LocalDate.of(2025,12,16));
+        LocalDate dataEsperada = LocalDate.of(2026, 1, 2);
+        assertEquals(dataEsperada, dataGerada);
+
+        dataGerada = gerador.gerarVencimentoQuinzenal(12, LocalDate.of(2025,12,29));
+        dataEsperada = LocalDate.of(2026, 1, 12);
+        assertEquals(dataEsperada, dataGerada);
+    }
+
+    @Test
+    @DisplayName("metodo gerarVencimentoQuinzenal")
+    public void deveGerarOsMovimentosParaOProximoAnoQuandoOUltimoLancamentoForNuloEODiaAtualEMaiorQue14EOMesForIgualADezembro() {
+        when(gerador.dataHoje()).thenReturn(LocalDate.of(2025, 12, 18));
+
+        LocalDate dataGerada = gerador.gerarVencimentoQuinzenal(2,null);
+        LocalDate dataEsperada = LocalDate.of(2026, 1, 2);
+        assertEquals(dataEsperada, dataGerada);
+
+        dataGerada = gerador.gerarVencimentoQuinzenal(12, null);
+        dataEsperada = LocalDate.of(2026, 1, 12);
+        assertEquals(dataEsperada, dataGerada);
+    }
+
+    @Test
+    @DisplayName("metodo gerarVencimentoQuinzenal")
+    public void deveGerarOsDatasParaASegundaQuinzenaDoMesAutalQuandoODiaAtualEMaiorQueODiaProgramadoMasAindaEAntesDaSegundaQuinzena() {
+        when(gerador.dataHoje()).thenReturn(LocalDate.of(2025, 1, 13));
+
+        LocalDate dataGerada = gerador.gerarVencimentoQuinzenal(2,null);
+        LocalDate dataEsperada = LocalDate.of(2025, 1, 16);
+        assertEquals(dataEsperada, dataGerada);
+
+        dataGerada = gerador.gerarVencimentoQuinzenal(12, null);
+        dataEsperada = LocalDate.of(2025, 1, 26);
+        assertEquals(dataEsperada, dataGerada);
+    }
+
+    @Test
+    @DisplayName("metodo gerarVencimentoQuinzenal")
+    public void deveGerarADataParaAPrimeiraQuinzenaQuandoOUltimoPagamentoForNuloEADataAtualEMenorQueDataProgramada() {
+        when(gerador.dataHoje()).thenReturn(LocalDate.of(2025, 1, 1));
+
+        LocalDate dataGerada = gerador.gerarVencimentoQuinzenal(2,null);
+        LocalDate dataEsperada = LocalDate.of(2025, 1, 2);
+        assertEquals(dataEsperada, dataGerada);
+
+        dataGerada = gerador.gerarVencimentoQuinzenal(12, null);
+        dataEsperada = LocalDate.of(2025, 1, 12);
+        assertEquals(dataEsperada, dataGerada);
 
 
+    }
 }
