@@ -5,17 +5,14 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import br.com.victorvilar.contaspagar.enums.Periodo;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "despesas_recorrentes")
 public class DespesaRecorrente extends DespesaAbstrata implements Serializable {
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Periodo periocidade;
     @Column(nullable = false)
     private LocalDate dataInicio;
