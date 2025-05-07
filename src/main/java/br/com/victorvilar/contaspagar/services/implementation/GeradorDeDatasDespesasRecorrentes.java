@@ -25,7 +25,7 @@ public class GeradorDeDatasDespesasRecorrentes {
      */
     public LocalDate criarDataVencimento(DespesaRecorrente despesa){
         int diaPagamento = despesa.getDiaPagamento();
-        int mesPagamento = despesa.getMesPagamento();
+        int mesPagamento = despesa.getMesPagamento() != null ? despesa.getMesPagamento():0;
         LocalDate ultimoLancamento = despesa.getDataUltimoLancamento();
         Periodo periodo = despesa.getPeriocidade();
         return switch(periodo){
