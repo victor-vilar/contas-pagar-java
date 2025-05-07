@@ -7,20 +7,19 @@ package br.com.victorvilar.contaspagar.services.implementation;
 import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
 import br.com.victorvilar.contaspagar.entities.DespesaRecorrente;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
-import br.com.victorvilar.contaspagar.entities.interfaces.Despesa;
 import br.com.victorvilar.contaspagar.enums.Periodo;
 import br.com.victorvilar.contaspagar.repositories.DespesaRepository;
 import br.com.victorvilar.contaspagar.repositories.MovimentoPagamentoRepository;
+import jxl.write.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import java.text.DateFormat;
-import java.text.FieldPosition;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
 import java.util.Locale;
 
@@ -39,11 +38,13 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
     public GeradorDeMovimentoDespesaRecorrente(MovimentoPagamentoRepository movimentoRepository, DespesaRepository despesaRepository ){
         this.movimentoRepository = movimentoRepository;
         this.despesaRepository = despesaRepository;
+        gerador = new GeradorDeDatasDespesasRecorrentes();
     }
+
 
     @Override
     public void run() {
-        List<DespesaAbstrata> despesas = despesaRepository.findByTipo("RECORRENTE");
+        List<DespesaAbstrata> despesas = despesaRepository.findDespesaRecorrenteWhereDataProximoLancamentoLowerThanNow(LocalDate.now());
         for(DespesaAbstrata despesa: despesas){
             var despesaRecorrente = (DespesaRecorrente) despesa;
             realizarLancamentos(despesaRecorrente);
@@ -63,10 +64,6 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
      * @param despesa
      */
     public void realizarLancamentos(DespesaRecorrente despesa){
-        gerador = new GeradorDeDatasDespesasRecorrentes();
-        if(!verificarSeDeveRealizarLancamento(despesa)){
-            return;
-        }
 
         MovimentoPagamento movimento = criarMovimento(despesa);
         try {
@@ -77,24 +74,7 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
     }
 
 
-    /**
-     * Verifica a necessidade de realizar o lançamento do próximo movimento da despesa.
-     * @param despesa Objeto do tipo {@link DespesaRecorrente}
-     * @return True se a data atual é igual ou maior que a propriedade 'dataProximoLançamento' de {@link DespesaRecorrente}.
-     * True se a propriedade 'dataProximoLancamento' de {@link DespesaRecorrente} for nula.
-     * False se a data atual for menor que 'dataProximoLancamento' de {@link DespesaRecorrente}.
-     */
-    public boolean verificarSeDeveRealizarLancamento(DespesaRecorrente despesa){
-        LocalDate dataHoje = dataHoje();
-        LocalDate dataProximoLancamento = despesa.getDataProximoLancamento();
-        if(dataProximoLancamento == null){
-            return true;
-        }
-        if(!dataHoje.isAfter(dataProximoLancamento) || !dataHoje.isEqual(dataProximoLancamento)) {
-            return false;
-        }
-        return true;
-    }
+
 
     /**
      * Cria um novo {@link MovimentoPagamento} com os dados gerados.
@@ -104,11 +84,14 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
     public MovimentoPagamento criarMovimento(DespesaRecorrente despesa){
 
         LocalDate dataVencimento = gerador.criarDataVencimento(despesa);
+        String referencia = gerarDescricaoReferencia(dataVencimento,despesa.getPeriocidade());
+        String integridade = gerarIntegridade(despesa.getId(),dataVencimento);
+
         MovimentoPagamento movimento = new MovimentoPagamento();
         movimento.setDataVencimento(dataVencimento);
         movimento.setValorPagamento(despesa.getValorTotal());
-        movimento.setReferenteParcela(setarReferenciaMovimento(dataVencimento,despesa.getPeriocidade()));
-        movimento.setIntegridade(criarIntegridade(despesa.getId(),dataVencimento));
+        movimento.setReferenteParcela(referencia);
+        movimento.setIntegridade(integridade);
         return movimento;
     }
 
@@ -118,14 +101,14 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
      * @param periodo Periodo de geração de movimento de {@link DespesaRecorrente}
      * @return String com o valor de 'referenteParcela'
      */
-    public String setarReferenciaMovimento(LocalDate data , Periodo periodo){
+    public String gerarDescricaoReferencia(LocalDate data , Periodo periodo){
         Locale local = new Locale("pt","BR");
-        DateFormat dateFormat = new SimpleDateFormat("MMMM",local);
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("MMMM",local);
 
         return switch(periodo){
             case ANUAL -> "ANUIDADE " + data.getYear();
-            case MENSAL -> dateFormat.format(data) + " DE " + data.getYear() ;
-            case QUINZENAL -> "";
+            case MENSAL -> data.format(formato).toUpperCase() + " DE " + data.getYear() ;
+            case QUINZENAL -> data.getDayOfMonth() < 14 ? "1ª QUINZENA DE " + data.format(formato).toUpperCase() + " DE " + data.getYear() : "2ª QUINZENA DE " + data.format(formato).toUpperCase() + " DE " + data.getYear();
             case SEMANAL -> "";
             default -> "";
         };
@@ -138,7 +121,7 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
      * @param dataVencimento data de vencimento do proximo movimento a ser lançado
      * @return String com o valor que será salvo na propriedade 'integridade' de {@link MovimentoPagamento}
      */
-    public String criarIntegridade(long id, LocalDate dataVencimento){
+    public String gerarIntegridade(long id, LocalDate dataVencimento){
         return id + "/" + dataVencimento.toString();
     }
 
@@ -152,5 +135,10 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
         despesaRepository.save(despesa);
         movimentoRepository.save(movimento);
     }
+
+    /**
+     * Apos ter criado o movimento para uma despesa, deve ser alterada a data de proximo lançamento da despesa.
+     */
+    public void criarDataDeProximoLancamento(){}
 
 }
