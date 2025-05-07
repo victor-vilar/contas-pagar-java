@@ -32,18 +32,20 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
     
     private final MovimentoPagamentoRepository movimentoRepository;
     private final DespesaRepository despesaRepository;
-    private GeradorDeDatasDespesasRecorrentes gerador;
-    
+    private GeradorDeDatasDespesasRecorrentes gerador ;
+
+
     @Autowired
     public GeradorDeMovimentoDespesaRecorrente(MovimentoPagamentoRepository movimentoRepository, DespesaRepository despesaRepository ){
         this.movimentoRepository = movimentoRepository;
         this.despesaRepository = despesaRepository;
-        gerador = new GeradorDeDatasDespesasRecorrentes();
+
     }
 
 
     @Override
     public void run() {
+
         List<DespesaAbstrata> despesas = despesaRepository.findDespesaRecorrenteWhereDataProximoLancamentoLowerThanNow(LocalDate.now());
         for(DespesaAbstrata despesa: despesas){
             var despesaRecorrente = (DespesaRecorrente) despesa;
@@ -82,7 +84,7 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
      * @return Objeto do Tipo {@link MovimentoPagamento} com os dados preenchidos.
      */
     public MovimentoPagamento criarMovimento(DespesaRecorrente despesa){
-
+        gerador = new GeradorDeDatasDespesasRecorrentes();
         LocalDate dataVencimento = gerador.criarDataVencimento(despesa);
         String referencia = gerarDescricaoReferencia(dataVencimento,despesa.getPeriocidade());
         String integridade = gerarIntegridade(despesa.getId(),dataVencimento);
@@ -132,13 +134,17 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
      */
     public void salvar(DespesaRecorrente despesa, MovimentoPagamento movimento){
         despesa.addParcela(movimento);
-        despesaRepository.save(despesa);
         movimentoRepository.save(movimento);
+
+        despesaRepository.save(despesa);
+
     }
 
     /**
      * Apos ter criado o movimento para uma despesa, deve ser alterada a data de proximo lançamento da despesa.
      */
-    public void criarDataDeProximoLancamento(){}
+    public void criarDataDeProximoLancamento(DespesaRecorrente despesa){
+        
+    }
 
 }
