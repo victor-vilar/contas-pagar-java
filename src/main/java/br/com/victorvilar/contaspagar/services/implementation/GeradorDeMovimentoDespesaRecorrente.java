@@ -49,7 +49,15 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
         List<DespesaAbstrata> despesas = despesaRepository.findDespesaRecorrenteWhereDataProximoLancamentoLowerThanNow(LocalDate.now());
         for(DespesaAbstrata despesa: despesas){
             var despesaRecorrente = (DespesaRecorrente) despesa;
-            realizarLancamentos(despesaRecorrente);
+
+            //Caso o sistema fique muitos dias sem ser aberto, pode acontecer de algumas despesas que possuem um período
+            //de pagamento mais frequente, necessite que sejam geradas todas as parcelas retroativas que ficaram pendentes.
+            //Então, todo o processo de gerar um novo movimento deve ser repetido, até a data do próximo lançamento ser
+            //maior que a data atual.
+            while(despesaRecorrente.getDataProximoLancamento().isBefore(LocalDate.now())){
+                realizarLancamentos(despesaRecorrente);
+            }
+
         }
     }
 
@@ -136,15 +144,11 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
         despesa.addParcela(movimento);
         movimentoRepository.save(movimento);
 
+        despesa.setDataUltimoLancamento(movimento.getDataVencimento());
+        despesa.setDataProximoLancamento(gerador.gerarDataDoProximoLancamento(despesa));
         despesaRepository.save(despesa);
 
     }
 
-    /**
-     * Apos ter criado o movimento para uma despesa, deve ser alterada a data de proximo lançamento da despesa.
-     */
-    public void criarDataDeProximoLancamento(DespesaRecorrente despesa){
-        
-    }
 
 }
