@@ -40,6 +40,7 @@ class GeradorDeDatasDespesasRecorrentesTest {
        despesa.setValorTotal(new BigDecimal(1000));
 
 
+
     }
 
     @Test
@@ -253,4 +254,116 @@ class GeradorDeDatasDespesasRecorrentesTest {
 
 
     }
+
+    @Test
+    @DisplayName("metodo gerarDataDoProximoLancamento")
+    public void deveChamarMetodoGerarDataProximoLancamentoDespesaAnualQuandoDespesaTiverPeriodoAnual(){
+        despesa.setPeriocidade(Periodo.ANUAL);
+        despesa.setDataUltimoLancamento(LocalDate.now());
+        gerador.gerarDataDoProximoLancamento(despesa);
+        verify(gerador,times(1)).gerarDataProximoLancamentoDespesaAnual(any(LocalDate.class));
+    }
+
+    @Test
+    @DisplayName("metodo gerarDataDoProximoLancamento")
+    public void deveChamarMetodoGerarDataProximoLancamentoDespesaMensalQuandoDespesaTiverPeriodoMensal(){
+        despesa.setDataUltimoLancamento(LocalDate.now());
+        gerador.gerarDataDoProximoLancamento(despesa);
+        verify(gerador,times(1)).gerarDataProximoLancamentoDespesaMensal(any(LocalDate.class));
+    }
+
+    @Test
+    @DisplayName("metodo gerarDataDoProximoLancamento")
+    public void deveChamarMetodoGerarDataProximoLancamentoDespesaQuinzenalQuandoDespesaTiverPeriodoQuinzenal(){
+        despesa.setPeriocidade(Periodo.QUINZENAL);
+        despesa.setDataUltimoLancamento(LocalDate.now());
+        gerador.gerarDataDoProximoLancamento(despesa);
+        verify(gerador,times(1)).gerarDataProximoLancamentoDespesaQuinzenal(any(LocalDate.class));
+    }
+
+    @Test
+    @DisplayName("metodo gerarDataDoProximoLancamento")
+    public void deveChamarMetodoGerarDataProximoLancamentoDespesaSemanalQuandoDespesaTiverPeriodoQuinzenal(){
+        despesa.setPeriocidade(Periodo.SEMANAL);
+        despesa.setDataUltimoLancamento(LocalDate.now());
+        gerador.gerarDataDoProximoLancamento(despesa);
+        verify(gerador,times(1)).gerarDataProximoLancamentoDespesaSemanal(any(LocalDate.class));
+    }
+
+    @Test
+    @DisplayName("metodo gerarDataProximoLancamentoDespesaAnual")
+    public void deveGerarAProximaDataDeLancamentoParaOnzeMesesAposADataDoUltimoVencimento(){
+        LocalDate dataUltimoLancamento = LocalDate.of(2025,1,1);
+        LocalDate dataProximoLancamento = gerador.gerarDataProximoLancamentoDespesaAnual(dataUltimoLancamento);
+        LocalDate dataProximaEsperada = LocalDate.of(2025,12,1);
+        assertEquals(dataProximaEsperada,dataProximoLancamento);
+
+         dataUltimoLancamento = LocalDate.of(2025,2,25);
+         dataProximoLancamento = gerador.gerarDataProximoLancamentoDespesaAnual(dataUltimoLancamento);
+         dataProximaEsperada = LocalDate.of(2026,1,25);
+        assertEquals(dataProximaEsperada,dataProximoLancamento);
+
+    }
+
+    @Test
+    @DisplayName("metodo gerarDataProximoLancamentoDespesaMensal")
+    public void deveGerarAProximaDataDeLancamentoPara20DiasAposADataDoUltimoVencimento(){
+        LocalDate dataUltimoLancamento = LocalDate.of(2025,1,1);
+        LocalDate dataProximoLancamento = gerador.gerarDataProximoLancamentoDespesaMensal(dataUltimoLancamento);
+        LocalDate dataProximaEsperada = LocalDate.of(2025,1,16);
+        assertEquals(dataProximaEsperada,dataProximoLancamento);
+
+        dataUltimoLancamento = LocalDate.of(2025,2,25);
+        dataProximoLancamento = gerador.gerarDataProximoLancamentoDespesaMensal(dataUltimoLancamento);
+        dataProximaEsperada = LocalDate.of(2025,3,12);
+        assertEquals(dataProximaEsperada,dataProximoLancamento);
+
+        dataUltimoLancamento = LocalDate.of(2025,12,25);
+        dataProximoLancamento = gerador.gerarDataProximoLancamentoDespesaMensal(dataUltimoLancamento);
+        dataProximaEsperada = LocalDate.of(2026,1,9);
+        assertEquals(dataProximaEsperada,dataProximoLancamento);
+
+    }
+
+    @Test
+    @DisplayName("metodo gerarDataProximoLancamentoDespesaQuinzenal")
+    public void deveGerarAProximaDataDeLancamentoPara7DiasAposADataDoUltimoVencimento(){
+        LocalDate dataUltimoLancamento = LocalDate.of(2025,1,1);
+        LocalDate dataProximoLancamento = gerador.gerarDataProximoLancamentoDespesaQuinzenal(dataUltimoLancamento);
+        LocalDate dataProximaEsperada = LocalDate.of(2025,1,8);
+        assertEquals(dataProximaEsperada,dataProximoLancamento);
+
+        dataUltimoLancamento = LocalDate.of(2025,2,25);
+        dataProximoLancamento = gerador.gerarDataProximoLancamentoDespesaQuinzenal(dataUltimoLancamento);
+        dataProximaEsperada = LocalDate.of(2025,3,4);
+        assertEquals(dataProximaEsperada,dataProximoLancamento);
+
+        dataUltimoLancamento = LocalDate.of(2025,12,25);
+        dataProximoLancamento = gerador.gerarDataProximoLancamentoDespesaQuinzenal(dataUltimoLancamento);
+        dataProximaEsperada = LocalDate.of(2026,1,1);
+        assertEquals(dataProximaEsperada,dataProximoLancamento);
+
+    }
+
+    @Test
+    @DisplayName("metodo gerarDataProximoLancamentoDespesaSemanal")
+    public void deveGerarAProximaDataDeLancamentoPara5DiasAposADataDoUltimoVencimento(){
+        LocalDate dataUltimoLancamento = LocalDate.of(2025,1,1);
+        LocalDate dataProximoLancamento = gerador.gerarDataProximoLancamentoDespesaSemanal(dataUltimoLancamento);
+        LocalDate dataProximaEsperada = LocalDate.of(2025,1,5);
+        assertEquals(dataProximaEsperada,dataProximoLancamento);
+
+        dataUltimoLancamento = LocalDate.of(2025,2,25);
+        dataProximoLancamento = gerador.gerarDataProximoLancamentoDespesaSemanal(dataUltimoLancamento);
+        dataProximaEsperada = LocalDate.of(2025,3,1);
+        assertEquals(dataProximaEsperada,dataProximoLancamento);
+
+        dataUltimoLancamento = LocalDate.of(2025,12,25);
+        dataProximoLancamento = gerador.gerarDataProximoLancamentoDespesaSemanal(dataUltimoLancamento);
+        dataProximaEsperada = LocalDate.of(2025,12,29);
+        assertEquals(dataProximaEsperada,dataProximoLancamento);
+
+    }
+
+
 }
