@@ -102,7 +102,7 @@ public class GeradorDeDatasDespesasRecorrentes {
      * cadastrar os seus dias de pagamentos para depois do dia 14, garantindo assim que as duas parcelas vão estar
      * dentro do mesmo mês.
      * @param diaPagamento dia de pagamento pre programado
-     * @param ultimoLancamento  data do ultimo movimento
+     * @param ultimoLancamento  data de vencimento do ultimo movimento
      * @return data do proximo lançamento.
      */
     public LocalDate gerarVencimentoQuinzenal(int diaPagamento, LocalDate ultimoLancamento){
@@ -159,17 +159,74 @@ public class GeradorDeDatasDespesasRecorrentes {
     }
 
     /**
-     * Cria data de vencimento para contas mensais. Caso não exista uma data de 'ultimoLancamento' e ainda estivermos
+     * Cria data de vencimento para contas semanais. Caso não exista uma data de 'ultimoLancamento' e ainda estivermos
      * em um dia anterior ao que é programado, irá criar uma nova data. Caso exista uma data de 'ultimoLancamento'
      * ele ira pegar essa data e adicionará 1 mês.
      * @param diaPagamento dia de pagamento pre definido
      * @param mesPagamento mes de pagamento pre definido
-     * @param ultimoLancamento  data do ultimo movimento
+     * @param ultimoLancamento  data de vencimento do ultimo movimento
      * @return data do proximo lançamento.
      */
     public LocalDate gerarVencimentoSemanal(int diaPagamento, int mesPagamento, LocalDate ultimoLancamento){
         //TODO
         return null;
     }
+
+
+    /**
+     * Apos ter gerado uma data para o vencimento das despesas, tem que ser gerado uma data 'dataProximoLancamento' para
+     * determinar quando o sistema deve novamente gera outro movimento.
+     * Exemplo: Uma despesa recorrente 'MENSAL' que é paga todo dia 10, precisa estar no movimento de pagamento antes desse dia.
+     * O que determina então quando esse movimento deve ser gerador é a propriedade 'dataProximoLancamento' de {@link DespesaRecorrente}.
+     * Apos então ser determinada uma data de vencimento, é possivel então criar uma 'dataProxmoLancamento' para a despesa.
+     */
+    public LocalDate gerarDataDoProximoLancamento(DespesaRecorrente despesa){
+        LocalDate dataUltimoLancamento = despesa.getDataUltimoLancamento();
+        return switch(despesa.getPeriocidade()){
+            case ANUAL -> gerarDataProximoLancamentoDespesaAnual(dataUltimoLancamento);
+            case MENSAL -> gerarDataProximoLancamentoDespesaMensal(dataUltimoLancamento);
+            case QUINZENAL -> gerarDataProximoLancamentoDespesaQuinzenal(dataUltimoLancamento);
+            case SEMANAL -> gerarDataProximoLancamentoDespesaSemanal(dataUltimoLancamento);
+            default -> null;
+        };
+    }
+
+    /**
+     * Gerar a proxima data de lancamento, sendo onze meses após a data do ultimo movimento lançado.
+     * @param dataUltimoLancamento A data do ultimo movimento lançado para essa despesa recorrente.
+     * @return data do proximo dia que o sistema deverá lançar um movimento para essa despesa recorrente
+     */
+    public LocalDate gerarDataProximoLancamentoDespesaAnual(LocalDate dataUltimoLancamento){
+        return dataUltimoLancamento.plusMonths(11);
+    }
+
+    /**
+     * Gerar a proxima data de lancamento, sendo 20 dias  após a data do ultimo movimento lançado.
+     * @param dataUltimoLancamento A data do ultimo movimento lançado para essa despesa recorrente.
+     * @return data do proximo dia que o sistema deverá lançar um movimento para essa despesa recorrente
+     */
+    public LocalDate gerarDataProximoLancamentoDespesaMensal(LocalDate dataUltimoLancamento){
+        return dataUltimoLancamento.plusDays(15);
+    }
+
+    /**
+     * Gerar a proxima data de lancamento, sendo uma semana após a data do ultimo movimento lançado.
+     * @param dataUltimoLancamento A data do ultimo movimento lançado para essa despesa recorrente.
+     * @return data do proximo dia que o sistema deverá lançar um movimento para essa despesa recorrente
+     */
+    public LocalDate gerarDataProximoLancamentoDespesaQuinzenal(LocalDate dataUltimoLancamento){
+        return dataUltimoLancamento.plusWeeks(1);
+    }
+
+    /**
+     * Gerar a proxima data de lancamento, sendo 4 dias após a data do ultimo movimento lançado.
+     * @param dataUltimoLancamento A data do ultimo movimento lançado para essa despesa recorrente.
+     * @return data do proximo dia que o sistema deverá lançar um movimento para essa despesa recorrente
+     */
+    public LocalDate gerarDataProximoLancamentoDespesaSemanal(LocalDate dataUltimoLancamento){
+        return dataUltimoLancamento.plusDays(4);
+    }
+
+
 
 }
