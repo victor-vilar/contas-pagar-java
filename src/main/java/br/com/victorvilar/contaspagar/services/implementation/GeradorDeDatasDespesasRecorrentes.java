@@ -39,8 +39,8 @@ public class GeradorDeDatasDespesasRecorrentes {
 
     /**
      * Cria data de vencimento para contas anuais. Caso não exista uma data de 'ultimoLancamento' e ainda estivermos
-     * em um mês e dia anteriores ao que é programado, irá criar uma nova data. Caso exista uma data de 'ultimoLancamento'
-     * ele ira pegar essa data e adicionará 1 ano.
+     * em um mês e dia anteriores ao que é programado, irá criar uma nova data para o mesmo ano.
+     * Caso exista uma data de 'ultimoLancamento' ele ira pegar essa data e adicionará 1 ano.
      * @param diaPagamento dia de pagamento pre definido
      * @param mesPagamento mes de pagamento pre definido
      * @param ultimoLancamento  data do ultimo movimento
@@ -201,7 +201,7 @@ public class GeradorDeDatasDespesasRecorrentes {
     }
 
     /**
-     * Gerar a proxima data de lancamento, sendo 20 dias  após a data do ultimo movimento lançado.
+     * Gerar a proxima data de lancamento, sendo 15 dias após a data do ultimo movimento lançado.
      * @param dataUltimoLancamento A data do ultimo movimento lançado para essa despesa recorrente.
      * @return data do proximo dia que o sistema deverá lançar um movimento para essa despesa recorrente
      */
