@@ -7,8 +7,10 @@ import org.springframework.context.annotation.Configuration;
 import br.com.victorvilar.contaspagar.controllers.FormaPagamentoController;
 import br.com.victorvilar.contaspagar.services.implementation.FormaPagamentoServiceImpl;
 import br.com.victorvilar.contaspagar.services.interfaces.FormaPagamentoService;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 @Configuration
+@EnableAsync
 public class ApplicationConfiguration {
 		
 }

@@ -3,6 +3,7 @@ package br.com.victorvilar.contaspagar.configuration;
 import br.com.victorvilar.contaspagar.services.implementation.GeradorDeMovimentoDespesaRecorrente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import br.com.victorvilar.contaspagar.views.MainView;
@@ -23,10 +24,13 @@ public class InitView implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         view.setVisible(true);
-        Thread lancarDespesasRecorrentes = new Thread(gerador);
-        lancarDespesasRecorrentes.start();
+        lancarDespesasRecorrentes();
     }
 
+    @Async
+    public void lancarDespesasRecorrentes(){
+        gerador.run();
+    }
 
 
 }
