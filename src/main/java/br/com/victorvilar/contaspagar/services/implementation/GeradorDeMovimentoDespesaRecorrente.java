@@ -10,6 +10,7 @@ import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.enums.Periodo;
 import br.com.victorvilar.contaspagar.repositories.DespesaRepository;
 import br.com.victorvilar.contaspagar.repositories.MovimentoPagamentoRepository;
+import jakarta.transaction.Transactional;
 import jxl.write.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -44,8 +45,10 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
 
 
     @Override
+    @Transactional
     public void run() {
 
+        //Busca todas as depesas recorrentes que possuem a propriedade 'dataProximoLancamento' anterior ao dia atual.
         List<DespesaAbstrata> despesas = despesaRepository.findDespesaRecorrenteWhereDataProximoLancamentoLowerThanNow(LocalDate.now());
         for(DespesaAbstrata despesa: despesas){
             var despesaRecorrente = (DespesaRecorrente) despesa;
@@ -54,8 +57,10 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
             //de pagamento mais frequente, necessite que sejam geradas todas as parcelas retroativas que ficaram pendentes.
             //Então, todo o processo de gerar um novo movimento deve ser repetido, até a data do próximo lançamento ser
             //maior que a data atual.
-            while(despesaRecorrente.getDataProximoLancamento().isBefore(LocalDate.now())){
+            LocalDate proximoLancamento = despesaRecorrente.getDataProximoLancamento();
+            while(proximoLancamento == null || proximoLancamento.isBefore(LocalDate.now()) ){
                 realizarLancamentos(despesaRecorrente);
+                proximoLancamento = despesaRecorrente.getDataProximoLancamento();
             }
 
         }
@@ -74,17 +79,13 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
      * @param despesa
      */
     public void realizarLancamentos(DespesaRecorrente despesa){
-
         MovimentoPagamento movimento = criarMovimento(despesa);
         try {
             salvar(despesa, movimento);
         }catch(DataIntegrityViolationException e){
-            System.out.println("Já existe uma forma de pagamento com essa integridade");
+            System.out.println(e.getMessage());
         }
     }
-
-
-
 
     /**
      * Cria um novo {@link MovimentoPagamento} com os dados gerados.
@@ -102,6 +103,7 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
         movimento.setValorPagamento(despesa.getValorTotal());
         movimento.setReferenteParcela(referencia);
         movimento.setIntegridade(integridade);
+        movimento.setFormaPagamento(despesa.getFormaPagamentoPadrao());
         return movimento;
     }
 
@@ -140,6 +142,7 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
      * @param despesa Objeto do tipo {@link DespesaRecorrente}
      * @param movimento Objeto do tipo {@link MovimentoPagamento}
      */
+
     public void salvar(DespesaRecorrente despesa, MovimentoPagamento movimento){
         despesa.addParcela(movimento);
         movimentoRepository.save(movimento);
