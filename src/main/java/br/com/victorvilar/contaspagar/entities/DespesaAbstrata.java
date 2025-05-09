@@ -35,7 +35,7 @@ public abstract class DespesaAbstrata implements Despesa {
     @Column(nullable = false)
     private String descricao;
     private boolean quitado = false;
-    private BigDecimal valorTotal;
+    protected BigDecimal valorTotal;
     private String tipo;
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "despesa")
     @OrderBy("id ASC")
