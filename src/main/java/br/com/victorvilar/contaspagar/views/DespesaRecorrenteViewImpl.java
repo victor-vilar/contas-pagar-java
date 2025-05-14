@@ -33,6 +33,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import br.com.victorvilar.contaspagar.views.interfaces.DespesaRecorrenteView;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 
 @Component
 @Lazy
@@ -94,8 +95,8 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
                 btnProcurarCategoria,
                 fieldDiaVencimento,
                 fieldMesVencimento,
-                fieldDataInicio,
-                fieldDataFim);
+                chequeAtivo);
+
     }
 
     @Override
@@ -107,9 +108,7 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
                 fieldValor,
                 areaDescricao,
                 fieldDiaVencimento,
-                fieldMesVencimento,
-                fieldDataInicio,
-                fieldDataFim);
+                fieldMesVencimento);
     }
 
     @Override
@@ -186,16 +185,11 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         return fieldMesVencimento;
     }
     
+
     @Override
-    public JTextField getFieldDataInicio(){
-        return fieldDataInicio;
+    public JCheckBox getAtivoBox(){
+        return chequeAtivo;
     }
-    
-    @Override
-    public JTextField getFieldDataFim(){
-        return fieldDataFim;
-    }
-    
     
 
     public void configureComponentes() {
@@ -288,27 +282,24 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         jLabel9 = new javax.swing.JLabel();
         comboFormaPagamento = new javax.swing.JComboBox<>();
         btnProcurarFormaPagamento = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
-        fieldDataInicio = new javax.swing.JTextField();
-        jLabel14 = new javax.swing.JLabel();
-        fieldDataFim = new javax.swing.JTextField();
+        comboParcelamento = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        fieldValor = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        fieldDiaVencimento = new javax.swing.JTextField();
+        fieldMesVencimento = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        chequeAtivo = new javax.swing.JCheckBox();
         panelToolBar = new javax.swing.JPanel();
         btnDeletar = new javax.swing.JButton();
         btnNovo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
         panelParcelas = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
-        comboParcelamento = new javax.swing.JComboBox<>();
-        jLabel10 = new javax.swing.JLabel();
-        fieldValor = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         tableParcelas = new javax.swing.JTable();
         btnLockTable = new javax.swing.JButton();
-        jLabel11 = new javax.swing.JLabel();
-        fieldDiaVencimento = new javax.swing.JTextField();
-        jLabel12 = new javax.swing.JLabel();
-        fieldMesVencimento = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Despesas Recorrentes");
@@ -392,35 +383,63 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
             }
         });
 
-        jLabel6.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
-        jLabel6.setText("Data Início");
+        comboParcelamento.setEnabled(false);
+        comboParcelamento.setName("comboParcelamento"); // NOI18N
 
-        fieldDataInicio.setEnabled(false);
-        fieldDataInicio.setName("fieldDataInicio"); // NOI18N
-        fieldDataInicio.addFocusListener(new java.awt.event.FocusAdapter() {
+        jLabel8.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
+        jLabel8.setText("Periocidade");
+
+        jLabel10.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
+        jLabel10.setText("Valor");
+
+        fieldValor.setEnabled(false);
+        fieldValor.setName("fieldValor"); // NOI18N
+        fieldValor.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                fieldDataInicioFocusLost(evt);
-            }
-        });
-        fieldDataInicio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fieldDataInicioActionPerformed(evt);
+                fieldValorFocusLost(evt);
             }
         });
 
-        jLabel14.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
-        jLabel14.setText("Data Fim");
+        jLabel11.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
+        jLabel11.setText("Dia");
 
-        fieldDataFim.setEnabled(false);
-        fieldDataFim.setName("fieldDataFim"); // NOI18N
-        fieldDataFim.addFocusListener(new java.awt.event.FocusAdapter() {
+        fieldDiaVencimento.setEnabled(false);
+        fieldDiaVencimento.setName("fieldDiaVencimento"); // NOI18N
+        fieldDiaVencimento.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                fieldDataFimFocusLost(evt);
+                fieldDiaVencimentoFocusLost(evt);
             }
         });
-        fieldDataFim.addActionListener(new java.awt.event.ActionListener() {
+        fieldDiaVencimento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fieldDataFimActionPerformed(evt);
+                fieldDiaVencimentoActionPerformed(evt);
+            }
+        });
+
+        fieldMesVencimento.setEnabled(false);
+        fieldMesVencimento.setName("fieldMesVencimento"); // NOI18N
+        fieldMesVencimento.setVerifyInputWhenFocusTarget(false);
+        fieldMesVencimento.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                fieldMesVencimentoFocusLost(evt);
+            }
+        });
+        fieldMesVencimento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fieldMesVencimentoActionPerformed(evt);
+            }
+        });
+
+        jLabel12.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
+        jLabel12.setText("Mês ");
+
+        chequeAtivo.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
+        chequeAtivo.setText("Ativo");
+        chequeAtivo.setEnabled(false);
+        chequeAtivo.setName("chequeAtivo"); // NOI18N
+        chequeAtivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chequeAtivoActionPerformed(evt);
             }
         });
 
@@ -428,94 +447,127 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         panelMain.setLayout(panelMainLayout);
         panelMainLayout.setHorizontalGroup(
             panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelMainLayout.createSequentialGroup()
-                .addGap(6, 6, 6)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMainLayout.createSequentialGroup()
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelMainLayout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addGap(94, 94, 94)
-                        .addComponent(jLabel7))
-                    .addGroup(panelMainLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
                         .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelMainLayout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(47, 47, 47)
-                                .addComponent(jLabel2))
+                            .addComponent(jLabel1)
                             .addGroup(panelMainLayout.createSequentialGroup()
                                 .addComponent(fieldId, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(fieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 677, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(chequeAtivo)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(panelMainLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(fieldDescricao)
+                            .addGroup(panelMainLayout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelMainLayout.createSequentialGroup()
+                        .addComponent(fieldCodFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnProcurarFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel4))
+                .addGap(12, 12, 12))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMainLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMainLayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMainLayout.createSequentialGroup()
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(comboParcelamento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(fieldValor)
+                            .addGroup(panelMainLayout.createSequentialGroup()
+                                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 118, Short.MAX_VALUE))
+                            .addComponent(comboCategoria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(comboFormaPagamento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addGroup(panelMainLayout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(fieldCodFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(6, 6, 6)
-                                .addComponent(btnProcurarFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(panelMainLayout.createSequentialGroup()
-                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addGroup(panelMainLayout.createSequentialGroup()
-                                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(comboFormaPagamento, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(comboCategoria, javax.swing.GroupLayout.Alignment.LEADING, 0, 146, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnProcurarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnProcurarFormaPagamento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(panelMainLayout.createSequentialGroup()
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panelMainLayout.createSequentialGroup()
-                                .addComponent(fieldDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(fieldDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1)))
+                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(panelMainLayout.createSequentialGroup()
+                                    .addComponent(jLabel11)
+                                    .addGap(21, 21, 21))
+                                .addComponent(fieldDiaVencimento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(fieldMesVencimento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnProcurarFormaPagamento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnProcurarCategoria, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(6, 6, 6)
+                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 629, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         panelMainLayout.setVerticalGroup(
             panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelMainLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel4))
+                .addComponent(jLabel1)
                 .addGap(6, 6, 6)
-                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fieldId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(fieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(fieldCodFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnProcurarFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
-                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel9))
+                    .addComponent(chequeAtivo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panelMainLayout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(6, 6, 6)
+                        .addComponent(fieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelMainLayout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(8, 8, 8)
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(fieldCodFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnProcurarFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(panelMainLayout.createSequentialGroup()
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(panelMainLayout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addGap(38, 38, 38)
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fieldValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelMainLayout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jLabel11)
+                                .addGap(35, 35, 35)
+                                .addComponent(jLabel12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fieldMesVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comboFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnProcurarFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnProcurarFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnProcurarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(panelMainLayout.createSequentialGroup()
+                        .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel14))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(fieldDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(fieldDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane1))
-                .addContainerGap(10, Short.MAX_VALUE))
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(fieldDiaVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(comboParcelamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panelToolBar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -601,23 +653,6 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
 
         panelParcelas.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel8.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
-        jLabel8.setText("Periocidade");
-
-        comboParcelamento.setEnabled(false);
-        comboParcelamento.setName("comboParcelamento"); // NOI18N
-
-        jLabel10.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
-        jLabel10.setText("Valor");
-
-        fieldValor.setEnabled(false);
-        fieldValor.setName("fieldValor"); // NOI18N
-        fieldValor.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                fieldValorFocusLost(evt);
-            }
-        });
-
         tableParcelas.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         tableParcelas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -667,95 +702,26 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
             }
         });
 
-        jLabel11.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
-        jLabel11.setText("Dia");
-
-        fieldDiaVencimento.setEnabled(false);
-        fieldDiaVencimento.setName("fieldDiaVencimento"); // NOI18N
-        fieldDiaVencimento.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                fieldDiaVencimentoFocusLost(evt);
-            }
-        });
-        fieldDiaVencimento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fieldDiaVencimentoActionPerformed(evt);
-            }
-        });
-
-        jLabel12.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
-        jLabel12.setText("Mês ");
-
-        fieldMesVencimento.setEnabled(false);
-        fieldMesVencimento.setName("fieldMesVencimento"); // NOI18N
-        fieldMesVencimento.setVerifyInputWhenFocusTarget(false);
-        fieldMesVencimento.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                fieldMesVencimentoFocusLost(evt);
-            }
-        });
-        fieldMesVencimento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fieldMesVencimentoActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout panelParcelasLayout = new javax.swing.GroupLayout(panelParcelas);
         panelParcelas.setLayout(panelParcelasLayout);
         panelParcelasLayout.setHorizontalGroup(
             panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelParcelasLayout.createSequentialGroup()
-                .addGap(6, 6, 6)
                 .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3)
                     .addGroup(panelParcelasLayout.createSequentialGroup()
-                        .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelParcelasLayout.createSequentialGroup()
-                                .addComponent(comboParcelamento, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(6, 6, 6)
-                                .addComponent(fieldValor, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(4, 4, 4)
-                                .addComponent(fieldDiaVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(fieldMesVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(492, 492, 492)
-                                .addComponent(btnLockTable, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panelParcelasLayout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addGap(84, 84, 84)
-                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel11)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 7, Short.MAX_VALUE)))
+                        .addGap(6, 6, 6)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 913, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelParcelasLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnLockTable, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         panelParcelasLayout.setVerticalGroup(
             panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelParcelasLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8)
-                    .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel10)
-                        .addComponent(jLabel11)
-                        .addComponent(jLabel12)))
-                .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelParcelasLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(comboParcelamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelParcelasLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(fieldValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(fieldDiaVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(fieldMesVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(panelParcelasLayout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(btnLockTable, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(btnLockTable, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -806,27 +772,40 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
 
     }//GEN-LAST:event_formWindowOpened
 
-    private void btnProcurarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcurarCategoriaActionPerformed
-        var categoriaView = context.getBean(CategoriaDespesaView.class);
-        categoriaView.setVisible(true);
-        categoriaView.adicionarSubscribers(this);
-    }//GEN-LAST:event_btnProcurarCategoriaActionPerformed
-
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         
         controller.limparCampos();
         controller.enableDisableComponents(false);
     }//GEN-LAST:event_formWindowClosing
 
-    private void btnProcurarFormaPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcurarFormaPagamentoActionPerformed
-        var formaPagamentoView = context.getBean(FormaPagamentoView.class);
-        formaPagamentoView.setVisible(true);
-        formaPagamentoView.adicionarSubscribers(this);
-    }//GEN-LAST:event_btnProcurarFormaPagamentoActionPerformed
-
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         // TODO add your handling code here:
     }//GEN-LAST:event_formWindowActivated
+
+    private void btnLockTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLockTableActionPerformed
+
+       if (!tableParcelas.isEnabled()) {
+            controller.ativarDesativarTabelaParcelas(true);
+        } else {
+            controller.ativarDesativarTabelaParcelas(false);
+        }
+    }//GEN-LAST:event_btnLockTableActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        controller.editar();
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
+        String msg = "Deseja remover essa despesa ?\nTodos as parcelas referentes a ela serão excluídas !";
+        if (JOptionPane.showConfirmDialog(null, msg, "Atenção", JOptionPane.YES_NO_OPTION) == 0) {
+            controller.deletar();
+            JOptionPane.showMessageDialog(null, AppMensagens.INFO_SUCESSO, AppMensagens.HEADER_SUCESSO, JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnDeletarActionPerformed
+
+    private void chequeAtivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chequeAtivoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chequeAtivoActionPerformed
 
     private void fieldMesVencimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldMesVencimentoActionPerformed
         // TODO add your handling code here:
@@ -862,45 +841,8 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
             getFieldDiaVencimento().requestFocus();
             JOptionPane.showMessageDialog(null, AppMensagens.INFO_DATA_INCORRETA, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
         }
-               
+
     }//GEN-LAST:event_fieldDiaVencimentoFocusLost
-
-    private void fieldDataFimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldDataFimActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fieldDataFimActionPerformed
-
-    private void fieldDataFimFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldDataFimFocusLost
-        try {
-            fieldDataFim.setText(ConversorData.paraString(ConversorData.paraData(fieldDataFim.getText())));
-        } catch (DateTimeParseException ex) {
-            fieldDataFim.setText("");
-            fieldDataFim.requestFocus();
-            JOptionPane.showMessageDialog(null, AppMensagens.INFO_DATA_INCORRETA, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_fieldDataFimFocusLost
-
-    private void fieldDataInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldDataInicioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fieldDataInicioActionPerformed
-
-    private void fieldDataInicioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldDataInicioFocusLost
-        try {
-            fieldDataInicio.setText(ConversorData.paraString(ConversorData.paraData(fieldDataInicio.getText())));
-        } catch (DateTimeParseException ex) {
-            fieldDataInicio.setText("");
-            fieldDataInicio.requestFocus();
-            JOptionPane.showMessageDialog(null, AppMensagens.INFO_DATA_INCORRETA, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_fieldDataInicioFocusLost
-
-    private void btnLockTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLockTableActionPerformed
-
-       if (!tableParcelas.isEnabled()) {
-            controller.ativarDesativarTabelaParcelas(true);
-        } else {
-            controller.ativarDesativarTabelaParcelas(false);
-        }
-    }//GEN-LAST:event_btnLockTableActionPerformed
 
     private void fieldValorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldValorFocusLost
         try {
@@ -914,17 +856,17 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         }
     }//GEN-LAST:event_fieldValorFocusLost
 
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        controller.editar();
-    }//GEN-LAST:event_btnEditarActionPerformed
+    private void btnProcurarFormaPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcurarFormaPagamentoActionPerformed
+        var formaPagamentoView = context.getBean(FormaPagamentoView.class);
+        formaPagamentoView.setVisible(true);
+        formaPagamentoView.adicionarSubscribers(this);
+    }//GEN-LAST:event_btnProcurarFormaPagamentoActionPerformed
 
-    private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
-        String msg = "Deseja remover essa despesa ?\nTodos as parcelas referentes a ela serão excluídas !";
-        if (JOptionPane.showConfirmDialog(null, msg, "Atenção", JOptionPane.YES_NO_OPTION) == 0) {
-            controller.deletar();
-            JOptionPane.showMessageDialog(null, AppMensagens.INFO_SUCESSO, AppMensagens.HEADER_SUCESSO, JOptionPane.INFORMATION_MESSAGE);
-        }
-    }//GEN-LAST:event_btnDeletarActionPerformed
+    private void btnProcurarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcurarCategoriaActionPerformed
+        var categoriaView = context.getBean(CategoriaDespesaView.class);
+        categoriaView.setVisible(true);
+        categoriaView.adicionarSubscribers(this);
+    }//GEN-LAST:event_btnProcurarCategoriaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -938,13 +880,12 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
     private javax.swing.JButton btnProcurarFormaPagamento;
     private javax.swing.JButton btnProcurarFornecedor;
     private javax.swing.JButton btnSalvar;
+    private javax.swing.JCheckBox chequeAtivo;
     private java.awt.Choice choice1;
     private javax.swing.JComboBox<String> comboCategoria;
     private javax.swing.JComboBox<String> comboFormaPagamento;
     private javax.swing.JComboBox<String> comboParcelamento;
     private javax.swing.JTextField fieldCodFornecedor;
-    private javax.swing.JTextField fieldDataFim;
-    private javax.swing.JTextField fieldDataInicio;
     private javax.swing.JTextField fieldDescricao;
     private javax.swing.JTextField fieldDiaVencimento;
     private javax.swing.JTextField fieldId;
@@ -954,11 +895,9 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
