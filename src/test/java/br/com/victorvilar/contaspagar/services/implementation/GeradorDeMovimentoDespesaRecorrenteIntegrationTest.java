@@ -155,7 +155,41 @@ public class GeradorDeMovimentoDespesaRecorrenteIntegrationTest {
     }
 
     @Test
-    public void deveSetarADataDoProximoLancamentoParaOProximoMesEmUmaDespesaMensal(){}
+    public void deveSetarADataDoProximoLancamentoParaOProximoMesEmUmaDespesaMensal(){
+        saveDespesa(Periodo.MENSAL, LocalDate.of(2025,1,1));
+        when(geradorDatas.dataHoje()).thenReturn(LocalDate.of(2025,5,1));
+        gerador.run();
+        DespesaRecorrente d = (DespesaRecorrente) despesaRepository.findAll().get(0);
+        assertEquals(d.getDataUltimoLancamento(),LocalDate.of(2025,5,1));
+        assertEquals(d.getDataProximoLancamento(),LocalDate.of(2025,5,16));
+
+    }
+
+    @Test
+    public void deveLancarOsMovimentosDeUmaDespesaQuinzenalInclusiveMovimentosRetroativos(){
+        saveDespesa(Periodo.QUINZENAL, LocalDate.of(2025,1,1));
+        when(geradorDatas.dataHoje()).thenReturn(LocalDate.of(2025,5,1));
+        gerador.run();
+        List<MovimentoPagamento> movimentos = movimentoRepository.findByDataPagamentoIsNull();
+        assertEquals(movimentos.size(),9);
+        MovimentoPagamento movimento = movimentos.get(0);
+        assertEquals(movimento.getDataVencimento(), LocalDate.of(2025,01,15));
+        movimento = movimentos.get(1);
+        assertEquals(movimento.getDataVencimento(), LocalDate.of(2025,02,1));
+        movimento = movimentos.get(2);
+        assertEquals(movimento.getDataVencimento(), LocalDate.of(2025,02,15));
+        movimento = movimentos.get(3);
+        assertEquals(movimento.getDataVencimento(), LocalDate.of(2025,03,1));
+        movimento = movimentos.get(4);
+        assertEquals(movimento.getDataVencimento(), LocalDate.of(2025,03,15));
+        movimento = movimentos.get(5);
+        assertEquals(movimento.getDataVencimento(), LocalDate.of(2025,04,1));
+        movimento = movimentos.get(6);
+        assertEquals(movimento.getDataVencimento(), LocalDate.of(2025,04,15));
+        movimento = movimentos.get(7);
+        assertEquals(movimento.getDataVencimento(), LocalDate.of(2025,05,1));
+
+    }
 
 
 
