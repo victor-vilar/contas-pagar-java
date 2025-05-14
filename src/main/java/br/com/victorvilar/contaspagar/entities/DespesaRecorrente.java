@@ -14,9 +14,7 @@ public class DespesaRecorrente extends DespesaAbstrata implements Serializable {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Periodo periocidade;
-    @Column(nullable = false)
-    private LocalDate dataInicio;
-    private LocalDate dataFim;
+    private Boolean ativo;
     private LocalDate dataProximoLancamento;
     private LocalDate dataUltimoLancamento;
     @Column(nullable = false)
@@ -41,28 +39,8 @@ public class DespesaRecorrente extends DespesaAbstrata implements Serializable {
         this.periocidade = periocidade;
     }
 
-    public LocalDate getDataInicio() {
-        return dataInicio;
-    }
-
-    public void setDataInicio(LocalDate dataInicio) {
-        this.dataInicio = dataInicio;
-    }
-
-    public LocalDate getDataFim() {
-        return dataFim;
-    }
-
-    public void setDataFim(LocalDate dataFim) {
-        this.dataFim = dataFim;
-    }
-
     public Integer getDataPagamento() {
         return diaPagamento;
-    }
-
-    public void setDataPagamento(Integer dataPagamento) {
-        this.diaPagamento = dataPagamento;
     }
 
     public FormaPagamento getFormaPagamentoPadrao() {
@@ -113,5 +91,13 @@ public class DespesaRecorrente extends DespesaAbstrata implements Serializable {
 
     public void setDataUltimoLancamento(LocalDate dataUltimoLancamento) {
         this.dataUltimoLancamento = dataUltimoLancamento;
+    }
+
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
     }
 }
