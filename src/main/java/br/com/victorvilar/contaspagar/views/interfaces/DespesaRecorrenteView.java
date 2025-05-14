@@ -5,6 +5,7 @@
 package br.com.victorvilar.contaspagar.views.interfaces;
 
 import br.com.victorvilar.contaspagar.entities.DespesaAvulsa;
+import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 
 /**
@@ -15,7 +16,7 @@ public interface DespesaRecorrenteView extends DespesaView {
     
     public JTextField getFieldDiaVencimento();
     public JTextField getFieldMesVencimento();
-    public JTextField getFieldDataInicio();
-    public JTextField getFieldDataFim();
+    public JCheckBox getAtivoBox();
+
     
 }

@@ -131,8 +131,7 @@ public class DespesaServiceImpl implements DespesaService {
      */
     public void updateDespesaRecorrente(DespesaRecorrente obj, DespesaRecorrente despesa) {
         despesa.setPeriocidade(obj.getPeriocidade());
-        despesa.setDataInicio(obj.getDataInicio());
-        despesa.setDataFim(obj.getDataFim());
+        despesa.setAtivo(obj.getAtivo());
         despesa.setDiaPagamento(obj.getDiaPagamento());
         despesa.setMesPagamento(obj.getMesPagamento());
         despesa.setFormaPagamentoPadrao(obj.getFormaPagamentoPadrao());
