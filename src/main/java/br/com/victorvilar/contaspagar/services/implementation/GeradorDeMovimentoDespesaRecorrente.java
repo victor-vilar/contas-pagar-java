@@ -47,24 +47,15 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
     @Override
     @Transactional
     public void run() {
-
         //Busca todas as depesas recorrentes que possuem a propriedade 'dataProximoLancamento' anterior ao dia atual.
         List<DespesaAbstrata> despesas = despesaRepository.findDespesaRecorrenteWhereDataProximoLancamentoLowerThanNow(LocalDate.now());
         for(DespesaAbstrata despesa: despesas){
             var despesaRecorrente = (DespesaRecorrente) despesa;
-
-            //Caso o sistema fique muitos dias sem ser aberto, pode acontecer de algumas despesas que possuem um período
-            //de pagamento mais frequente, necessite que sejam geradas todas as parcelas retroativas que ficaram pendentes.
-            //Então, todo o processo de gerar um novo movimento deve ser repetido, até a data do próximo lançamento ser
-            //maior que a data atual.
-            LocalDate proximoLancamento = despesaRecorrente.getDataProximoLancamento();
-            while(proximoLancamento == null || proximoLancamento.isBefore(LocalDate.now()) ){
-                realizarLancamentos(despesaRecorrente);
-                proximoLancamento = despesaRecorrente.getDataProximoLancamento();
-            }
-
+            realizarLancamentos(despesaRecorrente);
         }
     }
+
+
 
     /**
      * Método criado para facilitar a criação de testes;
@@ -78,13 +69,26 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
      * Metodo principal que será chamado dentro desse runnable.
      * @param despesa
      */
+    @Transactional
     public void realizarLancamentos(DespesaRecorrente despesa){
-        MovimentoPagamento movimento = criarMovimento(despesa);
-        try {
-            salvar(despesa, movimento);
-        }catch(DataIntegrityViolationException e){
-            System.out.println(e.getMessage());
+
+        //Caso o sistema fique muitos dias sem ser aberto, pode acontecer de algumas despesas que possuem um período
+        //de pagamento mais frequente, necessite que sejam geradas todas as parcelas retroativas que ficaram pendentes.
+        //Então, todo o processo de gerar um novo movimento deve ser repetido, até a data do próximo lançamento ser
+        //maior que a data atual.
+        LocalDate proximoLancamento = despesa.getDataProximoLancamento();
+        while(proximoLancamento == null || proximoLancamento.isBefore(LocalDate.now()) ){
+            MovimentoPagamento movimento = criarMovimento(despesa);
+            try {
+                salvar(despesa, movimento);
+                proximoLancamento = despesa.getDataProximoLancamento();
+            }catch(DataIntegrityViolationException e){
+                System.out.println(e.getMessage());
+            }
+
         }
+
+
     }
 
     /**
