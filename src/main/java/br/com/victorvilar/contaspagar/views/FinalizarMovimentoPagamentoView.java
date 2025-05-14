@@ -180,10 +180,13 @@ public class FinalizarMovimentoPagamentoView extends javax.swing.JDialog {
         jLabel8.setText("Valor:");
 
         fieldParcela.setEditable(false);
+        fieldParcela.setMaximumSize(new java.awt.Dimension(64, 23));
 
         fieldCodigo.setEditable(false);
+        fieldCodigo.setMaximumSize(new java.awt.Dimension(64, 23));
 
         fieldDescricao.setEditable(false);
+        fieldDescricao.setMaximumSize(new java.awt.Dimension(64, 23));
 
         fieldValor.setEditable(false);
 
@@ -242,8 +245,8 @@ public class FinalizarMovimentoPagamentoView extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(fieldValor, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
-                                    .addComponent(fieldParcela)))
-                            .addComponent(fieldDescricao)))
+                                    .addComponent(fieldParcela, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(fieldDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

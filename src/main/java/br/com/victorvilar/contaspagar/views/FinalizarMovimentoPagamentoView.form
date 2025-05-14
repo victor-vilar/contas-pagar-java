@@ -245,16 +245,25 @@
         <Component class="javax.swing.JTextField" name="fieldParcela">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
+            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[64, 23]"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="fieldCodigo">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
+            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[64, 23]"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="fieldDescricao">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
+            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[64, 23]"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="fieldValor">
