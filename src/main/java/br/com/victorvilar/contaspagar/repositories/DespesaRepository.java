@@ -15,6 +15,6 @@ public interface DespesaRepository extends JpaRepository<DespesaAbstrata, Long> 
     DespesaAbstrata findByIdWithMovimentos(@Param("id")Long id);
     List<DespesaAbstrata> findByTipo(String tipo);
 
-    @Query("SELECT d FROM DespesaAbstrata d WHERE d.tipo = 'RECORRENTE' AND  (d.dataProximoLancamento <= :dataAtual OR d.dataProximoLancamento IS NULL )")
+    @Query("SELECT d FROM DespesaAbstrata d WHERE d.tipo = 'RECORRENTE' AND d.ativo=true AND  (d.dataProximoLancamento <= :dataAtual OR d.dataProximoLancamento IS NULL )")
     List<DespesaAbstrata> findDespesaRecorrenteWhereDataProximoLancamentoLowerThanNow(LocalDate dataAtual);
 }
