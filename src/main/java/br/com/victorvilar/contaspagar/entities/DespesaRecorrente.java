@@ -29,6 +29,7 @@ public class DespesaRecorrente extends DespesaAbstrata implements Serializable {
     public DespesaRecorrente() {
         super();
         this.setTipo("RECORRENTE");
+        
     }
 
     public Periodo getPeriocidade() {
