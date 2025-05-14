@@ -450,6 +450,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
 
         btnDeletar.setBackground(new java.awt.Color(242, 242, 242));
         btnDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-delete.png"))); // NOI18N
+        btnDeletar.setText("Deletar");
         btnDeletar.setToolTipText("Deletar");
         btnDeletar.setBorder(null);
         btnDeletar.addActionListener(new java.awt.event.ActionListener() {
@@ -460,6 +461,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
 
         btnNovo.setBackground(new java.awt.Color(242, 242, 242));
         btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-novo.png"))); // NOI18N
+        btnNovo.setText("Novo");
         btnNovo.setToolTipText("Novo");
         btnNovo.setBorder(null);
         btnNovo.addActionListener(new java.awt.event.ActionListener() {
@@ -470,6 +472,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
 
         btnEditar.setBackground(new java.awt.Color(242, 242, 242));
         btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-editar.png"))); // NOI18N
+        btnEditar.setText("Editar");
         btnEditar.setToolTipText("Editar");
         btnEditar.setBorder(null);
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
@@ -480,7 +483,8 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
 
         btnSalvar.setBackground(new java.awt.Color(242, 242, 242));
         btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-save.png"))); // NOI18N
-        btnSalvar.setToolTipText("Deletar");
+        btnSalvar.setText("Salvar");
+        btnSalvar.setToolTipText("Salvar");
         btnSalvar.setBorder(null);
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -493,27 +497,27 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
         panelToolBarLayout.setHorizontalGroup(
             panelToolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelToolBarLayout.createSequentialGroup()
-                .addGap(76, 76, 76)
-                .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(118, 118, 118)
+                .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(panelToolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelToolBarLayout.createSequentialGroup()
                     .addGap(15, 15, 15)
-                    .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(189, Short.MAX_VALUE)))
+                    .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(774, Short.MAX_VALUE)))
         );
         panelToolBarLayout.setVerticalGroup(
             panelToolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelToolBarLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelToolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelToolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnDeletar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnDeletar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(panelToolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelToolBarLayout.createSequentialGroup()

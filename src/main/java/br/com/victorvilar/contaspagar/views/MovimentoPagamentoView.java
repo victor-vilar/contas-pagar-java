@@ -215,11 +215,11 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         jScrollPane1 = new javax.swing.JScrollPane();
         tableMovimentos = new javax.swing.JTable();
         panelToolBar1 = new javax.swing.JPanel();
-        btnNovo1 = new javax.swing.JButton();
-        btnEditar1 = new javax.swing.JButton();
-        btnSalvar1 = new javax.swing.JButton();
-        btnSalvar2 = new javax.swing.JButton();
-        btnSalvar3 = new javax.swing.JButton();
+        btnDespesa = new javax.swing.JButton();
+        btnDespesaRecorrente = new javax.swing.JButton();
+        btnGerarRelatorio = new javax.swing.JButton();
+        btnFormaPagamento = new javax.swing.JButton();
+        btnCategorias = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         fieldDespesa = new javax.swing.JTextField();
         BtnProcurar = new javax.swing.JButton();
@@ -301,58 +301,58 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
 
         panelToolBar1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
-        btnNovo1.setBackground(new java.awt.Color(242, 242, 242));
-        btnNovo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-despesa-avulsa-40.png"))); // NOI18N
-        btnNovo1.setText("Nova Despesa");
-        btnNovo1.setToolTipText("Novo");
-        btnNovo1.setBorder(null);
-        btnNovo1.addActionListener(new java.awt.event.ActionListener() {
+        btnDespesa.setBackground(new java.awt.Color(242, 242, 242));
+        btnDespesa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-despesa-avulsa-40.png"))); // NOI18N
+        btnDespesa.setText("Nova Despesa");
+        btnDespesa.setToolTipText("Novo");
+        btnDespesa.setBorder(null);
+        btnDespesa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNovo1ActionPerformed(evt);
+                btnDespesaActionPerformed(evt);
             }
         });
 
-        btnEditar1.setBackground(new java.awt.Color(242, 242, 242));
-        btnEditar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-despesa-recorrente-40.png"))); // NOI18N
-        btnEditar1.setText("Nova Despesa Recorrente");
-        btnEditar1.setToolTipText("Editar");
-        btnEditar1.setBorder(null);
-        btnEditar1.addActionListener(new java.awt.event.ActionListener() {
+        btnDespesaRecorrente.setBackground(new java.awt.Color(242, 242, 242));
+        btnDespesaRecorrente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-despesa-recorrente-40.png"))); // NOI18N
+        btnDespesaRecorrente.setText("Nova Despesa Recorrente");
+        btnDespesaRecorrente.setToolTipText("Editar");
+        btnDespesaRecorrente.setBorder(null);
+        btnDespesaRecorrente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditar1ActionPerformed(evt);
+                btnDespesaRecorrenteActionPerformed(evt);
             }
         });
 
-        btnSalvar1.setBackground(new java.awt.Color(242, 242, 242));
-        btnSalvar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-relatorio-40.png"))); // NOI18N
-        btnSalvar1.setText("Gerar Relatório");
-        btnSalvar1.setToolTipText("");
-        btnSalvar1.setBorder(null);
-        btnSalvar1.addActionListener(new java.awt.event.ActionListener() {
+        btnGerarRelatorio.setBackground(new java.awt.Color(242, 242, 242));
+        btnGerarRelatorio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-relatorio-40.png"))); // NOI18N
+        btnGerarRelatorio.setText("Gerar Relatório");
+        btnGerarRelatorio.setToolTipText("");
+        btnGerarRelatorio.setBorder(null);
+        btnGerarRelatorio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalvar1ActionPerformed(evt);
+                btnGerarRelatorioActionPerformed(evt);
             }
         });
 
-        btnSalvar2.setBackground(new java.awt.Color(242, 242, 242));
-        btnSalvar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-pagamento40.png"))); // NOI18N
-        btnSalvar2.setText("Formas De Pagamento");
-        btnSalvar2.setToolTipText("");
-        btnSalvar2.setBorder(null);
-        btnSalvar2.addActionListener(new java.awt.event.ActionListener() {
+        btnFormaPagamento.setBackground(new java.awt.Color(242, 242, 242));
+        btnFormaPagamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-pagamento40.png"))); // NOI18N
+        btnFormaPagamento.setText("Formas De Pagamento");
+        btnFormaPagamento.setToolTipText("");
+        btnFormaPagamento.setBorder(null);
+        btnFormaPagamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalvar2ActionPerformed(evt);
+                btnFormaPagamentoActionPerformed(evt);
             }
         });
 
-        btnSalvar3.setBackground(new java.awt.Color(242, 242, 242));
-        btnSalvar3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-categoria40.png"))); // NOI18N
-        btnSalvar3.setText("Categorias");
-        btnSalvar3.setToolTipText("");
-        btnSalvar3.setBorder(null);
-        btnSalvar3.addActionListener(new java.awt.event.ActionListener() {
+        btnCategorias.setBackground(new java.awt.Color(242, 242, 242));
+        btnCategorias.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-categoria40.png"))); // NOI18N
+        btnCategorias.setText("Categorias");
+        btnCategorias.setToolTipText("");
+        btnCategorias.setBorder(null);
+        btnCategorias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalvar3ActionPerformed(evt);
+                btnCategoriasActionPerformed(evt);
             }
         });
 
@@ -361,19 +361,19 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         panelToolBar1Layout.setHorizontalGroup(
             panelToolBar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelToolBar1Layout.createSequentialGroup()
-                .addGap(154, 154, 154)
-                .addComponent(btnEditar1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(148, 148, 148)
+                .addComponent(btnDespesaRecorrente, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSalvar3, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSalvar2, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSalvar1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnGerarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(panelToolBar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelToolBar1Layout.createSequentialGroup()
                     .addGap(15, 15, 15)
-                    .addComponent(btnNovo1)
+                    .addComponent(btnDespesa)
                     .addContainerGap(940, Short.MAX_VALUE)))
         );
         panelToolBar1Layout.setVerticalGroup(
@@ -381,15 +381,15 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
             .addGroup(panelToolBar1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelToolBar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEditar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnSalvar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnSalvar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnSalvar3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnDespesaRecorrente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnGerarRelatorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnFormaPagamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCategorias, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(panelToolBar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelToolBar1Layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(btnNovo1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnDespesa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addContainerGap()))
         );
 
@@ -514,26 +514,26 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         // TODO add your handling code here:
     }//GEN-LAST:event_fieldDataFimActionPerformed
 
-    private void btnNovo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovo1ActionPerformed
+    private void btnDespesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDespesaActionPerformed
         var view = context.getBean(DespesaAvulsaViewImpl.class);
         view.setVisible(true);
         
-    }//GEN-LAST:event_btnNovo1ActionPerformed
+    }//GEN-LAST:event_btnDespesaActionPerformed
 
-    private void btnSalvar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvar1ActionPerformed
+    private void btnGerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarRelatorioActionPerformed
 
-    }//GEN-LAST:event_btnSalvar1ActionPerformed
+    }//GEN-LAST:event_btnGerarRelatorioActionPerformed
 
     private void fieldDespesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldDespesaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_fieldDespesaActionPerformed
 
-    private void btnEditar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditar1ActionPerformed
+    private void btnDespesaRecorrenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDespesaRecorrenteActionPerformed
 
         var view = context.getBean(DespesaRecorrenteViewImpl.class);
         view.setVisible(true);
 
-    }//GEN-LAST:event_btnEditar1ActionPerformed
+    }//GEN-LAST:event_btnDespesaRecorrenteActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
 
@@ -583,23 +583,25 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         controller.limparPesquisa();        // TODO add your handling code here:
     }//GEN-LAST:event_BtnProcurar1ActionPerformed
 
-    private void btnSalvar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvar2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSalvar2ActionPerformed
+    private void btnFormaPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFormaPagamentoActionPerformed
+        var view = context.getBean(FormaPagamentoView.class);
+        view.setVisible(true);
+    }//GEN-LAST:event_btnFormaPagamentoActionPerformed
 
-    private void btnSalvar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvar3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSalvar3ActionPerformed
+    private void btnCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCategoriasActionPerformed
+        var view = context.getBean(CategoriaDespesaView.class);
+        view.setVisible(true);
+    }//GEN-LAST:event_btnCategoriasActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnProcurar;
     private javax.swing.JButton BtnProcurar1;
-    private javax.swing.JButton btnEditar1;
-    private javax.swing.JButton btnNovo1;
-    private javax.swing.JButton btnSalvar1;
-    private javax.swing.JButton btnSalvar2;
-    private javax.swing.JButton btnSalvar3;
+    private javax.swing.JButton btnCategorias;
+    private javax.swing.JButton btnDespesa;
+    private javax.swing.JButton btnDespesaRecorrente;
+    private javax.swing.JButton btnFormaPagamento;
+    private javax.swing.JButton btnGerarRelatorio;
     private javax.swing.JCheckBox checkboxPagas;
     private javax.swing.JTextField fieldDataFim;
     private javax.swing.JTextField fieldDataInicio;
