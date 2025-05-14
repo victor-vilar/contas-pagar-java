@@ -170,7 +170,11 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
      * @param movimentos
      */
     public void adicionarOuAtualizarReferenteParcela(List<MovimentoPagamento> movimentos){
-        
+
+        if(movimentos.size() == 0){
+            return;
+        }
+
         DespesaAbstrata despesa = movimentos.get(0).getDespesa();
         
         if(despesa != null && despesa.getTipo().equals("RECORRENTE")){
