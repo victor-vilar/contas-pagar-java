@@ -57,23 +57,20 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
         String descricao = view.getAreaDescricao().getText().toUpperCase();
         String categoria = (String) view.getComboCategoria().getSelectedItem();
         String formaPagamento = (String) view.getComboFormaPagamento().getSelectedItem();
-        String dataInicio = view.getFieldDataInicio().getText();
-        String dataFim = view.getFieldDataFim().getText();
         Periodo periodo = Periodo.valueOf((String)view.getComboParcelamento().getSelectedItem());
         String valor = view.getFieldValor().getText();
         Integer dia = Integer.valueOf(view.getFieldDiaVencimento().getText());
-        
+        Boolean ativo = view.getAtivoBox().isSelected();
         
         
         despesa.setNomeFornecedor(nome);
         despesa.setDescricao(descricao);
         despesa.setCategoria(this.categoriaDespesaService.getByCategoria(categoria));
         despesa.setFormaPagamentoPadrao(this.formaPagamentoService.getByForma(formaPagamento));
-        despesa.setDataInicio(ConversorData.paraData(dataInicio));
-        despesa.setDataFim(ConversorData.paraData(dataFim));
         despesa.setPeriocidade(periodo);
         despesa.setValorTotal(ConversorMoeda.paraBigDecimal(valor));
         despesa.setDiaPagamento(dia);
+        despesa.setAtivo(ativo);
         
         
         if(!view.getFieldMesVencimento().getText().trim().isEmpty()){
@@ -202,11 +199,10 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
         view.getAreaDescricao().setText(despesa.getDescricao());
         view.getComboCategoria().getModel().setSelectedItem(despesa.getCategoria().getName());
         view.getComboFormaPagamento().getModel().setSelectedItem(despesa.getFormaPagamentoPadrao().getName());
-        view.getFieldDataInicio().setText(ConversorData.paraString(despesa.getDataInicio()));
-        view.getFieldDataFim().setText(ConversorData.paraString(despesa.getDataFim()));
         view.getComboParcelamento().setSelectedItem(despesa.getPeriocidade().toString());
         view.getFieldValor().setText(ConversorMoeda.paraString(despesa.getValorTotal()));
         view.getFieldDiaVencimento().setText(String.valueOf(despesa.getDiaPagamento()));
+        view.getAtivoBox().setSelected(despesa.getAtivo());
         
         String mes = String.valueOf(despesa.getMesPagamento());
         
