@@ -4,6 +4,7 @@
  */
 package br.com.victorvilar.contaspagar.services.implementation;
 
+import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.exceptions.MovimentoPagamentoNotFoundException;
 import br.com.victorvilar.contaspagar.repositories.MovimentoPagamentoRepository;
@@ -12,7 +13,6 @@ import br.com.victorvilar.contaspagar.services.interfaces.MovimentoPagamentoServ
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -170,6 +170,13 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
      * @param movimentos
      */
     public void adicionarOuAtualizarReferenteParcela(List<MovimentoPagamento> movimentos){
+        
+        DespesaAbstrata despesa = movimentos.get(0).getDespesa();
+        
+        if(despesa != null && despesa.getTipo().equals("RECORRENTE")){
+            return;
+        }
+        
         int quantidade = movimentos.size();
         for(int i = 0; i < quantidade ; i++){
             if(quantidade == 1){
