@@ -33,8 +33,6 @@ class GeradorDeDatasDespesasRecorrentesTest {
        despesa.setNomeFornecedor("LIGTH");
        despesa.setDescricao("PAGAMENTO DE ENERGIA");
        despesa.setPeriocidade(Periodo.MENSAL);
-       despesa.setDataInicio(LocalDate.now());
-       despesa.setDataFim(LocalDate.of(9999,1,1));
        despesa.setDiaPagamento(15);
        despesa.setMesPagamento(12);
        despesa.setValorTotal(new BigDecimal(1000));

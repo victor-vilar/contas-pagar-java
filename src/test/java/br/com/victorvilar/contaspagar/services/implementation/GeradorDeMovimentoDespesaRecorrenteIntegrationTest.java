@@ -96,8 +96,7 @@ public class GeradorDeMovimentoDespesaRecorrenteIntegrationTest {
         dr1.setDataUltimoLancamento(dataUltimoLancamento);
         dr1.setDescricao("teste");
         dr1.setNomeFornecedor("teste");
-        dr1.setDataInicio(LocalDate.of(2020,1,1));
-        dr1.setDataFim(LocalDate.of(9999,1,1));
+        dr1.setAtivo(true);
         dr1.setValorTotal(new BigDecimal("1000"));
         despesaRepository.save(dr1);
     }

@@ -71,8 +71,6 @@ class DespesaServiceImplTest {
         recorrente.setDescricao("TESTEZZ2");
         recorrente.setCategoria(categoria);
         recorrente.setPeriocidade(Periodo.MENSAL);
-        recorrente.setDataInicio(LocalDate.now());
-        recorrente.setDataFim(LocalDate.of(9999, Month.MARCH, 1));
         recorrente.setDiaPagamento(10);
         recorrente.setFormaPagamentoPadrao(forma);
 
@@ -199,8 +197,6 @@ class DespesaServiceImplTest {
         DespesaRecorrente obj = new DespesaRecorrente();
         service.updateDespesaRecorrente(obj, recorrente);
         assertEquals(obj.getPeriocidade(),recorrente.getPeriocidade());
-        assertEquals(obj.getDataInicio(),recorrente.getDataInicio());
-        assertEquals(obj.getDataFim(),recorrente.getDataFim());
         assertEquals(obj.getDiaPagamento(),recorrente.getDiaPagamento());
         assertEquals(obj.getMesPagamento(),recorrente.getMesPagamento());
         assertEquals(obj.getFormaPagamentoPadrao(),recorrente.getFormaPagamentoPadrao());

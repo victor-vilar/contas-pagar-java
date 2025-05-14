@@ -14,7 +14,7 @@ INSERT INTO categorias_despesas(categoria) VALUES('FOLHA DE PAGAMENTO');
 
 
 
-INSERT INTO despesa(nome_fornecedor,descricao,categoria_id,quitado) VALUES('PAGAMENTO FOLHA SALARIAL ABRIL DE 2025','PAGAMENTO FOLHA SALARIAL ABRIL DE 2025',1,false);
+INSERT INTO despesa(nome_fornecedor,descricao,categoria_id,quitado,tipo) VALUES('PAGAMENTO FOLHA SALARIAL ABRIL DE 2025','PAGAMENTO FOLHA SALARIAL ABRIL DE 2025',1,false,'AVULSA');
 INSERT INTO despesas_avulsas(id) VALUES(1);
 INSERT INTO movimento_pagamento(data_vencimento,valor_pagamento,despesa_id,forma_pagamento_id,referente_parcela) VALUES('2025-2-1',100,1,1,'UNICA');
 
@@ -27,15 +27,15 @@ INSERT INTO movimento_pagamento(data_vencimento,valor_pagamento,despesa_id,forma
 INSERT INTO movimento_pagamento(data_vencimento,valor_pagamento,despesa_id,forma_pagamento_id,referente_parcela) VALUES('2025-7-1',100,2,1,'5/5');
 
 INSERT INTO despesa(nome_fornecedor,descricao,categoria_id,quitado,tipo,valor_total) VALUES('LIGHT','PAGAMENTO MENSAL DA LUZ',3,false,'RECORRENTE',200.00);
-INSERT INTO despesas_recorrentes(id,data_inicio,data_fim,dia_pagamento,periocidade,forma_pagamento_padrao) VALUES(3,'2025-1-1','9999-1-1',10,'MENSAL',1);
+INSERT INTO despesas_recorrentes(id,dia_pagamento,periocidade,forma_pagamento_padrao,ativo) VALUES(3,10,'MENSAL',1,true);
 
 INSERT INTO despesa(nome_fornecedor,descricao,categoria_id,quitado,tipo,valor_total) VALUES('CEDAE','PAGAMENTO MENSAL DA AGUA',3,false,'RECORRENTE',100.00);
-INSERT INTO despesas_recorrentes(id,data_inicio,data_fim,dia_pagamento,periocidade,forma_pagamento_padrao, data_proximo_lancamento) VALUES(4,'2025-1-1','9999-1-1',10,'MENSAL',1,'2025-5-6');
+INSERT INTO despesas_recorrentes(id,dia_pagamento,periocidade,forma_pagamento_padrao, data_proximo_lancamento,ativo) VALUES(4,10,'MENSAL',1,'2025-5-6',true);
 
 INSERT INTO despesa(nome_fornecedor,descricao,categoria_id,quitado,tipo,valor_total) VALUES('INTERNET','PAGAMENTO MENSAL DA INTERNET',3,false,'RECORRENTE',95.00);
-INSERT INTO despesas_recorrentes(id,data_inicio,data_fim,dia_pagamento,periocidade,forma_pagamento_padrao, data_ultimo_lancamento) VALUES(5,'2025-1-1','9999-1-1',10,'MENSAL',1,'2025-1-10');
+INSERT INTO despesas_recorrentes(id,dia_pagamento,periocidade,forma_pagamento_padrao, data_ultimo_lancamento,ativo) VALUES(5,10,'MENSAL',1,'2025-1-10',true);
 
 INSERT INTO despesa(nome_fornecedor,descricao,categoria_id,quitado,tipo,valor_total) VALUES('PAGAMENTO COMBUSTIVEL','COMBUSTIVEL',3,false,'RECORRENTE',950.00);
-INSERT INTO despesas_recorrentes(id,data_inicio,data_fim,dia_pagamento,periocidade,forma_pagamento_padrao, data_ultimo_lancamento) VALUES(6,'2025-1-1','9999-1-1',10,'QUINZENAL',1,'2025-2-10');
+INSERT INTO despesas_recorrentes(id,dia_pagamento,periocidade,forma_pagamento_padrao, data_ultimo_lancamento,ativo) VALUES(6,10,'QUINZENAL',1,'2025-2-10',true);
 
 
