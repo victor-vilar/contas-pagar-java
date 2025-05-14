@@ -9,6 +9,7 @@ import br.com.victorvilar.contaspagar.entities.DespesaAvulsa;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.entities.NotaFiscal;
 import br.com.victorvilar.contaspagar.exceptions.FieldsEmBrancoException;
+import br.com.victorvilar.contaspagar.exceptions.QuantidadeDeParcelasException;
 import br.com.victorvilar.contaspagar.services.interfaces.CategoriaDespesaService;
 import br.com.victorvilar.contaspagar.services.interfaces.DespesaService;
 import br.com.victorvilar.contaspagar.services.interfaces.FormaPagamentoService;
@@ -125,6 +126,7 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
 
          checarFieldsEmBranco(exclude);
          checarCombosEmBranco(exclude);
+         checarSeExistemParcelas();
  
     
     }
@@ -150,6 +152,12 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
         if (combos.isPresent()) {
             System.out.println(combos.get().getName());
             throw new FieldsEmBrancoException("Todos os campos devem ser preenchidos.");
+        }
+    }
+
+    private void checarSeExistemParcelas(){
+        if(this.movimentos.isEmpty()){
+            throw new QuantidadeDeParcelasException("Uma despesa deve possuir pelo menos uma parcela !");
         }
     }
 
