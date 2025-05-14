@@ -339,6 +339,7 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         fieldCodFornecedor.setEnabled(false);
         fieldCodFornecedor.setName("fieldCodFornecedor"); // NOI18N
 
+        btnProcurarFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-binoculo.png"))); // NOI18N
         btnProcurarFornecedor.setToolTipText("Buscar Fornecedor");
         btnProcurarFornecedor.setEnabled(false);
         btnProcurarFornecedor.setName("btnProcurarFornecedor"); // NOI18N
@@ -365,6 +366,7 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         areaDescricao.setName("areaDescricao"); // NOI18N
         jScrollPane1.setViewportView(areaDescricao);
 
+        btnProcurarCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-categoria.png"))); // NOI18N
         btnProcurarCategoria.setToolTipText("Buscar Fornecedor");
         btnProcurarCategoria.setEnabled(false);
         btnProcurarCategoria.setName("btnProcurarCategoria"); // NOI18N
@@ -380,6 +382,7 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         comboFormaPagamento.setEnabled(false);
         comboFormaPagamento.setName("comboFormaPagamento"); // NOI18N
 
+        btnProcurarFormaPagamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-pagamento.png"))); // NOI18N
         btnProcurarFormaPagamento.setToolTipText("Buscar Fornecedor");
         btnProcurarFormaPagamento.setEnabled(false);
         btnProcurarFormaPagamento.setName("btnProcurarFormaPagamento"); // NOI18N
@@ -747,7 +750,7 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
                         .addGap(24, 24, 24)
                         .addComponent(btnLockTable, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -771,7 +774,7 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelParcelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelParcelas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 

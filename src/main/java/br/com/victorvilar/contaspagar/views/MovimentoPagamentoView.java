@@ -218,6 +218,8 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         btnNovo1 = new javax.swing.JButton();
         btnEditar1 = new javax.swing.JButton();
         btnSalvar1 = new javax.swing.JButton();
+        btnSalvar2 = new javax.swing.JButton();
+        btnSalvar3 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         fieldDespesa = new javax.swing.JTextField();
         BtnProcurar = new javax.swing.JButton();
@@ -300,7 +302,8 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         panelToolBar1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
         btnNovo1.setBackground(new java.awt.Color(242, 242, 242));
-        btnNovo1.setText("Nova Despesa Avulsa");
+        btnNovo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-despesa-avulsa-40.png"))); // NOI18N
+        btnNovo1.setText("Nova Despesa");
         btnNovo1.setToolTipText("Novo");
         btnNovo1.setBorder(null);
         btnNovo1.addActionListener(new java.awt.event.ActionListener() {
@@ -310,6 +313,7 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         });
 
         btnEditar1.setBackground(new java.awt.Color(242, 242, 242));
+        btnEditar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-despesa-recorrente-40.png"))); // NOI18N
         btnEditar1.setText("Nova Despesa Recorrente");
         btnEditar1.setToolTipText("Editar");
         btnEditar1.setBorder(null);
@@ -320,6 +324,7 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         });
 
         btnSalvar1.setBackground(new java.awt.Color(242, 242, 242));
+        btnSalvar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-relatorio-40.png"))); // NOI18N
         btnSalvar1.setText("Gerar Relatório");
         btnSalvar1.setToolTipText("");
         btnSalvar1.setBorder(null);
@@ -329,29 +334,57 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
             }
         });
 
+        btnSalvar2.setBackground(new java.awt.Color(242, 242, 242));
+        btnSalvar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-pagamento40.png"))); // NOI18N
+        btnSalvar2.setText("Formas De Pagamento");
+        btnSalvar2.setToolTipText("");
+        btnSalvar2.setBorder(null);
+        btnSalvar2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvar2ActionPerformed(evt);
+            }
+        });
+
+        btnSalvar3.setBackground(new java.awt.Color(242, 242, 242));
+        btnSalvar3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-categoria40.png"))); // NOI18N
+        btnSalvar3.setText("Categorias");
+        btnSalvar3.setToolTipText("");
+        btnSalvar3.setBorder(null);
+        btnSalvar3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvar3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelToolBar1Layout = new javax.swing.GroupLayout(panelToolBar1);
         panelToolBar1.setLayout(panelToolBar1Layout);
         panelToolBar1Layout.setHorizontalGroup(
             panelToolBar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelToolBar1Layout.createSequentialGroup()
-                .addGap(177, 177, 177)
-                .addComponent(btnEditar1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(154, 154, 154)
+                .addComponent(btnEditar1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnSalvar3, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnSalvar2, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSalvar1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(614, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(panelToolBar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelToolBar1Layout.createSequentialGroup()
                     .addGap(15, 15, 15)
-                    .addComponent(btnNovo1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(953, Short.MAX_VALUE)))
+                    .addComponent(btnNovo1)
+                    .addContainerGap(940, Short.MAX_VALUE)))
         );
         panelToolBar1Layout.setVerticalGroup(
             panelToolBar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelToolBar1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelToolBar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnEditar1, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                    .addComponent(btnSalvar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(panelToolBar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEditar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnSalvar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnSalvar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnSalvar3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(panelToolBar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelToolBar1Layout.createSequentialGroup()
@@ -550,6 +583,14 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         controller.limparPesquisa();        // TODO add your handling code here:
     }//GEN-LAST:event_BtnProcurar1ActionPerformed
 
+    private void btnSalvar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvar2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSalvar2ActionPerformed
+
+    private void btnSalvar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvar3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSalvar3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnProcurar;
@@ -557,6 +598,8 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
     private javax.swing.JButton btnEditar1;
     private javax.swing.JButton btnNovo1;
     private javax.swing.JButton btnSalvar1;
+    private javax.swing.JButton btnSalvar2;
+    private javax.swing.JButton btnSalvar3;
     private javax.swing.JCheckBox checkboxPagas;
     private javax.swing.JTextField fieldDataFim;
     private javax.swing.JTextField fieldDataInicio;

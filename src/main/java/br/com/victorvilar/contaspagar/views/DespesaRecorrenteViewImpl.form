@@ -54,7 +54,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="panelMain" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="panelParcelas" min="-2" max="-2" attributes="0"/>
+              <Component id="panelParcelas" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -223,6 +223,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnProcurarFornecedor">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/img/icon-binoculo.png"/>
+            </Property>
             <Property name="toolTipText" type="java.lang.String" value="Buscar Fornecedor"/>
             <Property name="enabled" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="btnProcurarFornecedor" noResource="true"/>
@@ -292,6 +295,9 @@
         </Container>
         <Component class="javax.swing.JButton" name="btnProcurarCategoria">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/img/icon-categoria.png"/>
+            </Property>
             <Property name="toolTipText" type="java.lang.String" value="Buscar Fornecedor"/>
             <Property name="enabled" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="btnProcurarCategoria" noResource="true"/>
@@ -322,6 +328,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnProcurarFormaPagamento">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/img/icon-pagamento.png"/>
+            </Property>
             <Property name="toolTipText" type="java.lang.String" value="Buscar Fornecedor"/>
             <Property name="enabled" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="btnProcurarFormaPagamento" noResource="true"/>
@@ -567,7 +576,7 @@
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane3" pref="148" max="32767" attributes="0"/>
+                  <Component id="jScrollPane3" pref="352" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
