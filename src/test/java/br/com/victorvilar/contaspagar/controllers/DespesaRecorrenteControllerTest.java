@@ -135,8 +135,6 @@ public class DespesaRecorrenteControllerTest {
         d1.setQuitado(false);
         d1.setValorTotal(new BigDecimal("0"));
         d1.setPeriocidade(Periodo.MENSAL);
-        d1.setDataInicio(LocalDate.now());
-        d1.setDataFim(LocalDate.of(9999, Month.MARCH, 1));
         d1.setDiaPagamento(Integer.MIN_VALUE);
         d1.setFormaPagamentoPadrao(fp1);
 
@@ -426,8 +424,6 @@ public class DespesaRecorrenteControllerTest {
         view.getAreaDescricao().setText("teste");
         view.getComboCategoria().setSelectedIndex(0);
         view.getComboFormaPagamento().setSelectedIndex(0);
-        view.getFieldDataInicio().setText("01/02/2025");
-        view.getFieldDataFim().setText("01/02/2025");
         view.getComboParcelamento().setSelectedIndex(1);
         view.getFieldValor().setText("100");
         view.getFieldDiaVencimento().setText("12");
@@ -444,8 +440,6 @@ public class DespesaRecorrenteControllerTest {
         view.getAreaDescricao().setText("teste");
         view.getComboCategoria().setSelectedIndex(0);
         view.getComboFormaPagamento().setSelectedIndex(0);
-        view.getFieldDataInicio().setText("01/02/2025");
-        view.getFieldDataFim().setText("01/02/2025");
         view.getComboParcelamento().setSelectedIndex(1);
         view.getFieldValor().setText("100");
         view.getFieldDiaVencimento().setText("12");
@@ -462,8 +456,6 @@ public class DespesaRecorrenteControllerTest {
         view.getAreaDescricao().setText("teste");
         view.getComboCategoria().setSelectedIndex(0);
         view.getComboFormaPagamento().setSelectedIndex(0);
-        view.getFieldDataInicio().setText("01/02/2025");
-        view.getFieldDataFim().setText("01/02/2025");
         view.getComboParcelamento().setSelectedIndex(1);
         view.getFieldValor().setText("100");
         view.getFieldDiaVencimento().setText("12");
@@ -480,8 +472,6 @@ public class DespesaRecorrenteControllerTest {
         view.getAreaDescricao().setText("teste");
         view.getComboCategoria().setSelectedIndex(0);
         view.getComboFormaPagamento().setSelectedIndex(0);
-        view.getFieldDataInicio().setText("01/02/2025");
-        view.getFieldDataFim().setText("01/02/2025");
         view.getComboParcelamento().setSelectedIndex(1);
         view.getFieldValor().setText("100");
         view.getFieldDiaVencimento().setText("12");
@@ -498,8 +488,6 @@ public class DespesaRecorrenteControllerTest {
         view.getAreaDescricao().setText("teste");
         view.getComboCategoria().setSelectedIndex(0);
         view.getComboFormaPagamento().setSelectedIndex(0);
-        view.getFieldDataInicio().setText("01/02/2025");
-        view.getFieldDataFim().setText("01/02/2025");
         view.getComboParcelamento().setSelectedIndex(1);
         view.getFieldValor().setText(" ");
         view.getFieldDiaVencimento().setText("12");
@@ -518,8 +506,6 @@ public class DespesaRecorrenteControllerTest {
         view.getAreaDescricao().setText("teste");
         view.getComboCategoria().setSelectedIndex(0);
         view.getComboFormaPagamento().setSelectedIndex(-1);
-        view.getFieldDataInicio().setText("01/02/2025");
-        view.getFieldDataFim().setText("01/02/2025");
         view.getComboParcelamento().setSelectedIndex(0);
         view.getFieldValor().setText("R$1000,00 ");
         view.getFieldDiaVencimento().setText("10 ");
@@ -537,8 +523,6 @@ public class DespesaRecorrenteControllerTest {
         view.getAreaDescricao().setText("teste");
         view.getComboCategoria().setSelectedIndex(0);
         view.getComboFormaPagamento().setSelectedIndex(0);
-        view.getFieldDataInicio().setText("01/02/2025");
-        view.getFieldDataFim().setText("01/02/2025");
         view.getComboParcelamento().setSelectedIndex(0);
         view.getFieldValor().setText("R$1000,00 ");
         view.getFieldDiaVencimento().setText("12");
@@ -628,8 +612,6 @@ public class DespesaRecorrenteControllerTest {
         assertEquals(view.getAreaDescricao().getText(), d1.getDescricao());
         assertEquals(view.getComboCategoria().getModel().getSelectedItem(), d1.getCategoria().getCategoria());
         assertEquals(view.getComboFormaPagamento().getModel().getSelectedItem(), d1.getFormaPagamentoPadrao().getForma());
-        assertEquals(view.getFieldDataInicio().getText(), ConversorData.paraString(d1.getDataInicio()));
-        assertEquals(view.getFieldDataFim().getText(), ConversorData.paraString(d1.getDataFim()));
         assertEquals(view.getComboParcelamento().getModel().getSelectedItem(), d1.getPeriocidade().toString());
         assertEquals(view.getFieldValor().getText(), ConversorMoeda.paraString(d1.getValorTotal()));
         assertEquals(view.getFieldDiaVencimento().getText(), String.valueOf(d1.getDiaPagamento()));
