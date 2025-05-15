@@ -322,7 +322,7 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         jLabel1.setText("Código");
 
         jLabel2.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
-        jLabel2.setText("Despesa/Fornecedor");
+        jLabel2.setText("Despesa/Fornecedor (*)");
 
         fieldDescricao.setEnabled(false);
         fieldDescricao.setName("fieldDescricao"); // NOI18N
@@ -339,7 +339,7 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         comboCategoria.setName("comboCategoria"); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
-        jLabel3.setText("Categoria");
+        jLabel3.setText("Categoria (*)");
 
         jLabel4.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel4.setText("Cod. Fornecedor");
@@ -349,7 +349,7 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         fieldId.setName("fieldId"); // NOI18N
 
         jLabel7.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
-        jLabel7.setText("Descrição");
+        jLabel7.setText("Descrição (*)");
 
         areaDescricao.setColumns(20);
         areaDescricao.setRows(5);
@@ -368,7 +368,7 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         });
 
         jLabel9.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
-        jLabel9.setText("Forma de Pamento");
+        jLabel9.setText("Forma de Pamento (*)");
 
         comboFormaPagamento.setEnabled(false);
         comboFormaPagamento.setName("comboFormaPagamento"); // NOI18N
@@ -385,12 +385,22 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
 
         comboParcelamento.setEnabled(false);
         comboParcelamento.setName("comboParcelamento"); // NOI18N
+        comboParcelamento.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboParcelamentoItemStateChanged(evt);
+            }
+        });
+        comboParcelamento.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                comboParcelamentoFocusLost(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
-        jLabel8.setText("Periocidade");
+        jLabel8.setText("Periocidade (*)");
 
         jLabel10.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
-        jLabel10.setText("Valor");
+        jLabel10.setText("Valor (*)");
 
         fieldValor.setEnabled(false);
         fieldValor.setName("fieldValor"); // NOI18N
@@ -401,7 +411,7 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         });
 
         jLabel11.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
-        jLabel11.setText("Dia");
+        jLabel11.setText("Dia (*)");
 
         fieldDiaVencimento.setEnabled(false);
         fieldDiaVencimento.setName("fieldDiaVencimento"); // NOI18N
@@ -478,7 +488,7 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMainLayout.createSequentialGroup()
                         .addComponent(jLabel3)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 208, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMainLayout.createSequentialGroup()
                         .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(comboParcelamento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -488,21 +498,18 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
                                     .addComponent(jLabel8)
                                     .addComponent(jLabel9)
                                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 118, Short.MAX_VALUE))
+                                .addGap(0, 82, Short.MAX_VALUE))
                             .addComponent(comboCategoria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(comboFormaPagamento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(panelMainLayout.createSequentialGroup()
-                                    .addComponent(jLabel11)
-                                    .addGap(21, 21, 21))
-                                .addComponent(fieldDiaVencimento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(fieldMesVencimento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnProcurarFormaPagamento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnProcurarCategoria, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(6, 6, 6)
+                            .addComponent(jLabel11)
+                            .addComponent(fieldDiaVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fieldMesVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnProcurarFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnProcurarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(24, 24, 24)))
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 629, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -529,8 +536,7 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
                         .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(fieldCodFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnProcurarFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelMainLayout.createSequentialGroup()
                         .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(panelMainLayout.createSequentialGroup()
@@ -538,34 +544,36 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
                                 .addGap(38, 38, 38)
                                 .addComponent(jLabel10)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(fieldValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(fieldValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(fieldMesVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelMainLayout.createSequentialGroup()
-                                .addGap(6, 6, 6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                                 .addComponent(jLabel11)
                                 .addGap(35, 35, 35)
                                 .addComponent(jLabel12)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(fieldMesVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)))
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnProcurarFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(comboFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(comboFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnProcurarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(panelMainLayout.createSequentialGroup()
+                        .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMainLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(fieldDiaVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(comboParcelamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelMainLayout.createSequentialGroup()
+                                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(fieldDiaVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(comboParcelamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(84, 84, 84)
+                                .addComponent(btnProcurarFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(30, 30, 30)
+                                .addComponent(btnProcurarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -815,13 +823,15 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         try {
             controller.mesVencimentoAoPerderFoco();
         } catch (MesVencimentoInvalidoException  d) {
-            getFieldMesVencimento().setText("");
-            getFieldMesVencimento().requestFocus();
             JOptionPane.showMessageDialog(null, d.getMessage(), AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
-        } catch (NumberFormatException d){
             getFieldMesVencimento().setText("");
             getFieldMesVencimento().requestFocus();
+          
+        } catch (NumberFormatException d){
             JOptionPane.showMessageDialog(null, AppMensagens.INFO_DATA_INCORRETA, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
+            getFieldMesVencimento().setText("");
+            getFieldMesVencimento().requestFocus();
+            
         }
     }//GEN-LAST:event_fieldMesVencimentoFocusLost
 
@@ -833,13 +843,13 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         try {
             controller.diaVencimentoAoPerderFoco();
         } catch (DiaVencimentoInvalidoException d) {
-            getFieldDiaVencimento().setText("");
-            getFieldDiaVencimento().requestFocus();
             JOptionPane.showMessageDialog(null, d.getMessage(), AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
-        } catch (NumberFormatException d) {
             getFieldDiaVencimento().setText("");
             getFieldDiaVencimento().requestFocus();
+        } catch (NumberFormatException d) {
             JOptionPane.showMessageDialog(null, AppMensagens.INFO_DATA_INCORRETA, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
+            getFieldDiaVencimento().setText("");
+            getFieldDiaVencimento().requestFocus();
         }
 
     }//GEN-LAST:event_fieldDiaVencimentoFocusLost
@@ -850,9 +860,9 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
                 fieldValor.setText(ConversorMoeda.paraString(ConversorMoeda.paraBigDecimal(fieldValor.getText())));
             }
         } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, AppMensagens.INFO_VALOR_INCORRETO, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
             fieldValor.setText("");
             fieldValor.requestFocus();
-            JOptionPane.showMessageDialog(null, AppMensagens.INFO_VALOR_INCORRETO, AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_fieldValorFocusLost
 
@@ -867,6 +877,34 @@ public class DespesaRecorrenteViewImpl extends javax.swing.JFrame implements Sub
         categoriaView.setVisible(true);
         categoriaView.adicionarSubscribers(this);
     }//GEN-LAST:event_btnProcurarCategoriaActionPerformed
+
+    private void comboParcelamentoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_comboParcelamentoFocusLost
+        
+    }//GEN-LAST:event_comboParcelamentoFocusLost
+
+    private void comboParcelamentoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboParcelamentoItemStateChanged
+        String parcelamento = (String)comboParcelamento.getSelectedItem();
+        if(parcelamento == null){
+            fieldMesVencimento.setEnabled(false);
+            return;
+        }
+        
+        if(!parcelamento.equals("ANUAL")){
+            fieldMesVencimento.setText("");
+            fieldMesVencimento.setEnabled(false);
+        }else{
+            fieldMesVencimento.setEnabled(true);
+        }
+        
+        try{
+            controller.checarQuinzena();
+        }catch(DiaVencimentoInvalidoException e){
+            JOptionPane.showMessageDialog(null, e.getMessage(), AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
+            comboParcelamento.setSelectedIndex(-1);
+            comboParcelamento.requestFocus();
+        }
+        
+    }//GEN-LAST:event_comboParcelamentoItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
