@@ -15,6 +15,7 @@ import br.com.victorvilar.contaspagar.services.interfaces.CategoriaDespesaServic
 import br.com.victorvilar.contaspagar.services.interfaces.DespesaService;
 import br.com.victorvilar.contaspagar.services.interfaces.FormaPagamentoService;
 import br.com.victorvilar.contaspagar.services.interfaces.MovimentoPagamentoService;
+import br.com.victorvilar.contaspagar.util.AppMensagens;
 import br.com.victorvilar.contaspagar.util.ConversorData;
 import br.com.victorvilar.contaspagar.util.ConversorMoeda;
 import br.com.victorvilar.contaspagar.views.DespesaRecorrenteViewImpl;
@@ -100,6 +101,7 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
 
         checarFieldsEmBranco(exclude);
         checarCombosEmBranco(exclude);
+        checarQuinzena();
         
         String parcelamento = (String)view.getComboParcelamento().getSelectedItem();
         if((parcelamento.equals("ANUAL")) && (view.getFieldMesVencimento().getText().trim().isEmpty())){
@@ -115,7 +117,7 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
                 .filter(c -> c.getText().trim().isEmpty() && !exclude.contains(c.getName())).findFirst();
 
         if (fields.isPresent()) {
-            throw new FieldsEmBrancoException("Todos os campos devem ser preenchidos.");
+            throw new FieldsEmBrancoException(AppMensagens.INFO_PREENCHER_TODOS_CAMPOS);
         }
     }
 
@@ -126,7 +128,7 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
                 .filter(c -> c.getSelectedIndex() == -1 && !exclude.contains(c.getName())).findFirst();
 
         if (combos.isPresent()) {
-            throw new FieldsEmBrancoException("Todos os campos devem ser preenchidos.");
+            throw new FieldsEmBrancoException(AppMensagens.INFO_PREENCHER_TODOS_CAMPOS);
         }
     }
     
@@ -143,6 +145,8 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
         if (dia <= 0 || dia > 30) {
             throw new DiaVencimentoInvalidoException("O dia informado deve estar entre 1 e 30");
         }
+        
+        checarQuinzena();
 
         if (view.getFieldMesVencimento().getText().trim().isEmpty()) {
             return;
@@ -181,7 +185,23 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
         if (dia > 28 && mes == 2) {
             throw new MesVencimentoInvalidoException("Se o mês for fevereiro o dia não pode ser maior que 28 !");
         }
+        
+        checarQuinzena();
 
+    }
+    
+    
+    public void checarQuinzena(){
+       
+        String quinzena = (String) view.getComboParcelamento().getSelectedItem();
+        Integer dia = view.getFieldDiaVencimento().getText().equals("")? null:Integer.valueOf(view.getFieldDiaVencimento().getText());
+        if(quinzena == null || dia == null){
+            return;
+        }
+        if(quinzena.equals(Periodo.QUINZENAL.toString()) && dia > 14){
+            throw new DiaVencimentoInvalidoException("Em uma despesa quinzenal, o dia vencimento não pode ser maior que 14");
+        }
+        
     }
 
     @Override
