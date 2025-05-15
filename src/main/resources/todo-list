@@ -15,5 +15,5 @@ deve, impedir que novas parcelas sejam inseridas.
 
 -Criar testes para os metodos de gerar movimentos semanais.
 -Despesas recorrentes quinzenais não podem ter seus dias de pagamento maiores que 14
--Adicionar condicional de somente puxar as despesas recorrentes que ainda estão ativas.
+
 

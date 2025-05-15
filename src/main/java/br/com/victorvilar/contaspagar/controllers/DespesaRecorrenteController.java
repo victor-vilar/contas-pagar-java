@@ -43,6 +43,13 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
         super(service, categoriaDespesaService, formaPagamentoService,movimentoService,controllerHelper);
     }
     
+    
+    @Override
+    public void novo(){
+        super.novo();
+        view.getAtivoBox().setSelected(true);
+    }
+    
     @Override
     public void salvar() {
         checarErrosAoSalvar();
