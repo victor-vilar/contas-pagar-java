@@ -19,12 +19,15 @@ public class DespesaServiceImpl implements DespesaService {
 
     private final DespesaRepository repository;
     private final MovimentoPagamentoService movimentoService;
-
+    private final GeradorDeMovimentoDespesaRecorrente gerador;
 
     @Autowired
-    public DespesaServiceImpl(DespesaRepository repository, MovimentoPagamentoService movimentoService) {
+    public DespesaServiceImpl(DespesaRepository repository,
+                              MovimentoPagamentoService movimentoService,
+                              GeradorDeMovimentoDespesaRecorrente gerador) {
         this.repository = repository;
         this.movimentoService = movimentoService;
+        this.gerador = gerador;
     
     }
 
@@ -54,7 +57,11 @@ public class DespesaServiceImpl implements DespesaService {
         if(obj.getId() !=null){
             return update(obj);
         }
-        return this.repository.save(obj);
+        DespesaAbstrata despesa = this.repository.save(obj);
+        if(despesa.getTipo().equals("RECORRENTE")){
+            gerador.realizarLancamentos((DespesaRecorrente) despesa);
+        }
+        return despesa;
     }
 
     @Override
