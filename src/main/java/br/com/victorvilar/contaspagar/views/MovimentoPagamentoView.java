@@ -314,7 +314,7 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
 
         btnDespesaRecorrente.setBackground(new java.awt.Color(242, 242, 242));
         btnDespesaRecorrente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-despesa-recorrente-40.png"))); // NOI18N
-        btnDespesaRecorrente.setText("Nova Despesa Recorrente");
+        btnDespesaRecorrente.setText("Despesas Recorrentes");
         btnDespesaRecorrente.setToolTipText("Editar");
         btnDespesaRecorrente.setBorder(null);
         btnDespesaRecorrente.addActionListener(new java.awt.event.ActionListener() {
@@ -363,7 +363,7 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
             .addGroup(panelToolBar1Layout.createSequentialGroup()
                 .addGap(148, 148, 148)
                 .addComponent(btnDespesaRecorrente, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -530,7 +530,7 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
 
     private void btnDespesaRecorrenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDespesaRecorrenteActionPerformed
 
-        var view = context.getBean(DespesaRecorrenteViewImpl.class);
+        var view = context.getBean(DespesaRecorrenteListaView.class);
         view.setVisible(true);
 
     }//GEN-LAST:event_btnDespesaRecorrenteActionPerformed

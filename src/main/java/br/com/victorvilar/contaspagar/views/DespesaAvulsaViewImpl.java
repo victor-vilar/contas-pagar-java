@@ -284,7 +284,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Despesas Avulsas");
         setPreferredSize(new java.awt.Dimension(903, 752));
-        setSize(new java.awt.Dimension(896, 560));
+        setSize(new java.awt.Dimension(903, 752));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
@@ -616,6 +616,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
             }
         });
 
+        btnProcurarFormaPagamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-binoculo.png"))); // NOI18N
         btnProcurarFormaPagamento.setToolTipText("Buscar Fornecedor");
         btnProcurarFormaPagamento.setEnabled(false);
         btnProcurarFormaPagamento.setName("btnProcurarFormaPagamento"); // NOI18N

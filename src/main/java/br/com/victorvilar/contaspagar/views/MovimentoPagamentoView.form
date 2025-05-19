@@ -201,7 +201,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="148" max="-2" attributes="0"/>
                   <Component id="btnDespesaRecorrente" min="-2" pref="199" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnCategorias" min="-2" pref="160" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnFormaPagamento" min="-2" pref="183" max="-2" attributes="0"/>
@@ -267,7 +267,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/img/icon-despesa-recorrente-40.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Nova Despesa Recorrente"/>
+            <Property name="text" type="java.lang.String" value="Despesas Recorrentes"/>
             <Property name="toolTipText" type="java.lang.String" value="Editar"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="null"/>
