@@ -159,6 +159,11 @@ public class DespesaServiceImpl implements DespesaService {
         return repository.findByIdWithMovimentos(id);
     }
 
+    @Override
+    public List<DespesaAbstrata> findByTipo(String tipo) {
+        return repository.findByTipo(tipo);
+    }
+
 
 
 

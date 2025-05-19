@@ -9,5 +9,6 @@ import javax.swing.table.DefaultTableModel;
 public interface DespesaService extends AppService<DespesaAbstrata>{
     
     public DespesaAbstrata findByIdWithMovimentos(Long id);
+    public List<DespesaAbstrata> findByTipo(String tipo);
 
 }
