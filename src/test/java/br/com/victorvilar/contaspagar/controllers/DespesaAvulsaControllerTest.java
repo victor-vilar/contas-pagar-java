@@ -125,7 +125,7 @@ public class DespesaAvulsaControllerTest {
         d1Movimentos.add(m2);
 
         d1.setId(1l);
-        d1.setNomeFornecedor("LOREM TEST");
+        d1.setNome("LOREM TEST");
         d1.setDescricao("LOREM IPSUM");
         d1.setCategoria(cd1);
         d1.setParcelas(d1Movimentos);
@@ -619,7 +619,7 @@ public class DespesaAvulsaControllerTest {
     public void metodoPreencherFieldsDevePreencherTodosOsCamposQuandoNaoTemNotaFiscal() {
         controller.preencherFields(d1);
         assertEquals(view.getFieldId().getText(), String.valueOf(d1.getId()));
-        assertEquals(view.getFieldDescricao().getText(), d1.getNomeFornecedor());
+        assertEquals(view.getFieldDescricao().getText(), d1.getNome());
         assertEquals(view.getAreaDescricao().getText(), d1.getDescricao());
         assertEquals(view.getComboCategoria().getModel().getSelectedItem(), d1.getCategoria().getCategoria());
 
@@ -633,7 +633,7 @@ public class DespesaAvulsaControllerTest {
         d1.setNotaFiscal(nota);
         controller.preencherFields(d1);
         assertEquals(view.getFieldId().getText(), String.valueOf(d1.getId()));
-        assertEquals(view.getFieldDescricao().getText(), d1.getNomeFornecedor());
+        assertEquals(view.getFieldDescricao().getText(), d1.getNome());
         assertEquals(view.getAreaDescricao().getText(), d1.getDescricao());
         assertEquals(view.getComboCategoria().getModel().getSelectedItem(), d1.getCategoria().getCategoria());
 

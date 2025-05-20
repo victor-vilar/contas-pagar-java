@@ -68,7 +68,7 @@ public class MovimentoPagamentoController implements AppViewController<Movimento
             model.addRow(new Object[]{
                 m.getId(),
                 ConversorData.paraString(m.getDataVencimento()),
-                m.getDespesa().getNomeFornecedor(),
+                m.getDespesa().getNome(),
                 m.getReferenteParcela(),
                 ConversorMoeda.paraString(m.getValorPagamento()),
                 m.getFormaPagamento().getForma(),

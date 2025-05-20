@@ -1,7 +1,6 @@
 package br.com.victorvilar.contaspagar.services.implementation;
 
 import br.com.victorvilar.contaspagar.entities.DespesaRecorrente;
-import br.com.victorvilar.contaspagar.entities.interfaces.Despesa;
 import br.com.victorvilar.contaspagar.enums.Periodo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -9,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.autoconfigure.data.cassandra.DataCassandraTest;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -30,7 +28,7 @@ class GeradorDeDatasDespesasRecorrentesTest {
     public void setUp(){
         despesa = new DespesaRecorrente();
        despesa.setId(1l);
-       despesa.setNomeFornecedor("LIGTH");
+       despesa.setNome("LIGTH");
        despesa.setDescricao("PAGAMENTO DE ENERGIA");
        despesa.setPeriocidade(Periodo.MENSAL);
        despesa.setDiaPagamento(15);

@@ -69,7 +69,7 @@ public class FinalizarMovimentoControllerTest {
 
 
         DespesaAvulsa despesa = new DespesaAvulsa();
-        despesa.setNomeFornecedor("CONTA TESTE");
+        despesa.setNome("CONTA TESTE");
         movimento = new MovimentoPagamento();
         movimento.setId(1l);
         movimento.setDataVencimento(LocalDate.now());
@@ -121,7 +121,7 @@ public class FinalizarMovimentoControllerTest {
         
         assertEquals(view.getFieldCodigo().getText(),String.valueOf(movimento.getId()));
         assertEquals(view.getFieldParcela().getText(),movimento.getReferenteParcela());
-        assertEquals(view.getFieldDescricao().getText(),movimento.getDespesa().getNomeFornecedor());
+        assertEquals(view.getFieldDescricao().getText(),movimento.getDespesa().getNome());
         assertEquals(view.getFieldVencimento().getText(),ConversorData.paraString(movimento.getDataVencimento()));
         assertEquals(view.getFieldValor().getText(),ConversorMoeda.paraString(movimento.getValorPagamento()));
         

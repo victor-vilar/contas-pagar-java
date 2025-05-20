@@ -196,7 +196,7 @@ class DespesaControllerHelperTest {
     }
 
     @Test
-    @DisplayName("Deve gerar parcelas mensais quando existem mais de uma parcela"
+    @DisplayName("Deve gerar parcelas quinzenais quando existem mais de uma parcela"
             + "e o periodo for quinzenal")
     public void DeveGerarQuantidadeDeParcelasQuinzenais() {
 

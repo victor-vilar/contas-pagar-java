@@ -6,7 +6,6 @@ package br.com.victorvilar.contaspagar.controllers;
 
 import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
 import br.com.victorvilar.contaspagar.entities.DespesaRecorrente;
-import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.enums.Periodo;
 import br.com.victorvilar.contaspagar.exceptions.DiaVencimentoInvalidoException;
 import br.com.victorvilar.contaspagar.exceptions.FieldsEmBrancoException;
@@ -16,7 +15,6 @@ import br.com.victorvilar.contaspagar.services.interfaces.DespesaService;
 import br.com.victorvilar.contaspagar.services.interfaces.FormaPagamentoService;
 import br.com.victorvilar.contaspagar.services.interfaces.MovimentoPagamentoService;
 import br.com.victorvilar.contaspagar.util.AppMensagens;
-import br.com.victorvilar.contaspagar.util.ConversorData;
 import br.com.victorvilar.contaspagar.util.ConversorMoeda;
 import br.com.victorvilar.contaspagar.views.DespesaRecorrenteViewImpl;
 import java.util.List;
@@ -71,7 +69,7 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
         Boolean ativo = view.getAtivoBox().isSelected();
         
         
-        despesa.setNomeFornecedor(nome);
+        despesa.setNome(nome);
         despesa.setDescricao(descricao);
         despesa.setCategoria(this.categoriaDespesaService.getByCategoria(categoria));
         despesa.setFormaPagamentoPadrao(this.formaPagamentoService.getByForma(formaPagamento));
@@ -222,7 +220,7 @@ public class DespesaRecorrenteController extends DespesaAbstractController<Despe
     public void preencherFields(DespesaRecorrente despesa){
     
         view.getFieldId().setText(String.valueOf(despesa.getId()));      
-        view.getFieldDescricao().setText(despesa.getNomeFornecedor());
+        view.getFieldDescricao().setText(despesa.getNome());
         view.getAreaDescricao().setText(despesa.getDescricao());
         view.getComboCategoria().getModel().setSelectedItem(despesa.getCategoria().getName());
         view.getComboFormaPagamento().getModel().setSelectedItem(despesa.getFormaPagamentoPadrao().getName());

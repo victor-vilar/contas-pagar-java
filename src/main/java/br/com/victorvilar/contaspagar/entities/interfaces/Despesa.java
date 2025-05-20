@@ -7,7 +7,7 @@ public interface Despesa {
 
 	
 	public CategoriaDespesa getCategoria();
-	public String getNomeFornecedor();
+	public String getNome();
 	public String getDescricao();
 	public boolean isQuitado();
 	public BigDecimal getValorTotal();

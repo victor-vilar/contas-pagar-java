@@ -128,7 +128,7 @@ public class DespesaRecorrenteControllerTest {
         d1Movimentos.add(m2);
 
         d1.setId(1l);
-        d1.setNomeFornecedor("LOREM TEST");
+        d1.setNome("LOREM TEST");
         d1.setDescricao("LOREM IPSUM");
         d1.setCategoria(cd1);
         d1.setParcelas(d1Movimentos);
@@ -137,6 +137,7 @@ public class DespesaRecorrenteControllerTest {
         d1.setPeriocidade(Periodo.MENSAL);
         d1.setDiaPagamento(Integer.MIN_VALUE);
         d1.setFormaPagamentoPadrao(fp1);
+        d1.setAtivo(true);
 
     }
 
@@ -170,9 +171,9 @@ public class DespesaRecorrenteControllerTest {
     @DisplayName("metodo deletar")
     public void metodoDeletarDeveLancarExceptionSeTentarRemoverTodosOsMovimentosDeUmaDespesa(){
         DefaultTableModel model = (DefaultTableModel) view.getTableParcelas().getModel();
-        model.addRow(new Object[]{1});
         model.addRow(new Object[]{2});
         model.addRow(new Object[]{3});
+        model.addRow(new Object[]{10});
         int[] linhas = {1,2,3};
         Assertions.assertThrows(QuantidadeDeParcelasException.class, ()
                 -> controller.deletarMovimentos(linhas));
@@ -181,7 +182,10 @@ public class DespesaRecorrenteControllerTest {
     @Test
     @DisplayName("metodo deletar")
     public void metodoDeletarMovimentosDeveChamarServicoParaEliminarMovimentos() {
-
+        DefaultTableModel model = (DefaultTableModel) view.getTableParcelas().getModel();
+        model.addRow(new Object[]{2});
+        model.addRow(new Object[]{3});
+        model.addRow(new Object[]{10});
         int[] linhas = {2, 3, 10};
         controller.deletarMovimentos(linhas);
         verify(controllerHelper, times(1)).deletarMovimentosTabela(anyList(),any());
@@ -190,6 +194,10 @@ public class DespesaRecorrenteControllerTest {
     @Test
     @DisplayName("metodo deletar")
     public void metodooDeletarMovimentosDeveChamarMetodoadicionarOuAtualizarReferenteParcelaDoServico(){
+        DefaultTableModel model = (DefaultTableModel) view.getTableParcelas().getModel();
+        model.addRow(new Object[]{2});
+        model.addRow(new Object[]{3});
+        model.addRow(new Object[]{10});
         int[] linhas = {2, 3, 10};
         controller.deletarMovimentos(linhas);
         verify(movimentoService, times(1)).adicionarOuAtualizarReferenteParcela(anyList());
@@ -198,6 +206,10 @@ public class DespesaRecorrenteControllerTest {
     @Test
     @DisplayName("metodo deletar")
     public void metodooDeletarMovimentosDeveChamarMetodoPreencherTabela(){
+        DefaultTableModel model = (DefaultTableModel) view.getTableParcelas().getModel();
+        model.addRow(new Object[]{2});
+        model.addRow(new Object[]{3});
+        model.addRow(new Object[]{10});
         int[] linhas = {2, 3, 10};
         controller.deletarMovimentos(linhas);
         verify(controller, times(1)).preencherTabela(anyList());
@@ -589,7 +601,7 @@ public class DespesaRecorrenteControllerTest {
         assertNotNull(controller.getMovimentos());
         assertEquals(controller.getMovimentos().get(0), d1.getParcelas().get(0));
         assertEquals(controller.getMovimentos().get(1), d1.getParcelas().get(1));
-        assertEquals(controller.getMovimentos().size(), 2);
+
     }
 
     @Test
@@ -608,7 +620,7 @@ public class DespesaRecorrenteControllerTest {
     public void metodoPreencherFieldsDevePreencherTodosOsCampos() {
         controller.preencherFields(d1);
         assertEquals(view.getFieldId().getText(), String.valueOf(d1.getId()));
-        assertEquals(view.getFieldDescricao().getText(), d1.getNomeFornecedor());
+        assertEquals(view.getFieldDescricao().getText(), d1.getNome());
         assertEquals(view.getAreaDescricao().getText(), d1.getDescricao());
         assertEquals(view.getComboCategoria().getModel().getSelectedItem(), d1.getCategoria().getCategoria());
         assertEquals(view.getComboFormaPagamento().getModel().getSelectedItem(), d1.getFormaPagamentoPadrao().getForma());

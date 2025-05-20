@@ -6,7 +6,6 @@ package br.com.victorvilar.contaspagar.controllers;
 
 import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
 import br.com.victorvilar.contaspagar.entities.DespesaAvulsa;
-import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.entities.NotaFiscal;
 import br.com.victorvilar.contaspagar.exceptions.FieldsEmBrancoException;
 import br.com.victorvilar.contaspagar.exceptions.QuantidadeDeParcelasException;
@@ -64,7 +63,7 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
         String descricao = view.getAreaDescricao().getText().trim().toUpperCase();
         String categoria = (String) view.getComboCategoria().getSelectedItem();
 
-        despesa.setNomeFornecedor(nome);
+        despesa.setNome(nome);
         despesa.setDescricao(descricao);
         despesa.setCategoria(this.categoriaDespesaService.getByCategoria(categoria));
         despesa.setParcelas(this.movimentos);
@@ -178,7 +177,7 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
             view.getFieldNotaEmissao().setText(ConversorData.paraString(despesa.getNotaFiscal().getDataEmissao()));
         }
        
-        view.getFieldDescricao().setText(despesa.getNomeFornecedor());
+        view.getFieldDescricao().setText(despesa.getNome());
         view.getAreaDescricao().setText(despesa.getDescricao());
         view.getComboCategoria().getModel().setSelectedItem(despesa.getCategoria().getName());
         

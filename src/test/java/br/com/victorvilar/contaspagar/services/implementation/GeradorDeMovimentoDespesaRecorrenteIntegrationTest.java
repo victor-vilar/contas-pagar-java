@@ -1,24 +1,16 @@
 package br.com.victorvilar.contaspagar.services.implementation;
 
-import br.com.victorvilar.contaspagar.ErpApplication;
 import br.com.victorvilar.contaspagar.entities.DespesaRecorrente;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
-import br.com.victorvilar.contaspagar.entities.interfaces.Despesa;
 import br.com.victorvilar.contaspagar.enums.Periodo;
-import br.com.victorvilar.contaspagar.exceptions.DespesaNotFoundException;
 import br.com.victorvilar.contaspagar.repositories.DespesaRepository;
 import br.com.victorvilar.contaspagar.repositories.MovimentoPagamentoRepository;
 import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -95,7 +87,7 @@ public class GeradorDeMovimentoDespesaRecorrenteIntegrationTest {
         dr1.setMesPagamento(1);
         dr1.setDataUltimoLancamento(dataUltimoLancamento);
         dr1.setDescricao("teste");
-        dr1.setNomeFornecedor("teste");
+        dr1.setNome("teste");
         dr1.setAtivo(true);
         dr1.setValorTotal(new BigDecimal("1000"));
         despesaRepository.save(dr1);
@@ -139,6 +131,7 @@ public class GeradorDeMovimentoDespesaRecorrenteIntegrationTest {
         when(geradorDatas.dataHoje()).thenReturn(LocalDate.of(2025,5,1));
         gerador.run();
         List<MovimentoPagamento> movimentos = movimentoRepository.findByDataPagamentoIsNull();
+        assertTrue(movimentos.size() == 4 );
         assertTrue(movimentos.size() == 4 );
         MovimentoPagamento movimento = movimentos.get(0);
         assertEquals(movimento.getDataVencimento(), LocalDate.of(2025,02,01));

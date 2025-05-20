@@ -94,7 +94,7 @@ public class DespesaServiceImpl implements DespesaService {
         }else{
             despesa = getById(obj.getId());
         }
-        despesa.setNomeFornecedor(obj.getNomeFornecedor());
+        despesa.setNome(obj.getNome());
         despesa.setDescricao(obj.getDescricao());
         despesa.setCategoria(obj.getCategoria());
         updateCamposDoTipo(obj,despesa);

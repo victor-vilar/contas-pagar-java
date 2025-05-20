@@ -10,8 +10,6 @@ import br.com.victorvilar.contaspagar.services.interfaces.DespesaService;
 import br.com.victorvilar.contaspagar.util.ControllerHelper;
 import br.com.victorvilar.contaspagar.views.DespesaRecorrenteListaView;
 import java.util.List;
-import javax.swing.Icon;
-import javax.swing.JCheckBox;
 import javax.swing.table.DefaultTableModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -59,7 +57,7 @@ public class DespesaRecorrenteListaController implements AppViewController<Despe
         List<DespesaAbstrata> despesas = buscarDespesas();
         despesas.stream().forEach(d -> { 
             DespesaRecorrente de = (DespesaRecorrente) d;
-            model.addRow(new Object[]{de.getId(),de.getNomeFornecedor(),de.getAtivo()});
+            model.addRow(new Object[]{de.getId(),de.getNome(),de.getAtivo()});
         });
     }
 

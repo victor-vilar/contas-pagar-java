@@ -3,10 +3,8 @@ package br.com.victorvilar.contaspagar.services.implementation;
 import br.com.victorvilar.contaspagar.entities.*;
 import br.com.victorvilar.contaspagar.enums.Periodo;
 import br.com.victorvilar.contaspagar.repositories.DespesaRepository;
-import br.com.victorvilar.contaspagar.services.implementation.DespesaServiceImpl;
 import br.com.victorvilar.contaspagar.services.interfaces.MovimentoPagamentoService;
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.List;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,12 +14,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.*;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -61,13 +57,13 @@ class DespesaServiceImplTest {
         recorrente = new DespesaRecorrente();
 
         avulsa.setId(1l);
-        avulsa.setNomeFornecedor("TESTE1 TESTE1");
+        avulsa.setNome("TESTE1 TESTE1");
         avulsa.setDescricao("TESTEZZ");
         avulsa.setCategoria(categoria);
         avulsa.setNotaFiscal(nota);
 
         recorrente.setId(2l);
-        recorrente.setNomeFornecedor("TESTE2 TESTE2");
+        recorrente.setNome("TESTE2 TESTE2");
         recorrente.setDescricao("TESTEZZ2");
         recorrente.setCategoria(categoria);
         recorrente.setPeriocidade(Periodo.MENSAL);
@@ -134,7 +130,7 @@ class DespesaServiceImplTest {
         when(repository.findById(any())).thenReturn(Optional.of(avulsa));
         when(repository.save(any())).thenReturn(avulsa);
         DespesaAvulsa desp = (DespesaAvulsa) service.update(avulsa);
-        assertEquals(desp.getNomeFornecedor(), avulsa.getNomeFornecedor());
+        assertEquals(desp.getNome(), avulsa.getNome());
         assertEquals(desp.getDescricao(), avulsa.getDescricao());
         assertEquals(desp.getNotaFiscal(), avulsa.getNotaFiscal());
     }

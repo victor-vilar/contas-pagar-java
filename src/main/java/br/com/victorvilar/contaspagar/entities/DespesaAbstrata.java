@@ -23,7 +23,7 @@ import jakarta.persistence.Table;
 import java.util.Objects;
 
 @Entity
-@Table(name = "despesa")
+@Table(name = "despesas")
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class DespesaAbstrata implements Despesa {
 
@@ -31,7 +31,7 @@ public abstract class DespesaAbstrata implements Despesa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private String nomeFornecedor;
+    private String nome;
     @Column(nullable = false)
     private String descricao;
     private boolean quitado = false;
@@ -42,7 +42,7 @@ public abstract class DespesaAbstrata implements Despesa {
     private List<MovimentoPagamento> movimentos = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name = "categoria_id", foreignKey = @ForeignKey(name = "categoria_fk", foreignKeyDefinition = "FOREIGN KEY (categoria_id) REFERENCES categorias_despesas(id) ON DELETE SET NULL"))
+    @JoinColumn(name = "categoria_fk", foreignKey = @ForeignKey(name = "categoria_fk", foreignKeyDefinition = "FOREIGN KEY (categoria_id) REFERENCES categorias_despesas(id) ON DELETE SET NULL"))
     private CategoriaDespesa categoria;
 
     public Long getId() {
@@ -55,8 +55,8 @@ public abstract class DespesaAbstrata implements Despesa {
     }
 
     @Override
-    public String getNomeFornecedor() {
-        return nomeFornecedor;
+    public String getNome() {
+        return nome;
     }
 
     @Override
@@ -73,8 +73,8 @@ public abstract class DespesaAbstrata implements Despesa {
         this.id = id;
     }
 
-    public void setNomeFornecedor(String nomeFornecedor) {
-        this.nomeFornecedor = nomeFornecedor;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public void setDescricao(String descricao) {

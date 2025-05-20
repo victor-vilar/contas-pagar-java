@@ -26,7 +26,7 @@ public class InitView implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         view.setVisible(true);
-        lancarDespesasRecorrentes();
+        //lancarDespesasRecorrentes();
     }
 
     @Async

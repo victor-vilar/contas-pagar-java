@@ -67,7 +67,7 @@ public class FinalizarMovimentoController implements AppViewController<Finalizar
 
         view.getFieldCodigo().setText(String.valueOf(pagamento.getId()));
         view.getFieldParcela().setText(pagamento.getReferenteParcela());
-        view.getFieldDescricao().setText(pagamento.getDespesa().getNomeFornecedor());
+        view.getFieldDescricao().setText(pagamento.getDespesa().getNome());
         view.getFieldVencimento().setText(ConversorData.paraString(pagamento.getDataVencimento()));
         view.getFieldValor().setText(ConversorMoeda.paraString(pagamento.getValorPagamento()));
         
