@@ -30,8 +30,7 @@ public class DespesaAvulsa extends DespesaAbstrata implements Serializable {
 
 	}
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="nota_id")
+	@OneToOne(cascade = CascadeType.ALL, mappedBy="despesa")
 	private NotaFiscal notaFiscal;
 	
 	public DespesaAvulsa(){

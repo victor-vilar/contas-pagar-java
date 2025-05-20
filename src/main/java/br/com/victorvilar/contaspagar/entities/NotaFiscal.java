@@ -18,7 +18,8 @@ public class NotaFiscal implements Serializable {
     private String numero;
     private LocalDate dataEmissao;
 
-    @OneToOne(mappedBy = "notaFiscal")
+    @OneToOne
+    @JoinColumn(name="despesa_id")
     private DespesaAvulsa despesa;
 
     public DespesaAvulsa getDespea() {

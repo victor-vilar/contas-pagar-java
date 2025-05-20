@@ -1,5 +1,5 @@
 CREATE TABLE notas_fiscais(
-    id SERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     numero VARCHAR(50) NOT NULL,
     data_emissao DATE NOT NULL,
     despesa_id BIGINT NOT NULL,
