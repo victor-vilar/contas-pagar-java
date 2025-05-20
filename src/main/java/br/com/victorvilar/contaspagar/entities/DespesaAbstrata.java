@@ -42,7 +42,7 @@ public abstract class DespesaAbstrata implements Despesa {
     private List<MovimentoPagamento> movimentos = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name = "categoria_fk", foreignKey = @ForeignKey(name = "categoria_fk", foreignKeyDefinition = "FOREIGN KEY (categoria_id) REFERENCES categorias_despesas(id) ON DELETE SET NULL"))
+    @JoinColumn(name = "categoria_id")
     private CategoriaDespesa categoria;
 
     public Long getId() {
