@@ -14,9 +14,9 @@ public interface MovimentoPagamentoRepository extends JpaRepository<MovimentoPag
 
     public List<MovimentoPagamento> getAllByDespesaId(Long id);
     
-    @Query("SELECT m FROM MovimentoPagamento m WHERE LOWER(m.despesa.nomeFornecedor) LIKE LOWER(CONCAT('%', :despesaName, '%')) AND dataVencimento >= :dataInicio AND dataVencimento <= :dataFim AND dataPagamento IS NULL")
+    @Query("SELECT m FROM MovimentoPagamento m WHERE LOWER(m.despesa.nome) LIKE LOWER(CONCAT('%', :despesaName, '%')) AND dataVencimento >= :dataInicio AND dataVencimento <= :dataFim AND dataPagamento IS NULL")
     List<MovimentoPagamento> getBetweenDatesAndDespesaNameNaoPago(LocalDate dataInicio, LocalDate dataFim, String despesaName);
     
-    @Query("SELECT m FROM MovimentoPagamento m WHERE LOWER(m.despesa.nomeFornecedor) LIKE LOWER(CONCAT('%', :despesaName, '%')) AND dataVencimento >= :dataInicio AND dataVencimento <= :dataFim AND dataPagamento IS NOT NULL")
+    @Query("SELECT m FROM MovimentoPagamento m WHERE LOWER(m.despesa.nome) LIKE LOWER(CONCAT('%', :despesaName, '%')) AND dataVencimento >= :dataInicio AND dataVencimento <= :dataFim AND dataPagamento IS NOT NULL")
     List<MovimentoPagamento> getBetweenDatesAndDespesaNamePago(LocalDate dataInicio, LocalDate dataFim, String despesaName);
 }
