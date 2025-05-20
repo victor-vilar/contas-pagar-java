@@ -3,11 +3,8 @@ package br.com.victorvilar.contaspagar.entities;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
 @Entity
@@ -20,7 +17,17 @@ public class NotaFiscal implements Serializable {
 
     private String numero;
     private LocalDate dataEmissao;
-    private String fornecedor;
+
+    @OneToOne(mappedBy = "notaFiscal")
+    private DespesaAvulsa despesa;
+
+    public DespesaAvulsa getDespea() {
+        return despesa;
+    }
+
+    public void setDespea(DespesaAvulsa despea) {
+        this.despesa = despea;
+    }
 
     public NotaFiscal() {
 
