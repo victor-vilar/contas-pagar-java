@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 import java.util.Objects;
 
 @Entity
-@Table(name="movimento_pagamento")
+@Table(name="movimentos_pagamentos")
 public class MovimentoPagamento implements Serializable {
 
     @Id
