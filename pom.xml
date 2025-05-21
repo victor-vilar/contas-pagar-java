@@ -10,9 +10,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.victorvilar</groupId>
-	<artifactId>erp</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>erp</name>
+	<artifactId>contas-pagar</artifactId>
+	<version>0.1</version>
+	<name>contas-pagar</name>
 	<description>Sistema de Contas a Pagar</description>
 	<url />
 	<licenses>
