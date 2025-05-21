@@ -66,12 +66,12 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
 
     void configurarTabela() {
 
-        tableMovimentos.getColumnModel().getColumn(0).setMaxWidth(50);
-        tableMovimentos.getColumnModel().getColumn(1).setMaxWidth(90);
-        tableMovimentos.getColumnModel().getColumn(3).setMaxWidth(80);
-        tableMovimentos.getColumnModel().getColumn(4).setMaxWidth(100);
-        tableMovimentos.getColumnModel().getColumn(5).setMaxWidth(100);
-        tableMovimentos.getColumnModel().getColumn(6).setMaxWidth(90);
+        tableMovimentos.getColumnModel().getColumn(0).setMaxWidth(100);
+        tableMovimentos.getColumnModel().getColumn(1).setMaxWidth(150);
+        tableMovimentos.getColumnModel().getColumn(3).setMaxWidth(150);
+        tableMovimentos.getColumnModel().getColumn(4).setMaxWidth(150);
+        tableMovimentos.getColumnModel().getColumn(5).setMaxWidth(150);
+        tableMovimentos.getColumnModel().getColumn(6).setMaxWidth(150);
 
         //table.setAutoCreateRowSorter(true);;
         //cria um table sorter e já realiza um sorte pela coluna de data
@@ -272,14 +272,7 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         });
         jScrollPane1.setViewportView(tableMovimentos);
         if (tableMovimentos.getColumnModel().getColumnCount() > 0) {
-            tableMovimentos.getColumnModel().getColumn(0).setResizable(false);
             tableMovimentos.getColumnModel().getColumn(0).setPreferredWidth(40);
-            tableMovimentos.getColumnModel().getColumn(1).setResizable(false);
-            tableMovimentos.getColumnModel().getColumn(2).setResizable(false);
-            tableMovimentos.getColumnModel().getColumn(3).setResizable(false);
-            tableMovimentos.getColumnModel().getColumn(4).setResizable(false);
-            tableMovimentos.getColumnModel().getColumn(5).setResizable(false);
-            tableMovimentos.getColumnModel().getColumn(6).setResizable(false);
         }
 
         javax.swing.GroupLayout panelTabelaLayout = new javax.swing.GroupLayout(panelTabela);
