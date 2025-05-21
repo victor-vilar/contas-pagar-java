@@ -22,12 +22,12 @@ public class NotaFiscal implements Serializable {
     @JoinColumn(name="despesa_id")
     private DespesaAvulsa despesa;
 
-    public DespesaAvulsa getDespea() {
+    public DespesaAvulsa getDespesa() {
         return despesa;
     }
 
-    public void setDespea(DespesaAvulsa despea) {
-        this.despesa = despea;
+    public void setDespesa(DespesaAvulsa despesa) {
+        this.despesa = despesa;
     }
 
     public NotaFiscal() {
