@@ -47,6 +47,7 @@ public class DespesaAvulsa extends DespesaAbstrata implements Serializable {
 
 	public void setNotaFiscal(NotaFiscal notaFiscal) {
 		this.notaFiscal = notaFiscal;
+		notaFiscal.setDespesa(this);
 	}
 
 
