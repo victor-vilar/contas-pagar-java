@@ -30,7 +30,7 @@ public class DespesaAvulsa extends DespesaAbstrata implements Serializable {
 
 	}
 
-	@OneToOne(cascade = CascadeType.ALL, mappedBy="despesa")
+	@OneToOne(cascade = CascadeType.ALL, mappedBy="despesa", orphanRemoval = true)
 	private NotaFiscal notaFiscal;
 	
 	public DespesaAvulsa(){
@@ -49,6 +49,12 @@ public class DespesaAvulsa extends DespesaAbstrata implements Serializable {
 		this.notaFiscal = notaFiscal;
 		notaFiscal.setDespesa(this);
 	}
+        
+        public void removeNotaFiscal(){
+            this.notaFiscal.setDespesa(null);
+            this.notaFiscal = null;
+            
+        }
 
 
 

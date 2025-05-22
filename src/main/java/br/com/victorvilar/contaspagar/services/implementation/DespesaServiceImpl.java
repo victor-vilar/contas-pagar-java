@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
 import br.com.victorvilar.contaspagar.entities.DespesaAvulsa;
 import br.com.victorvilar.contaspagar.entities.DespesaRecorrente;
+import br.com.victorvilar.contaspagar.entities.NotaFiscal;
 import br.com.victorvilar.contaspagar.exceptions.DespesaNotFoundException;
 import br.com.victorvilar.contaspagar.repositories.DespesaRepository;
 import br.com.victorvilar.contaspagar.services.interfaces.DespesaService;
@@ -128,7 +129,28 @@ public class DespesaServiceImpl implements DespesaService {
      * @param despesa Objeto 'persisted' que possui valores que ainda precisam ser atualizados.
      */
     public void updateDespesaAvulsa(DespesaAvulsa obj, DespesaAvulsa despesa) {
-        despesa.setNotaFiscal(obj.getNotaFiscal());
+        NotaFiscal nota = despesa.getNotaFiscal() ;
+        
+        if(obj.getNotaFiscal() == null && nota != null){
+            despesa.removeNotaFiscal();
+         
+        }
+        
+        if(obj.getNotaFiscal() != null && nota != null){
+            nota.setNumero(obj.getNotaFiscal().getNumero());
+            nota.setDataEmissao(obj.getNotaFiscal().getDataEmissao());
+        }
+        
+        if(obj.getNotaFiscal() != null && nota == null){
+            nota = new NotaFiscal();
+            nota.setNumero(obj.getNotaFiscal().getNumero());
+            nota.setDataEmissao(obj.getNotaFiscal().getDataEmissao());
+            despesa.setNotaFiscal(nota);
+        }
+        
+        
+        
+        
     }
 
     /**
