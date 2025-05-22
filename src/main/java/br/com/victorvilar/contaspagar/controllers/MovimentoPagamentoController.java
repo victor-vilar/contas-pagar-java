@@ -6,6 +6,7 @@ package br.com.victorvilar.contaspagar.controllers;
 
 import br.com.victorvilar.contaspagar.controllers.interfaces.AppViewController;
 import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
+import br.com.victorvilar.contaspagar.exceptions.QuantidadeDeParcelasException;
 import br.com.victorvilar.contaspagar.util.ControllerHelper;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.services.interfaces.DespesaService;
@@ -147,6 +148,11 @@ public class MovimentoPagamentoController implements AppViewController<Movimento
         DefaultTableModel model = getTabelaModel();
         Long codigo;
         for(int i = 0; i< linhas.length; i++){
+
+            if(model.getValueAt(linhas[i],3).equals("UNICA")){
+                throw new QuantidadeDeParcelasException("Essa é a unica parcela da despesa\n" +
+                        "Não é possivel existir despesas sem parcelas no sistema.");
+            }
             codigo = (Long) model.getValueAt(linhas[i], 0);
             codigos.add(codigo);
         }

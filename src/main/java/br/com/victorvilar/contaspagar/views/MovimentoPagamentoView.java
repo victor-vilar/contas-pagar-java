@@ -6,6 +6,7 @@ package br.com.victorvilar.contaspagar.views;
 
 import br.com.victorvilar.contaspagar.controllers.MovimentoPagamentoController;
 import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
+import br.com.victorvilar.contaspagar.exceptions.QuantidadeDeParcelasException;
 import br.com.victorvilar.contaspagar.util.AppMensagens;
 import br.com.victorvilar.contaspagar.util.ConversorData;
 import br.com.victorvilar.contaspagar.util.ConversorMoeda;
@@ -188,7 +189,12 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
                     if (tableMovimentos.getSelectedRow() != -1 && rows.length != 0) {
                         String msg = "Deseja deletar os movimentos selecionados ?";
                         if (JOptionPane.showConfirmDialog(null, msg, AppMensagens.HEADER_ATENCAO, JOptionPane.YES_NO_OPTION) == 0) {
-                            controller.deletar(rows);
+                            try{
+                                controller.deletar(rows);
+                            }catch(QuantidadeDeParcelasException q){
+                                JOptionPane.showMessageDialog(null, q.getMessage(), AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
+                            }
+
                         }
                     }
                 }
