@@ -1,7 +1,7 @@
 CREATE TABLE despesas (
 
     id BIGSERIAL PRIMARY KEY,
-    nome VARCHAR(150) NOT NULL UNIQUE,
+    nome VARCHAR(150) NOT NULL,
     descricao VARCHAR(255) NOT NULL,
     quitado boolean,
     valor_total DECIMAL(10,2),
