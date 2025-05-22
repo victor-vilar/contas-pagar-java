@@ -4,6 +4,7 @@
  */
 package br.com.victorvilar.contaspagar.views.interfaces;
 
+import javax.swing.JButton;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 
@@ -17,6 +18,7 @@ public interface DespesaAvulsaView extends DespesaView {
    JTextField getFieldNota();
    JTextField getFieldNotaEmissao();
    public JTextField getFieldVencimento();
+    JButton getBtnGerarParcelas();
    
     
 }

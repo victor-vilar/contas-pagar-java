@@ -169,6 +169,15 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
         return btnLockTable;
     }
 
+    @Override
+    public JButton getBtnGerarParcelas(){
+        return btnGerarParcelas;
+    }
+    
+    public JButton getBtnProcurarFormaPagamento(){
+        return btnProcurarFormaPagamento;
+    }
+    
     public void configureComponentes() {
         comboFormaPagamentoTabela = new javax.swing.JComboBox<>();
         comboFormaPagamentoTabela.setName("comboFormaPagamentoTabela");
@@ -278,7 +287,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
         jLabel6 = new javax.swing.JLabel();
         btnLockTable = new javax.swing.JButton();
         btnProcurarFormaPagamento = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnGerarParcelas = new javax.swing.JButton();
         fieldVencimento = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -626,10 +635,10 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
             }
         });
 
-        jButton1.setText("Gerar Parcelas");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnGerarParcelas.setText("Gerar Parcelas");
+        btnGerarParcelas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnGerarParcelasActionPerformed(evt);
             }
         });
 
@@ -681,7 +690,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnLockTable, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1))))
+                                .addComponent(btnGerarParcelas))))
                     .addGroup(panelParcelasLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane3)))
@@ -711,7 +720,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
                             .addComponent(fieldValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(fieldVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton1)))
+                                .addComponent(btnGerarParcelas)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE))
                     .addGroup(panelParcelasLayout.createSequentialGroup()
@@ -776,7 +785,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
 
     }//GEN-LAST:event_formWindowOpened
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnGerarParcelasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarParcelasActionPerformed
         try {
 
             controller.gerarParcelas();
@@ -788,7 +797,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
             fieldValor.requestFocus();
         }
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnGerarParcelasActionPerformed
 
     private void btnProcurarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcurarCategoriaActionPerformed
         var categoriaView = context.getBean(CategoriaDespesaView.class);
@@ -866,6 +875,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
     private javax.swing.JTextArea areaDescricao;
     private javax.swing.JButton btnDeletar;
     private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnGerarParcelas;
     private javax.swing.ButtonGroup btnGroupTipoDespesa;
     private javax.swing.JButton btnLockTable;
     private javax.swing.JButton btnNovo;
@@ -883,7 +893,6 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
     private javax.swing.JTextField fieldNotaEmissao;
     private javax.swing.JTextField fieldValor;
     private javax.swing.JTextField fieldVencimento;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

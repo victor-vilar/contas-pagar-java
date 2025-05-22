@@ -181,8 +181,21 @@ public class DespesaAvulsaController extends DespesaAbstractController<DespesaAv
         view.getAreaDescricao().setText(despesa.getDescricao());
         view.getComboCategoria().getModel().setSelectedItem(despesa.getCategoria().getName());
         
-        
-
+    }
+    
+    
+    @Override
+    public void editar(){
+        super.editar();
+        if(!view.getFieldId().getText().trim().equals("")){
+            view.getComboParcelamento().setEnabled(false);
+            view.getSpinnerQuantidadeParcelas().setEnabled(false);
+            view.getComboFormaPagamento().setEnabled(false);
+            view.getFieldValor().setEnabled(false);
+            view.getFieldVencimento().setEnabled(false);
+            view.getBtnGerarParcelas().setEnabled(false);
+            view.getBtnProcurarFormaPagamento().setEnabled(false);
+        }
     }
 
 }
