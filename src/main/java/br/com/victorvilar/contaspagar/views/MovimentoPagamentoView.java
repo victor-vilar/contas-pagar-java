@@ -625,7 +625,7 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
     }//GEN-LAST:event_checkboxPagasStateChanged
 
     private void BtnProcurar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnProcurar1ActionPerformed
-        controller.limparPesquisa();        // TODO add your handling code here:
+        controller.limparCampos();        // TODO add your handling code here:
     }//GEN-LAST:event_BtnProcurar1ActionPerformed
 
     private void btnFormaPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFormaPagamentoActionPerformed

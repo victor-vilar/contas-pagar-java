@@ -46,20 +46,24 @@ public class MovimentoPagamentoController implements AppViewController<Movimento
 
     @Override
     public void limparCampos() {
-        
         view.getFieldDataInicio().setText("");
         view.getFieldDataFim().setText("");
-        view.getFieldDespesa().setText("");
-        view.getCheckboxPagas();
+        view.getFieldDataInicio().setText("");
+        view.getCheckboxPagas().setSelected(false);
+        pesquisar();
     }
-    
+
+
     public void inicializarTabela(){
         pesquisar();
         
        
     }
-    
-    
+
+    /**
+     * Preencher a tabela com a lista de movimentos passadas
+     * @param movimentos lista de movimentos que irão preencher a tabela.
+     */
     public void preencherTabela(List<MovimentoPagamento> movimentos) {
         
         DefaultTableModel model = (DefaultTableModel) view.getTableMovimentos().getModel();
@@ -79,13 +83,21 @@ public class MovimentoPagamentoController implements AppViewController<Movimento
 
         });
     }
-    
+
+    /**
+     * Busca uma despesa atraves do id, e retorna essa Despesa com a sua lista de Movimentos.
+     * @param id id da despesa que esta sendo procurada
+     * @return despesa
+     */
     public DespesaAbstrata buscarDespesa(Long id){
         Long idDespesa = movimentoService.getById(id).getDespesa().getId();
         return service.findByIdWithMovimentos(idDespesa);
         
     }
-    
+
+    /**
+     * Pesquisa os movimentos de acordo com os parametros da view;
+     */
     public void pesquisar(){
     
         LocalDate dataInicial = ConversorData.paraData(view.getFieldDataInicio().getText());
@@ -105,15 +117,11 @@ public class MovimentoPagamentoController implements AppViewController<Movimento
         preencherTabela(movimentos);
         
     }
-    
-    public void limparPesquisa(){
-        view.getFieldDataInicio().setText("");
-        view.getFieldDataFim().setText("");
-        view.getFieldDataInicio().setText("");
-        view.getCheckboxPagas().setSelected(false);
-        pesquisar();
-    }
-    
+
+    /**
+     * Deleta os movimentos os movimentos deletados na tabela.
+     * @param linhas linhas selecionadas na tabela.
+     */
     public void deletar(int[] linhas){
     
         List<Long> codigos = buscarCodigoMovimentosTabela(linhas);
