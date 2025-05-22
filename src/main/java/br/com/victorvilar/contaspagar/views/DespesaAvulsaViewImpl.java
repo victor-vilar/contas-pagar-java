@@ -297,7 +297,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
             }
         });
 
-        panelMain.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelMain.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         panelMain.setName(""); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
@@ -413,8 +413,8 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
                         .addGap(47, 47, 47)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel4)
-                        .addContainerGap())))
+                        .addComponent(jLabel4)))
+                .addContainerGap(8, Short.MAX_VALUE))
         );
         panelMainLayout.setVerticalGroup(
             panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -452,7 +452,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
                 .addGap(16, 16, 16))
         );
 
-        panelToolBar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelToolBar.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
         btnDeletar.setBackground(new java.awt.Color(242, 242, 242));
         btnDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-delete.png"))); // NOI18N
@@ -514,7 +514,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
                 .addGroup(panelToolBarLayout.createSequentialGroup()
                     .addGap(15, 15, 15)
                     .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(774, Short.MAX_VALUE)))
+                    .addContainerGap(789, Short.MAX_VALUE)))
         );
         panelToolBarLayout.setVerticalGroup(
             panelToolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -532,7 +532,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
                     .addContainerGap()))
         );
 
-        panelParcelas.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelParcelas.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
         jLabel8.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel8.setText("Parcelamento");
@@ -713,7 +713,7 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
                                 .addComponent(fieldVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jButton1)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE))
                     .addGroup(panelParcelasLayout.createSequentialGroup()
                         .addComponent(btnLockTable, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -724,19 +724,15 @@ public class DespesaAvulsaViewImpl extends javax.swing.JFrame implements Subscri
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelToolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelParcelas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addComponent(panelToolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelParcelas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(6, 6, 6)
                 .addComponent(panelToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6)
+                .addGap(12, 12, 12)
                 .addComponent(panelMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelParcelas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)

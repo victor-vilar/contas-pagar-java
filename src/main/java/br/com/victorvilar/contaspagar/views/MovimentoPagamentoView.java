@@ -214,6 +214,7 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         panelTabela = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableMovimentos = new javax.swing.JTable();
+        jLabel6 = new javax.swing.JLabel();
         panelToolBar1 = new javax.swing.JPanel();
         btnDespesa = new javax.swing.JButton();
         btnDespesaRecorrente = new javax.swing.JButton();
@@ -275,21 +276,30 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
             tableMovimentos.getColumnModel().getColumn(0).setPreferredWidth(40);
         }
 
+        jLabel6.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
+        jLabel6.setText("(F1) Abrir Despesa - (Delete) Deletar Parcela - (Clique Duplo) Dar Baixa");
+
         javax.swing.GroupLayout panelTabelaLayout = new javax.swing.GroupLayout(panelTabela);
         panelTabela.setLayout(panelTabelaLayout);
         panelTabelaLayout.setHorizontalGroup(
             panelTabelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelTabelaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1108, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(panelTabelaLayout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jLabel6)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelTabelaLayout.setVerticalGroup(
             panelTabelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTabelaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6)
+                .addGap(16, 16, 16))
         );
 
         panelToolBar1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -602,6 +612,7 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panelTabela;
     private javax.swing.JPanel panelToolBar1;

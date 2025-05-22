@@ -180,15 +180,19 @@ public class FinalizarMovimentoPagamentoView extends javax.swing.JDialog {
         jLabel8.setText("Valor:");
 
         fieldParcela.setEditable(false);
+        fieldParcela.setBackground(new java.awt.Color(255, 255, 204));
         fieldParcela.setMaximumSize(new java.awt.Dimension(64, 23));
 
         fieldCodigo.setEditable(false);
+        fieldCodigo.setBackground(new java.awt.Color(255, 255, 204));
         fieldCodigo.setMaximumSize(new java.awt.Dimension(64, 23));
 
         fieldDescricao.setEditable(false);
+        fieldDescricao.setBackground(new java.awt.Color(255, 255, 204));
         fieldDescricao.setMaximumSize(new java.awt.Dimension(64, 23));
 
         fieldValor.setEditable(false);
+        fieldValor.setBackground(new java.awt.Color(255, 255, 204));
 
         jLabel1.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel1.setText("Data Pagamento");
@@ -223,6 +227,7 @@ public class FinalizarMovimentoPagamentoView extends javax.swing.JDialog {
         });
 
         fieldVencimento.setEditable(false);
+        fieldVencimento.setBackground(new java.awt.Color(255, 255, 204));
 
         jLabel9.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel9.setText("Forma de Pagamento");
