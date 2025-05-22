@@ -15,6 +15,7 @@ import br.com.victorvilar.contaspagar.util.ConversorMoeda;
 import br.com.victorvilar.contaspagar.views.MovimentoPagamentoView;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,4 +114,42 @@ public class MovimentoPagamentoController implements AppViewController<Movimento
         pesquisar();
     }
     
+    public void deletar(int[] linhas){
+    
+        List<Long> codigos = buscarCodigoMovimentosTabela(linhas);
+
+        codigos.stream().forEach(c -> {
+           MovimentoPagamento movimento = movimentoService.getById(c);
+           movimentoService.setIdDespesa(movimento.getDespesa().getId());
+           movimentoService.addMovimentoDeletado(movimento);
+        });
+
+        movimentoService.sincronizarMovimentos();
+        pesquisar();
+        
+    }
+
+    /**
+     * Busca o id dos movimentos nas linhas selecionadas na view
+     * @param linhas arrray de linhas selecionadas na tabela
+     * @return lista de id dos movimentos
+     */
+    public List<Long> buscarCodigoMovimentosTabela(int[] linhas){
+        List<Long> codigos = new ArrayList<>();
+        DefaultTableModel model = getTabelaModel();
+        Long codigo;
+        for(int i = 0; i< linhas.length; i++){
+            codigo = (Long) model.getValueAt(linhas[i], 0);
+            codigos.add(codigo);
+        }
+        return codigos;
+    }
+
+    /**
+     * Busca o table model da view
+     * @return table model da view
+     */
+    public DefaultTableModel getTabelaModel(){
+        return (DefaultTableModel) view.getTableMovimentos().getModel();
+    }
 }
