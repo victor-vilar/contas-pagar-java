@@ -86,21 +86,16 @@ public class DespesaServiceImpl implements DespesaService {
     @Transactional
     public DespesaAbstrata update(DespesaAbstrata obj) {
 
-        DespesaAbstrata despesa;
 
-        if(!movimentoService.getMovimentosDeletados().isEmpty()){
-            despesa = getByIdWithMovimentos(obj.getId());
-            movimentoService.setIdDespesa(despesa.getId());
-            deletarMovimentos(despesa);
-        }else{
-            despesa = getById(obj.getId());
-        }
+        movimentoService.setIdDespesa(obj.getId());
+        movimentoService.sincronizarMovimentos();
+
+        DespesaAbstrata despesa = getById(obj.getId());
         despesa.setNome(obj.getNome());
         despesa.setDescricao(obj.getDescricao());
         despesa.setCategoria(obj.getCategoria());
         updateCamposDoTipo(obj,despesa);
         despesa = repository.save(despesa);
-        movimentoService.sincronizarMovimentos();
         return despesa;
     }
 
@@ -164,16 +159,6 @@ public class DespesaServiceImpl implements DespesaService {
         despesa.setDiaPagamento(obj.getDiaPagamento());
         despesa.setMesPagamento(obj.getMesPagamento());
         despesa.setFormaPagamentoPadrao(obj.getFormaPagamentoPadrao());
-    }
-
-    /**
-     * Remove da lista de movimentos da despesa, todos os movimentos que foram excluídos e armazenados
-     * temporatiamente na lista de movimentos deletados de {@link MovimentoPagamentoService}.
-     * @param despesa Despesa que possui os movimentos que devem ser deletados.
-     */
-    public void deletarMovimentos(DespesaAbstrata despesa){
-        despesa.removerParcela(movimentoService.getMovimentosDeletados());
-        movimentoService.saveAll(movimentoService.getMovimentosDeletados());
     }
 
     @Override

@@ -81,7 +81,7 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
             saveAll(movimentos);
         }
 
-        //atualiza as propriedades dos movimetnos que forma atualizado
+        //atualiza as propriedades dos movimentos que forma atualizado
         if(!movimentosAtualizados.isEmpty()){
             update(movimentosAtualizados);
         }
