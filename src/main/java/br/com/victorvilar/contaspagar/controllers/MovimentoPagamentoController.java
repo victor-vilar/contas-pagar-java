@@ -7,6 +7,7 @@ package br.com.victorvilar.contaspagar.controllers;
 import br.com.victorvilar.contaspagar.controllers.interfaces.AppViewController;
 import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
 import br.com.victorvilar.contaspagar.exceptions.QuantidadeDeParcelasException;
+import br.com.victorvilar.contaspagar.util.AppMensagens;
 import br.com.victorvilar.contaspagar.util.ControllerHelper;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.services.interfaces.DespesaService;
@@ -30,8 +31,11 @@ import org.springframework.stereotype.Controller;
 public class MovimentoPagamentoController implements AppViewController<MovimentoPagamentoView> {
     
     private MovimentoPagamentoView view;
-    private DespesaService service;
-    private MovimentoPagamentoService movimentoService;
+    private final DespesaService service;
+    private final MovimentoPagamentoService movimentoService;
+    private static final String QUANTIDADE_PARCELAS_MENSAGEM =
+            "Essa é a única parcela da despesa.\n" +
+            "Não é possível existir despesas sem parcelas no sistema." ;
     
     @Autowired
     public MovimentoPagamentoController(DespesaService service, MovimentoPagamentoService movimentoService){
@@ -149,9 +153,8 @@ public class MovimentoPagamentoController implements AppViewController<Movimento
         Long codigo;
         for(int i = 0; i< linhas.length; i++){
 
-            if(model.getValueAt(linhas[i],3).equals("UNICA")){
-                throw new QuantidadeDeParcelasException("Essa é a unica parcela da despesa\n" +
-                        "Não é possivel existir despesas sem parcelas no sistema.");
+            if(model.getValueAt(linhas[i],3).equals(AppMensagens.PARCELA_UNICA)){
+                throw new QuantidadeDeParcelasException(QUANTIDADE_PARCELAS_MENSAGEM);
             }
             codigo = (Long) model.getValueAt(linhas[i], 0);
             codigos.add(codigo);
