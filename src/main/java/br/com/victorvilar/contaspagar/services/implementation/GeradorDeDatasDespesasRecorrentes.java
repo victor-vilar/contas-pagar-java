@@ -3,10 +3,12 @@ package br.com.victorvilar.contaspagar.services.implementation;
 import br.com.victorvilar.contaspagar.entities.DespesaRecorrente;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.enums.Periodo;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.Month;
 
+@Component
 public class GeradorDeDatasDespesasRecorrentes {
 
     /**

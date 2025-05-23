@@ -33,15 +33,16 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
     
     private final MovimentoPagamentoRepository movimentoRepository;
     private final DespesaRepository despesaRepository;
-    private GeradorDeDatasDespesasRecorrentes gerador ;
+    private final GeradorDeDatasDespesasRecorrentes gerador ;
 
 
     @Autowired
-    public GeradorDeMovimentoDespesaRecorrente(MovimentoPagamentoRepository movimentoRepository, DespesaRepository despesaRepository ){
+    public GeradorDeMovimentoDespesaRecorrente(MovimentoPagamentoRepository movimentoRepository, DespesaRepository despesaRepository ,GeradorDeDatasDespesasRecorrentes gerador){
         this.movimentoRepository = movimentoRepository;
         this.despesaRepository = despesaRepository;
-
+        this.gerador = gerador;
     }
+
 
 
     @Override
@@ -55,29 +56,18 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
         }
     }
 
-
-
-    /**
-     * Método criado para facilitar a criação de testes;
-     * @return Data de hoje;
-     */
-    public LocalDate dataHoje(){
-        return LocalDate.now();
-    }
-
     /**
      * Metodo principal que será chamado dentro desse runnable.
      * @param despesa
      */
     @Transactional
     public void realizarLancamentos(DespesaRecorrente despesa){
-
         //Caso o sistema fique muitos dias sem ser aberto, pode acontecer de algumas despesas que possuem um período
         //de pagamento mais frequente, necessite que sejam geradas todas as parcelas retroativas que ficaram pendentes.
         //Então, todo o processo de gerar um novo movimento deve ser repetido, até a data do próximo lançamento ser
         //maior que a data atual.
         LocalDate proximoLancamento = despesa.getDataProximoLancamento();
-        while(proximoLancamento == null || proximoLancamento.isBefore(LocalDate.now()) ){
+        while(proximoLancamento == null || proximoLancamento.isBefore(gerador.dataHoje()) ){
             MovimentoPagamento movimento = criarMovimento(despesa);
             try {
                 salvar(despesa, movimento);
@@ -97,7 +87,7 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
      * @return Objeto do Tipo {@link MovimentoPagamento} com os dados preenchidos.
      */
     public MovimentoPagamento criarMovimento(DespesaRecorrente despesa){
-        gerador = new GeradorDeDatasDespesasRecorrentes();
+
         LocalDate dataVencimento = gerador.criarDataVencimento(despesa);
         String referencia = gerarDescricaoReferencia(dataVencimento,despesa.getPeriocidade());
         String integridade = gerarIntegridade(despesa.getId(),dataVencimento);
