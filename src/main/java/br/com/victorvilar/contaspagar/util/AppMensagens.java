@@ -20,6 +20,9 @@ public abstract class AppMensagens {
     public static final String INFO_SUCESSO = "Operação realizada com sucesso !";
     public static final String REMOVER_ITENS ="Deseja remover os itens selecionados ?";
 
+    //CONSTANTES
+    public static final String PARCELA_UNICA = "UNICA";
+
     
     
 
