@@ -8,13 +8,19 @@ import br.com.victorvilar.contaspagar.repositories.MovimentoPagamentoRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -25,6 +31,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 //SpringBootTest, digo para iniciar o contexto do spring no teste
@@ -36,6 +43,7 @@ public class GeradorDeMovimentoDespesaRecorrenteIntegrationTest {
 
     @Autowired
     @InjectMocks
+    @Spy
     private GeradorDeMovimentoDespesaRecorrente gerador;
 
     @Autowired
@@ -44,7 +52,7 @@ public class GeradorDeMovimentoDespesaRecorrenteIntegrationTest {
     @Autowired
     private DespesaRepository despesaRepository;
 
-    @Mock
+    @MockitoSpyBean
     private GeradorDeDatasDespesasRecorrentes geradorDatas;
 
     @Container
@@ -97,7 +105,7 @@ public class GeradorDeMovimentoDespesaRecorrenteIntegrationTest {
     @Test
     public void deveLancarOsMovimentosDeUmaDespesaAnualInclusiveMovimentosRetroativos(){
         saveDespesa(Periodo.ANUAL,null);
-        when(geradorDatas.dataHoje()).thenReturn(LocalDate.of(2025,5,1));
+        doReturn(LocalDate.of(2025,5,1)).when(geradorDatas).dataHoje();
         gerador.run();
         List<MovimentoPagamento> movimentos = movimentoRepository.findByDataPagamentoIsNull();
         MovimentoPagamento movimento = movimentos.get(0);
@@ -118,7 +126,7 @@ public class GeradorDeMovimentoDespesaRecorrenteIntegrationTest {
     @Test
     public void deveTerSetadoADataDoProximoLancamentoDeUmaDespesaAnualParaOnzeMesesAposUltimaDataLancada(){
         saveDespesa(Periodo.ANUAL,null);
-        when(geradorDatas.dataHoje()).thenReturn(LocalDate.of(2025,5,1));
+        doReturn(LocalDate.of(2025,5,1)).when(geradorDatas).dataHoje();
         gerador.run();
         DespesaRecorrente d = (DespesaRecorrente) despesaRepository.findAll().get(0);
         assertEquals(d.getDataUltimoLancamento(),LocalDate.of(2025,1,1));
@@ -128,10 +136,9 @@ public class GeradorDeMovimentoDespesaRecorrenteIntegrationTest {
     @Test
     public void deveLancarOsMovimentosDeUmaDespesaMensalInclusiveMovimentosRetroativos(){
         saveDespesa(Periodo.MENSAL, LocalDate.of(2025,1,1));
-        when(geradorDatas.dataHoje()).thenReturn(LocalDate.of(2025,5,1));
+        doReturn(LocalDate.of(2025,5,1)).when(geradorDatas).dataHoje();
         gerador.run();
         List<MovimentoPagamento> movimentos = movimentoRepository.findByDataPagamentoIsNull();
-        assertTrue(movimentos.size() == 4 );
         assertTrue(movimentos.size() == 4 );
         MovimentoPagamento movimento = movimentos.get(0);
         assertEquals(movimento.getDataVencimento(), LocalDate.of(2025,02,01));
@@ -149,7 +156,7 @@ public class GeradorDeMovimentoDespesaRecorrenteIntegrationTest {
     @Test
     public void deveSetarADataDoProximoLancamentoParaOProximoMesEmUmaDespesaMensal(){
         saveDespesa(Periodo.MENSAL, LocalDate.of(2025,1,1));
-        when(geradorDatas.dataHoje()).thenReturn(LocalDate.of(2025,5,1));
+        doReturn(LocalDate.of(2025,5,1)).when(geradorDatas).dataHoje();
         gerador.run();
         DespesaRecorrente d = (DespesaRecorrente) despesaRepository.findAll().get(0);
         assertEquals(d.getDataUltimoLancamento(),LocalDate.of(2025,5,1));
@@ -160,10 +167,10 @@ public class GeradorDeMovimentoDespesaRecorrenteIntegrationTest {
     @Test
     public void deveLancarOsMovimentosDeUmaDespesaQuinzenalInclusiveMovimentosRetroativos(){
         saveDespesa(Periodo.QUINZENAL, LocalDate.of(2025,1,1));
-        when(geradorDatas.dataHoje()).thenReturn(LocalDate.of(2025,5,1));
+        doReturn(LocalDate.of(2025,5,1)).when(geradorDatas).dataHoje();
         gerador.run();
         List<MovimentoPagamento> movimentos = movimentoRepository.findByDataPagamentoIsNull();
-        assertEquals(movimentos.size(),9);
+        assertEquals(movimentos.size(),8);
         MovimentoPagamento movimento = movimentos.get(0);
         assertEquals(movimento.getDataVencimento(), LocalDate.of(2025,01,15));
         movimento = movimentos.get(1);

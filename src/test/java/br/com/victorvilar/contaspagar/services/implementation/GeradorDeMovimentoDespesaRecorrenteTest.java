@@ -34,6 +34,9 @@ class GeradorDeMovimentoDespesaRecorrenteTest {
     @Mock
     private DespesaRepository despesaRepository;
 
+    @Mock
+    private GeradorDeDatasDespesasRecorrentes geradorDeDatas;
+
 
     DespesaRecorrente dr1;
     DespesaRecorrente dr2;
@@ -55,6 +58,7 @@ class GeradorDeMovimentoDespesaRecorrenteTest {
     @Test
     @DisplayName("Metodo criarMovimento")
     public void deveCriarUmMovimento() {
+        when(geradorDeDatas.criarDataVencimento(any())).thenReturn(LocalDate.of(2025,1,1));
         MovimentoPagamento movimento1 = gerador.criarMovimento(dr1);
         assertNotNull(movimento1);
         assertEquals(movimento1.getClass(),MovimentoPagamento.class);
@@ -72,6 +76,9 @@ class GeradorDeMovimentoDespesaRecorrenteTest {
     @DisplayName("metodo run")
     public void deveChamarMetodoRealizarLancamentosDeAcordoComAQuantidadeDeDespesaRecorrenteDaLista() {
         when(despesaRepository.findDespesaRecorrenteWhereDataProximoLancamentoLowerThanNow(any(LocalDate.class))).thenReturn(List.of(dr1, dr2));
+        when(geradorDeDatas.criarDataVencimento(any())).thenReturn(LocalDate.of(2025,5,1));
+        when(geradorDeDatas.gerarDataDoProximoLancamento(any())).thenReturn(LocalDate.of(2025,6,1));
+        when(geradorDeDatas.dataHoje()).thenReturn(LocalDate.of(2025,5,1));
         gerador.run();
         verify(gerador, times(2)).realizarLancamentos(any(DespesaRecorrente.class));
 
@@ -117,6 +124,7 @@ class GeradorDeMovimentoDespesaRecorrenteTest {
     @Test
     @DisplayName("Metodo criarMovimento")
     public void deveChamarMetodoParaGerarDescricaoReferencia() {
+        when(geradorDeDatas.criarDataVencimento(any())).thenReturn(LocalDate.of(2025,1,1));
         gerador.criarMovimento(dr1);
         verify(gerador, times(1)).gerarDescricaoReferencia(any(LocalDate.class), any(Periodo.class));
 
@@ -125,6 +133,7 @@ class GeradorDeMovimentoDespesaRecorrenteTest {
     @Test
     @DisplayName("Metodo criarMovimento")
     public void deveChamarMetodoParaGerarIntegridade() {
+        when(geradorDeDatas.criarDataVencimento(any())).thenReturn(LocalDate.of(2025,1,1));
         gerador.criarMovimento(dr1);
         verify(gerador, times(1)).gerarIntegridade(any(Long.class), any(LocalDate.class));
 
@@ -133,6 +142,7 @@ class GeradorDeMovimentoDespesaRecorrenteTest {
     @Test
     @DisplayName("Metodo salvar")
     public void deveAdicionaroMovimentoDentroDaListaDeMovimentosDaDespesa() {
+        when(geradorDeDatas.criarDataVencimento(any())).thenReturn(LocalDate.of(2025,1,1));
         MovimentoPagamento movimento1 = gerador.criarMovimento(dr1);
         gerador.salvar(dr1, movimento1);
         assertTrue(movimento1.getDespesa() == dr1);
@@ -143,6 +153,7 @@ class GeradorDeMovimentoDespesaRecorrenteTest {
     @Test
     @DisplayName("Metodo salvar")
     public void deveChamarMetodoParaSalvarADespesa() {
+        when(geradorDeDatas.criarDataVencimento(any())).thenReturn(LocalDate.of(2025,1,1));
         MovimentoPagamento movimento1 = gerador.criarMovimento(dr1);
         gerador.salvar(dr1, movimento1);
         verify(despesaRepository,times(1)).save(any(DespesaRecorrente.class));
@@ -151,6 +162,7 @@ class GeradorDeMovimentoDespesaRecorrenteTest {
     @Test
     @DisplayName("Metodo salvar")
     public void deveChamarMetodoParaSalvarOMovimento() {
+        when(geradorDeDatas.criarDataVencimento(any())).thenReturn(LocalDate.of(2025,1,1));
         MovimentoPagamento movimento1 = gerador.criarMovimento(dr1);
         gerador.salvar(dr1, movimento1);
         verify(movimentoRepository,times(1)).save(any(MovimentoPagamento.class));
