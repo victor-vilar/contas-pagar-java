@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import java.time.LocalDate;
+
+import br.com.victorvilar.contaspagar.util.AppMensagens;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -184,7 +186,7 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
         int quantidade = movimentos.size();
         for(int i = 0; i < quantidade ; i++){
             if(quantidade == 1){
-                movimentos.get(0).setReferenteParcela("UNICA");
+                movimentos.get(0).setReferenteParcela(AppMensagens.PARCELA_UNICA);
                 break;
             }
             movimentos.get(i).setReferenteParcela(i+1 +"/" + quantidade);
