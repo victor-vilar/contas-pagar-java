@@ -49,7 +49,7 @@ public class GeradorDeMovimentoDespesaRecorrenteIntegrationTest {
 
     @Container
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("pgvector/pgvector:pg16")
-            .withDatabaseName("teste")
+            .withDatabaseName("th_veiculos")
             .withUsername("postgres")
             .withPassword("123456")
             .withReuse(true);

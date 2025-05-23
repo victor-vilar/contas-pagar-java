@@ -212,7 +212,7 @@ class DespesaControllerHelperTest {
 
         for (int i = 0; i < result.size(); i++) {
             assertEquals(result.get(i).getDataVencimento(), dt);
-            dt = dt.plusWeeks(2);
+            dt = dt.plusDays(15);
             assertEquals(result.get(i).getValorPagamento(), new BigDecimal("2000"));
             assertTrue(result.get(0).getFormaPagamento().getName().equals(fp2.getName()));
         }

@@ -62,6 +62,7 @@ class DespesaServiceImplTest {
         avulsa.setCategoria(categoria);
         avulsa.setNotaFiscal(nota);
 
+
         recorrente.setId(2l);
         recorrente.setNome("TESTE2 TESTE2");
         recorrente.setDescricao("TESTEZZ2");
@@ -70,11 +71,13 @@ class DespesaServiceImplTest {
         recorrente.setDiaPagamento(10);
         recorrente.setFormaPagamentoPadrao(forma);
 
+
     }
 
     @Test
     @DisplayName("metodo salvar")
     public void deveSalvarDespesaSeNaoTiverId() {
+        when(repository.save(any(DespesaAbstrata.class))).thenReturn(avulsa);
         avulsa.setId(null);
         service.save(avulsa);
         verify(repository, times(1)).save(avulsa);
@@ -96,31 +99,13 @@ class DespesaServiceImplTest {
         verify(service,times(1)).getById(avulsa.getId());
     }
 
-    @Test
-    @DisplayName("metodo update deve chamar getByIdWithMovimentos quando a lista de movimentos deletados NÃO for vazio")
-    public void deveChamarGetByIdQuandoListaDeDeletadosNaoForVazio() {
-        when(movimentoService.getMovimentosDeletados()).thenReturn(List.of(new MovimentoPagamento()));
-        when(repository.findByIdWithMovimentos(1l)).thenReturn(avulsa);
-        service.update(avulsa);
-        verify(service, times(1)).getByIdWithMovimentos(avulsa.getId());
-    }
 
     @Test
     @DisplayName("metodo update")
     public void deveChamarMetodosetIdDespesaDoMovimentoService() {
-        when(movimentoService.getMovimentosDeletados()).thenReturn(List.of(new MovimentoPagamento()));
-        when(repository.findByIdWithMovimentos(1l)).thenReturn(avulsa);
+        when(repository.findById(1l)).thenReturn(Optional.of(avulsa));
         service.update(avulsa);
         verify(movimentoService, times(1)).setIdDespesa(avulsa.getId());
-    }
-
-    @Test
-    @DisplayName("metodo update")
-    public void deveChamarMetodoDeletarMovimentos() {
-        when(movimentoService.getMovimentosDeletados()).thenReturn(List.of(new MovimentoPagamento()));
-        when(repository.findByIdWithMovimentos(1l)).thenReturn(avulsa);
-        service.update(avulsa);
-        verify(service, times(1)).deletarMovimentos(avulsa);
     }
 
 
@@ -198,10 +183,4 @@ class DespesaServiceImplTest {
         assertEquals(obj.getFormaPagamentoPadrao(),recorrente.getFormaPagamentoPadrao());
     }
 
-    @Test
-    @DisplayName("metodo deletar movimentos")
-    public void deveChamarMetodoSaveAllDoMovimentoService() {
-        service.deletarMovimentos(new DespesaAvulsa());
-        verify(movimentoService,times(1)).saveAll(any());
-    }
 }

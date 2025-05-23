@@ -131,6 +131,8 @@ public class DespesaAvulsaControllerTest {
         d1.setParcelas(d1Movimentos);
         d1.setQuitado(false);
 
+        controller.getMovimentos().add(m1);
+        controller.getMovimentos().add(m2);
 
     }
 
@@ -196,13 +198,8 @@ public class DespesaAvulsaControllerTest {
 
     @Test
     public void metodoLimparCamposDeveLimparListaDeMovimentos() {
-        List<MovimentoPagamento> movimentos = controller.getMovimentos();
-        movimentos.add(new MovimentoPagamento());
-        movimentos.add(new MovimentoPagamento());
-
         assertFalse(controller.getMovimentos().isEmpty());
         assertEquals(controller.getMovimentos().size(), 2);
-
         controller.limparCampos();
         assertTrue(controller.getMovimentos().isEmpty());
     }
@@ -359,10 +356,10 @@ public class DespesaAvulsaControllerTest {
     @DisplayName("metodo deletar")
     public void metodoDeletarDeveLancarExceptionSeTentarRemoverTodosOsMovimentosDeUmaDespesa(){
         DefaultTableModel model = (DefaultTableModel) view.getTableParcelas().getModel();
-        model.addRow(new Object[]{1});
-        model.addRow(new Object[]{2});
-        model.addRow(new Object[]{3});
-        int[] linhas = {1,2,3};
+        model.addRow(new Object[]{1L,"1","1","1","1","1","1"});
+        model.addRow(new Object[]{1L,"1","1","1","1","1","1"});
+        model.addRow(new Object[]{1L,"1","1","1","1","1","1"});
+        int[] linhas = {0,1,2};
         Assertions.assertThrows(QuantidadeDeParcelasException.class, ()
                 -> controller.deletarMovimentos(linhas));
     }
@@ -370,8 +367,11 @@ public class DespesaAvulsaControllerTest {
     @Test
     @DisplayName("metodo deletar")
     public void metodoDeletarMovimentosDeveChamarServicoParaEliminarMovimentos() {
-
-        int[] linhas = {2, 3, 10};
+        DefaultTableModel model = (DefaultTableModel) view.getTableParcelas().getModel();
+        model.addRow(new Object[]{1L,"1","1","1","1","1","1"});
+        model.addRow(new Object[]{1L,"1","1","1","1","1","1"});
+        model.addRow(new Object[]{1L,"1","1","1","1","1","1"});
+        int[] linhas = {0};
         controller.deletarMovimentos(linhas);
         verify(controllerHelper, times(1)).deletarMovimentosTabela(anyList(),any());
     }
@@ -379,7 +379,11 @@ public class DespesaAvulsaControllerTest {
     @Test
     @DisplayName("metodo deletar")
     public void metodooDeletarMovimentosDeveChamarMetodoadicionarOuAtualizarReferenteParcelaDoServico(){
-        int[] linhas = {2, 3, 10};
+        DefaultTableModel model = (DefaultTableModel) view.getTableParcelas().getModel();
+        model.addRow(new Object[]{1L,"1","1","1","1","1","1"});
+        model.addRow(new Object[]{1L,"1","1","1","1","1","1"});
+        model.addRow(new Object[]{1L,"1","1","1","1","1","1"});
+        int[] linhas = {2};
         controller.deletarMovimentos(linhas);
         verify(movimentoService, times(1)).adicionarOuAtualizarReferenteParcela(anyList());
     }
@@ -387,7 +391,11 @@ public class DespesaAvulsaControllerTest {
     @Test
     @DisplayName("metodo deletar")
     public void metodooDeletarMovimentosDeveChamarMetodoPreencherTabela(){
-        int[] linhas = {2, 3, 10};
+        DefaultTableModel model = (DefaultTableModel) view.getTableParcelas().getModel();
+        model.addRow(new Object[]{1L,"1","1","1","1","1","1"});
+        model.addRow(new Object[]{1L,"1","1","1","1","1","1"});
+        model.addRow(new Object[]{1L,"1","1","1","1","1","1"});
+        int[] linhas = {2};
         controller.deletarMovimentos(linhas);
         verify(controller, times(1)).preencherTabela(anyList());
     }
@@ -500,6 +508,7 @@ public class DespesaAvulsaControllerTest {
 
     @Test
     public void metodoChecarErrosDeveVerificarSeCamposNaoEstaVazios() {
+
         view.getFieldId().setText("");
         view.getFieldDescricao().setText("Teste");
         view.getAreaDescricao().setText("teste");
@@ -550,6 +559,7 @@ public class DespesaAvulsaControllerTest {
 
     @Test
     public void metodoSalvarChamaMetodoSaveDoService() {
+
         view.getFieldId().setText("");
         view.getFieldDescricao().setText("Teste");
         view.getAreaDescricao().setText("teste");
@@ -565,6 +575,7 @@ public class DespesaAvulsaControllerTest {
 
     @Test
     public void metodoSalvarChamaMetodoLimparCampos() {
+
         view.getFieldId().setText("");
         view.getFieldDescricao().setText("Teste");
         view.getAreaDescricao().setText("teste");
@@ -580,6 +591,7 @@ public class DespesaAvulsaControllerTest {
 
     @Test
     public void metodoSalvarChamaMetodoEnableComponentsComFalse() {
+
         view.getFieldId().setText("");
         view.getFieldDescricao().setText("Teste");
         view.getAreaDescricao().setText("teste");
@@ -595,7 +607,6 @@ public class DespesaAvulsaControllerTest {
 
     @Test
     public void metodoPreencherViewDevePegarListaDeMovimentosDoObjetoPassado() {
-        when(movimentoService.getAllByDespesaId(d1.getId())).thenReturn(d1Movimentos);
         controller.preencherView(d1);
         assertNotNull(controller.getMovimentos());
         assertEquals(controller.getMovimentos().get(0), d1.getParcelas().get(0));
