@@ -54,6 +54,10 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         controller.setView(this);
     }
 
+    public MovimentoPagamentoView(){
+
+    }
+
     @PostConstruct
     public void configurarComponents() {
         initComponents();
