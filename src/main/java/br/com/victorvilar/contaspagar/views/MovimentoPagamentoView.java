@@ -55,7 +55,8 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
     }
 
     public MovimentoPagamentoView(){
-
+        initComponents();
+        configureComponentes();
     }
 
     @PostConstruct
