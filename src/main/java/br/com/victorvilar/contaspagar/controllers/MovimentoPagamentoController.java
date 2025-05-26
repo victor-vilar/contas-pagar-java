@@ -51,9 +51,9 @@ public class MovimentoPagamentoController implements AppViewController<Movimento
 
     @Override
     public void limparCampos() {
+        view.getFieldDespesa().setText("");
         view.getFieldDataInicio().setText("");
         view.getFieldDataFim().setText("");
-        view.getFieldDataInicio().setText("");
         view.getCheckboxPagas().setSelected(false);
         pesquisar();
     }
