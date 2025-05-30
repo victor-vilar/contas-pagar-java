@@ -7,6 +7,7 @@ package br.com.victorvilar.contaspagar.views;
 import br.com.victorvilar.contaspagar.controllers.MovimentoPagamentoController;
 import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
 import br.com.victorvilar.contaspagar.exceptions.QuantidadeDeParcelasException;
+import br.com.victorvilar.contaspagar.services.interfaces.MovimentoPagamentoService;
 import br.com.victorvilar.contaspagar.util.AppMensagens;
 import br.com.victorvilar.contaspagar.util.ConversorData;
 import br.com.victorvilar.contaspagar.util.ConversorMoeda;
@@ -355,7 +356,7 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
 
         btnGerarRelatorio.setBackground(new java.awt.Color(242, 242, 242));
         btnGerarRelatorio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-relatorio-40.png"))); // NOI18N
-        btnGerarRelatorio.setText("Gerar Relatório");
+        btnGerarRelatorio.setText("Gerar Programação");
         btnGerarRelatorio.setToolTipText("");
         btnGerarRelatorio.setBorder(null);
         btnGerarRelatorio.addActionListener(new java.awt.event.ActionListener() {
@@ -577,7 +578,9 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
     }//GEN-LAST:event_btnDespesaActionPerformed
 
     private void btnGerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarRelatorioActionPerformed
-
+        MovimentoPagamentoService service = context.getBean(MovimentoPagamentoService.class);
+        ProgramacaoPagamentoView view = new ProgramacaoPagamentoView(service);
+        view.setVisible(true);
     }//GEN-LAST:event_btnGerarRelatorioActionPerformed
 
     private void fieldDespesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldDespesaActionPerformed
