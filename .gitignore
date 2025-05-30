@@ -100,3 +100,4 @@ replay_pid*
 .project
 .idea/
 /nbproject/
+.env
