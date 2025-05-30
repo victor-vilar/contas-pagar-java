@@ -5,6 +5,7 @@
 package br.com.victorvilar.contaspagar.views;
 
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
+import br.com.victorvilar.contaspagar.entities.MovimentoPagamentoParaRelatorio;
 import br.com.victorvilar.contaspagar.services.interfaces.MovimentoPagamentoService;
 import br.com.victorvilar.contaspagar.util.AppMensagens;
 import br.com.victorvilar.contaspagar.util.ConversorData;
@@ -158,7 +159,10 @@ public class ProgramacaoPagamentoView extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         LocalDate dataInicial = ConversorData.paraData(fieldDataInicial.getText());
         LocalDate dataFinal = ConversorData.paraData(fieldDataFinal.getText());
-        List<MovimentoPagamento> movimentos =this.movimentoService.getBetweenDatesAndDespesaName(dataInicial, dataFinal, "", false);
+        List<MovimentoPagamentoParaRelatorio> movimentos =
+                this.movimentoService.getBetweenDatesAndDespesaName(dataInicial, dataFinal, "", false)
+                        .stream()
+                        .map(m -> new MovimentoPagamentoParaRelatorio(m)).toList();
         ReportUtil util = new ReportUtil();
         util.generate(movimentos);
         dispose();
