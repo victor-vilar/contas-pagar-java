@@ -16,6 +16,7 @@ import java.util.List;
 import java.time.LocalDate;
 
 import br.com.victorvilar.contaspagar.util.AppMensagens;
+import java.time.Month;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -159,6 +160,15 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
     
     @Override
     public List<MovimentoPagamento> getBetweenDatesAndDespesaName(LocalDate dataInicio, LocalDate dataFim, String despesa, boolean pago){
+                
+        if(dataInicio == null){
+            dataInicio = LocalDate.of(2000, Month.MARCH, 1);
+        }
+        
+        if(dataInicio == null){
+            dataInicio = LocalDate.of(9999, Month.MARCH, 1);
+        }
+        
         if(!pago){
             return repository.getBetweenDatesAndDespesaNameNaoPago(dataInicio, dataFim, despesa);
         }else
