@@ -165,8 +165,8 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
             dataInicio = LocalDate.of(2000, Month.MARCH, 1);
         }
         
-        if(dataInicio == null){
-            dataInicio = LocalDate.of(9999, Month.MARCH, 1);
+        if(dataFim == null){
+            dataFim = LocalDate.of(9999, Month.MARCH, 1);
         }
         
         if(!pago){
