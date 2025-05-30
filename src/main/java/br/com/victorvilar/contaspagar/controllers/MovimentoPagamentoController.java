@@ -7,13 +7,10 @@ package br.com.victorvilar.contaspagar.controllers;
 import br.com.victorvilar.contaspagar.controllers.interfaces.AppViewController;
 import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
 import br.com.victorvilar.contaspagar.exceptions.QuantidadeDeParcelasException;
-import br.com.victorvilar.contaspagar.util.AppMensagens;
-import br.com.victorvilar.contaspagar.util.ControllerHelper;
+import br.com.victorvilar.contaspagar.util.*;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.services.interfaces.DespesaService;
 import br.com.victorvilar.contaspagar.services.interfaces.MovimentoPagamentoService;
-import br.com.victorvilar.contaspagar.util.ConversorData;
-import br.com.victorvilar.contaspagar.util.ConversorMoeda;
 import br.com.victorvilar.contaspagar.views.MovimentoPagamentoView;
 import java.time.LocalDate;
 import java.time.Month;
@@ -109,15 +106,7 @@ public class MovimentoPagamentoController implements AppViewController<Movimento
         LocalDate dataFinal = ConversorData.paraData(view.getFieldDataFim().getText());
         String despesa = view.getFieldDespesa().getText();
         boolean pago = view.getCheckboxPagas().isSelected();
-        
-        if(dataInicial == null){
-            dataInicial = LocalDate.of(2000, Month.MARCH, 1);
-        }
-        
-        if(dataFinal == null){
-            dataFinal = LocalDate.of(9999, Month.MARCH, 1);
-        }
-        
+ 
         List<MovimentoPagamento> movimentos = movimentoService.getBetweenDatesAndDespesaName(dataInicial, dataFinal, despesa, pago);
         preencherTabela(movimentos);
         
