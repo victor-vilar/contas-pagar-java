@@ -8,13 +8,24 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 /**
- *
+ * Classe que converte um data do tipo {@link java.time.LocalDate} para em String
+ * e de String para LocalDate.
+ * Devido a diferença de zona as datas ficam no formato yyyy-MM-dd quando vem 
+ * diretamente do LocalDate, essa classe ajuda a transformar a data em uma string
+ * e alterar o seu formato para dd/MM/yyyy.
  * @author victor
  */
 public abstract class ConversorData {
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
+    
+    /**
+     * Converte uma data de String para LocalDate.
+     * @param data string no formato dd/MM/yyyy
+     * @return retorna nulo caso a String passada seja nula ou vazia. Retorna
+     * um objeto do tipo LocalDate.
+     */
     public static LocalDate paraData(String data) {
 
         if (data == null || data.equals("") || data.equals("null")) {
@@ -27,7 +38,14 @@ public abstract class ConversorData {
 
         return LocalDate.parse(data.trim(), formatter);
     }
-
+    
+    
+    /**
+     * Converte uma data do tipo LocalDate para String.
+     * @param data data do tipo LocalDate
+     * @return nulo caso a data seja nula, retorna uma String no formato
+     * dd/MM/yyyy.
+     */
     public static String paraString(LocalDate data) {
 
         if (data == null) {
@@ -36,6 +54,13 @@ public abstract class ConversorData {
         return data.format(formatter);
     }
 
+    
+    /**
+     * Confere se a String passada consegue ser convertida para número.
+     * @param valor uma string com numeros
+     * @return verdadeiro se o parametro conter somente números e falso
+     * se houver outros caracteres.
+     */
     private static boolean TudoNumero(String valor) {
 
         try {
