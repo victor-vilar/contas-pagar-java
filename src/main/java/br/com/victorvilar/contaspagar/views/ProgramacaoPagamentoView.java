@@ -4,7 +4,7 @@
  */
 package br.com.victorvilar.contaspagar.views;
 
-import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
+import br.com.victorvilar.contaspagar.controllers.ProgramacaoPagamentoController;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamentoParaRelatorio;
 import br.com.victorvilar.contaspagar.services.interfaces.MovimentoPagamentoService;
 import br.com.victorvilar.contaspagar.util.AppMensagens;
@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -21,13 +22,21 @@ import javax.swing.JOptionPane;
  */
 public class ProgramacaoPagamentoView extends javax.swing.JFrame {
 
-    private final MovimentoPagamentoService movimentoService;
-   
+    
+    private final ProgramacaoPagamentoController controller;
     
     public ProgramacaoPagamentoView(MovimentoPagamentoService service){
-        movimentoService = service;
+        controller = new ProgramacaoPagamentoController(service, this);
         initComponents();
         setLocationRelativeTo(null);
+    }
+    
+    public JTextField getFieldDataInicial(){
+        return fieldDataInicial;
+    }
+    
+    public JTextField getFieldDataFinal(){
+        return fieldDataFinal;
     }
     
     /**
@@ -157,14 +166,7 @@ public class ProgramacaoPagamentoView extends javax.swing.JFrame {
     }//GEN-LAST:event_fieldDataFinalFocusLost
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        LocalDate dataInicial = ConversorData.paraData(fieldDataInicial.getText());
-        LocalDate dataFinal = ConversorData.paraData(fieldDataFinal.getText());
-        List<MovimentoPagamentoParaRelatorio> movimentos =
-                this.movimentoService.getBetweenDatesAndDespesaName(dataInicial, dataFinal, "", false)
-                        .stream()
-                        .map(m -> new MovimentoPagamentoParaRelatorio(m)).toList();
-        ReportUtil util = new ReportUtil();
-        util.generate(movimentos);
+        controller.emitirProgramacaoDePagamento();
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
