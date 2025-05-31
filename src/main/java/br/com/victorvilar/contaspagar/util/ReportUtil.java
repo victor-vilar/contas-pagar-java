@@ -28,6 +28,8 @@ public class ReportUtil {
     private static final String REPORTS_FOLDER = "reports/";
     private static final String JASPER_FILES_SUFIX = ".jasper";
     private static final String PDF_FILES_SUFIX = ".pdf";
+    private static final String LOGO_FILES_SUFIX = ".img";
+    
     private Map<String,Object> parametros;
     private String pastaDeExportPadrao;
         
