@@ -7,8 +7,8 @@ package br.com.victorvilar.contaspagar.controllers;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamentoParaRelatorio;
 import br.com.victorvilar.contaspagar.enums.TipoDeExport;
+import br.com.victorvilar.contaspagar.exceptions.FieldsEmBrancoException;
 import br.com.victorvilar.contaspagar.exceptions.MovimentosPeriodoVazio;
-import br.com.victorvilar.contaspagar.exceptions.QuantidadeDeParcelasException;
 import br.com.victorvilar.contaspagar.services.interfaces.MovimentoPagamentoService;
 import br.com.victorvilar.contaspagar.util.ConversorData;
 import br.com.victorvilar.contaspagar.util.ReportUtil;
@@ -31,20 +31,21 @@ public class ProgramacaoPagamentoController {
     private static final String JASPER_FILE_TO_PDF = "contas-em-aberto-pdf";
     private static final String JASPER_FILE_TO_CSV = "contas-em-aberto-csv";
     private static final String PERIODO_SEM_MOVIMENTO = "Não existem movimentos para o período selecionado !";
-    
+    private static final String CAMPOS_VAZIOS = "Deve ser informada uma data inicial e uma data final !";
     public ProgramacaoPagamentoController(MovimentoPagamentoService movimentoService, ProgramacaoPagamentoView view){
         this.movimentoService = movimentoService;
         this.view = view;
     }
     
     public void emitirProgramacaoDePagamento(){
+        checarCamposVazios();
         LocalDate dataInicial = ConversorData.paraData(view.getFieldDataInicial().getText());
         LocalDate dataFinal = ConversorData.paraData(view.getFieldDataFinal().getText());
         List<MovimentoPagamentoParaRelatorio> movimentos = buscarMovimentosParaRelatorio(dataInicial,dataFinal);
         Map<String,Object> parametros = gerarParametrosParaRelatorio(dataInicial, dataFinal);
         String nomeArquivoSaida = gerarNomeArquivoSaida(dataInicial, dataFinal);
         ReportUtil util = new ReportUtil();
-        util.generate(movimentos,pegarJasper(), nomeArquivoSaida,parametros,pegarFormatoDeExportação());
+        util.generate(movimentos,pegarJasper(), nomeArquivoSaida,parametros, pegarFormatoDeExportacao());
     
     }
     
@@ -72,7 +73,7 @@ public class ProgramacaoPagamentoController {
         return builder.toString();
     }
     
-    public TipoDeExport pegarFormatoDeExportação(){
+    public TipoDeExport pegarFormatoDeExportacao(){
         if(view.getRadioCsv().isSelected()){
             return TipoDeExport.CSV;
         }
@@ -85,6 +86,14 @@ public class ProgramacaoPagamentoController {
         }
         return JASPER_FILE_TO_PDF;
     }
+
+    public void checarCamposVazios(){
+        if(view.getFieldDataInicial().getText().trim().isEmpty() ||view.getFieldDataFinal().getText().trim().isEmpty()){
+            throw new FieldsEmBrancoException(CAMPOS_VAZIOS);
+        }
+
+    }
+    
     
     
     
