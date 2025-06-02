@@ -7,6 +7,8 @@ package br.com.victorvilar.contaspagar.controllers;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamentoParaRelatorio;
 import br.com.victorvilar.contaspagar.enums.TipoDeExport;
+import br.com.victorvilar.contaspagar.exceptions.MovimentosPeriodoVazio;
+import br.com.victorvilar.contaspagar.exceptions.QuantidadeDeParcelasException;
 import br.com.victorvilar.contaspagar.services.interfaces.MovimentoPagamentoService;
 import br.com.victorvilar.contaspagar.util.ConversorData;
 import br.com.victorvilar.contaspagar.util.ReportUtil;
@@ -28,6 +30,7 @@ public class ProgramacaoPagamentoController {
     private static final String PARAMETRO_DATA_FINAL ="periodoFim";
     private static final String JASPER_FILE_TO_PDF = "contas-em-aberto-pdf";
     private static final String JASPER_FILE_TO_CSV = "contas-em-aberto-csv";
+    private static final String PERIODO_SEM_MOVIMENTO = "Não existem movimentos para o período selecionado !";
     
     public ProgramacaoPagamentoController(MovimentoPagamentoService movimentoService, ProgramacaoPagamentoView view){
         this.movimentoService = movimentoService;
@@ -47,6 +50,9 @@ public class ProgramacaoPagamentoController {
     
     public List<MovimentoPagamentoParaRelatorio> buscarMovimentosParaRelatorio(LocalDate dataInicial, LocalDate dataFinal){
         List<MovimentoPagamento> movimentos = this.movimentoService.getBetweenDatesAndDespesaName(dataInicial, dataFinal, "", false);
+        if(movimentos.isEmpty()){
+            throw new MovimentosPeriodoVazio(PERIODO_SEM_MOVIMENTO);
+        }
         return movimentos.stream().map(m -> new MovimentoPagamentoParaRelatorio(m)).toList();
     }
     
