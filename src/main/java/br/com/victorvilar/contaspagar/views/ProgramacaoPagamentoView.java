@@ -10,6 +10,7 @@ import br.com.victorvilar.contaspagar.services.interfaces.MovimentoPagamentoServ
 import br.com.victorvilar.contaspagar.util.AppMensagens;
 import br.com.victorvilar.contaspagar.util.ConversorData;
 import br.com.victorvilar.contaspagar.util.ReportUtil;
+import java.awt.Frame;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.List;
@@ -20,18 +21,27 @@ import javax.swing.JTextField;
  *
  * @author victor
  */
-public class ProgramacaoPagamentoView extends javax.swing.JFrame {
+public class ProgramacaoPagamentoView extends javax.swing.JDialog {
 
     
     private final ProgramacaoPagamentoController controller;
     
     public ProgramacaoPagamentoView(MovimentoPagamentoService service){
+       super((Frame)null,"Programação de Pagamento",true);
        controller = new ProgramacaoPagamentoController(service, this);
        initComponents();
        setLocationRelativeTo(null);
+       configureButtonGroup();
+    }
+    
+    public void configureButtonGroup(){
        buttonGroup1.add(radioPdf);
        buttonGroup1.add(radioCsv);
        radioPdf.setSelected(true);
+    }
+    
+    public javax.swing.ButtonGroup getButtonGroup(){
+        return buttonGroup1;
     }
     
     public JTextField getFieldDataInicial(){
@@ -131,8 +141,10 @@ public class ProgramacaoPagamentoView extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
         radioPdf.setText("PDF");
+        radioPdf.setName("radioPdf"); // NOI18N
 
         radioCsv.setText("CSV");
+        radioCsv.setName("radioCsv"); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
