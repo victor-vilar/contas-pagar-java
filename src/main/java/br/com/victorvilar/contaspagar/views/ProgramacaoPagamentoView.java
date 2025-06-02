@@ -44,6 +44,14 @@ public class ProgramacaoPagamentoView extends javax.swing.JDialog {
         return buttonGroup1;
     }
     
+    public javax.swing.JRadioButton getRadioCsv(){
+        return radioCsv;
+    }
+    
+    public javax.swing.JRadioButton getRadioPdf(){
+        return radioPdf;
+    }
+    
     public JTextField getFieldDataInicial(){
         return fieldDataInicial;
     }
