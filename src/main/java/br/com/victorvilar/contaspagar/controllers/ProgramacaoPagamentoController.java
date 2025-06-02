@@ -34,16 +34,14 @@ public class ProgramacaoPagamentoController {
         this.view = view;
     }
     
-    
     public void emitirProgramacaoDePagamento(){
         LocalDate dataInicial = ConversorData.paraData(view.getFieldDataInicial().getText());
         LocalDate dataFinal = ConversorData.paraData(view.getFieldDataFinal().getText());
         List<MovimentoPagamentoParaRelatorio> movimentos = buscarMovimentosParaRelatorio(dataInicial,dataFinal);
         Map<String,Object> parametros = gerarParametrosParaRelatorio(dataInicial, dataFinal);
         String nomeArquivoSaida = gerarNomeArquivoSaida(dataInicial, dataFinal);
-        pegarFormatoDeExportação();
         ReportUtil util = new ReportUtil();
-        util.generate(movimentos,JASPER_FILE_TO_PDF, nomeArquivoSaida,parametros,pegarFormatoDeExportação());
+        util.generate(movimentos,pegarJasper(), nomeArquivoSaida,parametros,pegarFormatoDeExportação());
     
     }
     
@@ -69,12 +67,19 @@ public class ProgramacaoPagamentoController {
     }
     
     public TipoDeExport pegarFormatoDeExportação(){
-        
         if(view.getRadioCsv().isSelected()){
             return TipoDeExport.CSV;
         }
-        
         return TipoDeExport.PDF;
     }
+    
+    public String pegarJasper(){
+        if(view.getRadioCsv().isSelected()){
+            return JASPER_FILE_TO_CSV;
+        }
+        return JASPER_FILE_TO_PDF;
+    }
+    
+    
     
 }
