@@ -1,6 +1,7 @@
 package br.com.victorvilar.contaspagar.util;
 
 import br.com.victorvilar.contaspagar.ErpApplication;
+import br.com.victorvilar.contaspagar.enums.TipoDeExport;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -44,14 +45,14 @@ public class ReportUtil {
         
     }
     
-    public  void generate(List<?> datasource, String nomeArquivoJasper, String nomeArquivoDeSaida, Map<String,Object> params){
+    public  void generate(List<?> datasource, String nomeArquivoJasper, String nomeArquivoDeSaida, Map<String,Object> params, TipoDeExport tipoExport){
 
         try {
             parametros.putAll(params);
             JasperReport report = buscarArquivoJasper(nomeArquivoJasper);
             JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(datasource);
             JasperPrint jasperPrint = JasperFillManager.fillReport(report,parametros,dataSource);
-            exportarRelatorioParaCSV(jasperPrint,nomeArquivoDeSaida);
+            exportar(jasperPrint,nomeArquivoDeSaida,tipoExport);
         } catch (JRException | IllegalArgumentException | IOException | URISyntaxException  e) {
             throw new RuntimeException(e);
         }
@@ -82,6 +83,15 @@ public class ReportUtil {
         File jarDir = jarFile.getParentFile();
         return jarDir.getAbsolutePath();   
     }
+    
+    private void exportar(JasperPrint relatorio, String nomeArquivoDeSaida, TipoDeExport tipo) throws URISyntaxException, FileNotFoundException,JRException, IOException{
+        switch(tipo){
+            case CSV -> exportarRelatorioParaCSV(relatorio,nomeArquivoDeSaida);
+            default -> exportarRelatorioParaPdf(relatorio,nomeArquivoDeSaida);
+        }
+        
+    }
+    
     
    
 
