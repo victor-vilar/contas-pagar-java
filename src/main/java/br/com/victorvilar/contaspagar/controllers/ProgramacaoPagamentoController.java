@@ -6,6 +6,7 @@ package br.com.victorvilar.contaspagar.controllers;
 
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamentoParaRelatorio;
+import br.com.victorvilar.contaspagar.enums.TipoDeExport;
 import br.com.victorvilar.contaspagar.services.interfaces.MovimentoPagamentoService;
 import br.com.victorvilar.contaspagar.util.ConversorData;
 import br.com.victorvilar.contaspagar.util.ReportUtil;
@@ -25,7 +26,8 @@ public class ProgramacaoPagamentoController {
     private ProgramacaoPagamentoView view;
     private static final String PARAMETRO_DATA_INICIAL ="periodoIni";
     private static final String PARAMETRO_DATA_FINAL ="periodoFim";
-    private static final String JASPER_FILE = "contas-em-aberto";
+    private static final String JASPER_FILE_TO_PDF = "contas-em-aberto-pdf";
+    private static final String JASPER_FILE_TO_CSV = "contas-em-aberto-csv";
     
     public ProgramacaoPagamentoController(MovimentoPagamentoService movimentoService, ProgramacaoPagamentoView view){
         this.movimentoService = movimentoService;
@@ -39,8 +41,9 @@ public class ProgramacaoPagamentoController {
         List<MovimentoPagamentoParaRelatorio> movimentos = buscarMovimentosParaRelatorio(dataInicial,dataFinal);
         Map<String,Object> parametros = gerarParametrosParaRelatorio(dataInicial, dataFinal);
         String nomeArquivoSaida = gerarNomeArquivoSaida(dataInicial, dataFinal);
+        pegarFormatoDeExportação();
         ReportUtil util = new ReportUtil();
-        util.generate(movimentos,JASPER_FILE, nomeArquivoSaida,parametros);
+        util.generate(movimentos,JASPER_FILE_TO_PDF, nomeArquivoSaida,parametros,pegarFormatoDeExportação());
     
     }
     
@@ -63,6 +66,15 @@ public class ProgramacaoPagamentoController {
         builder.append(" à ");
         builder.append(ConversorData.paraString(dataFinal).replace("/", "-"));
         return builder.toString();
+    }
+    
+    public TipoDeExport pegarFormatoDeExportação(){
+        
+        if(view.getRadioCsv().isSelected()){
+            return TipoDeExport.CSV;
+        }
+        
+        return TipoDeExport.PDF;
     }
     
 }
