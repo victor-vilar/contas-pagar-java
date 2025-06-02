@@ -6,6 +6,7 @@ package br.com.victorvilar.contaspagar.views;
 
 import br.com.victorvilar.contaspagar.controllers.ProgramacaoPagamentoController;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamentoParaRelatorio;
+import br.com.victorvilar.contaspagar.exceptions.FieldsEmBrancoException;
 import br.com.victorvilar.contaspagar.exceptions.MovimentosPeriodoVazio;
 import br.com.victorvilar.contaspagar.services.interfaces.MovimentoPagamentoService;
 import br.com.victorvilar.contaspagar.util.AppMensagens;
@@ -234,8 +235,8 @@ public class ProgramacaoPagamentoView extends javax.swing.JDialog {
         try {
             controller.emitirProgramacaoDePagamento();
             dispose();
-        }catch(MovimentosPeriodoVazio mv){
-           JOptionPane.showMessageDialog(null, mv.getMessage(), AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE); 
+        }catch(MovimentosPeriodoVazio | FieldsEmBrancoException e){
+           JOptionPane.showMessageDialog(null, e.getMessage(), AppMensagens.HEADER_ERRO, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
