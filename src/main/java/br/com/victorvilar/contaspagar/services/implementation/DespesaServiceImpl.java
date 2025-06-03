@@ -153,19 +153,20 @@ public class DespesaServiceImpl implements DespesaService {
     }
 
     /**
-     * Atualia os campos de {@link DespesaRecorrente}
+     * Atualiza os campos de {@link DespesaRecorrente}
      * @param obj Objeto 'detached' que possui os novos valores que serão atualizados.
      * @param despesa Objeto 'persisted' que possui valores que ainda precisam ser atualizados.
      */
     public void updateDespesaRecorrente(DespesaRecorrente obj, DespesaRecorrente despesa) {
-        despesa.setPeriocidade(obj.getPeriocidade());
+
+        if((obj.getAtivo() && !despesa.getAtivo()) || (obj.getPeriocidade() != despesa.getPeriocidade())){
+            reiniciarLancamentosDespesaRecorrente(despesa);
+        }
+
         despesa.setDiaPagamento(obj.getDiaPagamento());
         despesa.setMesPagamento(obj.getMesPagamento());
         despesa.setFormaPagamentoPadrao(obj.getFormaPagamentoPadrao());
-
-        if(obj.getAtivo() && !despesa.getAtivo()){
-            reiniciarLancamentosDespesaRecorrente(despesa);
-        }
+        despesa.setPeriocidade(obj.getPeriocidade());
         despesa.setAtivo(obj.getAtivo());
     }
 
