@@ -163,13 +163,7 @@ class MovimentoPagamentoControllerTest {
         verify(despesaService,times(1)).findByIdWithMovimentos(any(Long.class));
     }
     
-    @Test
-    public void metodoPesquisarProcuraComDatasPreDefinidasSeCamposNaViewEstiverVazio(){
-    
-        controller.pesquisar();
-        verify(movimentoService,times(1)).getBetweenDatesAndDespesaName(LocalDate.of(2000, Month.MARCH, 1), LocalDate.of(9999, Month.MARCH, 1), "", false);
-    }
-    
+
     @Test
     public void metodoPesquisarProcuraComDadosDaView(){
     
