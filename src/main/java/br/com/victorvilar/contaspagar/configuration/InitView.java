@@ -1,5 +1,6 @@
 package br.com.victorvilar.contaspagar.configuration;
 
+import br.com.victorvilar.contaspagar.services.implementation.GeradorDatasDespesaRecorrente;
 import br.com.victorvilar.contaspagar.services.implementation.GeradorDeMovimentoDespesaRecorrente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -16,10 +17,10 @@ import javax.swing.UIManager;
 public class InitView implements CommandLineRunner {
 
     private MainView view;
-    private final GeradorDeMovimentoDespesaRecorrente gerador;
+    private final GeradorDatasDespesaRecorrente gerador;
 
     @Autowired
-    public InitView(MainView view, GeradorDeMovimentoDespesaRecorrente gerador) {
+    public InitView(MainView view, GeradorDatasDespesaRecorrente gerador) {
         this.view = view; this.gerador = gerador;
     }
 
