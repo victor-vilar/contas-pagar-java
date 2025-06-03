@@ -140,7 +140,7 @@ class GeradorDeMovimentoDespesaRecorrenteTest {
     }
 
     @Test
-    @DisplayName("Metodo salvar")
+    @DisplayName("Metodo salvarMovimento")
     public void deveAdicionaroMovimentoDentroDaListaDeMovimentosDaDespesa() {
         when(geradorDeDatas.criarDataVencimento(any())).thenReturn(LocalDate.of(2025,1,1));
         MovimentoPagamento movimento1 = gerador.criarMovimento(dr1);
@@ -150,17 +150,10 @@ class GeradorDeMovimentoDespesaRecorrenteTest {
         assertEquals(dr1.getParcelas().get(0).getReferenteParcela(), movimento1.getReferenteParcela());
     }
 
-    @Test
-    @DisplayName("Metodo salvar")
-    public void deveChamarMetodoParaSalvarMovimentoADespesa() {
-        when(geradorDeDatas.criarDataVencimento(any())).thenReturn(LocalDate.of(2025,1,1));
-        MovimentoPagamento movimento1 = gerador.criarMovimento(dr1);
-        gerador.salvarMovimento(dr1, movimento1);
-        verify(despesaRepository,times(1)).save(any(DespesaRecorrente.class));
-    }
+
 
     @Test
-    @DisplayName("Metodo salvar")
+    @DisplayName("Metodo salvarMovimento")
     public void deveChamarMetodoParaSalvarMovimentoOMovimento() {
         when(geradorDeDatas.criarDataVencimento(any())).thenReturn(LocalDate.of(2025,1,1));
         MovimentoPagamento movimento1 = gerador.criarMovimento(dr1);
@@ -168,4 +161,21 @@ class GeradorDeMovimentoDespesaRecorrenteTest {
         verify(movimentoRepository,times(1)).save(any(MovimentoPagamento.class));
     }
 
+    @Test
+    @DisplayName("Metodo salvar Despesa")
+    public void deveChamarMetodoParaSalvarDespesa() {
+        when(geradorDeDatas.criarDataVencimento(any())).thenReturn(LocalDate.of(2025,1,1));
+        MovimentoPagamento movimento1 = gerador.criarMovimento(dr1);
+        gerador.salvarDespesa(dr1, movimento1.getDataVencimento());
+        verify(despesaRepository,times(1)).save(any(DespesaRecorrente.class));
+    }
+
+    @Test
+    @DisplayName("Metodo salvar Despesa")
+    public void deveAutalizarADataDoUltimoLancamento() {
+        when(geradorDeDatas.criarDataVencimento(any())).thenReturn(LocalDate.of(2025,1,1));
+        MovimentoPagamento movimento1 = gerador.criarMovimento(dr1);
+        gerador.salvarDespesa(dr1, movimento1.getDataVencimento());
+        assertEquals(dr1.getDataUltimoLancamento(), movimento1.getDataVencimento());
+    }
 }
