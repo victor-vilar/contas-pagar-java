@@ -8,16 +8,19 @@ import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
 import br.com.victorvilar.contaspagar.entities.DespesaRecorrente;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
 import br.com.victorvilar.contaspagar.enums.Periodo;
+import br.com.victorvilar.contaspagar.exceptions.DespesaNotFoundException;
 import br.com.victorvilar.contaspagar.repositories.DespesaRepository;
 import br.com.victorvilar.contaspagar.repositories.MovimentoPagamentoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 /**
  * Classe que sera usa para gerar os movimentos das despesas recorrentes.
@@ -38,11 +41,8 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
         this.gerador = gerador;
     }
 
-
-
     @Override
     public void run() {
-        //Busca todas as depesas recorrentes que possuem a propriedade 'dataProximoLancamento' anterior ao dia atual.
         List<DespesaAbstrata> despesas = despesaRepository.findDespesaRecorrenteWhereDataProximoLancamentoLowerThanNow(LocalDate.now());
         for(DespesaAbstrata despesa: despesas){
             var despesaRecorrente = (DespesaRecorrente) despesa;
@@ -68,23 +68,22 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
      * ignorando datas anteriores.
      * </p>
      */
-    @Transactional
     public void realizarLancamentos(DespesaRecorrente despesa){
-
+        despesa = (DespesaRecorrente) despesaRepository.findByIdWithMovimentos(despesa.getId());
         LocalDate proximoLancamento = despesa.getDataProximoLancamento();
         while(proximoLancamento == null || proximoLancamento.isBefore(gerador.dataHoje()) ){
             MovimentoPagamento movimento = criarMovimento(despesa);
-            try {
-                salvarMovimento(despesa, movimento);
-            }catch( Exception e){
-                System.out.println(e.getMessage());
+            Optional<MovimentoPagamento> movimentoComIntegridade;
+            movimentoComIntegridade = movimentoRepository.findByIntegridade(movimento.getIntegridade());
+            if(movimentoComIntegridade.isEmpty()){
+                salvar(despesa, movimento);
             }
-            salvarDespesa(despesa, movimento.getDataVencimento());
+            despesa.setDataUltimoLancamento(movimento.getDataVencimento());
+            despesa.setDataProximoLancamento(gerador.gerarDataDoProximoLancamento(despesa));
             proximoLancamento = despesa.getDataProximoLancamento();
-
         }
 
-
+        despesaRepository.save(despesa);
     }
 
     /**
@@ -142,23 +141,15 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
      * @param despesa Objeto do tipo {@link DespesaRecorrente}
      * @param movimento Objeto do tipo {@link MovimentoPagamento}
      */
-
-    public void salvarMovimento(DespesaRecorrente despesa, MovimentoPagamento movimento){
+    @Transactional
+    public void salvar(DespesaRecorrente despesa, MovimentoPagamento movimento){
         despesa.addParcela(movimento);
         movimentoRepository.save(movimento);
-
-    }
-
-    /**
-     * Atualiza os dados da despesa e salva
-     * @param despesa Objeto do tipo {@link DespesaRecorrente}
-     * @param dataUltimoLancamento data de vencimento do ultimo movimento adicionado a despesa
-     */
-    public void salvarDespesa(DespesaRecorrente despesa, LocalDate dataUltimoLancamento){
-        despesa.setDataUltimoLancamento(dataUltimoLancamento);
+        despesa.setDataUltimoLancamento(movimento.getDataVencimento());
         despesa.setDataProximoLancamento(gerador.gerarDataDoProximoLancamento(despesa));
         despesaRepository.save(despesa);
     }
+
 
 
 }
