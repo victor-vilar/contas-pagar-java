@@ -1,5 +1,6 @@
 package br.com.victorvilar.contaspagar.services.implementation;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.transaction.Transactional;
@@ -125,17 +126,20 @@ public class DespesaServiceImpl implements DespesaService {
      */
     public void updateDespesaAvulsa(DespesaAvulsa obj, DespesaAvulsa despesa) {
         NotaFiscal nota = despesa.getNotaFiscal() ;
-        
+
+        //Se o objeto atualizado não tiver uma nota fiscal e o objeto salvo tiver, ira remover.
         if(obj.getNotaFiscal() == null && nota != null){
             despesa.removeNotaFiscal();
          
         }
-        
+
+        //Atualiza os dados da nota fiscal
         if(obj.getNotaFiscal() != null && nota != null){
             nota.setNumero(obj.getNotaFiscal().getNumero());
             nota.setDataEmissao(obj.getNotaFiscal().getDataEmissao());
         }
-        
+
+        //Adiciona uma nota fiscal ao objeto salvo
         if(obj.getNotaFiscal() != null && nota == null){
             nota = new NotaFiscal();
             nota.setNumero(obj.getNotaFiscal().getNumero());
@@ -155,11 +159,39 @@ public class DespesaServiceImpl implements DespesaService {
      */
     public void updateDespesaRecorrente(DespesaRecorrente obj, DespesaRecorrente despesa) {
         despesa.setPeriocidade(obj.getPeriocidade());
-        despesa.setAtivo(obj.getAtivo());
         despesa.setDiaPagamento(obj.getDiaPagamento());
         despesa.setMesPagamento(obj.getMesPagamento());
         despesa.setFormaPagamentoPadrao(obj.getFormaPagamentoPadrao());
+
+        if(obj.getAtivo() && !despesa.getAtivo()){
+            reiniciarLancamentosDespesaRecorrente(despesa);
+        }
+        despesa.setAtivo(obj.getAtivo());
     }
+
+    /**
+     * <p>
+     * O sistema realiza os lançamentos das {@link DespesaRecorrente} no momento da sua inicialização,
+     * dessa forma caso o sistema fique muito tempo sem ser aberto(dias, semanas, meses) e tiver {@link DespesaRecorrente}
+     * que deveriam ter tido movimentos lançados, ele irá realizar os lançamentos retroativos.
+     * </p>
+     * <p>
+     * Caso alguma {@link DespesaRecorrente} tenha ficado algum tempo desativada e tenha sido ativada novamente,
+     * é necessário reiniciar os seus campos de dataUltimoLancamento e dataProximoLancamento para evitar que
+     * o sistema realize os lançamentos retroativos de datas em que a despesa estava inativa.
+     * </p>
+     * <p>
+     * A partir do momento que uma despesa recorrente é ativada novamente o sistema
+     * só deve se preocupar com os futuros lançamentos.
+     * </p>
+     * @param despesa objeto do tipo {@link DespesaRecorrente}
+     */
+    public void reiniciarLancamentosDespesaRecorrente(DespesaRecorrente despesa){
+        despesa.setDataProximoLancamento(null);
+        despesa.setDataUltimoLancamento(null);
+    }
+
+
 
     @Override
     public DespesaAbstrata findByIdWithMovimentos(Long id) {
