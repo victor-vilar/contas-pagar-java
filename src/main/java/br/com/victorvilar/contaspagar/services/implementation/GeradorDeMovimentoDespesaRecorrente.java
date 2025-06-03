@@ -11,16 +11,11 @@ import br.com.victorvilar.contaspagar.enums.Periodo;
 import br.com.victorvilar.contaspagar.repositories.DespesaRepository;
 import br.com.victorvilar.contaspagar.repositories.MovimentoPagamentoRepository;
 import jakarta.transaction.Transactional;
-import jxl.write.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
 import java.util.Locale;
 
@@ -46,7 +41,6 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
 
 
     @Override
-    @Transactional
     public void run() {
         //Busca todas as depesas recorrentes que possuem a propriedade 'dataProximoLancamento' anterior ao dia atual.
         List<DespesaAbstrata> despesas = despesaRepository.findDespesaRecorrenteWhereDataProximoLancamentoLowerThanNow(LocalDate.now());
@@ -56,25 +50,37 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
         }
     }
 
-    /**
-     * Metodo principal que será chamado dentro desse runnable.
-     * @param despesa
+    /**<p>
+     * Metodo que ira realizar lançamento de movimentos para uma {@link DespesaRecorrente}. O metodo possui um loop
+     * para gerar lançamentos retroativos para despesas já cadastradas. O loop só ira parar quando a data do próximo
+     * lançamento (propriedade dataProximoLancamento de {@link DespesaRecorrente}) for maior que a data atual.
+     *</p>
+     * <p>
+     * As {@link DespesaRecorrente} possuem duas propriedades principais para que esse método funcione de maneira
+     * adequada, as propriedades 'dataUltimoLancamento' que marca qual foi a data de vencimento do ultimo movimento
+     * ({@link MovimentoPagamento}) gerado para essa despesa e a propriedade 'dataProximoLancamento' que é uma data
+     * que marca qual será o proximo dia em que um novo {@link MovimentoPagamento} será lançado para essa despesa.
+     *</p>
+     *
+     *<p>
+     * {@link DespesaRecorrente} novas ou inativas que ficaram ativas, possuem as propriedades
+     * 'dataUltimoLancamento' e 'dataProximoLancamento' nulos, o metodo então irá apenas realizar os proximos lançamentos
+     * ignorando datas anteriores.
+     * </p>
      */
     @Transactional
     public void realizarLancamentos(DespesaRecorrente despesa){
-        //Caso o sistema fique muitos dias sem ser aberto, pode acontecer de algumas despesas que possuem um período
-        //de pagamento mais frequente, necessite que sejam geradas todas as parcelas retroativas que ficaram pendentes.
-        //Então, todo o processo de gerar um novo movimento deve ser repetido, até a data do próximo lançamento ser
-        //maior que a data atual.
+
         LocalDate proximoLancamento = despesa.getDataProximoLancamento();
         while(proximoLancamento == null || proximoLancamento.isBefore(gerador.dataHoje()) ){
             MovimentoPagamento movimento = criarMovimento(despesa);
             try {
-                salvar(despesa, movimento);
-                proximoLancamento = despesa.getDataProximoLancamento();
-            }catch(DataIntegrityViolationException e){
+                salvarMovimento(despesa, movimento);
+            }catch( Exception e){
                 System.out.println(e.getMessage());
             }
+            salvarDespesa(despesa, movimento.getDataVencimento());
+            proximoLancamento = despesa.getDataProximoLancamento();
 
         }
 
@@ -132,19 +138,26 @@ public class GeradorDeMovimentoDespesaRecorrente implements Runnable{
     }
 
     /**
-     * Adiciona o movimento na lista de movimentos da despesa, salva a despesa e os movimentos.
+     * Adiciona o movimento na lista de movimentos da despesa, salva  os movimentos.
      * @param despesa Objeto do tipo {@link DespesaRecorrente}
      * @param movimento Objeto do tipo {@link MovimentoPagamento}
      */
 
-    public void salvar(DespesaRecorrente despesa, MovimentoPagamento movimento){
+    public void salvarMovimento(DespesaRecorrente despesa, MovimentoPagamento movimento){
         despesa.addParcela(movimento);
         movimentoRepository.save(movimento);
 
-        despesa.setDataUltimoLancamento(movimento.getDataVencimento());
+    }
+
+    /**
+     * Atualiza os dados da despesa e salva
+     * @param despesa Objeto do tipo {@link DespesaRecorrente}
+     * @param dataUltimoLancamento data de vencimento do ultimo movimento adicionado a despesa
+     */
+    public void salvarDespesa(DespesaRecorrente despesa, LocalDate dataUltimoLancamento){
+        despesa.setDataUltimoLancamento(dataUltimoLancamento);
         despesa.setDataProximoLancamento(gerador.gerarDataDoProximoLancamento(despesa));
         despesaRepository.save(despesa);
-
     }
 
 
