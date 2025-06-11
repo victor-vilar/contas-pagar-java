@@ -97,10 +97,10 @@ public class DespesaRecorrenteListaView extends javax.swing.JFrame {
         tableDespesas = new javax.swing.JTable();
         panelToolBar1 = new javax.swing.JPanel();
         btnDespesaRecorrente = new javax.swing.JButton();
-        btnGerarRelatorio = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Despesas Recorrentes");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
@@ -171,17 +171,6 @@ public class DespesaRecorrenteListaView extends javax.swing.JFrame {
             }
         });
 
-        btnGerarRelatorio.setBackground(new java.awt.Color(242, 242, 242));
-        btnGerarRelatorio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-relatorio-40.png"))); // NOI18N
-        btnGerarRelatorio.setText("Gerar Relatório");
-        btnGerarRelatorio.setToolTipText("");
-        btnGerarRelatorio.setBorder(null);
-        btnGerarRelatorio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGerarRelatorioActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout panelToolBar1Layout = new javax.swing.GroupLayout(panelToolBar1);
         panelToolBar1.setLayout(panelToolBar1Layout);
         panelToolBar1Layout.setHorizontalGroup(
@@ -189,40 +178,36 @@ public class DespesaRecorrenteListaView extends javax.swing.JFrame {
             .addGroup(panelToolBar1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnDespesaRecorrente, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnGerarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelToolBar1Layout.setVerticalGroup(
             panelToolBar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelToolBar1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelToolBar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnDespesaRecorrente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnGerarRelatorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(btnDespesaRecorrente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jLabel1.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
-        jLabel1.setText("Despesas Cadastradas");
+        jLabel6.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
+        jLabel6.setText("(Clique Duplo) Abrir Despesa");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelToolBar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(755, Short.MAX_VALUE))
-            .addComponent(panelToolBar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel6)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panelToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel1)
+                .addComponent(jLabel6)
                 .addGap(5, 5, 5)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -237,10 +222,6 @@ public class DespesaRecorrenteListaView extends javax.swing.JFrame {
         view.setVisible(true);
     }//GEN-LAST:event_btnDespesaRecorrenteActionPerformed
 
-    private void btnGerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarRelatorioActionPerformed
-
-    }//GEN-LAST:event_btnGerarRelatorioActionPerformed
-
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         controller.preencherView();
     }//GEN-LAST:event_formWindowActivated
@@ -248,8 +229,7 @@ public class DespesaRecorrenteListaView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDespesaRecorrente;
-    private javax.swing.JButton btnGerarRelatorio;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panelToolBar1;

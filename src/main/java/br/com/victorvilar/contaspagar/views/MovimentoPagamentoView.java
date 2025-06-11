@@ -326,7 +326,7 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
             panelTabelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelTabelaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -337,6 +337,7 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         btnDespesa.setText("Nova Despesa");
         btnDespesa.setToolTipText("Novo");
         btnDespesa.setBorder(null);
+        btnDespesa.setBorderPainted(false);
         btnDespesa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDespesaActionPerformed(evt);
@@ -348,6 +349,7 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         btnDespesaRecorrente.setText("Despesas Recorrentes");
         btnDespesaRecorrente.setToolTipText("Editar");
         btnDespesaRecorrente.setBorder(null);
+        btnDespesaRecorrente.setBorderPainted(false);
         btnDespesaRecorrente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDespesaRecorrenteActionPerformed(evt);
@@ -359,6 +361,7 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         btnGerarRelatorio.setText("Gerar Programação");
         btnGerarRelatorio.setToolTipText("");
         btnGerarRelatorio.setBorder(null);
+        btnGerarRelatorio.setBorderPainted(false);
         btnGerarRelatorio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGerarRelatorioActionPerformed(evt);
@@ -370,6 +373,7 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         btnFormaPagamento.setText("Formas De Pagamento");
         btnFormaPagamento.setToolTipText("");
         btnFormaPagamento.setBorder(null);
+        btnFormaPagamento.setBorderPainted(false);
         btnFormaPagamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFormaPagamentoActionPerformed(evt);
@@ -381,6 +385,7 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         btnCategorias.setText("Categorias");
         btnCategorias.setToolTipText("");
         btnCategorias.setBorder(null);
+        btnCategorias.setBorderPainted(false);
         btnCategorias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCategoriasActionPerformed(evt);
@@ -392,20 +397,20 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         panelToolBar1Layout.setHorizontalGroup(
             panelToolBar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelToolBar1Layout.createSequentialGroup()
-                .addGap(148, 148, 148)
+                .addGap(160, 160, 160)
                 .addComponent(btnDespesaRecorrente, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnGerarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnGerarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(panelToolBar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelToolBar1Layout.createSequentialGroup()
                     .addGap(15, 15, 15)
-                    .addComponent(btnDespesa)
-                    .addContainerGap(940, Short.MAX_VALUE)))
+                    .addComponent(btnDespesa, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(970, Short.MAX_VALUE)))
         );
         panelToolBar1Layout.setVerticalGroup(
             panelToolBar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -554,7 +559,7 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
                 .addComponent(panelToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelTabela, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
