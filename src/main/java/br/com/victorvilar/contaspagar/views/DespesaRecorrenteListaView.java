@@ -54,7 +54,9 @@ public class DespesaRecorrenteListaView extends javax.swing.JFrame {
     
     public void configurarTabela(){
         tableDespesas.getColumnModel().getColumn(0).setMaxWidth(50);
-        tableDespesas.getColumnModel().getColumn(2).setMaxWidth(50);
+        tableDespesas.getColumnModel().getColumn(2).setMaxWidth(150);
+        tableDespesas.getColumnModel().getColumn(3).setMaxWidth(50);
+       
         TableRowSorter<TableModel> sorter = new TableRowSorter<>(tableDespesas.getModel());
         tableDespesas.setRowSorter(sorter);
         List<RowSorter.SortKey> sortKeys = new ArrayList<>();
@@ -111,20 +113,20 @@ public class DespesaRecorrenteListaView extends javax.swing.JFrame {
 
         tableDespesas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Código", "Descrição", "Ativo"
+                "Código", "Descrição", "Período", "Ativo"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Long.class, java.lang.String.class, java.lang.Boolean.class
+                java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -139,6 +141,7 @@ public class DespesaRecorrenteListaView extends javax.swing.JFrame {
         if (tableDespesas.getColumnModel().getColumnCount() > 0) {
             tableDespesas.getColumnModel().getColumn(0).setResizable(false);
             tableDespesas.getColumnModel().getColumn(2).setResizable(false);
+            tableDespesas.getColumnModel().getColumn(3).setResizable(false);
         }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

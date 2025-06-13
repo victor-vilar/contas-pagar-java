@@ -57,7 +57,7 @@ public class DespesaRecorrenteListaController implements AppViewController<Despe
         List<DespesaAbstrata> despesas = buscarDespesas();
         despesas.stream().forEach(d -> { 
             DespesaRecorrente de = (DespesaRecorrente) d;
-            model.addRow(new Object[]{de.getId(),de.getNome(),de.getAtivo()});
+            model.addRow(new Object[]{de.getId(),de.getNome(),de.getPeriocidade(),de.getAtivo()});
         });
     }
 
