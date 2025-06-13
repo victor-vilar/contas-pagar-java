@@ -144,7 +144,7 @@ class GeradorDeMovimentoDespesaRecorrenteTest {
     public void deveAdicionaroMovimentoDentroDaListaDeMovimentosDaDespesa() {
         when(geradorDeDatas.criarDataVencimento(any())).thenReturn(LocalDate.of(2025,1,1));
         MovimentoPagamento movimento1 = gerador.criarMovimento(dr1);
-        gerador.salvarMovimento(dr1, movimento1);
+        gerador.salvar(dr1, movimento1);
         assertTrue(movimento1.getDespesa() == dr1);
         assertTrue(!dr1.getParcelas().isEmpty());
         assertEquals(dr1.getParcelas().get(0).getReferenteParcela(), movimento1.getReferenteParcela());
@@ -157,7 +157,7 @@ class GeradorDeMovimentoDespesaRecorrenteTest {
     public void deveChamarMetodoParaSalvarMovimentoOMovimento() {
         when(geradorDeDatas.criarDataVencimento(any())).thenReturn(LocalDate.of(2025,1,1));
         MovimentoPagamento movimento1 = gerador.criarMovimento(dr1);
-        gerador.salvarMovimento(dr1, movimento1);
+        gerador.salvar(dr1, movimento1);
         verify(movimentoRepository,times(1)).save(any(MovimentoPagamento.class));
     }
 
@@ -166,7 +166,7 @@ class GeradorDeMovimentoDespesaRecorrenteTest {
     public void deveChamarMetodoParaSalvarDespesa() {
         when(geradorDeDatas.criarDataVencimento(any())).thenReturn(LocalDate.of(2025,1,1));
         MovimentoPagamento movimento1 = gerador.criarMovimento(dr1);
-        gerador.salvarDespesa(dr1, movimento1.getDataVencimento());
+        gerador.salvar(dr1, movimento1);
         verify(despesaRepository,times(1)).save(any(DespesaRecorrente.class));
     }
 
@@ -175,7 +175,7 @@ class GeradorDeMovimentoDespesaRecorrenteTest {
     public void deveAutalizarADataDoUltimoLancamento() {
         when(geradorDeDatas.criarDataVencimento(any())).thenReturn(LocalDate.of(2025,1,1));
         MovimentoPagamento movimento1 = gerador.criarMovimento(dr1);
-        gerador.salvarDespesa(dr1, movimento1.getDataVencimento());
+        gerador.salvar(dr1, movimento1);
         assertEquals(dr1.getDataUltimoLancamento(), movimento1.getDataVencimento());
     }
 }

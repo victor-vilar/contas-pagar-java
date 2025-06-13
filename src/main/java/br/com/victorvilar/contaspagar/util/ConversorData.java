@@ -34,9 +34,87 @@ public abstract class ConversorData {
         
         if(TudoNumero(data)){
            data = buildData(data);
+        }else{
+            
+        }
+        
+        
+        return LocalDate.parse(data.trim(), formatter);
+    }
+    
+    /**
+     * A classe aceita as datas sejam passadas interamente por números "01022025" será transformada na data "01/02/2025", ou ainda, "0102" será transformada
+     * na data de "01/02/(mais o ano atual). Pode acontecer do usuário por já ter costume de utilizar os formatos que são aceitos por exemplo no excel
+     * (onde uma string "01-02" ou "01/02" acaba virando uma data completa "01/02/2025"), acabe digitando os carecteres separadores de data como "/" ou "-".
+     * 
+     * Esse método tem a função de encontrar esses caracteres especiais e tentar transforma-los em somente números para que ele consiga então
+     * realizar a sua conversão de String para Data.
+     * @param valor
+     * @return 
+     */
+    private static void descobrirFormato(String valor){
+        if(valor.matches("^(?:[1-9]|1[0-9]|2[0-9]|30)[\\/-](?:[1-9]|1[0-2])$")){
+            String[] dados = valor.split("");
+            
+        }
+        
+    }
+    
+    /**
+     * Converte para uma String de números que foram passadas no formato "01-02" ou "01/02" ou ainda "1-2" ou "1/2" onde os números que são
+     * menores que 10 não possuem o zero a esquerda para uma String de quatro caracteres, que poderá ser convertida no método buildData.
+     * @param valor um array de caracteres
+     * @return Retorna uma String de números no formato "0102" por exemplo.
+     */
+    public static String formatarDatasSemAno(String[] valor){
+
+        int tamanhoLista = valor.length;
+
+        if (tamanhoLista == 5) {
+            return formatarDatasSemAnoQuemContemTresCaracteres(valor, tamanhoLista);
+
         }
 
-        return LocalDate.parse(data.trim(), formatter);
+        if (tamanhoLista == 3) {
+            return formataQuandoForPassadoTresCaracteres(valor, tamanhoLista);
+        }
+
+        return " ";
+    }
+       /**
+        * converte uma string "01/02" ou "01-02" em "0102"
+        * @param valor valores separados em uma lista
+        * @param tamanhoLista tamanho da lista
+        * @return String com 
+        */
+    public static String formatarDatasSemAnoQuemContemTresCaracteres(String[] valor, int tamanhoLista) {
+        String data = "";
+        for (int i = 0; i < tamanhoLista; i++) {
+            if (valor[i] != "/" && valor[i] != "-") {
+                data = data + valor[i];
+            }
+        }
+        return data;
+    }
+    
+          /**
+        * converte uma string "1/2" ou "1-2" em "0102"
+        * @param valor valores separados em uma lista
+        * @param tamanhoLista tamanho da lista
+        * @return String com 
+        */
+    public static String formataQuandoForPassadoTresCaracteres(String[] valor, int tamanhoLista) {
+        String data = "";
+        for (int i = 0; i < tamanhoLista; i++) {
+            if (valor[i] != "/" && valor[i] != "-") {
+                if ((i == 0 || i == 2) && Integer.valueOf(valor[i]) < 10) {
+                    data = data + "0" + valor[i];
+                } else {
+                    data = data + valor[i];
+                }
+            }
+        }
+        return data;
     }
     
     
@@ -71,6 +149,8 @@ public abstract class ConversorData {
         }
 
     }
+    
+    
 
     private static String buildData(String valor) {
         StringBuilder novaData = new StringBuilder();

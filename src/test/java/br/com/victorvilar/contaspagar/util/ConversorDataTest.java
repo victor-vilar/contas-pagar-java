@@ -69,4 +69,43 @@ public class ConversorDataTest {
         assertEquals("31/12/2025", dataConvertida);
     
     }
+    
+    @Test
+    public void retornaApenasNumerosDeDatasPassadasComBarrasETracos(){
+        String[] data1 = {"0","1","/","0","2"};
+        String[] data2 = {"0","1","-","0","2"};
+        String[] data3 = {"1","1","/","1","2"};
+        String[] data4 = {"2","1","-","1","2"};
+        String[] data5 = {"0","9","/","1","2"};
+        String dataFormatada1 = ConversorData.formatarDatasSemAno(data1);
+        String dataFormatada2 = ConversorData.formatarDatasSemAno(data2);
+        String dataFormatada3 = ConversorData.formatarDatasSemAno(data3);
+        String dataFormatada4 = ConversorData.formatarDatasSemAno(data4);
+        String dataFormatada5 = ConversorData.formatarDatasSemAno(data5);
+        assertEquals("0102",dataFormatada1);
+        assertEquals("0102",dataFormatada2);
+        assertEquals("1112",dataFormatada3);
+        assertEquals("2112",dataFormatada4);
+        assertEquals("0912",dataFormatada5);
+    }
+    
+    @Test
+    public void retornaApenasNumerosQuandoNaoColocoOZeroNaFrenteEmDatasMenoresQueDez(){
+        String[] data1 = {"1","/","2"};
+        String[] data2 = {"1","-","2"};
+        String[] data3 = {"2","-","3"};
+        String[] data4 = {"9","/","4"};
+        String[] data5 = {"7","-","5"};
+        String dataFormatada1 = ConversorData.formatarDatasSemAno(data1);
+        String dataFormatada2 = ConversorData.formatarDatasSemAno(data2);
+        String dataFormatada3 = ConversorData.formatarDatasSemAno(data3);
+        String dataFormatada4 = ConversorData.formatarDatasSemAno(data4);
+        String dataFormatada5 = ConversorData.formatarDatasSemAno(data5);
+        assertEquals("0102",dataFormatada1);
+        assertEquals("0102",dataFormatada2);
+        assertEquals("0203",dataFormatada3);
+        assertEquals("0904",dataFormatada4);
+        assertEquals("0705",dataFormatada5);
+    }
+    
 }
