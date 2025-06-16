@@ -15,7 +15,9 @@ public class DespesaRecorrente extends DespesaAbstrata implements Serializable {
     @Enumerated(EnumType.STRING)
     private Periodo periocidade;
     private Boolean ativo;
+    //Data programada para o lançamento do próximo {@link MovimentoPagamento} para essa DespesaRecorrente
     private LocalDate dataProximoLancamento;
+    //Data de vencimento do ultimo {@link MovimentoPagamento} pertencente a essa DespesaRecorrente
     private LocalDate dataUltimoLancamento;
     @Column(nullable = false)
     private Integer diaPagamento;
