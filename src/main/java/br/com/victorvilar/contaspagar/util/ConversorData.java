@@ -6,6 +6,7 @@ package br.com.victorvilar.contaspagar.util;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 /**
  * Classe que converte um data do tipo {@link java.time.LocalDate} para em String
@@ -34,89 +35,79 @@ public abstract class ConversorData {
         
         if(TudoNumero(data)){
            data = buildData(data);
-        }else{
-            
+        }
+        else{
+           data = criarData(data);
+           if(data == null){
+               return null;
+           }
+           
         }
         
         
-        return LocalDate.parse(data.trim(), formatter);
+        return LocalDate.parse(buildData(data), formatter);
+    }
+    
+ 
+    
+    public static String criarData(String data){
+        
+        //separa os valores quando encontra uma barra '/' traço '-' ou ponto '.' 
+        String[] partes = data.split("[/\\-.]");
+        
+        //aceita somente valores que são números
+        partes = Arrays.stream(partes)
+                       .filter(s -> s.matches("\\d+"))
+                       .toArray(String[]::new);
+        
+        //se partes tiver vazio retorna nulo;
+        if(partes.length == 0){
+            return null;
+        }
+        //verifica se os valores estão de acordo
+        String dia = adicionarZeroAEsquerda(partes[0]);
+        String mes = adicionarZeroAEsquerda(partes[1]);
+        String ano = "";
+        
+        //se o ano for passado
+        if(partes.length == 3){
+            ano = configurarAno(partes[2]);
+        }
+        
+        //retorna a data completa
+        return dia + mes + ano;
     }
     
     /**
-     * A classe aceita as datas sejam passadas interamente por números "01022025" será transformada na data "01/02/2025", ou ainda, "0102" será transformada
-     * na data de "01/02/(mais o ano atual). Pode acontecer do usuário por já ter costume de utilizar os formatos que são aceitos por exemplo no excel
-     * (onde uma string "01-02" ou "01/02" acaba virando uma data completa "01/02/2025"), acabe digitando os carecteres separadores de data como "/" ou "-".
-     * 
-     * Esse método tem a função de encontrar esses caracteres especiais e tentar transforma-los em somente números para que ele consiga então
-     * realizar a sua conversão de String para Data.
-     * @param valor
+     * Verifica se o valor passado é menor que 10. Esse metodo prepara a forma como o metodo buildData espera receber os valores para
+     * formar uma data. Se um valor for passado como '5' ele irá transformar em '05'. Valores que já possuem o primeiro caracter zero ou maior que zero
+     * não sofrem alterações. 
+     * @param dia String de número
+     * @return Retorna o proprio valor passado caso tenha sido passado com o zero antes do número ou transforma o valor para que ele fique
+     * apropriado 
+     */
+    public static String adicionarZeroAEsquerda(String dia) throws NumberFormatException{
+        int diaInteiro = Integer.parseInt(dia);
+        if((diaInteiro < 10 && diaInteiro > 0) && !dia.substring(0,1).equals("0")){
+            return "0" + dia;
+        }
+        return dia;
+    }
+    
+    /**
+     * Verifica se o valor do ano passado possui o prefixo '20', se o ano for passado apenas com dois caracteres por exemplo '25', esse método
+     * ira transforma-lo em um ano 'completo' exemplo '2025'
+     * @param ano
      * @return 
      */
-    private static void descobrirFormato(String valor){
-        if(valor.matches("^(?:[1-9]|1[0-9]|2[0-9]|30)[\\/-](?:[1-9]|1[0-2])$")){
-            String[] dados = valor.split("");
-            
-        }
+    public static String configurarAno(String ano){
         
-    }
-    
-    /**
-     * Converte para uma String de números que foram passadas no formato "01-02" ou "01/02" ou ainda "1-2" ou "1/2" onde os números que são
-     * menores que 10 não possuem o zero a esquerda para uma String de quatro caracteres, que poderá ser convertida no método buildData.
-     * @param valor um array de caracteres
-     * @return Retorna uma String de números no formato "0102" por exemplo.
-     */
-    public static String formatarDatasSemAno(String[] valor){
-
-        int tamanhoLista = valor.length;
-
-        if (tamanhoLista == 5) {
-            return formatarDatasSemAnoQuemContemTresCaracteres(valor, tamanhoLista);
-
+        if(ano.length() == 2){
+            return LocalDate.now().toString().substring(0, 2) + ano;
         }
+        return ano;
+    }
 
-        if (tamanhoLista == 3) {
-            return formataQuandoForPassadoTresCaracteres(valor, tamanhoLista);
-        }
-
-        return " ";
-    }
-       /**
-        * converte uma string "01/02" ou "01-02" em "0102"
-        * @param valor valores separados em uma lista
-        * @param tamanhoLista tamanho da lista
-        * @return String com 
-        */
-    public static String formatarDatasSemAnoQuemContemTresCaracteres(String[] valor, int tamanhoLista) {
-        String data = "";
-        for (int i = 0; i < tamanhoLista; i++) {
-            if (valor[i] != "/" && valor[i] != "-") {
-                data = data + valor[i];
-            }
-        }
-        return data;
-    }
-    
-          /**
-        * converte uma string "1/2" ou "1-2" em "0102"
-        * @param valor valores separados em uma lista
-        * @param tamanhoLista tamanho da lista
-        * @return String com 
-        */
-    public static String formataQuandoForPassadoTresCaracteres(String[] valor, int tamanhoLista) {
-        String data = "";
-        for (int i = 0; i < tamanhoLista; i++) {
-            if (valor[i] != "/" && valor[i] != "-") {
-                if ((i == 0 || i == 2) && Integer.valueOf(valor[i]) < 10) {
-                    data = data + "0" + valor[i];
-                } else {
-                    data = data + valor[i];
-                }
-            }
-        }
-        return data;
-    }
-    
     
     /**
      * Converte uma data do tipo LocalDate para String.
@@ -142,7 +133,7 @@ public abstract class ConversorData {
     private static boolean TudoNumero(String valor) {
 
         try {
-            Double.valueOf(valor);
+            Integer.valueOf(valor);
             return true;
         } catch (NumberFormatException e) {
             return false;
