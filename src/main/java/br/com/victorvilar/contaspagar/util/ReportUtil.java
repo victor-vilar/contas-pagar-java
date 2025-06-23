@@ -25,6 +25,7 @@ import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
+import org.springframework.beans.factory.annotation.Value;
 
 public class ReportUtil {
     
@@ -36,11 +37,19 @@ public class ReportUtil {
     
     private Map<String,Object> parametros;
     private String pastaDeExportPadrao;
-        
+
+    private String companyName;
+    private String developerName;
+    private String developerEmail;
+
+
     public ReportUtil(){
         parametros = new HashMap<>();
-        parametros.put("companyName","Teste");
-        parametros.put("nomeSistema","Esse é o meu sistema");
+        companyName = System.getenv("COMPANY_NAME");
+        developerEmail = System.getenv("APPLICATION_DEVELOPER_EMAIL");
+        parametros.put("companyName",companyName);
+        parametros.put("developerName",developerName);
+        parametros.put("developerEmail",developerEmail);
         parametros.put("companyLogo","img/logo.jpg");
         
     }
