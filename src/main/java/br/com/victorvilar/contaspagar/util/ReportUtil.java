@@ -27,6 +27,8 @@ import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import org.springframework.beans.factory.annotation.Value;
 
+import javax.swing.*;
+
 public class ReportUtil {
     
     private static final String REPORTS_FOLDER = "reports/";
@@ -34,6 +36,7 @@ public class ReportUtil {
     private static final String PDF_FILES_SUFIX = ".pdf";
     private static final String CSV_FILES_SUFIX = ".csv";
     private static final String LOGO_FILES_SUFIX = ".img";
+    private static final String FILE_CHOOSER_HEADER = "Escolha onde deseja salvar";
     
     private Map<String,Object> parametros;
     private String pastaDeExportPadrao;
@@ -73,17 +76,29 @@ public class ReportUtil {
     }
     
     private void exportarRelatorioParaPdf(JasperPrint relatorio, String nomeDoPdf) throws JRException, IOException, URISyntaxException{
-        String pastaAtual = buscarPastaDoJar();
+        String pastaAtual = selecionarPastaDeDestino();
         JasperExportManager.exportReportToPdfFile(relatorio, pastaAtual + "/" + nomeDoPdf + PDF_FILES_SUFIX);
         Desktop.getDesktop().open(new File(pastaAtual + "/" +nomeDoPdf + PDF_FILES_SUFIX));
     }
     
     private void exportarRelatorioParaCSV(JasperPrint relatorio, String nomeDoXlsx) throws URISyntaxException, FileNotFoundException,JRException{
-        String pastaAtual = buscarPastaDoJar(); 
+        String pastaAtual = selecionarPastaDeDestino();
         JRCsvExporter exporterCSV = new JRCsvExporter();
         exporterCSV.setExporterInput(new SimpleExporterInput(relatorio));
         exporterCSV.setExporterOutput(new SimpleWriterExporterOutput(new FileOutputStream(pastaAtual + "/" +nomeDoXlsx + CSV_FILES_SUFIX)));
         exporterCSV.exportReport();
+    }
+
+    private String selecionarPastaDeDestino() throws URISyntaxException{
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fileChooser.setDialogTitle(FILE_CHOOSER_HEADER);
+        int result = fileChooser.showOpenDialog(null);
+        if(result == JFileChooser.APPROVE_OPTION){
+            return fileChooser.getSelectedFile().getAbsolutePath();
+        }else{
+            return buscarPastaDoJar();
+        }
     }
     
     private String buscarPastaDoJar() throws URISyntaxException{
