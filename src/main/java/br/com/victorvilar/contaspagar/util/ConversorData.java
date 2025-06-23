@@ -140,9 +140,15 @@ public abstract class ConversorData {
         }
 
     }
-    
-    
 
+
+    /**
+     * Transforma a string passada que são somente números em uma data no padrão dd/MM/yyyy. Esse método recebe
+     * os valores nos padrões "01012025" e o transforma em 01/01/2025 e caso o valor seja "0101" ele então
+     * pegará o ano atual para completar a data.
+     * @param valor String de números
+     * @return retorna uma string no formato de data dd/MM/yyyy
+     */
     private static String buildData(String valor) {
         StringBuilder novaData = new StringBuilder();
         
