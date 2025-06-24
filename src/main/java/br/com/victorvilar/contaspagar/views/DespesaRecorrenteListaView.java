@@ -164,10 +164,12 @@ public class DespesaRecorrenteListaView extends javax.swing.JFrame {
         panelToolBar1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
         btnDespesaRecorrente.setBackground(new java.awt.Color(242, 242, 242));
-        btnDespesaRecorrente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-despesa-recorrente-40.png"))); // NOI18N
-        btnDespesaRecorrente.setText("Nova Despesa Recorrente");
-        btnDespesaRecorrente.setToolTipText("Editar");
+        btnDespesaRecorrente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-novo-24x.png"))); // NOI18N
+        btnDespesaRecorrente.setText("Novo");
+        btnDespesaRecorrente.setToolTipText("Cadastrar Nova Despesa Recorrente");
         btnDespesaRecorrente.setBorder(null);
+        btnDespesaRecorrente.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnDespesaRecorrente.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnDespesaRecorrente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDespesaRecorrenteActionPerformed(evt);
@@ -179,16 +181,12 @@ public class DespesaRecorrenteListaView extends javax.swing.JFrame {
         panelToolBar1Layout.setHorizontalGroup(
             panelToolBar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelToolBar1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnDespesaRecorrente, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(btnDespesaRecorrente, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         panelToolBar1Layout.setVerticalGroup(
             panelToolBar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelToolBar1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnDespesaRecorrente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(btnDespesaRecorrente, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         jLabel6.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
@@ -209,7 +207,7 @@ public class DespesaRecorrenteListaView extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panelToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(23, 23, 23)
                 .addComponent(jLabel6)
                 .addGap(5, 5, 5)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)

@@ -2,11 +2,7 @@
 -Adicionar anotação @Transactional (?) nos metodos que realizam operações com o banco de dados;
 -Criar alguma maneira de adicionar mais parcelas as Despesas Avulsas sem eliminar as que já existem;
 -Criar testes para os metodos de gerar movimentos semanais.
--Criar testes para a classe MovimentoPagamentoController.
--Criar Enum para evitar as referente parcela "UNICA".
--Criar as variaveis de ambiente.
--Criar .env file.
 -Criar relatórios.
--Criar
 
 
+-Estou utilizando o padrão 'Office M' no site http://icons8.com.br para icones.

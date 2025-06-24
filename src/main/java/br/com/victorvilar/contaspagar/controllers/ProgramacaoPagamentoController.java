@@ -66,7 +66,7 @@ public class ProgramacaoPagamentoController {
     
     public String gerarNomeArquivoSaida(LocalDate dataInicial, LocalDate dataFinal){
         StringBuilder builder = new StringBuilder();
-        builder.append("programação: de ");
+        builder.append("programação ");
         builder.append(ConversorData.paraString(dataInicial).replace("/", "-"));
         builder.append(" à ");
         builder.append(ConversorData.paraString(dataFinal).replace("/", "-"));
