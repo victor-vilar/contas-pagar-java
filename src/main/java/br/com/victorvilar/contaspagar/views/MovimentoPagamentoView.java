@@ -258,15 +258,15 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         btnFormaPagamento = new javax.swing.JButton();
         btnCategorias = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        fieldDespesa = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        checkboxPagas = new javax.swing.JCheckBox();
         BtnProcurar = new javax.swing.JButton();
         BtnProcurar1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         fieldDataInicio = new javax.swing.JTextField();
         fieldDataFim = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        fieldDespesa = new javax.swing.JTextField();
+        checkboxPagas = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Pagamentos");
@@ -330,7 +330,7 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
             panelTabelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelTabelaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6))
         );
@@ -338,7 +338,6 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         panelToolBar1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
         btnDespesa.setBackground(new java.awt.Color(242, 242, 242));
-        btnDespesa.setFont(new java.awt.Font("Noto Sans", 0, 10)); // NOI18N
         btnDespesa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-despesa2-24x.png"))); // NOI18N
         btnDespesa.setText("Despesas");
         btnDespesa.setToolTipText("Cadastrar Nova Despesa");
@@ -353,7 +352,6 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         });
 
         btnDespesaRecorrente.setBackground(new java.awt.Color(242, 242, 242));
-        btnDespesaRecorrente.setFont(new java.awt.Font("Noto Sans", 0, 10)); // NOI18N
         btnDespesaRecorrente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-despesa-24x.png"))); // NOI18N
         btnDespesaRecorrente.setText("Despesas Recorrentes");
         btnDespesaRecorrente.setToolTipText("Exibir Despesas Recorrentes");
@@ -368,7 +366,6 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         });
 
         btnGerarRelatorio.setBackground(new java.awt.Color(242, 242, 242));
-        btnGerarRelatorio.setFont(new java.awt.Font("Noto Sans", 0, 10)); // NOI18N
         btnGerarRelatorio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-relatorio-24x.png"))); // NOI18N
         btnGerarRelatorio.setText("Programação");
         btnGerarRelatorio.setToolTipText("Gerar Programação de Pagamento");
@@ -383,7 +380,6 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         });
 
         btnFormaPagamento.setBackground(new java.awt.Color(242, 242, 242));
-        btnFormaPagamento.setFont(new java.awt.Font("Noto Sans", 0, 10)); // NOI18N
         btnFormaPagamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-pagamento-24x.png"))); // NOI18N
         btnFormaPagamento.setText("Formas de Pagamento");
         btnFormaPagamento.setToolTipText("Exibir Formas de Pagamento");
@@ -399,7 +395,6 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         });
 
         btnCategorias.setBackground(new java.awt.Color(242, 242, 242));
-        btnCategorias.setFont(new java.awt.Font("Noto Sans", 0, 10)); // NOI18N
         btnCategorias.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-categoria-24x.png"))); // NOI18N
         btnCategorias.setText("Categorias");
         btnCategorias.setToolTipText("Exibir Categorias");
@@ -418,16 +413,16 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         panelToolBar1Layout.setHorizontalGroup(
             panelToolBar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelToolBar1Layout.createSequentialGroup()
-                .addComponent(btnDespesa, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnDespesa, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnDespesaRecorrente, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnDespesaRecorrente, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnGerarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(btnGerarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(376, Short.MAX_VALUE))
         );
         panelToolBar1Layout.setVerticalGroup(
             panelToolBar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -439,27 +434,6 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         );
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Pesquisa"));
-
-        fieldDespesa.setName("fieldDespesas"); // NOI18N
-        fieldDespesa.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                fieldDespesaFocusLost(evt);
-            }
-        });
-        fieldDespesa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fieldDespesaActionPerformed(evt);
-            }
-        });
-
-        jLabel4.setText("Despesa");
-
-        checkboxPagas.setText("Pagas");
-        checkboxPagas.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                checkboxPagasStateChanged(evt);
-            }
-        });
 
         BtnProcurar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-binoculos-24x.png"))); // NOI18N
         BtnProcurar.setText("Pesquisar");
@@ -524,6 +498,48 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Descrição"));
+
+        fieldDespesa.setName("fieldDespesas"); // NOI18N
+        fieldDespesa.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                fieldDespesaFocusLost(evt);
+            }
+        });
+        fieldDespesa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fieldDespesaActionPerformed(evt);
+            }
+        });
+
+        checkboxPagas.setText("Pagas");
+        checkboxPagas.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                checkboxPagasStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(fieldDespesa, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(checkboxPagas)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fieldDespesa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(checkboxPagas))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -532,13 +548,8 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(fieldDespesa, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(checkboxPagas)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 303, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(BtnProcurar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnProcurar, javax.swing.GroupLayout.Alignment.TRAILING))
@@ -550,17 +561,12 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
                 .addGap(14, 14, 14)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(fieldDespesa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(checkboxPagas)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(BtnProcurar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(BtnProcurar1))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -578,7 +584,7 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelTabela, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelTabela, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -687,11 +693,11 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
     private javax.swing.JTextField fieldDataFim;
     private javax.swing.JTextField fieldDataInicio;
     private javax.swing.JTextField fieldDespesa;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panelTabela;
     private javax.swing.JPanel panelToolBar1;
