@@ -6,6 +6,7 @@ package br.com.victorvilar.contaspagar.services.implementation;
 
 import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
 import br.com.victorvilar.contaspagar.entities.MovimentoPagamento;
+import br.com.victorvilar.contaspagar.enums.DespesaTipo;
 import br.com.victorvilar.contaspagar.exceptions.MovimentoPagamentoNotFoundException;
 import br.com.victorvilar.contaspagar.repositories.MovimentoPagamentoRepository;
 import br.com.victorvilar.contaspagar.services.interfaces.MovimentoPagamentoService;
@@ -189,7 +190,7 @@ public class MovimentoPagamentoServiceImpl implements MovimentoPagamentoService 
 
         DespesaAbstrata despesa = movimentos.get(0).getDespesa();
         
-        if(despesa != null && despesa.getTipo().equals("RECORRENTE")){
+        if(despesa != null && despesa.getTipo() == DespesaTipo.DESPESA_RECORRENTE){
             return;
         }
         

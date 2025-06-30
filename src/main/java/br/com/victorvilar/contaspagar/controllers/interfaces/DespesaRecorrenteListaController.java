@@ -6,6 +6,7 @@ package br.com.victorvilar.contaspagar.controllers.interfaces;
 
 import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
 import br.com.victorvilar.contaspagar.entities.DespesaRecorrente;
+import br.com.victorvilar.contaspagar.enums.DespesaTipo;
 import br.com.victorvilar.contaspagar.services.interfaces.DespesaService;
 import br.com.victorvilar.contaspagar.util.ControllerHelper;
 import br.com.victorvilar.contaspagar.views.DespesaRecorrenteListaView;
@@ -25,7 +26,7 @@ public class DespesaRecorrenteListaController implements AppViewController<Despe
 
     private DespesaRecorrenteListaView view;
     private final DespesaService service;
-    private final String TIPO_DESPESA = "RECORRENTE";
+
     
     @Autowired
     public DespesaRecorrenteListaController(DespesaService service){
@@ -48,7 +49,7 @@ public class DespesaRecorrenteListaController implements AppViewController<Despe
     }
     
     public List<DespesaAbstrata> buscarDespesas(){
-        return service.findByTipo(TIPO_DESPESA);
+        return service.findByTipo(DespesaTipo.DESPESA_RECORRENTE);
     }
     
     public void preencherView(){

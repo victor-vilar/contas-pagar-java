@@ -1,5 +1,6 @@
 package br.com.victorvilar.contaspagar.entities;
 
+import br.com.victorvilar.contaspagar.enums.DespesaTipo;
 import jakarta.persistence.CascadeType;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -35,7 +36,7 @@ public class DespesaAvulsa extends DespesaAbstrata implements Serializable {
 	
 	public DespesaAvulsa(){
 		super();
-		this.setTipo("AVULSA");
+		this.setTipo(DespesaTipo.DESPESA_AVULSA);
 	}
 	
 
@@ -49,12 +50,12 @@ public class DespesaAvulsa extends DespesaAbstrata implements Serializable {
 		this.notaFiscal = notaFiscal;
 		notaFiscal.setDespesa(this);
 	}
-        
-        public void removeNotaFiscal(){
-            this.notaFiscal.setDespesa(null);
-            this.notaFiscal = null;
-            
-        }
+
+	public void removeNotaFiscal() {
+		this.notaFiscal.setDespesa(null);
+		this.notaFiscal = null;
+
+	}
 
 
 

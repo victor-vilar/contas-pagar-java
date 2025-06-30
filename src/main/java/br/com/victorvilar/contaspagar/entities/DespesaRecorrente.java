@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import br.com.victorvilar.contaspagar.enums.DespesaTipo;
 import br.com.victorvilar.contaspagar.enums.Periodo;
 import jakarta.persistence.*;
 
@@ -30,7 +31,7 @@ public class DespesaRecorrente extends DespesaAbstrata implements Serializable {
 
     public DespesaRecorrente() {
         super();
-        this.setTipo("RECORRENTE");
+        this.setTipo(DespesaTipo.DESPESA_RECORRENTE);
         
     }
 

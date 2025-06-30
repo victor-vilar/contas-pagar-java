@@ -3,6 +3,7 @@ package br.com.victorvilar.contaspagar.services.implementation;
 import java.time.LocalDate;
 import java.util.List;
 
+import br.com.victorvilar.contaspagar.enums.DespesaTipo;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,7 +61,7 @@ public class DespesaServiceImpl implements DespesaService {
             return update(obj);
         }
         DespesaAbstrata despesa = this.repository.save(obj);
-        if(despesa.getTipo().equals("RECORRENTE")){
+        if(despesa.getTipo() == DespesaTipo.DESPESA_RECORRENTE){
             gerador.realizarLancamentos((DespesaRecorrente) despesa);
         }
         return despesa;
@@ -108,12 +109,12 @@ public class DespesaServiceImpl implements DespesaService {
      * @param despesa Objeto 'persisted' que possui valores que ainda precisam ser atualizados.
      */
     public void updateCamposDoTipo(DespesaAbstrata obj, DespesaAbstrata despesa){
-        String tipo = obj.getTipo();
+        DespesaTipo tipo = obj.getTipo();
         switch (tipo) {
-            case "AVULSA":
+            case DESPESA_AVULSA:
                 updateDespesaAvulsa((DespesaAvulsa) obj, (DespesaAvulsa) despesa);
                 break;
-            case "RECORRENTE":
+            case DESPESA_RECORRENTE:
                 updateDespesaRecorrente((DespesaRecorrente) obj, (DespesaRecorrente) despesa);
                 break;
         }
@@ -200,7 +201,7 @@ public class DespesaServiceImpl implements DespesaService {
     }
 
     @Override
-    public List<DespesaAbstrata> findByTipo(String tipo) {
+    public List<DespesaAbstrata> findByTipo(DespesaTipo tipo) {
         return repository.findByTipo(tipo);
     }
 

@@ -24,13 +24,11 @@ public class CategoriaDespesaServiceImpl implements CategoriaDespesaService {
 
     @Override
     public List<CategoriaDespesa> getTodos() {
-        // TODO Auto-generated method stub
         return repository.findAll();
     }
 
     @Override
     public CategoriaDespesa getById(Long id) {
-        // TODO Auto-generated method stub
         return null;
     }
 

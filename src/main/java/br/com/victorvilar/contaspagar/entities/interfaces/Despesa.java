@@ -1,6 +1,8 @@
 package br.com.victorvilar.contaspagar.entities.interfaces;
 
 import br.com.victorvilar.contaspagar.entities.CategoriaDespesa;
+import br.com.victorvilar.contaspagar.enums.DespesaTipo;
+
 import java.math.BigDecimal;
 
 public interface Despesa {
@@ -12,5 +14,5 @@ public interface Despesa {
 	public boolean isQuitado();
 	public BigDecimal getValorTotal();
 	public int getQuantidadeParcelas();
-	public String getTipo();
+	public DespesaTipo getTipo();
 }
