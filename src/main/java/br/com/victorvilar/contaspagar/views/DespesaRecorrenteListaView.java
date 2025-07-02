@@ -189,7 +189,7 @@ public class DespesaRecorrenteListaView extends javax.swing.JFrame {
             .addComponent(btnDespesaRecorrente, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        jLabel6.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Noto Sans", 0, 12)); // NOI18N
         jLabel6.setText("(Clique Duplo) Abrir Despesa");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
