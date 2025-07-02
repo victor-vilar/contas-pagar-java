@@ -6,6 +6,7 @@ package br.com.victorvilar.contaspagar.views;
 
 import br.com.victorvilar.contaspagar.controllers.MovimentoPagamentoController;
 import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
+import br.com.victorvilar.contaspagar.enums.DespesaTipo;
 import br.com.victorvilar.contaspagar.exceptions.QuantidadeDeParcelasException;
 import br.com.victorvilar.contaspagar.services.interfaces.MovimentoPagamentoService;
 import br.com.victorvilar.contaspagar.util.AppMensagens;
@@ -168,7 +169,7 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
                         Long id = (Long) tableMovimentos.getValueAt(row, 0);
                         DespesaAbstrata despesa = controller.buscarDespesa(id);
                         
-                        if(despesa.getTipo().equals("AVULSA")){
+                        if(despesa.getTipo() == DespesaTipo.DESPESA_AVULSA){
                             var avulsa = context.getBean(DespesaAvulsaViewImpl.class);
                             avulsa.preencherView(despesa);
                             avulsa.setVisible(true);
