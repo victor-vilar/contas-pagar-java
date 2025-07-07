@@ -6,6 +6,7 @@ create table enderecos_fornecedor(
     cidade VARCHAR(150) NOT NULL,
     cep VARCHAR(8),
     ponto_referencia(50),
+    observacao(200)
     fornecedor_id BIGINT,
     CONSTRAINT fornecedor_fk FOREIGN_KEY(fornecedor_id)REFERENCES fornecedor(id)
 );

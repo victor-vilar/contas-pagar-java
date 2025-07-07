@@ -18,7 +18,7 @@ import java.io.Serializable;
  * @author victor
  */
 @Entity
-@Table(name="fornecedor")
+@Table(name="enderecos_fornecedor")
 public class EnderecoFornecedor implements Serializable{
  
     @Id
