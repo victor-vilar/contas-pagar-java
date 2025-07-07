@@ -4,6 +4,7 @@
  */
 package br.com.victorvilar.contaspagar.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,9 +26,13 @@ public class EnderecoFornecedor implements Serializable{
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     
+    @Column(nullable=false)
     private String logradouro;
+    @Column(nullable=false)
     private String numero;
+    @Column(nullable=false)
     private String bairro;
+    @Column(nullable=false)
     private String cidade;
     private String cep;
     private String pontoReferencia;
