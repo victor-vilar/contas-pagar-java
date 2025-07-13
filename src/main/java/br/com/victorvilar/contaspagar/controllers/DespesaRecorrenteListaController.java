@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.com.victorvilar.contaspagar.controllers.interfaces;
+package br.com.victorvilar.contaspagar.controllers;
 
+import br.com.victorvilar.contaspagar.controllers.interfaces.AppViewController;
 import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
 import br.com.victorvilar.contaspagar.entities.DespesaRecorrente;
 import br.com.victorvilar.contaspagar.enums.DespesaTipo;

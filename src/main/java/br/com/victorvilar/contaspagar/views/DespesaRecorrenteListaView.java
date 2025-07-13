@@ -4,7 +4,7 @@
  */
 package br.com.victorvilar.contaspagar.views;
 
-import br.com.victorvilar.contaspagar.controllers.interfaces.DespesaRecorrenteListaController;
+import br.com.victorvilar.contaspagar.controllers.DespesaRecorrenteListaController;
 import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
 import jakarta.annotation.PostConstruct;
 import java.awt.event.MouseAdapter;
