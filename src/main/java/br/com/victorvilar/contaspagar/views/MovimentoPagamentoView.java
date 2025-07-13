@@ -255,10 +255,10 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         panelToolBar1 = new javax.swing.JPanel();
         btnDespesa = new javax.swing.JButton();
         btnDespesaRecorrente = new javax.swing.JButton();
-        btnGerarRelatorio = new javax.swing.JButton();
+        btnFornecedores = new javax.swing.JButton();
         btnFormaPagamento = new javax.swing.JButton();
         btnCategorias = new javax.swing.JButton();
-        btnGerarRelatorio1 = new javax.swing.JButton();
+        btnGerarRelatorio = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         BtnProcurar = new javax.swing.JButton();
         BtnProcurar1 = new javax.swing.JButton();
@@ -367,17 +367,17 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
             }
         });
 
-        btnGerarRelatorio.setBackground(new java.awt.Color(242, 242, 242));
-        btnGerarRelatorio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-fornecedor-24x.png"))); // NOI18N
-        btnGerarRelatorio.setText("Fornecedores");
-        btnGerarRelatorio.setToolTipText("Gerar Programação de Pagamento");
-        btnGerarRelatorio.setBorder(null);
-        btnGerarRelatorio.setBorderPainted(false);
-        btnGerarRelatorio.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnGerarRelatorio.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnGerarRelatorio.addActionListener(new java.awt.event.ActionListener() {
+        btnFornecedores.setBackground(new java.awt.Color(242, 242, 242));
+        btnFornecedores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-fornecedor-24x.png"))); // NOI18N
+        btnFornecedores.setText("Fornecedores");
+        btnFornecedores.setToolTipText("Gerar Programação de Pagamento");
+        btnFornecedores.setBorder(null);
+        btnFornecedores.setBorderPainted(false);
+        btnFornecedores.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnFornecedores.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnFornecedores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGerarRelatorioActionPerformed(evt);
+                btnFornecedoresActionPerformed(evt);
             }
         });
 
@@ -410,17 +410,17 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
             }
         });
 
-        btnGerarRelatorio1.setBackground(new java.awt.Color(242, 242, 242));
-        btnGerarRelatorio1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-relatorio-24x.png"))); // NOI18N
-        btnGerarRelatorio1.setText("Programação");
-        btnGerarRelatorio1.setToolTipText("Gerar Programação de Pagamento");
-        btnGerarRelatorio1.setBorder(null);
-        btnGerarRelatorio1.setBorderPainted(false);
-        btnGerarRelatorio1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnGerarRelatorio1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnGerarRelatorio1.addActionListener(new java.awt.event.ActionListener() {
+        btnGerarRelatorio.setBackground(new java.awt.Color(242, 242, 242));
+        btnGerarRelatorio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon-relatorio-24x.png"))); // NOI18N
+        btnGerarRelatorio.setText("Programação");
+        btnGerarRelatorio.setToolTipText("Gerar Programação de Pagamento");
+        btnGerarRelatorio.setBorder(null);
+        btnGerarRelatorio.setBorderPainted(false);
+        btnGerarRelatorio.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnGerarRelatorio.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnGerarRelatorio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGerarRelatorio1ActionPerformed(evt);
+                btnGerarRelatorioActionPerformed(evt);
             }
         });
 
@@ -437,9 +437,9 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnGerarRelatorio1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnGerarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnFornecedores, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(236, Short.MAX_VALUE))
         );
         panelToolBar1Layout.setVerticalGroup(
@@ -448,8 +448,8 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
             .addComponent(btnDespesaRecorrente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnCategorias, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnFormaPagamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnGerarRelatorio1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnGerarRelatorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnFornecedores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Pesquisa"));
@@ -624,11 +624,11 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         
     }//GEN-LAST:event_btnDespesaActionPerformed
 
-    private void btnGerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarRelatorioActionPerformed
+    private void btnFornecedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFornecedoresActionPerformed
         MovimentoPagamentoService service = context.getBean(MovimentoPagamentoService.class);
         ProgramacaoPagamentoView view = new ProgramacaoPagamentoView(service);
         view.setVisible(true);
-    }//GEN-LAST:event_btnGerarRelatorioActionPerformed
+    }//GEN-LAST:event_btnFornecedoresActionPerformed
 
     private void fieldDespesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldDespesaActionPerformed
         // TODO add your handling code here:
@@ -699,9 +699,9 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         view.setVisible(true);
     }//GEN-LAST:event_btnCategoriasActionPerformed
 
-    private void btnGerarRelatorio1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarRelatorio1ActionPerformed
+    private void btnGerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarRelatorioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnGerarRelatorio1ActionPerformed
+    }//GEN-LAST:event_btnGerarRelatorioActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -711,8 +711,8 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
     private javax.swing.JButton btnDespesa;
     private javax.swing.JButton btnDespesaRecorrente;
     private javax.swing.JButton btnFormaPagamento;
+    private javax.swing.JButton btnFornecedores;
     private javax.swing.JButton btnGerarRelatorio;
-    private javax.swing.JButton btnGerarRelatorio1;
     private javax.swing.JCheckBox checkboxPagas;
     private javax.swing.JTextField fieldDataFim;
     private javax.swing.JTextField fieldDataInicio;
