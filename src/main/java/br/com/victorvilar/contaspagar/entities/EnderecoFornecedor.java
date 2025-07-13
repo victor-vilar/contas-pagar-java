@@ -4,8 +4,11 @@
  */
 package br.com.victorvilar.contaspagar.entities;
 
+import br.com.victorvilar.contaspagar.enums.UF;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,6 +37,8 @@ public class EnderecoFornecedor implements Serializable{
     private String bairro;
     @Column(nullable=false)
     private String cidade;
+    @Enumerated(EnumType.STRING)
+    private UF uf;
     private String cep;
     private String pontoReferencia;
     private String observacao;
@@ -115,7 +120,14 @@ public class EnderecoFornecedor implements Serializable{
         this.fornecedor = fornecedor;
     }
     
-    
+
+    public UF getUf() {
+        return uf;
+    }
+
+    public void setUf(UF uf) {
+        this.uf = uf;
+    }
     
     
     
