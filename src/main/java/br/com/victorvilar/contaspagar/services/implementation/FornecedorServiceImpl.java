@@ -6,7 +6,7 @@ package br.com.victorvilar.contaspagar.services.implementation;
 
 import br.com.victorvilar.contaspagar.entities.Fornecedor;
 import br.com.victorvilar.contaspagar.repositories.FornecedorRepository;
-import br.com.victorvilar.contaspagar.services.interfaces.AppService;
+import br.com.victorvilar.contaspagar.services.interfaces.FornecedorService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
  * @author victor
  */
 @Service
-public class FornecedorServiceImpl implements AppService<Fornecedor> {
+public class FornecedorServiceImpl implements FornecedorService{
 
     private final FornecedorRepository repository;
     
