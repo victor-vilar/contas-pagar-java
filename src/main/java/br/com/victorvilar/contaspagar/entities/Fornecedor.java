@@ -4,6 +4,7 @@
  */
 package br.com.victorvilar.contaspagar.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,10 +25,63 @@ public class Fornecedor implements Serializable{
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     
+    @Column(unique=true, nullable = false)
     private String razaoSocial;
     private String nomeFantasia;
+    @Column(unique=true, nullable=false)
     private String cnpj;
+    private String observacao;
     
     @OneToOne
-    private Endereco endereco;
+    private EnderecoFornecedor endereco;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getRazaoSocial() {
+        return razaoSocial;
+    }
+
+    public void setRazaoSocial(String razaoSocial) {
+        this.razaoSocial = razaoSocial;
+    }
+
+    public String getNomeFantasia() {
+        return nomeFantasia;
+    }
+
+    public void setNomeFantasia(String nomeFantasia) {
+        this.nomeFantasia = nomeFantasia;
+    }
+
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
+
+    public EnderecoFornecedor getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(EnderecoFornecedor endereco) {
+        this.endereco = endereco;
+    }
+    
+    
 }
