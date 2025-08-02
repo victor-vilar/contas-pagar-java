@@ -4,13 +4,8 @@
  */
 package br.com.victorvilar.contaspagar.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 
 /**
@@ -18,7 +13,7 @@ import java.io.Serializable;
  * @author victor
  */
 @Entity
-@Table(name="fornecedor")
+@Table(name="fornecedores")
 public class Fornecedor implements Serializable{
  
     @Id
@@ -32,7 +27,7 @@ public class Fornecedor implements Serializable{
     private String cnpj;
     private String observacao;
     
-    @OneToOne
+    @OneToOne(mappedBy = "fornecedor",cascade = {CascadeType.PERSIST,CascadeType.REMOVE},orphanRemoval = true)
     private EnderecoFornecedor endereco;
 
     public Long getId() {
