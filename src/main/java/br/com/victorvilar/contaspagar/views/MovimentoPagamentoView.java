@@ -625,9 +625,7 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
     }//GEN-LAST:event_btnDespesaActionPerformed
 
     private void btnFornecedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFornecedoresActionPerformed
-        MovimentoPagamentoService service = context.getBean(MovimentoPagamentoService.class);
-        ProgramacaoPagamentoView view = new ProgramacaoPagamentoView(service);
-        view.setVisible(true);
+
     }//GEN-LAST:event_btnFornecedoresActionPerformed
 
     private void fieldDespesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldDespesaActionPerformed
@@ -700,7 +698,9 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
     }//GEN-LAST:event_btnCategoriasActionPerformed
 
     private void btnGerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarRelatorioActionPerformed
-        // TODO add your handling code here:
+        MovimentoPagamentoService service = context.getBean(MovimentoPagamentoService.class);
+        ProgramacaoPagamentoView view = new ProgramacaoPagamentoView(service);
+        view.setVisible(true);
     }//GEN-LAST:event_btnGerarRelatorioActionPerformed
 
 
