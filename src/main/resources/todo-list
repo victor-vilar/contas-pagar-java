@@ -4,5 +4,8 @@
 -Criar testes para os metodos de gerar movimentos semanais.
 -Criar relatórios.
 
+-Existe o codigo para deletar os movimentos que estao na tabela de movimentos.
+O codigo vai ate o banco, seleciona o item e o coloca no movimentoService para
+que ele seja deletado, um de cada vez, a pergunta é porque ? Porque não estou deletando diretamente.
 
 -Estou utilizando o padrão 'Office M' no site http://icons8.com.br para icones.
