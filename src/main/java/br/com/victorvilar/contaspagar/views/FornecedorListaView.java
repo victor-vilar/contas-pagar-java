@@ -4,8 +4,6 @@
  */
 package br.com.victorvilar.contaspagar.views;
 
-import br.com.victorvilar.contaspagar.controllers.interfaces.DespesaRecorrenteListaController;
-import br.com.victorvilar.contaspagar.entities.DespesaAbstrata;
 import jakarta.annotation.PostConstruct;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -29,15 +27,14 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Lazy
-public class DespesaRecorrenteListaView extends javax.swing.JFrame {
+public class FornecedorListaView extends javax.swing.JFrame {
 
     private final ApplicationContext context;
-    private final DespesaRecorrenteListaController controller;
+    
     
     @Autowired
-    public DespesaRecorrenteListaView (ApplicationContext context, DespesaRecorrenteListaController controller){
+    public FornecedorListaView (ApplicationContext context){
         this.context = context;
-        this.controller = controller;
     }
        
     public JTable getTableDespesas(){
@@ -47,7 +44,7 @@ public class DespesaRecorrenteListaView extends javax.swing.JFrame {
     @PostConstruct
     public void inicializar(){
         initComponents();
-        this.controller.setView(this);
+        //this.controller.setView(this);
         configurarTabela();
         setLocationRelativeTo(null);
     }
@@ -73,9 +70,9 @@ public class DespesaRecorrenteListaView extends javax.swing.JFrame {
                 if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1 && row != -1) {
 
                     Long id = (Long) tableDespesas.getValueAt(row, 0);
-                    DespesaAbstrata despesa = controller.buscarDespesa(id);
+                    //DespesaAbstrata despesa = controller.buscarDespesa(id);
                     var recorrente = context.getBean(DespesaRecorrenteViewImpl.class);
-                    recorrente.preencherView(despesa);
+                    //recorrente.preencherView(despesa);
                     recorrente.setVisible(true);
 
                 }
@@ -224,7 +221,7 @@ public class DespesaRecorrenteListaView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDespesaRecorrenteActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        controller.preencherView();
+        //controller.preencherView();
     }//GEN-LAST:event_formWindowActivated
 
 
