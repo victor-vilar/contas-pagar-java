@@ -8,6 +8,7 @@ import br.com.victorvilar.contaspagar.controllers.FornecedorViewController;
 import br.com.victorvilar.contaspagar.entities.Fornecedor;
 import br.com.victorvilar.contaspagar.exceptions.FieldsEmBrancoException;
 import br.com.victorvilar.contaspagar.util.AppMensagens;
+import java.util.List;
 import javax.swing.JOptionPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -28,7 +29,31 @@ public class FornecedorView extends javax.swing.JFrame {
         this.controller = controller;
         this.controller.setView(this);
     }
-            
+    
+    /**
+     * Retorna uma lista com todos os componentes do formulário
+     * @return 
+     */
+    public List<java.awt.Component> getAllComponents(){
+        return List.of( 
+                fieldBairro,
+                fieldCep,
+                fieldCidade,
+                fieldCnpjCpf,
+                fieldFantasia,
+                fieldId,
+                fieldLogradouro,
+                fieldNome,
+                fieldNumero,
+                fieldObservacao,
+                fieldReferencia,
+                btnDeletar,
+                btnEditar,
+                btnNovo,
+                btnSalvar
+        );
+    }
+    
     
     
     public void preencherView(Fornecedor fornecedor){
