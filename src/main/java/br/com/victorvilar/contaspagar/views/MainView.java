@@ -26,6 +26,7 @@ public class MainView extends JFrame {
         private JButton btnDespesaAvulsa;
         private JButton btnDespesaRecorrente;
         private JButton btnMovimentos;
+        private JButton btnFornecedores;
 
 	@Autowired
 	public void MainView(ApplicationContext context) {
@@ -84,12 +85,21 @@ public class MainView extends JFrame {
                 }
             });
             
+            btnFornecedores = new JButton("Fornecedores");
+            btnFornecedores.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent arg0) {
+                    var view = context.getBean(FornecedorView.class);
+                    view.setVisible(true);
+                }
+            });
+            
 		
 		contentPane.add(btnFormaPagamento);
 		contentPane.add(btnCategoriaDespesa);
                 contentPane.add(btnDespesaAvulsa);
                 contentPane.add(btnDespesaRecorrente);
                 contentPane.add(btnMovimentos);
+                contentPane.add(btnFornecedores);
 		
 		
 		
