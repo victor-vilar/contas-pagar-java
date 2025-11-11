@@ -40,7 +40,6 @@ public class EnderecoFornecedor implements Serializable{
     @Enumerated(EnumType.STRING)
     private UF uf;
     private String cep;
-    private String pontoReferencia;
     private String observacao;
     
     
@@ -96,13 +95,6 @@ public class EnderecoFornecedor implements Serializable{
         this.cep = cep;
     }
 
-    public String getPontoReferencia() {
-        return pontoReferencia;
-    }
-
-    public void setPontoReferencia(String pontoReferencia) {
-        this.pontoReferencia = pontoReferencia;
-    }
 
     public String getObservacao() {
         return observacao;
