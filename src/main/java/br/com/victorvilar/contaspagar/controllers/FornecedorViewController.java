@@ -5,8 +5,10 @@
 package br.com.victorvilar.contaspagar.controllers;
 
 import br.com.victorvilar.contaspagar.controllers.interfaces.CrudViewController;
+import br.com.victorvilar.contaspagar.services.interfaces.FornecedorService;
 import br.com.victorvilar.contaspagar.views.FornecedorView;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
@@ -20,12 +22,19 @@ public class FornecedorViewController implements CrudViewController<FornecedorVi
 
     
     private FornecedorView view;
+    private final FornecedorService service;
     private final List<String> excludeComponents = List.of(
             "btnNovo",
             "btnEditar",
             "btnSalvar",
             "btnDeletar",
             "fieldId");
+    
+    @Autowired
+    public FornecedorViewController(FornecedorService service){
+        this.service = service;
+    }
+    
     
     @Override
     public void novo() {
@@ -45,7 +54,7 @@ public class FornecedorViewController implements CrudViewController<FornecedorVi
 
     @Override
     public void deletar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.service.deleteById(Long.valueOf(view.getFieldId().getText()));
     }
 
     @Override
@@ -61,7 +70,7 @@ public class FornecedorViewController implements CrudViewController<FornecedorVi
     
     public void ativarOuDesativarCampos(boolean op){
         view.getAllComponents().stream().forEach(c ->{
-            if((c.getName() != null) && !excludeComponents.contains(c.getName())){;;;;
+            if((c.getName() != null) && !excludeComponents.contains(c.getName())){
                 c.setEnabled(op);                
             }
         });
