@@ -7,6 +7,7 @@ package br.com.victorvilar.contaspagar.controllers;
 import br.com.victorvilar.contaspagar.controllers.interfaces.CrudViewController;
 import br.com.victorvilar.contaspagar.entities.EnderecoFornecedor;
 import br.com.victorvilar.contaspagar.entities.Fornecedor;
+import br.com.victorvilar.contaspagar.enums.UF;
 import br.com.victorvilar.contaspagar.services.interfaces.FornecedorService;
 import br.com.victorvilar.contaspagar.views.FornecedorView;
 import java.util.List;
@@ -82,7 +83,6 @@ public class FornecedorViewController implements CrudViewController<FornecedorVi
     }
     
     public Fornecedor criarFornecedor(){
-    
         Fornecedor fornecedor = new Fornecedor();
         fornecedor.setRazaoSocial(view.getFieldNome().getText().trim());
         fornecedor.setCpfCnpj(view.getFieldCnpjCpf().getText().trim());
@@ -99,8 +99,7 @@ public class FornecedorViewController implements CrudViewController<FornecedorVi
         endereco.setBairro(view.getFieldBairro().getText().trim());
         endereco.setCidade(view.getFieldCidade().getText().trim());
         endereco.setCep(view.getFieldCep().getText().trim());
-        endereco.setUf(UF.fromSigla(view.getComboUF().getSelectedItem()));
-        
+        endereco.setUf(UF.fromSigla((String) view.getComboUF().getSelectedItem()));
         return endereco;
     }
     
