@@ -40,7 +40,11 @@ public class FornecedorView extends javax.swing.JFrame {
     @PostConstruct
     public void inicializarFormulario(){
         this.initComponents();
-        for(UF uf : UF.values()){;
+        this.inicializarComboBoxes();
+    }
+    
+    public void inicializarComboBoxes(){
+        for(UF uf : UF.values()){
             this.comboUf.addItem(uf.name());
         }
     }
