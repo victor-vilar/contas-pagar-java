@@ -76,6 +76,7 @@ public class Fornecedor implements Serializable{
 
     public void setEndereco(EnderecoFornecedor endereco) {
         this.endereco = endereco;
+        endereco.setFornecedor(this);
     }
     
     
