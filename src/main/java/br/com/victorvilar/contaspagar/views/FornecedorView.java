@@ -135,7 +135,9 @@ public class FornecedorView extends javax.swing.JFrame {
         return fieldObservacao;
     }
     
-    
+    public JComboBox<String> getComboUF(){
+        return comboUf;
+    }
     
     
     
