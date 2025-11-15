@@ -5,6 +5,8 @@
 package br.com.victorvilar.contaspagar.controllers;
 
 import br.com.victorvilar.contaspagar.controllers.interfaces.CrudViewController;
+import br.com.victorvilar.contaspagar.entities.EnderecoFornecedor;
+import br.com.victorvilar.contaspagar.entities.Fornecedor;
 import br.com.victorvilar.contaspagar.services.interfaces.FornecedorService;
 import br.com.victorvilar.contaspagar.views.FornecedorView;
 import java.util.List;
@@ -49,12 +51,13 @@ public class FornecedorViewController implements CrudViewController<FornecedorVi
 
     @Override
     public void editar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ativarOuDesativarCampos(false);
     }
 
     @Override
     public void deletar() {
         this.service.deleteById(Long.valueOf(view.getFieldId().getText()));
+        ativarOuDesativarCampos(false);
     }
 
     @Override
@@ -76,6 +79,29 @@ public class FornecedorViewController implements CrudViewController<FornecedorVi
         });
            
            
+    }
+    
+    public Fornecedor criarFornecedor(){
+    
+        Fornecedor fornecedor = new Fornecedor();
+        fornecedor.setRazaoSocial(view.getFieldNome().getText().trim());
+        fornecedor.setCpfCnpj(view.getFieldCnpjCpf().getText().trim());
+        fornecedor.setNomeFantasia(view.getFieldFantasia().getText().trim());
+        fornecedor.setObservacao(view.getFieldObservacao().getText().trim());
+        fornecedor.setEndereco(criarEndereco());
+        return fornecedor;
+    }
+    
+    public EnderecoFornecedor criarEndereco(){
+        EnderecoFornecedor endereco = new EnderecoFornecedor();
+        endereco.setLogradouro(view.getFieldLogradouro().getText().trim());
+        endereco.setNumero(view.getFieldNumero().getText().trim());
+        endereco.setBairro(view.getFieldBairro().getText().trim());
+        endereco.setCidade(view.getFieldCidade().getText().trim());
+        endereco.setCep(view.getFieldCep().getText().trim());
+        endereco.setUf(UF.fromSigla(view.getComboUF().getSelectedItem()));
+        
+        return endereco;
     }
     
 }
