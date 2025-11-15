@@ -58,7 +58,7 @@ public class Fornecedor implements Serializable{
         return cpfCnpj;
     }
 
-    public void setCpfCnpj(String cnpj) {
+    public void setCpfCnpj(String cpfCnpj) {
         this.cpfCnpj = cpfCnpj;
     }
 
