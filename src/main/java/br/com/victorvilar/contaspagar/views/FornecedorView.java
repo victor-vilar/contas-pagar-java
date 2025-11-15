@@ -99,6 +99,44 @@ public class FornecedorView extends javax.swing.JFrame {
         return fieldId;
     }
 
+    public JTextField getFieldBairro() {
+        return fieldBairro;
+    }
+
+    public JTextField getFieldCep() {
+        return fieldCep;
+    }
+
+    public JTextField getFieldCidade() {
+        return fieldCidade;
+    }
+
+    public JTextField getFieldCnpjCpf() {
+        return fieldCnpjCpf;
+    }
+
+    public JTextField getFieldFantasia() {
+        return fieldFantasia;
+    }
+
+    public JTextField getFieldLogradouro() {
+        return fieldLogradouro;
+    }
+
+    public JTextField getFieldNome() {
+        return fieldNome;
+    }
+
+    public JTextField getFieldNumero() {
+        return fieldNumero;
+    }
+
+    public JTextArea getFieldObservacao() {
+        return fieldObservacao;
+    }
+    
+    
+    
     
     
     public void preencherView(Fornecedor fornecedor){
