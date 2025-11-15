@@ -54,11 +54,10 @@ public class FornecedorView extends javax.swing.JFrame {
      * @return 
      */
     public List<java.awt.Component> getAllComponents(){
-        return List.of( 
-                fieldBairro,
+        return List.of(fieldBairro,
                 fieldCep,
                 fieldCidade,
-                fieldCnpjCpf,
+                fieldCpfCnpj,
                 fieldFantasia,
                 fieldId,
                 fieldLogradouro,
@@ -78,11 +77,10 @@ public class FornecedorView extends javax.swing.JFrame {
      * @return 
      */
     public List<JTextComponent> getAllTextFields(){
-        return List.of(
-                fieldBairro,
+        return List.of(fieldBairro,
                 fieldCep,
                 fieldCidade,
-                fieldCnpjCpf,
+                fieldCpfCnpj,
                 fieldFantasia,
                 fieldId,
                 fieldLogradouro,
@@ -115,8 +113,8 @@ public class FornecedorView extends javax.swing.JFrame {
         return fieldCidade;
     }
 
-    public JTextField getFieldCnpjCpf() {
-        return fieldCnpjCpf;
+    public JTextField getFieldCpfCnpj() {
+        return fieldCpfCnpj;
     }
 
     public JTextField getFieldFantasia() {
@@ -170,7 +168,7 @@ public class FornecedorView extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         fieldFantasia = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        fieldCnpjCpf = new javax.swing.JTextField();
+        fieldCpfCnpj = new javax.swing.JTextField();
         fieldLogradouro = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         fieldNumero = new javax.swing.JTextField();
@@ -289,8 +287,8 @@ public class FornecedorView extends javax.swing.JFrame {
 
         jLabel4.setText("CNPJ / CPF");
 
-        fieldCnpjCpf.setEnabled(false);
-        fieldCnpjCpf.setName("fieldCnpjCpf"); // NOI18N
+        fieldCpfCnpj.setEnabled(false);
+        fieldCpfCnpj.setName("fieldCpfCnpj"); // NOI18N
 
         fieldLogradouro.setEnabled(false);
         fieldLogradouro.setName("fieldLogradouro"); // NOI18N
@@ -365,7 +363,7 @@ public class FornecedorView extends javax.swing.JFrame {
                                     .addComponent(fieldFantasia))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(fieldCnpjCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(fieldCpfCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel4)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -419,7 +417,7 @@ public class FornecedorView extends javax.swing.JFrame {
                     .addComponent(jLabel4))
                 .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(fieldCnpjCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fieldCpfCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fieldFantasia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -504,7 +502,7 @@ public class FornecedorView extends javax.swing.JFrame {
     private javax.swing.JTextField fieldBairro;
     private javax.swing.JTextField fieldCep;
     private javax.swing.JTextField fieldCidade;
-    private javax.swing.JTextField fieldCnpjCpf;
+    private javax.swing.JTextField fieldCpfCnpj;
     private javax.swing.JTextField fieldFantasia;
     private javax.swing.JTextField fieldId;
     private javax.swing.JTextField fieldLogradouro;

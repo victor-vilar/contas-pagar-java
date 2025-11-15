@@ -85,7 +85,7 @@ public class FornecedorViewController implements CrudViewController<FornecedorVi
     public Fornecedor criarFornecedor(){
         Fornecedor fornecedor = new Fornecedor();
         fornecedor.setRazaoSocial(view.getFieldNome().getText().trim());
-        fornecedor.setCpfCnpj(view.getFieldCnpjCpf().getText().trim());
+        fornecedor.setCpfCnpj(view.getFieldCpfCnpj().getText().trim());
         fornecedor.setNomeFantasia(view.getFieldFantasia().getText().trim());
         fornecedor.setObservacao(view.getFieldObservacao().getText().trim());
         fornecedor.setEndereco(criarEndereco());

@@ -53,7 +53,7 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="fieldCnpjCpf" min="-2" pref="184" max="-2" attributes="0"/>
+                                  <Component id="fieldCpfCnpj" min="-2" pref="184" max="-2" attributes="0"/>
                                   <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -129,7 +129,7 @@
               </Group>
               <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="fieldCnpjCpf" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="fieldCpfCnpj" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="fieldFantasia" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
@@ -346,10 +346,10 @@
         <Property name="text" type="java.lang.String" value="CNPJ / CPF"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="fieldCnpjCpf">
+    <Component class="javax.swing.JTextField" name="fieldCpfCnpj">
       <Properties>
         <Property name="enabled" type="boolean" value="false"/>
-        <Property name="name" type="java.lang.String" value="fieldCnpjCpf" noResource="true"/>
+        <Property name="name" type="java.lang.String" value="fieldCpfCnpj" noResource="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="fieldLogradouro">
