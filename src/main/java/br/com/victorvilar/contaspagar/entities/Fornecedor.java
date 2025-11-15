@@ -24,7 +24,7 @@ public class Fornecedor implements Serializable{
     private String razaoSocial;
     private String nomeFantasia;
     @Column(unique=true, nullable=false)
-    private String cnpj;
+    private String cpfCnpj;
     private String observacao;
     
     @OneToOne(mappedBy = "fornecedor",cascade = {CascadeType.PERSIST,CascadeType.REMOVE},orphanRemoval = true)
@@ -54,12 +54,12 @@ public class Fornecedor implements Serializable{
         this.nomeFantasia = nomeFantasia;
     }
 
-    public String getCnpj() {
-        return cnpj;
+    public String getCpfCnpj() {
+        return cpfCnpj;
     }
 
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
+    public void setCpfCnpj(String cnpj) {
+        this.cpfCnpj = cpfCnpj;
     }
 
     public String getObservacao() {
