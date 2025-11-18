@@ -8,9 +8,14 @@ import br.com.victorvilar.contaspagar.controllers.interfaces.CrudViewController;
 import br.com.victorvilar.contaspagar.entities.EnderecoFornecedor;
 import br.com.victorvilar.contaspagar.entities.Fornecedor;
 import br.com.victorvilar.contaspagar.enums.UF;
+import br.com.victorvilar.contaspagar.exceptions.FieldsEmBrancoException;
 import br.com.victorvilar.contaspagar.services.interfaces.FornecedorService;
+import br.com.victorvilar.contaspagar.util.AppMensagens;
 import br.com.victorvilar.contaspagar.views.FornecedorView;
 import java.util.List;
+import java.util.Optional;
+import javax.swing.JTextField;
+import javax.swing.text.JTextComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
@@ -38,6 +43,10 @@ public class FornecedorViewController implements CrudViewController<FornecedorVi
         this.service = service;
     }
     
+    public List<String> getExcludedComponents(){
+        return excludeComponents;
+    }
+    
     
     @Override
     public void novo() {
@@ -46,18 +55,25 @@ public class FornecedorViewController implements CrudViewController<FornecedorVi
     }
 
     @Override
-    public void salvar() {
+    public void salvar() throws FieldsEmBrancoException {
+        checarErrosAntesDeSalvar();
+        this.service.save(criarFornecedor());
         ativarOuDesativarCampos(false);
+        limparCampos();
     }
 
     @Override
     public void editar() {
-        ativarOuDesativarCampos(false);
+        if(view.getFieldId().getText().trim().isEmpty()){
+            return;
+        }
+        ativarOuDesativarCampos(true);
     }
 
     @Override
     public void deletar() {
         this.service.deleteById(Long.valueOf(view.getFieldId().getText()));
+        limparCampos();
         ativarOuDesativarCampos(false);
     }
 
@@ -102,5 +118,23 @@ public class FornecedorViewController implements CrudViewController<FornecedorVi
         endereco.setUf(UF.fromSigla((String) view.getComboUF().getSelectedItem()));
         return endereco;
     }
+    
+    public void checarErrosAntesDeSalvar() throws FieldsEmBrancoException{
+    
+        List<String> excludeNames = List.of("fieldObservacao");
+        
+        Optional<JTextComponent> fields = view
+                .getAllTextFields()
+                .stream()
+                .filter(f -> f.getName().trim().isEmpty() && !excludeNames.contains(f.getName())).findFirst();
+        
+        if(fields.isPresent()){
+            throw new FieldsEmBrancoException(AppMensagens.INFO_PREENCHER_TODOS_CAMPOS);
+        }
+    
+    }
+    
+    
+    
     
 }
