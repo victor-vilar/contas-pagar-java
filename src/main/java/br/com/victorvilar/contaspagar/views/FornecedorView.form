@@ -234,6 +234,7 @@
               <Border info="null"/>
             </Property>
             <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="name" type="java.lang.String" value="btnDeletar" noResource="true"/>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
           <Events>
@@ -254,6 +255,7 @@
               <Border info="null"/>
             </Property>
             <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="name" type="java.lang.String" value="btnNovo" noResource="true"/>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
           <Events>
@@ -274,6 +276,7 @@
               <Border info="null"/>
             </Property>
             <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="name" type="java.lang.String" value="btnEditar" noResource="true"/>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
           <Events>
@@ -294,6 +297,7 @@
               <Border info="null"/>
             </Property>
             <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="name" type="java.lang.String" value="btnSalvar" noResource="true"/>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
           <Events>

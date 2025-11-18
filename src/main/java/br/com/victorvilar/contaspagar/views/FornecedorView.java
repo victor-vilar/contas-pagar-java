@@ -196,6 +196,7 @@ public class FornecedorView extends javax.swing.JFrame {
         btnDeletar.setToolTipText("Deletar");
         btnDeletar.setBorder(null);
         btnDeletar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnDeletar.setName("btnDeletar"); // NOI18N
         btnDeletar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnDeletar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -209,6 +210,7 @@ public class FornecedorView extends javax.swing.JFrame {
         btnNovo.setToolTipText("Novo");
         btnNovo.setBorder(null);
         btnNovo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnNovo.setName("btnNovo"); // NOI18N
         btnNovo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnNovo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -222,6 +224,7 @@ public class FornecedorView extends javax.swing.JFrame {
         btnEditar.setToolTipText("Editar");
         btnEditar.setBorder(null);
         btnEditar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnEditar.setName("btnEditar"); // NOI18N
         btnEditar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -235,6 +238,7 @@ public class FornecedorView extends javax.swing.JFrame {
         btnSalvar.setToolTipText("Salvar");
         btnSalvar.setBorder(null);
         btnSalvar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSalvar.setName("btnSalvar"); // NOI18N
         btnSalvar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
