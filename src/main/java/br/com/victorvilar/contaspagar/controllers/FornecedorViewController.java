@@ -121,12 +121,12 @@ public class FornecedorViewController implements CrudViewController<FornecedorVi
     
     public void checarErrosAntesDeSalvar() throws FieldsEmBrancoException{
     
-        List<String> excludeNames = List.of("fieldObservacao");
+        List<String> excludeNames = List.of("fieldObservacao","fieldId");
         
         Optional<JTextComponent> fields = view
                 .getAllTextFields()
                 .stream()
-                .filter(f -> f.getName().trim().isEmpty() && !excludeNames.contains(f.getName())).findFirst();
+                .filter(f -> f.getText().trim().isEmpty() && !excludeNames.contains(f.getName())).findFirst();
         
         if(fields.isPresent()){
             throw new FieldsEmBrancoException(AppMensagens.INFO_PREENCHER_TODOS_CAMPOS);
