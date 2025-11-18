@@ -27,12 +27,12 @@ public class FornecedorServiceImpl implements FornecedorService{
     
     @Override
     public List<Fornecedor> getTodos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return repository.findAll();
     }
 
     @Override
     public Fornecedor getById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return repository.findById(id).orElseThrow(() -> new FornecedorNotFoundException("Fornecedor Não encontrado !"));
     }
 
     @Override
