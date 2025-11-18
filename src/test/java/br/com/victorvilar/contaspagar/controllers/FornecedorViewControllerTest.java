@@ -6,12 +6,16 @@ package br.com.victorvilar.contaspagar.controllers;
 
 import br.com.victorvilar.contaspagar.entities.EnderecoFornecedor;
 import br.com.victorvilar.contaspagar.entities.Fornecedor;
+import br.com.victorvilar.contaspagar.services.interfaces.FornecedorService;
 import br.com.victorvilar.contaspagar.views.FornecedorView;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -27,6 +31,8 @@ public class FornecedorViewControllerTest {
     @Spy
     private FornecedorViewController controller;
     private FornecedorView view;
+    @Mock
+    private FornecedorService service;
     
     @BeforeEach
     public void setUp(){
@@ -40,6 +46,16 @@ public class FornecedorViewControllerTest {
     }
     
     @Test void metodoDeveDesativarTodosOsCamposDaView(){
+        
+    }
+    
+    @Test
+    void metodoDeletarDeveChamarMetodoDoServiceComOValorDaView(){
+      view.getFieldId().setText("1"); 
+      controller.deletar();
+      verify(service,times(1)).deleteById(1l);
+      verify(controller,times(1)).limparCampos();
+      verify(controller,times(1)).ativarOuDesativarCampos(false);
     }
     
     @Test
