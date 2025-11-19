@@ -279,7 +279,7 @@ public class FornecedorView extends javax.swing.JFrame {
 
         jLabel1.setText("Código");
 
-        jLabel2.setText("Razão Social");
+        jLabel2.setText("Razão Social (*)");
 
         fieldNome.setEnabled(false);
         fieldNome.setName("fieldNome"); // NOI18N
@@ -290,7 +290,7 @@ public class FornecedorView extends javax.swing.JFrame {
         fieldFantasia.setEnabled(false);
         fieldFantasia.setName("fieldFantasia"); // NOI18N
 
-        jLabel4.setText("CNPJ / CPF");
+        jLabel4.setText("CNPJ / CPF (*)");
 
         fieldCpfCnpj.setEnabled(false);
         fieldCpfCnpj.setName("fieldCpfCnpj"); // NOI18N
@@ -298,24 +298,24 @@ public class FornecedorView extends javax.swing.JFrame {
         fieldLogradouro.setEnabled(false);
         fieldLogradouro.setName("fieldLogradouro"); // NOI18N
 
-        jLabel5.setText("Logradouro");
+        jLabel5.setText("Logradouro (*)");
 
         fieldNumero.setEnabled(false);
         fieldNumero.setName("fieldNumero"); // NOI18N
 
-        jLabel6.setText("Nº");
+        jLabel6.setText("Nº (*)");
 
         fieldBairro.setEnabled(false);
         fieldBairro.setName("fieldBairro"); // NOI18N
 
-        jLabel7.setText("Bairro");
+        jLabel7.setText("Bairro (*)");
 
         fieldCidade.setEnabled(false);
         fieldCidade.setName("fieldCidade"); // NOI18N
 
-        jLabel8.setText("Cidade");
+        jLabel8.setText("Cidade (*)");
 
-        jLabel9.setText("UF");
+        jLabel9.setText("UF (*)");
 
         comboUf.setEnabled(false);
         comboUf.setName("comboUf"); // NOI18N
@@ -328,7 +328,7 @@ public class FornecedorView extends javax.swing.JFrame {
         fieldCep.setEnabled(false);
         fieldCep.setName("fieldCep"); // NOI18N
 
-        jLabel10.setText("Cep");
+        jLabel10.setText("Cep (*)");
 
         jScrollPane1.setEnabled(false);
 

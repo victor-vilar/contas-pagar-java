@@ -322,7 +322,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Raz&#xe3;o Social"/>
+        <Property name="text" type="java.lang.String" value="Raz&#xe3;o Social (*)"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="fieldNome">
@@ -347,7 +347,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
-        <Property name="text" type="java.lang.String" value="CNPJ / CPF"/>
+        <Property name="text" type="java.lang.String" value="CNPJ / CPF (*)"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="fieldCpfCnpj">
@@ -364,7 +364,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Logradouro"/>
+        <Property name="text" type="java.lang.String" value="Logradouro (*)"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="fieldNumero">
@@ -375,7 +375,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
       <Properties>
-        <Property name="text" type="java.lang.String" value="N&#xba;"/>
+        <Property name="text" type="java.lang.String" value="N&#xba; (*)"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="fieldBairro">
@@ -386,7 +386,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel7">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Bairro"/>
+        <Property name="text" type="java.lang.String" value="Bairro (*)"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="fieldCidade">
@@ -397,12 +397,12 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel8">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Cidade"/>
+        <Property name="text" type="java.lang.String" value="Cidade (*)"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel9">
       <Properties>
-        <Property name="text" type="java.lang.String" value="UF"/>
+        <Property name="text" type="java.lang.String" value="UF (*)"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JComboBox" name="comboUf">
@@ -428,7 +428,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel10">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Cep"/>
+        <Property name="text" type="java.lang.String" value="Cep (*)"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
