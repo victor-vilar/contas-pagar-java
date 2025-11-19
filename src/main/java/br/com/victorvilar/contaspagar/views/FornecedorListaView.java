@@ -4,6 +4,7 @@
  */
 package br.com.victorvilar.contaspagar.views;
 
+import br.com.victorvilar.contaspagar.controllers.FornecedorListaViewController;
 import jakarta.annotation.PostConstruct;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -30,37 +31,39 @@ import org.springframework.stereotype.Component;
 public class FornecedorListaView extends javax.swing.JFrame {
 
     private final ApplicationContext context;
+    private final FornecedorListaViewController controller;
     
     
     @Autowired
-    public FornecedorListaView (ApplicationContext context){
+    public FornecedorListaView (ApplicationContext context, FornecedorListaViewController controller){
         this.context = context;
+        this.controller = controller;
     }
        
-    public JTable getTableDespesas(){
-        return tableDespesas;
+    public JTable getTableFornecedores(){
+        return tableFornecedores;
     }
   
     @PostConstruct
     public void inicializar(){
         initComponents();
-        //this.controller.setView(this);
+        this.controller.setView(this);
         configurarTabela();
         setLocationRelativeTo(null);
     }
     
     public void configurarTabela(){
-        tableDespesas.getColumnModel().getColumn(0).setMaxWidth(50);
-        tableDespesas.getColumnModel().getColumn(2).setMaxWidth(150);
-        tableDespesas.getColumnModel().getColumn(3).setMaxWidth(50);
+        tableFornecedores.getColumnModel().getColumn(0).setMaxWidth(50);
+        tableFornecedores.getColumnModel().getColumn(2).setMaxWidth(150);
+        tableFornecedores.getColumnModel().getColumn(3).setMaxWidth(50);
        
-        TableRowSorter<TableModel> sorter = new TableRowSorter<>(tableDespesas.getModel());
-        tableDespesas.setRowSorter(sorter);
+        TableRowSorter<TableModel> sorter = new TableRowSorter<>(tableFornecedores.getModel());
+        tableFornecedores.setRowSorter(sorter);
         List<RowSorter.SortKey> sortKeys = new ArrayList<>();
         int colunaDescricao = 1;
         sortKeys.add(new RowSorter.SortKey(colunaDescricao, SortOrder.ASCENDING));
         
-        tableDespesas.addMouseListener(new MouseAdapter() {
+        tableFornecedores.addMouseListener(new MouseAdapter() {
 
             @Override
             public void mousePressed(MouseEvent mouseEvent) {
@@ -69,7 +72,7 @@ public class FornecedorListaView extends javax.swing.JFrame {
                 int row = table.getSelectedRow();
                 if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1 && row != -1) {
 
-                    Long id = (Long) tableDespesas.getValueAt(row, 0);
+                    Long id = (Long) tableFornecedores.getValueAt(row, 0);
                     //DespesaAbstrata despesa = controller.buscarDespesa(id);
                     var recorrente = context.getBean(DespesaRecorrenteViewImpl.class);
                     //recorrente.preencherView(despesa);
@@ -93,13 +96,13 @@ public class FornecedorListaView extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tableDespesas = new javax.swing.JTable();
+        tableFornecedores = new javax.swing.JTable();
         panelToolBar1 = new javax.swing.JPanel();
         btnDespesaRecorrente = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Despesas Recorrentes");
+        setTitle("Fornecedores");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
@@ -108,7 +111,7 @@ public class FornecedorListaView extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
-        tableDespesas.setModel(new javax.swing.table.DefaultTableModel(
+        tableFornecedores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -116,11 +119,11 @@ public class FornecedorListaView extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Código", "Descrição", "Período", "Ativo"
+                "Código", "Razão Social", "Fantasia", "CPF/CNPJ"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+                java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false
@@ -134,11 +137,11 @@ public class FornecedorListaView extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tableDespesas);
-        if (tableDespesas.getColumnModel().getColumnCount() > 0) {
-            tableDespesas.getColumnModel().getColumn(0).setResizable(false);
-            tableDespesas.getColumnModel().getColumn(2).setResizable(false);
-            tableDespesas.getColumnModel().getColumn(3).setResizable(false);
+        jScrollPane1.setViewportView(tableFornecedores);
+        if (tableFornecedores.getColumnModel().getColumnCount() > 0) {
+            tableFornecedores.getColumnModel().getColumn(0).setResizable(false);
+            tableFornecedores.getColumnModel().getColumn(2).setResizable(false);
+            tableFornecedores.getColumnModel().getColumn(3).setResizable(false);
         }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -216,12 +219,12 @@ public class FornecedorListaView extends javax.swing.JFrame {
 
     private void btnDespesaRecorrenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDespesaRecorrenteActionPerformed
 
-        var view = context.getBean(DespesaRecorrenteViewImpl.class);
+        var view = context.getBean(FornecedorView.class);
         view.setVisible(true);
     }//GEN-LAST:event_btnDespesaRecorrenteActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        //controller.preencherView();
+        controller.preencherView();
     }//GEN-LAST:event_formWindowActivated
 
 
@@ -231,6 +234,6 @@ public class FornecedorListaView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panelToolBar1;
-    private javax.swing.JTable tableDespesas;
+    private javax.swing.JTable tableFornecedores;
     // End of variables declaration//GEN-END:variables
 }
