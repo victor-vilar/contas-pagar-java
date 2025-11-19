@@ -121,7 +121,7 @@ public class FornecedorViewController implements CrudViewController<FornecedorVi
     
     public void checarErrosAntesDeSalvar() throws FieldsEmBrancoException{
     
-        List<String> excludeNames = List.of("fieldObservacao","fieldId");
+        List<String> excludeNames = List.of("fieldObservacao","fieldId", "fieldFantasia");
         
         Optional<JTextComponent> fields = view
                 .getAllTextFields()
