@@ -625,7 +625,8 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
     }//GEN-LAST:event_btnDespesaActionPerformed
 
     private void btnFornecedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFornecedoresActionPerformed
-
+         var view = context.getBean(FornecedorListaView.class);
+         view.setVisible(true);
     }//GEN-LAST:event_btnFornecedoresActionPerformed
 
     private void fieldDespesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldDespesaActionPerformed
