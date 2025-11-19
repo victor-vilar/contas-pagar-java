@@ -41,6 +41,7 @@ public class FornecedorView extends javax.swing.JFrame {
     public void inicializarFormulario(){
         this.initComponents();
         this.inicializarComboBoxes();
+        setLocationRelativeTo(null);
     }
     
     public void inicializarComboBoxes(){
