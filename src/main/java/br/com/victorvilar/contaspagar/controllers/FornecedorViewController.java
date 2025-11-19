@@ -100,21 +100,21 @@ public class FornecedorViewController implements CrudViewController<FornecedorVi
     
     public Fornecedor criarFornecedor(){
         Fornecedor fornecedor = new Fornecedor();
-        fornecedor.setRazaoSocial(view.getFieldNome().getText().trim());
-        fornecedor.setCpfCnpj(view.getFieldCpfCnpj().getText().trim());
-        fornecedor.setNomeFantasia(view.getFieldFantasia().getText().trim());
-        fornecedor.setObservacao(view.getFieldObservacao().getText().trim());
+        fornecedor.setRazaoSocial(view.getFieldNome().getText().trim().toUpperCase());
+        fornecedor.setCpfCnpj(view.getFieldCpfCnpj().getText().trim().toUpperCase());
+        fornecedor.setNomeFantasia(view.getFieldFantasia().getText().trim().toUpperCase());
+        fornecedor.setObservacao(view.getFieldObservacao().getText().trim().toUpperCase());
         fornecedor.setEndereco(criarEndereco());
         return fornecedor;
     }
     
     public EnderecoFornecedor criarEndereco(){
         EnderecoFornecedor endereco = new EnderecoFornecedor();
-        endereco.setLogradouro(view.getFieldLogradouro().getText().trim());
-        endereco.setNumero(view.getFieldNumero().getText().trim());
-        endereco.setBairro(view.getFieldBairro().getText().trim());
-        endereco.setCidade(view.getFieldCidade().getText().trim());
-        endereco.setCep(view.getFieldCep().getText().trim());
+        endereco.setLogradouro(view.getFieldLogradouro().getText().trim().toUpperCase());
+        endereco.setNumero(view.getFieldNumero().getText().trim().toUpperCase());
+        endereco.setBairro(view.getFieldBairro().getText().trim().toUpperCase());
+        endereco.setCidade(view.getFieldCidade().getText().trim().toUpperCase());
+        endereco.setCep(view.getFieldCep().getText().trim().toUpperCase());
         endereco.setUf(UF.fromSigla((String) view.getComboUF().getSelectedItem()));
         return endereco;
     }
