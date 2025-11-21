@@ -188,6 +188,11 @@ public class FornecedorView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Fornecedores");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         panelToolBar.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
@@ -493,6 +498,11 @@ public class FornecedorView extends javax.swing.JFrame {
     private void comboUfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboUfActionPerformed
 
     }//GEN-LAST:event_comboUfActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+          controller.limparCampos();
+          controller.ativarOuDesativarCampos(false);
+    }//GEN-LAST:event_formWindowClosing
 
 
 
