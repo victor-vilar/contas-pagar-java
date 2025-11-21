@@ -57,6 +57,7 @@ public class FornecedorViewController implements CrudViewController<FornecedorVi
     @Override
     public void salvar() throws FieldsEmBrancoException {
         checarErrosAntesDeSalvar();
+        
         this.service.save(criarFornecedor());
         ativarOuDesativarCampos(false);
         limparCampos();
@@ -100,6 +101,9 @@ public class FornecedorViewController implements CrudViewController<FornecedorVi
     
     public Fornecedor criarFornecedor(){
         Fornecedor fornecedor = new Fornecedor();
+        if(!view.getFieldId().getText().equals("")){
+            fornecedor.setId(Long.valueOf(view.getFieldId().getText()));
+        }
         fornecedor.setRazaoSocial(view.getFieldNome().getText().trim().toUpperCase());
         fornecedor.setCpfCnpj(view.getFieldCpfCnpj().getText().trim().toUpperCase());
         fornecedor.setNomeFantasia(view.getFieldFantasia().getText().trim().toUpperCase());
