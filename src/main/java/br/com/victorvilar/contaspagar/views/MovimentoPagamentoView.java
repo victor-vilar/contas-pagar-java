@@ -66,7 +66,26 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         initComponents();
         configureComponentes();
         setLocationRelativeTo(null);
+        definirModoDeFechamento();
     }
+    
+    void definirModoDeFechamento(){
+            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+            this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                if (JOptionPane.showConfirmDialog(null, 
+                    "Gostaria de Sair da Aplicação ?", AppMensagens.HEADER_ATENCAO, 
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+                    System.exit(0);
+                }
+            }
+        });
+
+    
+    }
+    
 
     void configureComponentes() {
         configurarTabela();
@@ -270,7 +289,7 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
         fieldDespesa = new javax.swing.JTextField();
         checkboxPagas = new javax.swing.JCheckBox();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Pagamentos");
         setSize(new java.awt.Dimension(1200, 800));
         addWindowListener(new java.awt.event.WindowAdapter() {
