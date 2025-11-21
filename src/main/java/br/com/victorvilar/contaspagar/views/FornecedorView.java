@@ -143,8 +143,8 @@ public class FornecedorView extends javax.swing.JFrame {
     }
     
     
-    
     public void preencherView(Fornecedor fornecedor){
+        this.controller.preencherView(fornecedor);
     }
 
 
