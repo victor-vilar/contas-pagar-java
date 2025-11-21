@@ -5,6 +5,7 @@
 package br.com.victorvilar.contaspagar.views;
 
 import br.com.victorvilar.contaspagar.controllers.FornecedorListaViewController;
+import br.com.victorvilar.contaspagar.entities.Fornecedor;
 import jakarta.annotation.PostConstruct;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -73,10 +74,10 @@ public class FornecedorListaView extends javax.swing.JFrame {
                 if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1 && row != -1) {
 
                     Long id = (Long) tableFornecedores.getValueAt(row, 0);
-                    //DespesaAbstrata despesa = controller.buscarDespesa(id);
-                    var recorrente = context.getBean(DespesaRecorrenteViewImpl.class);
-                    //recorrente.preencherView(despesa);
-                    recorrente.setVisible(true);
+                    Fornecedor fornecedor = controller.buscarFornecedor(id);
+                    var view = context.getBean(FornecedorView.class);
+                    view.preencherView(fornecedor);
+                    view.setVisible(true);
 
                 }
             }
