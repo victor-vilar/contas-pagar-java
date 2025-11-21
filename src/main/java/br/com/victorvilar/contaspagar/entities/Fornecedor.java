@@ -27,7 +27,7 @@ public class Fornecedor implements Serializable{
     private String cpfCnpj;
     private String observacao;
     
-    @OneToOne(mappedBy = "fornecedor",cascade = {CascadeType.PERSIST,CascadeType.REMOVE},orphanRemoval = true)
+    @OneToOne(mappedBy = "fornecedor",cascade = {CascadeType.ALL},orphanRemoval = true)
     private EnderecoFornecedor endereco;
 
     public Long getId() {
