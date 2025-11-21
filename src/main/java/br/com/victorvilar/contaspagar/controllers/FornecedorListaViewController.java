@@ -52,4 +52,8 @@ public class FornecedorListaViewController implements AppViewController<Forneced
         });
     }
     
+    public Fornecedor buscarFornecedor(Long id){
+        return this.service.getById(id);
+    }
+    
 }
