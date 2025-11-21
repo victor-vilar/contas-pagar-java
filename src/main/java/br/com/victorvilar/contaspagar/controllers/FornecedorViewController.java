@@ -119,6 +119,30 @@ public class FornecedorViewController implements CrudViewController<FornecedorVi
         return endereco;
     }
     
+    public void preencherView(Fornecedor fornecedor){
+        
+        preencherDadosDoFornecedor(fornecedor);
+        preencherDadosDoEndereco(fornecedor.getEndereco());
+       
+    }
+    
+    public void preencherDadosDoFornecedor(Fornecedor fornecedor){
+        view.getFieldId().setText(String.valueOf(fornecedor.getId()));
+        view.getFieldNome().setText(fornecedor.getRazaoSocial());
+        view.getFieldCpfCnpj().setText(fornecedor.getCpfCnpj());
+        view.getFieldFantasia().setText(fornecedor.getNomeFantasia());
+        view.getFieldObservacao().setText(fornecedor.getObservacao());
+    }
+    
+    public void preencherDadosDoEndereco(EnderecoFornecedor endereco){
+        view.getFieldLogradouro().setText(endereco.getLogradouro());
+        view.getFieldNumero().setText(endereco.getNumero());
+        view.getFieldBairro().setText(endereco.getBairro());
+        view.getFieldCidade().setText(endereco.getCidade());
+        view.getFieldCep().setText(endereco.getCep());
+        view.getComboUF().getModel().setSelectedItem(endereco.getUf());
+    }
+    
     public void checarErrosAntesDeSalvar() throws FieldsEmBrancoException{
     
         List<String> excludeNames = List.of("fieldObservacao","fieldId", "fieldFantasia");
