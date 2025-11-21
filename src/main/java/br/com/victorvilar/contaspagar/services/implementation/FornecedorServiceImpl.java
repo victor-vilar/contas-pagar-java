@@ -39,7 +39,12 @@ public class FornecedorServiceImpl implements FornecedorService{
 
     @Override
     public Fornecedor save(Fornecedor obj) {
-        return this.repository.save(obj);
+        if(obj.getId() != null ){
+            return update(obj);
+        }else{
+            return this.repository.save(obj);
+        }
+        
     }
 
     @Override
@@ -55,7 +60,7 @@ public class FornecedorServiceImpl implements FornecedorService{
         fornecedorParaAtualizar.setNomeFantasia(obj.getNomeFantasia());
         fornecedorParaAtualizar.setObservacao(obj.getObservacao());
         atualizarEndereco(fornecedorParaAtualizar.getEndereco(),obj.getEndereco());
-        return save(fornecedorParaAtualizar);
+        return repository.save(fornecedorParaAtualizar);
     }
     
     public void atualizarEndereco(EnderecoFornecedor end1, EnderecoFornecedor end2){
