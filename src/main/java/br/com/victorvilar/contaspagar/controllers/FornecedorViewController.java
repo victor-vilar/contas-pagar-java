@@ -119,7 +119,7 @@ public class FornecedorViewController implements CrudViewController<FornecedorVi
         endereco.setBairro(view.getFieldBairro().getText().trim().toUpperCase());
         endereco.setCidade(view.getFieldCidade().getText().trim().toUpperCase());
         endereco.setCep(view.getFieldCep().getText().trim().toUpperCase());
-        endereco.setUf(UF.fromSigla((String) view.getComboUF().getSelectedItem()));
+        endereco.setUf(UF.fromSigla((String) view.getComboUF().getSelectedItem().toString()));
         return endereco;
     }
     
