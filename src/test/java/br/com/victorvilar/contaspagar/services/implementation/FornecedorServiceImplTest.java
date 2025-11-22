@@ -132,7 +132,7 @@ public class FornecedorServiceImplTest {
         forn2.setEndereco(end2);
         
         service.update(forn2);
-        verify(service,times(1)).save(any());
+        verify(repository,times(1)).save(any());
         
     }
     
