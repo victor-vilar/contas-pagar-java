@@ -6,6 +6,7 @@ package br.com.victorvilar.contaspagar.controllers;
 
 import br.com.victorvilar.contaspagar.entities.EnderecoFornecedor;
 import br.com.victorvilar.contaspagar.entities.Fornecedor;
+import br.com.victorvilar.contaspagar.enums.UF;
 import br.com.victorvilar.contaspagar.exceptions.FieldsEmBrancoException;
 import br.com.victorvilar.contaspagar.exceptions.QuantidadeDeParcelasException;
 import br.com.victorvilar.contaspagar.services.interfaces.FornecedorService;
@@ -117,7 +118,7 @@ public class FornecedorViewControllerTest {
     }
     
     @Test
-            @DisplayName("metodo deletar")
+    @DisplayName("metodo deletar")
     void metodoDeletarDeveChamarMetodoDoServicePassandoOValorDaView(){
       view.getFieldId().setText("1"); 
       controller.deletar();
@@ -125,7 +126,7 @@ public class FornecedorViewControllerTest {
     }
     
     @Test
-            @DisplayName("metodo deletar")
+    @DisplayName("metodo deletar")
     void metodoDeletarDeveChamarOMetodoLimparCamposEAtivarOuDesativarCampos(){
       view.getFieldId().setText("1"); 
       controller.deletar();
@@ -144,11 +145,11 @@ public class FornecedorViewControllerTest {
         view.getFieldNumero().setText("teste");
         view.getComboUF().setSelectedIndex(1);
         EnderecoFornecedor endereco = controller.criarEndereco();
-        assertEquals(endereco.getBairro(), view.getFieldBairro().getText());
-        assertEquals(endereco.getCidade(), view.getFieldBairro().getText());
-        assertEquals(endereco.getCep(), view.getFieldBairro().getText());
-        assertEquals(endereco.getLogradouro(), view.getFieldLogradouro().getText());
-        assertEquals(endereco.getNumero(), view.getFieldNumero().getText());
+        assertEquals(endereco.getBairro(), view.getFieldBairro().getText().toUpperCase());
+        assertEquals(endereco.getCidade(), view.getFieldBairro().getText().toUpperCase());
+        assertEquals(endereco.getCep(), view.getFieldBairro().getText().toUpperCase());
+        assertEquals(endereco.getLogradouro(), view.getFieldLogradouro().getText().toUpperCase());
+        assertEquals(endereco.getNumero(), view.getFieldNumero().getText().toUpperCase());
         assertEquals(endereco.getUf().toString(),(String) view.getComboUF().getSelectedItem());
     }
     
@@ -159,7 +160,7 @@ public class FornecedorViewControllerTest {
         view.getFieldCidade().setText("teste");
         view.getFieldCpfCnpj().setText("teste");
         view.getFieldFantasia().setText("teste");
-        view.getFieldId().setText("teste");
+        view.getFieldId().setText("1");
         view.getFieldLogradouro().setText("teste");
         view.getFieldNome().setText("teste");
         view.getFieldNumero().setText("teste");
@@ -167,15 +168,15 @@ public class FornecedorViewControllerTest {
         view.getComboUF().setSelectedIndex(1);
         
         Fornecedor fornecedor = controller.criarFornecedor();
-        assertEquals(fornecedor.getCpfCnpj(), view.getFieldCpfCnpj().getText());
-        assertEquals(fornecedor.getRazaoSocial(), view.getFieldNome().getText());
-        assertEquals(fornecedor.getNomeFantasia(), view.getFieldFantasia().getText());
-        assertEquals(fornecedor.getObservacao(), view.getFieldObservacao().getText());
-        assertEquals(fornecedor.getEndereco().getBairro(), view.getFieldBairro().getText());
-        assertEquals(fornecedor.getEndereco().getCidade(), view.getFieldBairro().getText());
-        assertEquals(fornecedor.getEndereco().getCep(), view.getFieldBairro().getText());
-        assertEquals(fornecedor.getEndereco().getLogradouro(), view.getFieldLogradouro().getText());
-        assertEquals(fornecedor.getEndereco().getNumero(), view.getFieldNumero().getText());
+        assertEquals(fornecedor.getCpfCnpj(), view.getFieldCpfCnpj().getText().toUpperCase());
+        assertEquals(fornecedor.getRazaoSocial(), view.getFieldNome().getText().toUpperCase());
+        assertEquals(fornecedor.getNomeFantasia(), view.getFieldFantasia().getText().toUpperCase());
+        assertEquals(fornecedor.getObservacao(), view.getFieldObservacao().getText().toUpperCase());
+        assertEquals(fornecedor.getEndereco().getBairro(), view.getFieldBairro().getText().toUpperCase());
+        assertEquals(fornecedor.getEndereco().getCidade(), view.getFieldBairro().getText().toUpperCase());
+        assertEquals(fornecedor.getEndereco().getCep(), view.getFieldBairro().getText().toUpperCase());
+        assertEquals(fornecedor.getEndereco().getLogradouro(), view.getFieldLogradouro().getText().toUpperCase());
+        assertEquals(fornecedor.getEndereco().getNumero(), view.getFieldNumero().getText().toUpperCase());
         assertEquals(fornecedor.getEndereco().getUf().toString(),(String) view.getComboUF().getSelectedItem());
     }
     
@@ -206,6 +207,55 @@ public class FornecedorViewControllerTest {
         assertEquals(view.getFieldObservacao().getText(),"");
         assertEquals(view.getComboUF().getSelectedIndex(),-1);
                 
+    }
+    
+    @Test
+    @DisplayName("preencher view")
+    public void metodoDeveChamarOsMetodosParaPreencherFornecedorEEndereco(){
+        Fornecedor fornecedor = new Fornecedor();
+        EnderecoFornecedor endereco = new EnderecoFornecedor();
+        fornecedor.setEndereco(endereco);
+
+        
+        controller.preencherView(fornecedor);
+        verify(controller,times(1)).preencherDadosDoFornecedor(fornecedor);
+        verify(controller,times(1)).preencherDadosDoEndereco(endereco);
+        
+    }
+    
+    @Test
+    @DisplayName("preencherDadosDoFornecedor")
+    public void deveAdicionarOsDadosDoObjetoFornecedorNaView(){
+        Fornecedor fornecedor = new Fornecedor();
+        fornecedor.setId(1L);
+        fornecedor.setRazaoSocial("TESTE");
+        fornecedor.setCpfCnpj("TESTE");
+        fornecedor.setNomeFantasia("TESTE");
+        fornecedor.setObservacao("TESTE");
+        controller.preencherDadosDoFornecedor(fornecedor);
+        assertEquals(fornecedor.getCpfCnpj(), view.getFieldCpfCnpj().getText().toUpperCase());
+        assertEquals(fornecedor.getRazaoSocial(), view.getFieldNome().getText().toUpperCase());
+        assertEquals(fornecedor.getNomeFantasia(), view.getFieldFantasia().getText().toUpperCase());
+        assertEquals(fornecedor.getObservacao(), view.getFieldObservacao().getText().toUpperCase());
+    }
+    
+    @Test
+    @DisplayName("preencherDadosDoEndereco")
+    public void devePreencherOsDadosDoObjetoEnderecoFornecedorNaView(){
+        EnderecoFornecedor endereco = new EnderecoFornecedor();
+        endereco.setLogradouro("TESTE");
+        endereco.setNumero("TESTE");
+        endereco.setBairro("TESTE");
+        endereco.setCidade("TESTE");
+        endereco.setCep("TESTE");
+        endereco.setUf(UF.MG);
+        controller.preencherDadosDoEndereco(endereco);
+        assertEquals(endereco.getBairro(), view.getFieldBairro().getText().toUpperCase());
+        assertEquals(endereco.getCidade(), view.getFieldBairro().getText().toUpperCase());
+        assertEquals(endereco.getCep(), view.getFieldBairro().getText().toUpperCase());
+        assertEquals(endereco.getLogradouro(), view.getFieldLogradouro().getText().toUpperCase());
+        assertEquals(endereco.getNumero(), view.getFieldNumero().getText().toUpperCase());
+        assertEquals(endereco.getUf().toString(),view.getComboUF().getSelectedItem().toString());
     }
     
 }
