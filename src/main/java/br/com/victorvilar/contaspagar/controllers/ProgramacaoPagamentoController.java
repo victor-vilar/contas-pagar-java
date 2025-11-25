@@ -9,6 +9,7 @@ import br.com.victorvilar.contaspagar.entities.MovimentoPagamentoParaRelatorio;
 import br.com.victorvilar.contaspagar.enums.TipoDeExport;
 import br.com.victorvilar.contaspagar.exceptions.FieldsEmBrancoException;
 import br.com.victorvilar.contaspagar.exceptions.MovimentosPeriodoVazio;
+import br.com.victorvilar.contaspagar.exceptions.PeriodoInvalidoException;
 import br.com.victorvilar.contaspagar.services.interfaces.MovimentoPagamentoService;
 import br.com.victorvilar.contaspagar.util.ConversorData;
 import br.com.victorvilar.contaspagar.util.ReportUtil;
@@ -38,7 +39,7 @@ public class ProgramacaoPagamentoController {
     }
     
     public void emitirProgramacaoDePagamento(){
-        checarCamposVazios();
+        checarErros();
         LocalDate dataInicial = ConversorData.paraData(view.getFieldDataInicial().getText());
         LocalDate dataFinal = ConversorData.paraData(view.getFieldDataFinal().getText());
         List<MovimentoPagamentoParaRelatorio> movimentos = buscarMovimentosParaRelatorio(dataInicial,dataFinal);
@@ -87,11 +88,35 @@ public class ProgramacaoPagamentoController {
         return JASPER_FILE_TO_PDF;
     }
 
-    public void checarCamposVazios(){
+    public void checarErros(){
+        checarCamposVazios();
+        checarPeriodo();
+    }
+    
+    public void checarCamposVazios() throws FieldsEmBrancoException{
         if(view.getFieldDataInicial().getText().trim().isEmpty() ||view.getFieldDataFinal().getText().trim().isEmpty()){
             throw new FieldsEmBrancoException(CAMPOS_VAZIOS);
         }
 
+    }
+    
+    /**
+     * Verifica se o periodo informado não é invalido. 
+     * @throws PeriodoInvalidoException 
+     */
+    public void checarPeriodo() throws PeriodoInvalidoException {
+    
+        if(view.getFieldDataInicial().getText().trim().isEmpty() || view.getFieldDataInicial().getText().trim().isEmpty()){
+            return;
+        }
+        
+        LocalDate dataInicial = ConversorData.paraData(view.getFieldDataInicial().getText());
+        LocalDate dataFinal = ConversorData.paraData(view.getFieldDataFinal().getText());
+        
+        if(dataInicial.isAfter(dataFinal)){
+            throw new PeriodoInvalidoException("O período informado é invalido, \n "
+                    + "A data Inicial não pode ser superior a data final !");
+        }
     }
     
     
