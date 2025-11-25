@@ -28,7 +28,9 @@ import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.swing.*;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ReportUtil {
     
     private static final String REPORTS_FOLDER = "reports/";
