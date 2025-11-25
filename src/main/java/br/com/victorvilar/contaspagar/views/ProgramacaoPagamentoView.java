@@ -19,22 +19,43 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author victor
  */
+@Component
+@Lazy
 public class ProgramacaoPagamentoView extends javax.swing.JDialog {
 
     
-    private final ProgramacaoPagamentoController controller;
+    private ProgramacaoPagamentoController controller;
     
-    public ProgramacaoPagamentoView(MovimentoPagamentoService service){
+    @Autowired
+    public ProgramacaoPagamentoView(ProgramacaoPagamentoController controller){
        super((Frame)null,"Programação de Pagamento",true);
-       controller = new ProgramacaoPagamentoController(service, this);
+       this.controller = controller;
+       this.controller.setView(this);
        initComponents();
        setLocationRelativeTo(null);
        configureButtonGroup();
+    }
+    
+    /**
+     * Construtor utilizado em testes
+     */
+    public ProgramacaoPagamentoView(){
+       super((Frame)null,"Programação de Pagamento",true);
+       initComponents();
+       setLocationRelativeTo(null);
+       configureButtonGroup();
+    }
+    
+    public void setController(ProgramacaoPagamentoController controller){
+        this.controller = controller;
     }
     
     public void configureButtonGroup(){
