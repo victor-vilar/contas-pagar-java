@@ -718,8 +718,7 @@ public class MovimentoPagamentoView extends javax.swing.JFrame{
     }//GEN-LAST:event_btnCategoriasActionPerformed
 
     private void btnGerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarRelatorioActionPerformed
-        MovimentoPagamentoService service = context.getBean(MovimentoPagamentoService.class);
-        ProgramacaoPagamentoView view = new ProgramacaoPagamentoView(service);
+        var view = context.getBean(ProgramacaoPagamentoView.class);
         view.setVisible(true);
     }//GEN-LAST:event_btnGerarRelatorioActionPerformed
 
