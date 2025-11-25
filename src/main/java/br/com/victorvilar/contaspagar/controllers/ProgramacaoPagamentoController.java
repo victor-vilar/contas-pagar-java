@@ -18,23 +18,35 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Controller;
 
 /**
  *
  * @author victor
  */
+@Controller
+@Lazy
 public class ProgramacaoPagamentoController {
  
-    private MovimentoPagamentoService movimentoService;
+    private final MovimentoPagamentoService movimentoService;
     private ProgramacaoPagamentoView view;
+    private final ReportUtil util;
     private static final String PARAMETRO_DATA_INICIAL ="periodoIni";
     private static final String PARAMETRO_DATA_FINAL ="periodoFim";
     private static final String JASPER_FILE_TO_PDF = "contas-em-aberto-pdf";
     private static final String JASPER_FILE_TO_CSV = "contas-em-aberto-csv";
     private static final String PERIODO_SEM_MOVIMENTO = "Não existem movimentos para o período selecionado !";
     private static final String CAMPOS_VAZIOS = "Deve ser informada uma data inicial e uma data final !";
-    public ProgramacaoPagamentoController(MovimentoPagamentoService movimentoService, ProgramacaoPagamentoView view){
+    
+    @Autowired
+    public ProgramacaoPagamentoController(MovimentoPagamentoService movimentoService, ReportUtil util){
         this.movimentoService = movimentoService;
+        this.util = util;
+    }
+    
+    public void setView(ProgramacaoPagamentoView view){
         this.view = view;
     }
     
@@ -45,7 +57,6 @@ public class ProgramacaoPagamentoController {
         List<MovimentoPagamentoParaRelatorio> movimentos = buscarMovimentosParaRelatorio(dataInicial,dataFinal);
         Map<String,Object> parametros = gerarParametrosParaRelatorio(dataInicial, dataFinal);
         String nomeArquivoSaida = gerarNomeArquivoSaida(dataInicial, dataFinal);
-        ReportUtil util = new ReportUtil();
         util.generate(movimentos,pegarJasper(), nomeArquivoSaida,parametros, pegarFormatoDeExportacao());
     
     }
